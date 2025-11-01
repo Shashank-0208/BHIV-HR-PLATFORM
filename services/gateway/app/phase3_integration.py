@@ -29,7 +29,7 @@ class Phase3GatewayIntegration:
     
     def __init__(self):
         self.phase3_engine = None
-        self.agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-m1me.onrender.com")
+        self.agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-nhgg.onrender.com")
         
         if PHASE3_AVAILABLE:
             try:
@@ -146,7 +146,7 @@ class Phase3GatewayIntegration:
             from sqlalchemy import create_engine, text
             
             database_url = os.getenv("DATABASE_URL", 
-                "postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com/bhiv_hr_jcuu")
+                "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl")
             engine = create_engine(database_url)
             
             with engine.connect() as connection:

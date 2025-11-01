@@ -25,16 +25,16 @@ All services are live and operational - no installation needed!
 #### **Service URLs**
 ```bash
 # API Gateway (55 endpoints - FastAPI 3.1.0)
-https://bhiv-hr-gateway-46pz.onrender.com/docs
+https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 # AI Agent Service (6 endpoints - Phase 3 AI Engine)  
-https://bhiv-hr-agent-m1me.onrender.com/docs
+https://bhiv-hr-agent-nhgg.onrender.com/docs
 
 # HR Portal (Complete HR workflow)
-https://bhiv-hr-portal-cead.onrender.com/
+https://bhiv-hr-portal-u670.onrender.com/
 
 # Client Portal (Enterprise interface)
-https://bhiv-hr-client-portal-5g33.onrender.com/
+https://bhiv-hr-client-portal-3iod.onrender.com/
 
 # Candidate Portal (Job seeker interface)
 https://bhiv-hr-candidate-portal.onrender.com/
@@ -53,21 +53,21 @@ API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 #### **⚡ 30-Second Test**
 ```bash
 # 1. Test API Health
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # 2. Get Real Data (31 candidates)
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/candidates
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates
 
 # 3. AI Matching Test
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/match/1/top
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # 4. Access HR Portal
-# Visit: https://bhiv-hr-portal-cead.onrender.com/
+# Visit: https://bhiv-hr-portal-u670.onrender.com/
 
 # 5. Login to Client Portal
-# Visit: https://bhiv-hr-client-portal-5g33.onrender.com/
+# Visit: https://bhiv-hr-client-portal-3iod.onrender.com/
 # Use: TECH001 / demo123
 ```
 
@@ -124,7 +124,7 @@ Database:         localhost:5432
 ```bash
 # Visit HR Portal
 http://localhost:8501  # Local
-https://bhiv-hr-portal-cead.onrender.com/  # Production
+https://bhiv-hr-portal-u670.onrender.com/  # Production
 
 # Try These Features:
 ✅ Dashboard Overview - See real-time metrics
@@ -138,7 +138,7 @@ https://bhiv-hr-portal-cead.onrender.com/  # Production
 ```bash
 # Visit Client Portal
 http://localhost:8502  # Local
-https://bhiv-hr-client-portal-5g33.onrender.com/  # Production
+https://bhiv-hr-client-portal-3iod.onrender.com/  # Production
 
 # Login Credentials:
 Username: TECH001
@@ -170,14 +170,14 @@ https://bhiv-hr-candidate-portal.onrender.com/  # Production
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
      http://localhost:8000/v1/jobs  # Local
      # OR
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs  # Production
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs  # Production
 
 # Test AI Agent (6 endpoints)
 curl -X POST -H "Content-Type: application/json" \
      -d '{"job_id": 1}' \
      http://localhost:9000/match  # Local
      # OR
-     https://bhiv-hr-agent-m1me.onrender.com/match  # Production
+     https://bhiv-hr-agent-nhgg.onrender.com/match  # Production
 ```
 
 ---
@@ -188,16 +188,16 @@ curl -X POST -H "Content-Type: application/json" \
 ```bash
 # 1. Get AI Matches for Job
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/match/1/top
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # 2. Batch Processing
 curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
      -H "Content-Type: application/json" \
      -d '{"job_ids": [1, 2, 3]}' \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/match/batch
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/batch
 
 # 3. Candidate Analysis
-curl https://bhiv-hr-agent-m1me.onrender.com/analyze/1
+curl https://bhiv-hr-agent-nhgg.onrender.com/analyze/1
 ```
 
 ### **📊 Values Assessment**
@@ -215,7 +215,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
        "gratitude": 4,
        "comments": "Excellent candidate"
      }' \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/feedback
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/feedback
 ```
 
 ### **🔒 Security Features**
@@ -224,13 +224,13 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
      -H "Content-Type: application/json" \
      -d '{"user_id": "test_user"}' \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/2fa/setup
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/2fa/setup
 
 # Test Input Validation
 curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
      -H "Content-Type: application/json" \
      -d '{"input_data": "<script>alert(\"test\")</script>"}' \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/security/test-input-validation
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/test-input-validation
 ```
 
 ---
@@ -254,11 +254,11 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 ```bash
 # Check Database Status
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/database/schema
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 
 # Get Candidate Statistics
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/candidates/stats
+     https://bhiv-hr-gateway-ltg0.onrender.com/candidates/stats
 ```
 
 ---
@@ -441,7 +441,7 @@ python tools/database_sync_manager.py
 # Python Integration
 import requests
 
-BASE_URL = "https://bhiv-hr-gateway-46pz.onrender.com"
+BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
 API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 headers = {"Authorization": f"Bearer {API_KEY}"}
 
@@ -487,10 +487,10 @@ matches = requests.get(f"{BASE_URL}/v1/match/1/top", headers=headers).json()
 - **Deployment**: [DEPLOYMENT_STATUS.md](architecture/DEPLOYMENT_STATUS.md)
 
 ### **Live Platform URLs**
-- **Gateway API**: https://bhiv-hr-gateway-46pz.onrender.com/docs
-- **Agent API**: https://bhiv-hr-agent-m1me.onrender.com/docs
-- **HR Portal**: https://bhiv-hr-portal-cead.onrender.com/
-- **Client Portal**: https://bhiv-hr-client-portal-5g33.onrender.com/
+- **Gateway API**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
+- **Agent API**: https://bhiv-hr-agent-nhgg.onrender.com/docs
+- **HR Portal**: https://bhiv-hr-portal-u670.onrender.com/
+- **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com/
 - **Candidate Portal**: https://bhiv-hr-candidate-portal.onrender.com/
 
 ### **Demo Credentials**

@@ -13,8 +13,8 @@ import os
 
 class BHIVEndpointTester:
     def __init__(self):
-        self.gateway_url = "https://bhiv-hr-gateway-46pz.onrender.com"
-        self.agent_url = "https://bhiv-hr-agent-m1me.onrender.com"
+        self.gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
+        self.agent_url = "https://bhiv-hr-agent-nhgg.onrender.com"
         self.api_key = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
         self.headers = {"Authorization": f"Bearer {self.api_key}"}
         self.results = []

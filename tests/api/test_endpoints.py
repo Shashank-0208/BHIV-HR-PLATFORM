@@ -10,8 +10,8 @@ import time
 from datetime import datetime
 
 # Configuration
-API_BASE = "https://bhiv-hr-gateway-46pz.onrender.com"
-AI_BASE = "https://bhiv-hr-agent-m1me.onrender.com"
+API_BASE = "https://bhiv-hr-gateway-ltg0.onrender.com"
+AI_BASE = "https://bhiv-hr-agent-nhgg.onrender.com"
 API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 HEADERS = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
 

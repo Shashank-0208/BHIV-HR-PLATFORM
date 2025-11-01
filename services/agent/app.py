@@ -165,7 +165,7 @@ connection_pool = None
 def init_connection_pool():
     """Initialize database connection pool"""
     global connection_pool
-    database_url = os.getenv("DATABASE_URL", "postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com/bhiv_hr_jcuu")
+    database_url = os.getenv("DATABASE_URL", "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl")
     
     try:
         connection_pool = psycopg2.pool.ThreadedConnectionPool(

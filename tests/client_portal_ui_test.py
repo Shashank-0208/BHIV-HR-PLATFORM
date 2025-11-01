@@ -9,8 +9,8 @@ from bs4 import BeautifulSoup
 import json
 
 # Configuration
-CLIENT_PORTAL_URL = "https://bhiv-hr-client-portal-5g33.onrender.com"
-GATEWAY_URL = "https://bhiv-hr-gateway-46pz.onrender.com"
+CLIENT_PORTAL_URL = "https://bhiv-hr-client-portal-3iod.onrender.com"
+GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
 
 def test_client_portal_accessibility():
     """Test if client portal is accessible"""

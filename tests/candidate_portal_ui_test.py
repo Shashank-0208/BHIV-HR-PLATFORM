@@ -13,7 +13,7 @@ import uuid
 
 # Configuration
 CANDIDATE_PORTAL_URL = "https://bhiv-hr-candidate-portal.onrender.com"
-GATEWAY_URL = "https://bhiv-hr-gateway-46pz.onrender.com"
+GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
 
 def generate_test_candidate():
     """Generate unique test candidate data"""

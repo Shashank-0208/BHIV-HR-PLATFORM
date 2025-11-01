@@ -55,7 +55,7 @@ class ConfigurationValidator:
                 content = f.read()
             
             # Check for production URLs
-            if "https://bhiv-hr-gateway-46pz.onrender.com" in content:
+            if "https://bhiv-hr-gateway-ltg0.onrender.com" in content:
                 status = "CORRECT"
             else:
                 status = "NEEDS_FIX"
@@ -83,7 +83,7 @@ class ConfigurationValidator:
             return {
                 "status": status,
                 "api_key_status": api_key_status,
-                "gateway_url": "https://bhiv-hr-gateway-46pz.onrender.com",
+                "gateway_url": "https://bhiv-hr-gateway-ltg0.onrender.com",
                 "version": "3.1.0",
                 "features": ["Candidate Management", "Job Posting", "AI Matching", "Values Assessment"]
             }
@@ -107,7 +107,7 @@ class ConfigurationValidator:
                 content = f.read()
             
             # Check for production URLs
-            if "https://bhiv-hr-gateway-46pz.onrender.com" in content:
+            if "https://bhiv-hr-gateway-ltg0.onrender.com" in content:
                 status = "CORRECT"
             else:
                 status = "NEEDS_FIX"
@@ -135,7 +135,7 @@ class ConfigurationValidator:
             return {
                 "status": status,
                 "jwt_status": jwt_status,
-                "gateway_url": "https://bhiv-hr-gateway-46pz.onrender.com",
+                "gateway_url": "https://bhiv-hr-gateway-ltg0.onrender.com",
                 "authentication": "JWT Token-based",
                 "demo_credentials": {"username": "TECH001", "password": "demo123"}
             }
@@ -159,7 +159,7 @@ class ConfigurationValidator:
                 content = f.read()
             
             # Check for production URLs
-            if "https://bhiv-hr-gateway-46pz.onrender.com" in content:
+            if "https://bhiv-hr-gateway-ltg0.onrender.com" in content:
                 status = "CORRECT"
             else:
                 status = "NEEDS_FIX"
@@ -201,7 +201,7 @@ class ConfigurationValidator:
                 "status": status,
                 "api_key_status": api_key_status,
                 "db_status": db_status,
-                "gateway_url": "https://bhiv-hr-gateway-46pz.onrender.com",
+                "gateway_url": "https://bhiv-hr-gateway-ltg0.onrender.com",
                 "port": 8503,
                 "authentication": "JWT Token + Email/Password",
                 "features": ["Job Search", "Application Tracking", "Profile Management"]
@@ -324,7 +324,7 @@ class ConfigurationValidator:
         """Validate cross-service compatibility for candidate portal integration"""
         
         # Check URL consistency across services
-        expected_gateway_url = "https://bhiv-hr-gateway-46pz.onrender.com"
+        expected_gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
         expected_api_key = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
         
         url_consistency = "CONSISTENT"

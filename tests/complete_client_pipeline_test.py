@@ -9,8 +9,8 @@ import psycopg2
 import json
 
 # Configuration
-DATABASE_URL = "postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com/bhiv_hr_jcuu"
-GATEWAY_URL = "https://bhiv-hr-gateway-46pz.onrender.com"
+DATABASE_URL = "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
+GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
 
 def test_step_1_client_authentication():
     """Step 1: Test client authentication"""

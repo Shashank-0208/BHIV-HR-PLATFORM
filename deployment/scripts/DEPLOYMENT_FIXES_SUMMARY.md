@@ -20,7 +20,7 @@
   - Cleaned up 8 redundant tables
 
 ### 2. Portal Configuration Issues ✅ FIXED
-- **HR Portal**: Fixed API_BASE from `http://gateway:8000` to `https://bhiv-hr-gateway-46pz.onrender.com`
+- **HR Portal**: Fixed API_BASE from `http://gateway:8000` to `https://bhiv-hr-gateway-ltg0.onrender.com`
 - **Client Portal**: Fixed API_BASE_URL from Docker internal to production URL
 - **Candidate Portal**: Already correctly configured
 - **Updated Versions**: All portals now show v3.1.0 with "Database Fixed" status
@@ -61,10 +61,10 @@
 ## 🚀 Services Status
 
 ### All 5 Services Operational ✅
-1. **Gateway API**: bhiv-hr-gateway-46pz.onrender.com (55 endpoints)
-2. **AI Agent**: bhiv-hr-agent-m1me.onrender.com (6 endpoints)
-3. **HR Portal**: bhiv-hr-portal-cead.onrender.com (Fixed config)
-4. **Client Portal**: bhiv-hr-client-portal-5g33.onrender.com (Fixed config)
+1. **Gateway API**: bhiv-hr-gateway-ltg0.onrender.com (55 endpoints)
+2. **AI Agent**: bhiv-hr-agent-nhgg.onrender.com (6 endpoints)
+3. **HR Portal**: bhiv-hr-portal-u670.onrender.com (Fixed config)
+4. **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com (Fixed config)
 5. **Candidate Portal**: bhiv-hr-candidate-portal.onrender.com (Already correct)
 
 ## 🔍 Portal Connection Diagnostics ✅ ALL WORKING
@@ -86,10 +86,10 @@ Since configuration files were updated, redeploy these services on Render:
 After redeployment, test:
 ```bash
 # HR Portal
-https://bhiv-hr-portal-cead.onrender.com/
+https://bhiv-hr-portal-u670.onrender.com/
 
 # Client Portal  
-https://bhiv-hr-client-portal-5g33.onrender.com/
+https://bhiv-hr-client-portal-3iod.onrender.com/
 Login: TECH001 / demo123
 
 # Candidate Portal
@@ -100,15 +100,15 @@ https://bhiv-hr-candidate-portal.onrender.com/
 ```bash
 # Database Schema
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/database/schema
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 
 # Jobs List
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Candidates List
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/candidates
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates
 ```
 
 ## ✅ Summary

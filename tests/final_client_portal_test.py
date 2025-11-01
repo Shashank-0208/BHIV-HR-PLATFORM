@@ -8,8 +8,8 @@ import json
 from datetime import datetime
 
 # Test configuration
-GATEWAY_URL = "https://bhiv-hr-gateway-46pz.onrender.com"
-CLIENT_PORTAL_URL = "https://bhiv-hr-client-portal-5g33.onrender.com"
+GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
+CLIENT_PORTAL_URL = "https://bhiv-hr-client-portal-3iod.onrender.com"
 
 def test_complete_client_flow():
     """Test complete client authentication flow"""

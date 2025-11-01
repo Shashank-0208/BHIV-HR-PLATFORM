@@ -48,10 +48,10 @@
 ### **Service Health Status**
 | Service | URL | Status | Endpoints | Recent Changes |
 |---------|-----|--------|-----------|----------------|
-| **Gateway** | bhiv-hr-gateway-46pz.onrender.com | ✅ Healthy | 50 | Auth unification |
-| **Agent** | bhiv-hr-agent-m1me.onrender.com | ✅ Fixed | 6 | Event loop fix |
-| **HR Portal** | bhiv-hr-portal-cead.onrender.com | ✅ Stable | N/A | Import fixes |
-| **Client Portal** | bhiv-hr-client-portal-5g33.onrender.com | ✅ Enhanced | N/A | Auth upgrade |
+| **Gateway** | bhiv-hr-gateway-ltg0.onrender.com | ✅ Healthy | 50 | Auth unification |
+| **Agent** | bhiv-hr-agent-nhgg.onrender.com | ✅ Fixed | 6 | Event loop fix |
+| **HR Portal** | bhiv-hr-portal-u670.onrender.com | ✅ Stable | N/A | Import fixes |
+| **Client Portal** | bhiv-hr-client-portal-3iod.onrender.com | ✅ Enhanced | N/A | Auth upgrade |
 | **Database** | Internal Render URL | ✅ Operational | N/A | Schema v4.1.0 |
 
 ---
@@ -214,7 +214,7 @@ Database:        ✅ <30ms query response time
 ### **Automated Testing Results**
 ```bash
 # Agent Service Testing
-curl -X POST "https://bhiv-hr-agent-m1me.onrender.com/batch-match" \
+curl -X POST "https://bhiv-hr-agent-nhgg.onrender.com/batch-match" \
      -H "Authorization: Bearer prod_api_key_*" \
      -H "Content-Type: application/json" \
      -d '{"job_ids": [1, 2]}'
@@ -222,12 +222,12 @@ curl -X POST "https://bhiv-hr-agent-m1me.onrender.com/batch-match" \
 
 # Authentication Testing
 curl -H "Authorization: Bearer invalid_token" \
-     "https://bhiv-hr-agent-m1me.onrender.com/match"
+     "https://bhiv-hr-agent-nhgg.onrender.com/match"
 # Result: ✅ HTTP 401 - Proper authentication rejection
 
 # Portal Health Testing
-curl "https://bhiv-hr-portal-cead.onrender.com/"
-curl "https://bhiv-hr-client-portal-5g33.onrender.com/"
+curl "https://bhiv-hr-portal-u670.onrender.com/"
+curl "https://bhiv-hr-client-portal-3iod.onrender.com/"
 # Result: ✅ HTTP 200 - Both portals accessible
 ```
 
@@ -302,10 +302,10 @@ Uptime: 99.9% target (achieved)
 ```
 
 ### **Service URLs & Status**
-- **API Gateway**: https://bhiv-hr-gateway-46pz.onrender.com ✅
-- **AI Agent**: https://bhiv-hr-agent-m1me.onrender.com ✅
-- **HR Portal**: https://bhiv-hr-portal-cead.onrender.com ✅
-- **Client Portal**: https://bhiv-hr-client-portal-5g33.onrender.com ✅
+- **API Gateway**: https://bhiv-hr-gateway-ltg0.onrender.com ✅
+- **AI Agent**: https://bhiv-hr-agent-nhgg.onrender.com ✅
+- **HR Portal**: https://bhiv-hr-portal-u670.onrender.com ✅
+- **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com ✅
 
 ### **Local Development**
 ```bash
@@ -381,17 +381,17 @@ Client Login: TECH001 / demo123
 ### **Testing Commands**
 ```bash
 # Health Check
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Authenticated Request
 curl -H "Authorization: Bearer prod_api_key_*" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Batch Matching (Fixed)
 curl -X POST -H "Authorization: Bearer prod_api_key_*" \
      -H "Content-Type: application/json" \
      -d '{"job_ids": [1, 2]}' \
-     https://bhiv-hr-agent-m1me.onrender.com/batch-match
+     https://bhiv-hr-agent-nhgg.onrender.com/batch-match
 ```
 
 ---

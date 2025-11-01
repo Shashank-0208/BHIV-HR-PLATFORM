@@ -5,11 +5,11 @@
 ## 🌐 Live Production Platform
 
 ### **✅ Currently Deployed on Render**
-- **API Gateway**: bhiv-hr-gateway-46pz.onrender.com/docs ✅ (55 endpoints)
-- **AI Matching Engine**: bhiv-hr-agent-m1me.onrender.com/docs ✅ (6 endpoints - LIVE)
-- **HR Portal**: bhiv-hr-portal-cead.onrender.com/ ✅
-- **Client Portal**: bhiv-hr-client-portal-5g33.onrender.com/ ✅
-- **Candidate Portal**: bhiv-hr-candidate-portal.onrender.com/ ✅ **NEW**
+- **API Gateway**: bhiv-hr-gateway-ltg0.onrender.com/docs ✅ (55 endpoints)
+- **AI Matching Engine**: bhiv-hr-agent-nhgg.onrender.com/docs ✅ (6 endpoints - LIVE)
+- **HR Portal**: bhiv-hr-portal-u670.onrender.com/ ✅
+- **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com/ ✅
+- **Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com/ ✅ **NEW**
 - **Database**: PostgreSQL 17 on Render ✅
 - **Status**: ✅ **5/5 SERVICES OPERATIONAL** | **Cost**: $0/month (Free tier)
 - **Total Endpoints**: 61 (55 Gateway + 6 Agent verified) | **Updated**: October 23, 2025 - Database & Portal Issues Fixed
@@ -24,7 +24,7 @@ Password: demo123
 # API Testing
 API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/health
+     https://bhiv-hr-gateway-ltg0.onrender.com/health
 ```
 
 ## 📋 Documentation Structure
@@ -58,8 +58,8 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ### **🚀 5-Minute Setup**
 ```bash
 # Live Platform - No Setup Required
-HR Portal: bhiv-hr-portal-cead.onrender.com/
-Client Portal: bhiv-hr-client-portal-5g33.onrender.com/
+HR Portal: bhiv-hr-portal-u670.onrender.com/
+Client Portal: bhiv-hr-client-portal-3iod.onrender.com/
 Credentials: TECH001 / demo123
 
 # Local Development - Docker Required
@@ -76,11 +76,11 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 ### **Microservices Architecture**
 | Service | Purpose | Technology | Port | Status | Production URL |
 |---------|---------|------------|------|--------|----------------|
-| **API Gateway** | REST API Backend | FastAPI 3.1.0 + Python 3.12.7-slim | 8000 | ✅ Live | bhiv-hr-gateway-46pz.onrender.com |
-| **AI Agent** | Phase 3 AI Matching | FastAPI 3.1.0 + Python 3.12.7-slim | 9000 | ✅ Live | bhiv-hr-agent-m1me.onrender.com |
-| **HR Portal** | HR Dashboard | Streamlit 1.41.1 + Python 3.12.7-slim | 8501 | ✅ Live | bhiv-hr-portal-cead.onrender.com |
-| **Client Portal** | Enterprise Interface | Streamlit 1.41.1 + Python 3.12.7-slim | 8502 | ✅ Live | bhiv-hr-client-portal-5g33.onrender.com |
-| **Candidate Portal** | Job Seeker Interface | Streamlit 1.41.1 + Python 3.12.7-slim | 8503 | ✅ Live | bhiv-hr-candidate-portal.onrender.com |
+| **API Gateway** | REST API Backend | FastAPI 3.1.0 + Python 3.12.7-slim | 8000 | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com |
+| **AI Agent** | Phase 3 AI Matching | FastAPI 3.1.0 + Python 3.12.7-slim | 9000 | ✅ Live | bhiv-hr-agent-nhgg.onrender.com |
+| **HR Portal** | HR Dashboard | Streamlit 1.41.1 + Python 3.12.7-slim | 8501 | ✅ Live | bhiv-hr-portal-u670.onrender.com |
+| **Client Portal** | Enterprise Interface | Streamlit 1.41.1 + Python 3.12.7-slim | 8502 | ✅ Live | bhiv-hr-client-portal-3iod.onrender.com |
+| **Candidate Portal** | Job Seeker Interface | Streamlit 1.41.1 + Python 3.12.7-slim | 8503 | ✅ Live | bhiv-hr-candidate-portal-abe6.onrender.com |
 | **Database** | PostgreSQL 17 | Schema v4.1.0 (12 core tables) | 5432 | ✅ Live | Render PostgreSQL |
 
 ### **API Endpoints (61 Total)**
@@ -331,24 +331,24 @@ psql postgresql://bhiv_user:password@localhost:5432/bhiv_hr
 ### **API Testing**
 ```bash
 # Health Checks
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
-curl https://bhiv-hr-agent-m1me.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 
 # Authenticated Endpoints
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Database Schema Verification
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/database/schema
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 
 # AI Matching Test
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/match/1/top
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # Security Testing
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/security/rate-limit-status
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/rate-limit-status
 ```
 
 ### **Test Suite**
@@ -382,11 +382,11 @@ python tests/run_all_tests.py       # Complete test suite
 ### **System Monitoring**
 ```bash
 # Production Monitoring
-curl https://bhiv-hr-gateway-46pz.onrender.com/metrics
+curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/health/detailed
+     https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/metrics/dashboard
+     https://bhiv-hr-gateway-ltg0.onrender.com/metrics/dashboard
 
 # Local Monitoring  
 curl http://localhost:8000/metrics              # Prometheus metrics
@@ -528,16 +528,16 @@ python tests/test_endpoints.py  # Comprehensive health checks
 ## 📞 Support & Resources
 
 ### **Live Platform Access**
-- **API Documentation**: bhiv-hr-gateway-46pz.onrender.com/docs
+- **API Documentation**: bhiv-hr-gateway-ltg0.onrender.com/docs
 - **GitHub Repository**: https://github.com/shashankmishraa/BHIV-HR-Platform
 - **Deployment Platform**: Render Cloud (Oregon, US West)
 
 ### **Quick Links**
-- **🔗 Live API**: bhiv-hr-gateway-46pz.onrender.com/docs
-- **🔗 HR Dashboard**: bhiv-hr-portal-cead.onrender.com/
-- **🔗 Client Portal**: bhiv-hr-client-portal-5g33.onrender.com/
-- **🔗 Candidate Portal**: bhiv-hr-candidate-portal.onrender.com
-- **🔗 AI Agent**: bhiv-hr-agent-m1me.onrender.com/docs
+- **🔗 Live API**: bhiv-hr-gateway-ltg0.onrender.com/docs
+- **🔗 HR Dashboard**: bhiv-hr-portal-u670.onrender.com/
+- **🔗 Client Portal**: bhiv-hr-client-portal-3iod.onrender.com/
+- **🔗 Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com
+- **🔗 AI Agent**: bhiv-hr-agent-nhgg.onrender.com/docs
 
 ---
 

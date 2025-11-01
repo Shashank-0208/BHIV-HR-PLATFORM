@@ -11,9 +11,9 @@ import json
 import time
 
 # Configuration from service files
-DATABASE_URL = "postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com/bhiv_hr_jcuu"
-GATEWAY_URL = "https://bhiv-hr-gateway-46pz.onrender.com"
-CLIENT_PORTAL_URL = "https://bhiv-hr-client-portal-5g33.onrender.com"
+DATABASE_URL = "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
+GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
+CLIENT_PORTAL_URL = "https://bhiv-hr-client-portal-3iod.onrender.com"
 API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 
 def test_service_variables_and_config():
@@ -334,7 +334,7 @@ def test_candidate_review_functionality():
                 job_id = jobs[0].get('id')
                 
                 # Test AI matching (as per app.py show_candidate_review)
-                agent_url = "https://bhiv-hr-agent-m1me.onrender.com"
+                agent_url = "https://bhiv-hr-agent-nhgg.onrender.com"
                 try:
                     agent_response = requests.post(
                         f"{agent_url}/match",

@@ -6,32 +6,32 @@
 
 | Service | URL | Status |
 |---------|-----|--------|
-| **API Gateway** | https://bhiv-hr-gateway-46pz.onrender.com/docs | ✅ Live (54 endpoints) |
-| **AI Matching Engine** | https://bhiv-hr-agent-m1me.onrender.com/docs | ✅ Live (6 endpoints) |
-| **HR Portal** | https://bhiv-hr-portal-cead.onrender.com/ | ✅ Live |
-| **Client Portal** | https://bhiv-hr-client-portal-5g33.onrender.com/ | ✅ Live |
+| **API Gateway** | https://bhiv-hr-gateway-ltg0.onrender.com/docs | ✅ Live (54 endpoints) |
+| **AI Matching Engine** | https://bhiv-hr-agent-nhgg.onrender.com/docs | ✅ Live (6 endpoints) |
+| **HR Portal** | https://bhiv-hr-portal-u670.onrender.com/ | ✅ Live |
+| **Client Portal** | https://bhiv-hr-client-portal-3iod.onrender.com/ | ✅ Live |
 | **Database** | PostgreSQL 17 (Internal) | ✅ Live |
 
 ## 🎯 Quick Access
 
 ### 🌐 Production URLs
-- **API Documentation**: https://bhiv-hr-gateway-46pz.onrender.com/docs
-- **HR Dashboard**: https://bhiv-hr-portal-cead.onrender.com/
-- **Client Login**: https://bhiv-hr-client-portal-5g33.onrender.com/
+- **API Documentation**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
+- **HR Dashboard**: https://bhiv-hr-portal-u670.onrender.com/
+- **Client Login**: https://bhiv-hr-client-portal-3iod.onrender.com/
   - Username: `TECH001`
   - Password: `demo123`
 
 ### 🔧 API Testing
 ```bash
 # Health Check
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Test Authentication
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # AI Matching Test (OFFLINE)
-curl https://bhiv-hr-agent-m1me.onrender.com/health
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 # Expected: Connection timeout (service offline)
 ```
 
@@ -107,7 +107,7 @@ Root Directory: services/portal
 Build Command: pip install -r requirements.txt
 Start Command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 Environment Variables:
-  - GATEWAY_URL: https://bhiv-hr-gateway-46pz.onrender.com
+  - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
   - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 ```
 
@@ -120,7 +120,7 @@ Root Directory: services/client_portal
 Build Command: pip install -r requirements.txt
 Start Command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 Environment Variables:
-  - GATEWAY_URL: https://bhiv-hr-gateway-46pz.onrender.com
+  - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
   - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 ```
 
@@ -162,20 +162,20 @@ Environment Variables:
 ### Monitoring Endpoints
 ```bash
 # System Health
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Detailed Health Check
-curl https://bhiv-hr-gateway-46pz.onrender.com/health/detailed
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
 
 # Prometheus Metrics
-curl https://bhiv-hr-gateway-46pz.onrender.com/metrics
+curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
 
 # Real-time Dashboard
-curl https://bhiv-hr-gateway-46pz.onrender.com/metrics/dashboard
+curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics/dashboard
 
 # Database Status
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/test-candidates
+     https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 ```
 
 ## 🔒 Security Features
@@ -240,23 +240,23 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ### API Endpoint Testing
 ```bash
 # Test all core endpoints
-curl https://bhiv-hr-gateway-46pz.onrender.com/
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
-curl https://bhiv-hr-gateway-46pz.onrender.com/docs
+curl https://bhiv-hr-gateway-ltg0.onrender.com/
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 # Test authenticated endpoints
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/candidates/stats
+     https://bhiv-hr-gateway-ltg0.onrender.com/candidates/stats
 ```
 
 ### Portal Testing
-1. **HR Portal**: Visit https://bhiv-hr-portal-cead.onrender.com/
-2. **Client Portal**: Visit https://bhiv-hr-client-portal-5g33.onrender.com/
+1. **HR Portal**: Visit https://bhiv-hr-portal-u670.onrender.com/
+2. **Client Portal**: Visit https://bhiv-hr-client-portal-3iod.onrender.com/
    - Login with: TECH001 / demo123
-3. **API Documentation**: Visit https://bhiv-hr-gateway-46pz.onrender.com/docs
+3. **API Documentation**: Visit https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 ## 🔧 Troubleshooting
 
@@ -281,20 +281,20 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ### Debug Commands
 ```bash
 # Check service health
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Test database connectivity
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/test-candidates
+     https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 
 # View API documentation
-open https://bhiv-hr-gateway-46pz.onrender.com/docs
+open https://bhiv-hr-gateway-ltg0.onrender.com/docs
 ```
 
 ## 📚 Additional Resources
 
 ### Documentation Links
-- **API Documentation**: https://bhiv-hr-gateway-46pz.onrender.com/docs
+- **API Documentation**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
 - **GitHub Repository**: https://github.com/shashankmishraa/BHIV-HR-Platform
 - **Render Dashboard**: https://dashboard.render.com/
 

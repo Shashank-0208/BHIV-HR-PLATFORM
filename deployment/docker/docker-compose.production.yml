@@ -5,10 +5,10 @@
 #
 # This file is for LOCAL DEVELOPMENT only
 # Production deployment is on Render with 5/5 services operational:
-# - Gateway: bhiv-hr-gateway-46pz.onrender.com (✅ 55 endpoints)
-# - Agent: bhiv-hr-agent-m1me.onrender.com (✅ 6 endpoints)
-# - HR Portal: bhiv-hr-portal-cead.onrender.com (✅ Healthy)
-# - Client Portal: bhiv-hr-client-portal-5g33.onrender.com (✅ Healthy)
+# - Gateway: bhiv-hr-gateway-ltg0.onrender.com (✅ 55 endpoints)
+# - Agent: bhiv-hr-agent-nhgg.onrender.com (✅ 6 endpoints)
+# - HR Portal: bhiv-hr-portal-u670.onrender.com (✅ Healthy)
+# - Client Portal: bhiv-hr-client-portal-3iod.onrender.com (✅ Healthy)
 # - Candidate Portal: bhiv-hr-candidate-portal.onrender.com (✅ NEW)
 # - Database: PostgreSQL 17 on Render (✅ Connected)
 #
@@ -59,7 +59,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    # Production URL: bhiv-hr-gateway-46pz.onrender.com (✅ 55 endpoints operational)
+    # Production URL: bhiv-hr-gateway-ltg0.onrender.com (✅ 55 endpoints operational)
 
   agent:
     build:
@@ -82,7 +82,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    # Production URL: bhiv-hr-agent-m1me.onrender.com (✅ 6 endpoints operational)
+    # Production URL: bhiv-hr-agent-nhgg.onrender.com (✅ 6 endpoints operational)
 
   portal:
     build:
@@ -109,7 +109,7 @@ services:
         limits:
           memory: 512M
           cpus: '0.5'
-    # Production URL: bhiv-hr-portal-cead.onrender.com (✅ Healthy)
+    # Production URL: bhiv-hr-portal-u670.onrender.com (✅ Healthy)
 
   client_portal:
     build:
@@ -137,7 +137,7 @@ services:
         limits:
           memory: 512M
           cpus: '0.5'
-    # Production URL: bhiv-hr-client-portal-5g33.onrender.com (✅ Healthy)
+    # Production URL: bhiv-hr-client-portal-3iod.onrender.com (✅ Healthy)
 
   candidate_portal:
     build:

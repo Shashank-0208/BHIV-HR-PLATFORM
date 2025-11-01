@@ -12,12 +12,12 @@ class SecurityAuditChecker:
     def __init__(self):
         # Expected production URLs
         self.expected_urls = {
-            "gateway": "https://bhiv-hr-gateway-46pz.onrender.com",
-            "agent": "https://bhiv-hr-agent-m1me.onrender.com", 
-            "hr_portal": "https://bhiv-hr-portal-cead.onrender.com",
-            "client_portal": "https://bhiv-hr-client-portal-5g33.onrender.com",
+            "gateway": "https://bhiv-hr-gateway-ltg0.onrender.com",
+            "agent": "https://bhiv-hr-agent-nhgg.onrender.com", 
+            "hr_portal": "https://bhiv-hr-portal-u670.onrender.com",
+            "client_portal": "https://bhiv-hr-client-portal-3iod.onrender.com",
             "candidate_portal": "https://bhiv-hr-candidate-portal.onrender.com",
-            "database": "postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com/bhiv_hr_jcuu"
+            "database": "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
         }
         
         # Expected API key

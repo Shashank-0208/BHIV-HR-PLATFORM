@@ -15,8 +15,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 PORTALS = {
-    "HR Portal": "https://bhiv-hr-portal-cead.onrender.com",
-    "Client Portal": "https://bhiv-hr-client-portal-5g33.onrender.com", 
+    "HR Portal": "https://bhiv-hr-portal-u670.onrender.com",
+    "Client Portal": "https://bhiv-hr-client-portal-3iod.onrender.com", 
     "Candidate Portal": "https://bhiv-hr-candidate-portal.onrender.com"
 }
 

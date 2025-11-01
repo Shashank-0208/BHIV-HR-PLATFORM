@@ -215,11 +215,11 @@ curl http://localhost:8000/health
 ### Production Database Health Check
 ```bash
 # Test production API
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Test database schema endpoint
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/database/schema
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ```
 
 ## 📊 Data Volume Overview

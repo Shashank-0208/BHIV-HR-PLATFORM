@@ -48,10 +48,10 @@ docker-compose -f deployment/docker/docker-compose.production.yml down
 ### Services
 | Service | URL | Status |
 |---------|-----|--------|
-| Gateway | bhiv-hr-gateway-46pz.onrender.com | 🟢 Live |
-| Agent | bhiv-hr-agent-m1me.onrender.com | 🟢 Live |
-| HR Portal | bhiv-hr-portal-cead.onrender.com | 🟢 Live |
-| Client Portal | bhiv-hr-client-portal-5g33.onrender.com | 🟢 Live |
+| Gateway | bhiv-hr-gateway-ltg0.onrender.com | 🟢 Live |
+| Agent | bhiv-hr-agent-nhgg.onrender.com | 🟢 Live |
+| HR Portal | bhiv-hr-portal-u670.onrender.com | 🟢 Live |
+| Client Portal | bhiv-hr-client-portal-3iod.onrender.com | 🟢 Live |
 
 ## 🔧 Environment Configuration
 
@@ -79,13 +79,13 @@ AGENT_URL=http://agent:9000
 ### Health Check Endpoints
 ```bash
 # Gateway service
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Agent service  
-curl https://bhiv-hr-agent-m1me.onrender.com/health
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 
 # Detailed health with metrics
-curl https://bhiv-hr-gateway-46pz.onrender.com/health/detailed
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
 ```
 
 ### Monitoring Dashboard
@@ -139,10 +139,10 @@ docker-compose logs gateway
 
 # Test database connection
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-     https://bhiv-hr-gateway-46pz.onrender.com/test-candidates
+     https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 
 # Verify API endpoints
-curl https://bhiv-hr-gateway-46pz.onrender.com/docs
+curl https://bhiv-hr-gateway-ltg0.onrender.com/docs
 ```
 
 ---

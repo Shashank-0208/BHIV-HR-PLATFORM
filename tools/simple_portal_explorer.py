@@ -12,12 +12,12 @@ import json
 class SimplePortalExplorer:
     def __init__(self):
         self.portals = {
-            "HR Portal": "https://bhiv-hr-portal-cead.onrender.com/",
-            "Client Portal": "https://bhiv-hr-client-portal-5g33.onrender.com/",
+            "HR Portal": "https://bhiv-hr-portal-u670.onrender.com/",
+            "Client Portal": "https://bhiv-hr-client-portal-3iod.onrender.com/",
             "Candidate Portal": "https://bhiv-hr-candidate-portal.onrender.com/"
         }
-        self.gateway_url = "https://bhiv-hr-gateway-46pz.onrender.com"
-        self.agent_url = "https://bhiv-hr-agent-m1me.onrender.com"
+        self.gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
+        self.agent_url = "https://bhiv-hr-agent-nhgg.onrender.com"
         self.api_key = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
     
     def test_connectivity(self):
@@ -104,7 +104,7 @@ Analysis Type: Deep Dive - All Tabs, Sections, and Pages
 ## HR Portal - Complete Analysis
 
 ### Portal Information
-- URL: https://bhiv-hr-portal-cead.onrender.com/
+- URL: https://bhiv-hr-portal-u670.onrender.com/
 - Technology: Streamlit 1.41.1 + Python 3.12.7
 - Authentication: Bearer Token (API Key)
 - Total Features: 60+
@@ -442,7 +442,7 @@ Data Sources (3 total):
 ## Client Portal - Complete Analysis
 
 ### Portal Information
-- URL: https://bhiv-hr-client-portal-5g33.onrender.com/
+- URL: https://bhiv-hr-client-portal-3iod.onrender.com/
 - Technology: Streamlit 1.41.1 + Python 3.12.7
 - Authentication: JWT Token + Client ID System
 - Total Features: 40+

@@ -157,10 +157,10 @@ Core Tables (12):
 
 ### **Production Services Status**
 ```
-Gateway Service:     ✅ bhiv-hr-gateway-46pz.onrender.com (55 endpoints)
-Agent Service:       ✅ bhiv-hr-agent-m1me.onrender.com (6 endpoints)
-HR Portal:           ✅ bhiv-hr-portal-cead.onrender.com
-Client Portal:       ✅ bhiv-hr-client-portal-5g33.onrender.com
+Gateway Service:     ✅ bhiv-hr-gateway-ltg0.onrender.com (55 endpoints)
+Agent Service:       ✅ bhiv-hr-agent-nhgg.onrender.com (6 endpoints)
+HR Portal:           ✅ bhiv-hr-portal-u670.onrender.com
+Client Portal:       ✅ bhiv-hr-client-portal-3iod.onrender.com
 Candidate Portal:    ✅ bhiv-hr-candidate-portal.onrender.com
 Database:            ✅ PostgreSQL 17 with Schema v4.1.0
 ```
@@ -303,15 +303,15 @@ Production Ready: Yes → Fully Verified
 ### **Verification Commands**
 ```bash
 # Verify production services
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
-curl https://bhiv-hr-agent-m1me.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 
 # Check API documentation
-https://bhiv-hr-gateway-46pz.onrender.com/docs
+https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 # Access portals
-https://bhiv-hr-portal-cead.onrender.com/
-https://bhiv-hr-client-portal-5g33.onrender.com/
+https://bhiv-hr-portal-u670.onrender.com/
+https://bhiv-hr-client-portal-3iod.onrender.com/
 ```
 
 ---

@@ -261,13 +261,13 @@ Database Integration:
 ## 📞 Service URLs & Access
 
 ### **✅ Operational Services**
-- **Gateway API**: https://bhiv-hr-gateway-46pz.onrender.com/docs
-- **HR Portal**: https://bhiv-hr-portal-cead.onrender.com/
-- **Client Portal**: https://bhiv-hr-client-portal-5g33.onrender.com/
+- **Gateway API**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
+- **HR Portal**: https://bhiv-hr-portal-u670.onrender.com/
+- **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com/
 - **Candidate Portal**: https://bhiv-hr-candidate-portal.onrender.com/
 
 ### **⚠️ Services Needing Attention**
-- **Agent Service**: https://bhiv-hr-agent-m1me.onrender.com/docs (Timeout)
+- **Agent Service**: https://bhiv-hr-agent-nhgg.onrender.com/docs (Timeout)
 
 ### **🔑 Demo Access**
 ```bash

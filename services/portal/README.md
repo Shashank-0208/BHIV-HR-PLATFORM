@@ -1,7 +1,7 @@
 # HR Portal Service
 
 **Streamlit 1.41.1 + Python 3.12.7-slim**  
-**Production URL**: https://bhiv-hr-portal-cead.onrender.com  
+**Production URL**: https://bhiv-hr-portal-u670.onrender.com  
 **Status**: ✅ Operational  
 
 ## Overview

@@ -23,11 +23,11 @@ __status__ = "Production Ready - Database Fixed"
 
 # API Configuration - LOCAL DEVELOPMENT
 # Local: Use localhost for development, production URLs for deployment
-API_BASE_URL = os.getenv("GATEWAY_URL", "http://localhost:8000")
+API_BASE_URL = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
 API_KEY = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
 
 # Set required environment variables for auth service
-os.environ.setdefault("DATABASE_URL", "postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com/bhiv_hr_jcuu")
+os.environ.setdefault("DATABASE_URL", "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl")
 os.environ.setdefault("JWT_SECRET", "fallback_jwt_secret_key_for_client_auth_2025")
 
 headers = {
@@ -37,7 +37,7 @@ headers = {
 
 # Ensure environment variables are available
 if not os.getenv("DATABASE_URL"):
-    os.environ["DATABASE_URL"] = "postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com/bhiv_hr_jcuu"
+    os.environ["DATABASE_URL"] = "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
 if not os.getenv("JWT_SECRET"):
     os.environ["JWT_SECRET"] = "fallback_jwt_secret_key_for_client_auth_2025"
 

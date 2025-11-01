@@ -132,10 +132,10 @@ Constraints: ✅ Data integrity enforced
 
 ### **Service Health Status**
 ```
-Gateway Service:  ✅ Healthy (bhiv-hr-gateway-46pz.onrender.com)
-Agent Service:    ✅ Healthy (bhiv-hr-agent-m1me.onrender.com)
-HR Portal:        ✅ Healthy (bhiv-hr-portal-cead.onrender.com)
-Client Portal:    ✅ Healthy (bhiv-hr-client-portal-5g33.onrender.com)
+Gateway Service:  ✅ Healthy (bhiv-hr-gateway-ltg0.onrender.com)
+Agent Service:    ✅ Healthy (bhiv-hr-agent-nhgg.onrender.com)
+HR Portal:        ✅ Healthy (bhiv-hr-portal-u670.onrender.com)
+Client Portal:    ✅ Healthy (bhiv-hr-client-portal-3iod.onrender.com)
 Candidate Portal: ✅ Healthy (bhiv-hr-candidate-portal.onrender.com)
 Database:         ✅ Connected (Schema v4.1.0 - 12 core tables)
 ```
@@ -318,10 +318,10 @@ Caching: Connection pooling and query optimization
 
 ### **Live Platform URLs**
 ```
-API Gateway:    https://bhiv-hr-gateway-46pz.onrender.com/docs
-HR Portal:      https://bhiv-hr-portal-cead.onrender.com/
-Client Portal:  https://bhiv-hr-client-portal-5g33.onrender.com/
-Agent Service:  https://bhiv-hr-agent-m1me.onrender.com/ (OFFLINE)
+API Gateway:    https://bhiv-hr-gateway-ltg0.onrender.com/docs
+HR Portal:      https://bhiv-hr-portal-u670.onrender.com/
+Client Portal:  https://bhiv-hr-client-portal-3iod.onrender.com/
+Agent Service:  https://bhiv-hr-agent-nhgg.onrender.com/ (OFFLINE)
 ```
 
 ### **Authentication Credentials**

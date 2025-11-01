@@ -12,10 +12,10 @@
 ### **Microservices Architecture**
 | Service | Technology | Port | Status | Production URL |
 |---------|------------|------|--------|----------------|
-| **Gateway** | FastAPI 3.1.0 + Python 3.12.7 | 8000 | ✅ Live | bhiv-hr-gateway-46pz.onrender.com |
-| **Agent** | FastAPI 3.1.0 + Python 3.12.7 | 9000 | ✅ Live | bhiv-hr-agent-m1me.onrender.com |
-| **HR Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8501 | ✅ Live | bhiv-hr-portal-cead.onrender.com |
-| **Client Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8502 | ✅ Live | bhiv-hr-client-portal-5g33.onrender.com |
+| **Gateway** | FastAPI 3.1.0 + Python 3.12.7 | 8000 | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com |
+| **Agent** | FastAPI 3.1.0 + Python 3.12.7 | 9000 | ✅ Live | bhiv-hr-agent-nhgg.onrender.com |
+| **HR Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8501 | ✅ Live | bhiv-hr-portal-u670.onrender.com |
+| **Client Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8502 | ✅ Live | bhiv-hr-client-portal-3iod.onrender.com |
 | **Candidate Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8503 | ✅ Live | bhiv-hr-candidate-portal.onrender.com |
 | **Database** | PostgreSQL 17 | 5432 | ✅ Live | Internal Render URL |
 
@@ -320,7 +320,7 @@ except:
     st.sidebar.warning("📊 Jobs: Offline")
 
 # AI Agent integration
-agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-m1me.onrender.com")
+agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-nhgg.onrender.com")
 response = httpx.post(f"{agent_url}/match", json={"job_id": job_id}, timeout=15.0)
 ```
 
@@ -354,7 +354,7 @@ st.set_page_config(
 # Enterprise Authentication Service
 class AuthService:
     def __init__(self):
-        self.api_base = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-46pz.onrender.com")
+        self.api_base = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
         self.session = self.create_session()
     
     def authenticate_client(self, client_id: str, password: str):
@@ -391,7 +391,7 @@ st.set_page_config(
 # Candidate Authentication
 class CandidateAuth:
     def __init__(self):
-        self.api_base = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-46pz.onrender.com")
+        self.api_base = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
         self.jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "candidate_jwt_secret_key_2025")
 ```
 
@@ -550,10 +550,10 @@ async def detailed_health_check():
 ## 🚀 Production Deployment Status
 
 ### **Live Services (5/5 Operational)**
-- ✅ **Gateway**: bhiv-hr-gateway-46pz.onrender.com (55 endpoints)
-- ✅ **Agent**: bhiv-hr-agent-m1me.onrender.com (6 endpoints)
-- ✅ **HR Portal**: bhiv-hr-portal-cead.onrender.com
-- ✅ **Client Portal**: bhiv-hr-client-portal-5g33.onrender.com
+- ✅ **Gateway**: bhiv-hr-gateway-ltg0.onrender.com (55 endpoints)
+- ✅ **Agent**: bhiv-hr-agent-nhgg.onrender.com (6 endpoints)
+- ✅ **HR Portal**: bhiv-hr-portal-u670.onrender.com
+- ✅ **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com
 - ✅ **Candidate Portal**: bhiv-hr-candidate-portal.onrender.com
 - ✅ **Database**: PostgreSQL 17 on Render (17 tables)
 

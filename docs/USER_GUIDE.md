@@ -13,10 +13,10 @@ Welcome to the BHIV HR Platform - an AI-powered recruiting solution that combine
 
 ### Access URLs
 **🌐 Live Production Platform:**
-- **HR Portal**: https://bhiv-hr-portal-cead.onrender.com/ (Internal HR Team)
-- **Client Portal**: https://bhiv-hr-client-portal-5g33.onrender.com/ (External Clients)
-- **API Documentation**: https://bhiv-hr-gateway-46pz.onrender.com/docs (Developers) ✅
-- **AI Agent**: https://bhiv-hr-agent-m1me.onrender.com/docs (AI Matching) ✅
+- **HR Portal**: https://bhiv-hr-portal-u670.onrender.com/ (Internal HR Team)
+- **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com/ (External Clients)
+- **API Documentation**: https://bhiv-hr-gateway-ltg0.onrender.com/docs (Developers) ✅
+- **AI Agent**: https://bhiv-hr-agent-nhgg.onrender.com/docs (AI Matching) ✅
 
 **💻 Local Development:**
 - **HR Portal**: http://localhost:8501 (Internal HR Team)
@@ -32,7 +32,7 @@ Welcome to the BHIV HR Platform - an AI-powered recruiting solution that combine
 
 **Step 1: Access HR Portal**
 ```
-Production: https://bhiv-hr-portal-cead.onrender.com/
+Production: https://bhiv-hr-portal-u670.onrender.com/
 Local Dev:  http://localhost:8501
 ```
 
@@ -353,7 +353,7 @@ Local Dev:  http://localhost:8501
 
 **Step 1: Access Client Portal**
 ```
-Production: https://bhiv-hr-client-portal-5g33.onrender.com/
+Production: https://bhiv-hr-client-portal-3iod.onrender.com/
 Local Dev:  http://localhost:8502
 ```
 

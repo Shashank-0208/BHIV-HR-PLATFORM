@@ -552,7 +552,7 @@ postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0
 
 # Health check endpoints
 curl http://localhost:8000/health                    # Local gateway
-curl https://bhiv-hr-gateway-46pz.onrender.com/health # Production gateway
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health # Production gateway
 ```
 
 ---

@@ -1,7 +1,7 @@
 # AI Agent Service
 
 **FastAPI 0.115.6 + Python 3.12.7-slim**  
-**Production URL**: https://bhiv-hr-agent-m1me.onrender.com  
+**Production URL**: https://bhiv-hr-agent-nhgg.onrender.com  
 **Endpoints**: 6 total  
 **Status**: ✅ Operational  
 

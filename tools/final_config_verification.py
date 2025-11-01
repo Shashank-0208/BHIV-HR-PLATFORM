@@ -59,7 +59,7 @@ def verify_configurations():
             with open(config_path, 'r') as f:
                 content = f.read()
             
-            if "https://bhiv-hr-gateway-46pz.onrender.com" not in content:
+            if "https://bhiv-hr-gateway-ltg0.onrender.com" not in content:
                 print(f"ERROR {service} not using production Gateway URL")
                 gateway_url_consistent = False
                 remaining_issues += 1

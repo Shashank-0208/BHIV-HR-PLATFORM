@@ -13,10 +13,10 @@ The platform supports **3 authentication methods**:
 ## 🚀 Testing Production Services
 
 ### **Gateway Service (55 Endpoints)**
-**Base URL**: `https://bhiv-hr-gateway-46pz.onrender.com`
+**Base URL**: `https://bhiv-hr-gateway-ltg0.onrender.com`
 
 ### **Agent Service (6 Endpoints)**  
-**Base URL**: `https://bhiv-hr-agent-m1me.onrender.com`
+**Base URL**: `https://bhiv-hr-agent-nhgg.onrender.com`
 
 ---
 
@@ -31,67 +31,67 @@ API_KEY="prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 
 #### **1. Health Check (No Auth Required)**
 ```bash
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 ```
 
 #### **2. API Key Protected Endpoints**
 ```bash
 # Test API Key Authentication
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Test Database Connectivity
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/test-candidates
+     https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 
 # Test Candidate Search
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     "https://bhiv-hr-gateway-46pz.onrender.com/v1/candidates/search?skills=python&limit=5"
+     "https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates/search?skills=python&limit=5"
 
 # Test AI Matching
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/match/1/top
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # Test Database Schema
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/database/schema
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ```
 
 #### **3. Invalid API Key Test**
 ```bash
 # Should return 401 Unauthorized
 curl -H "Authorization: Bearer invalid_api_key" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 ```
 
 ### **Agent Service Testing**
 
 #### **1. Health Check (No Auth Required)**
 ```bash
-curl https://bhiv-hr-agent-m1me.onrender.com/health
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 ```
 
 #### **2. API Key Protected Endpoints**
 ```bash
 # Test Database Connectivity
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-agent-m1me.onrender.com/test-db
+     https://bhiv-hr-agent-nhgg.onrender.com/test-db
 
 # Test AI Matching
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
      -H "Content-Type: application/json" \
      -d '{"job_id": 1}' \
-     https://bhiv-hr-agent-m1me.onrender.com/match
+     https://bhiv-hr-agent-nhgg.onrender.com/match
 
 # Test Candidate Analysis
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-agent-m1me.onrender.com/analyze/1
+     https://bhiv-hr-agent-nhgg.onrender.com/analyze/1
 
 # Test Batch Matching
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
      -H "Content-Type: application/json" \
      -d '{"job_ids": [1, 2]}' \
-     https://bhiv-hr-agent-m1me.onrender.com/batch-match
+     https://bhiv-hr-agent-nhgg.onrender.com/batch-match
 ```
 
 ---
@@ -101,7 +101,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ### **Step 1: Get Client JWT Token**
 ```bash
 # Login to get JWT token
-curl -X POST https://bhiv-hr-gateway-46pz.onrender.com/v1/client/login \
+curl -X POST https://bhiv-hr-gateway-ltg0.onrender.com/v1/client/login \
      -H "Content-Type: application/json" \
      -d '{
        "client_id": "TECH001",
@@ -129,29 +129,29 @@ CLIENT_JWT="YOUR_CLIENT_JWT_TOKEN"
 
 # Test Gateway endpoints with Client JWT
 curl -H "Authorization: Bearer $CLIENT_JWT" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 curl -H "Authorization: Bearer $CLIENT_JWT" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/candidates
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates
 
 curl -H "Authorization: Bearer $CLIENT_JWT" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/match/1/top
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # Test Agent endpoints with Client JWT
 curl -H "Authorization: Bearer $CLIENT_JWT" \
-     https://bhiv-hr-agent-m1me.onrender.com/test-db
+     https://bhiv-hr-agent-nhgg.onrender.com/test-db
 
 curl -H "Authorization: Bearer $CLIENT_JWT" \
      -H "Content-Type: application/json" \
      -d '{"job_id": 1}' \
-     https://bhiv-hr-agent-m1me.onrender.com/match
+     https://bhiv-hr-agent-nhgg.onrender.com/match
 ```
 
 ### **Step 3: Test Invalid Client JWT**
 ```bash
 # Should return 401 Unauthorized
 curl -H "Authorization: Bearer invalid_jwt_token" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 ```
 
 ---
@@ -160,7 +160,7 @@ curl -H "Authorization: Bearer invalid_jwt_token" \
 
 ### **Step 1: Register New Candidate**
 ```bash
-curl -X POST https://bhiv-hr-gateway-46pz.onrender.com/v1/candidate/register \
+curl -X POST https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidate/register \
      -H "Content-Type: application/json" \
      -d '{
        "name": "Test Candidate",
@@ -177,7 +177,7 @@ curl -X POST https://bhiv-hr-gateway-46pz.onrender.com/v1/candidate/register \
 
 ### **Step 2: Login to Get Candidate JWT**
 ```bash
-curl -X POST https://bhiv-hr-gateway-46pz.onrender.com/v1/candidate/login \
+curl -X POST https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidate/login \
      -H "Content-Type: application/json" \
      -d '{
        "email": "test.candidate@example.com",
@@ -206,10 +206,10 @@ CANDIDATE_JWT="YOUR_CANDIDATE_JWT_TOKEN"
 
 # Test Gateway endpoints with Candidate JWT
 curl -H "Authorization: Bearer $CANDIDATE_JWT" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Update candidate profile
-curl -X PUT https://bhiv-hr-gateway-46pz.onrender.com/v1/candidate/profile/32 \
+curl -X PUT https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidate/profile/32 \
      -H "Authorization: Bearer $CANDIDATE_JWT" \
      -H "Content-Type: application/json" \
      -d '{
@@ -218,7 +218,7 @@ curl -X PUT https://bhiv-hr-gateway-46pz.onrender.com/v1/candidate/profile/32 \
      }'
 
 # Apply for a job
-curl -X POST https://bhiv-hr-gateway-46pz.onrender.com/v1/candidate/apply \
+curl -X POST https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidate/apply \
      -H "Authorization: Bearer $CANDIDATE_JWT" \
      -H "Content-Type: application/json" \
      -d '{
@@ -229,7 +229,7 @@ curl -X POST https://bhiv-hr-gateway-46pz.onrender.com/v1/candidate/apply \
 
 # Get candidate applications
 curl -H "Authorization: Bearer $CANDIDATE_JWT" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/candidate/applications/32
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidate/applications/32
 ```
 
 ---
@@ -237,7 +237,7 @@ curl -H "Authorization: Bearer $CANDIDATE_JWT" \
 ## 🖥️ Portal Services Testing
 
 ### **HR Portal**
-**URL**: `https://bhiv-hr-portal-cead.onrender.com/`
+**URL**: `https://bhiv-hr-portal-u670.onrender.com/`
 
 **Testing Steps:**
 1. Open HR Portal in browser
@@ -246,7 +246,7 @@ curl -H "Authorization: Bearer $CANDIDATE_JWT" \
 4. Test candidate search and AI matching features
 
 ### **Client Portal**
-**URL**: `https://bhiv-hr-client-portal-5g33.onrender.com/`
+**URL**: `https://bhiv-hr-client-portal-3iod.onrender.com/`
 
 **Testing Steps:**
 1. Open Client Portal in browser
@@ -320,18 +320,18 @@ The authentication system tries methods in this order:
 ```bash
 # Test with API Key (should work)
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Test with Client JWT (should work)
 curl -H "Authorization: Bearer YOUR_CLIENT_JWT_TOKEN" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Test with Candidate JWT (should work)
 curl -H "Authorization: Bearer YOUR_CANDIDATE_JWT_TOKEN" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Test with no authentication (should fail with 401)
-curl https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+curl https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 ```
 
 ### **Test Cross-Service Authentication**
@@ -339,7 +339,7 @@ curl https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
 # Gateway to Agent communication (internal)
 # This happens automatically when you call Gateway matching endpoints
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/match/1/top
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 ```
 
 ---
@@ -376,7 +376,7 @@ echo "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 ```bash
 # Error: {"detail": "Invalid authentication"}
 # Solution: Get new JWT token by logging in again
-curl -X POST https://bhiv-hr-gateway-46pz.onrender.com/v1/client/login \
+curl -X POST https://bhiv-hr-gateway-ltg0.onrender.com/v1/client/login \
      -H "Content-Type: application/json" \
      -d '{"client_id": "TECH001", "password": "demo123"}'
 ```
@@ -386,14 +386,14 @@ curl -X POST https://bhiv-hr-gateway-46pz.onrender.com/v1/client/login \
 # Error: {"detail": "Authentication required"}
 # Solution: Add Authorization header
 curl -H "Authorization: Bearer YOUR_TOKEN" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/jobs
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 ```
 
 #### **4. Service Unavailable**
 ```bash
 # Check service health first
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
-curl https://bhiv-hr-agent-m1me.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 ```
 
 ---
@@ -407,8 +407,8 @@ Create a test script to automate authentication testing:
 # save as test_auth.sh
 
 API_KEY="prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
-GATEWAY_URL="https://bhiv-hr-gateway-46pz.onrender.com"
-AGENT_URL="https://bhiv-hr-agent-m1me.onrender.com"
+GATEWAY_URL="https://bhiv-hr-gateway-ltg0.onrender.com"
+AGENT_URL="https://bhiv-hr-agent-nhgg.onrender.com"
 
 echo "🔐 Testing Triple Authentication System"
 echo "======================================"

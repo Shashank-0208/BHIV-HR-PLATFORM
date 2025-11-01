@@ -7,7 +7,7 @@ def check_production_db_urls():
     """Check only the production database URLs in service configs"""
     
     # Expected production database URL from Render
-    expected_url = "postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com/bhiv_hr_jcuu"
+    expected_url = "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
     
     services = {
         "Client Portal": "c:\\BHIV-HR-Platform\\services\\client_portal\\config.py",

@@ -49,7 +49,7 @@ information_schema tables
 ## Production Environment Analysis
 
 ### API Gateway Status
-- **Service**: `bhiv-hr-gateway-46pz.onrender.com`
+- **Service**: `bhiv-hr-gateway-ltg0.onrender.com`
 - **Version**: `3.1.0`
 - **Status**: ✅ **HEALTHY**
 - **Database**: ✅ **CONNECTED** (5 active connections)
@@ -73,10 +73,10 @@ information_schema tables
 
 ### Production Services Status
 ```
-✅ Gateway Service:     bhiv-hr-gateway-46pz.onrender.com (Healthy)
-❌ Agent Service:       bhiv-hr-agent-m1me.onrender.com (Offline)
-✅ HR Portal:           bhiv-hr-portal-cead.onrender.com (Healthy)
-✅ Client Portal:       bhiv-hr-client-portal-5g33.onrender.com (Healthy)
+✅ Gateway Service:     bhiv-hr-gateway-ltg0.onrender.com (Healthy)
+❌ Agent Service:       bhiv-hr-agent-nhgg.onrender.com (Offline)
+✅ HR Portal:           bhiv-hr-portal-u670.onrender.com (Healthy)
+✅ Client Portal:       bhiv-hr-client-portal-3iod.onrender.com (Healthy)
 ✅ Database:            PostgreSQL 17 on Render (Connected)
 ```
 
@@ -123,7 +123,7 @@ information_schema tables
 ### ⚠️ Issues Identified
 
 **Production Agent Service:**
-- AI Agent service offline (bhiv-hr-agent-m1me.onrender.com)
+- AI Agent service offline (bhiv-hr-agent-nhgg.onrender.com)
 - Likely cause: Heavy ML dependencies (torch, transformers) on free tier
 - Impact: Using database fallback instead of Phase 3 semantic matching
 - Workaround: Gateway provides fallback matching algorithm
@@ -171,7 +171,7 @@ docker exec docker-db-1 psql -U bhiv_user -d bhiv_hr
 ### Production API Testing
 ```bash
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/health/detailed
+     https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
 ```
 
 ### Schema Files

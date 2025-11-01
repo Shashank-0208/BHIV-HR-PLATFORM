@@ -419,10 +419,10 @@ deployment/scripts/unified-deploy.sh   # Unified deployment
 ## 🚀 Production Deployment
 
 ### **Live Services (5/5 Operational)**
-- ✅ **Gateway**: bhiv-hr-gateway-46pz.onrender.com
-- ✅ **Agent**: bhiv-hr-agent-m1me.onrender.com
-- ✅ **HR Portal**: bhiv-hr-portal-cead.onrender.com
-- ✅ **Client Portal**: bhiv-hr-client-portal-5g33.onrender.com
+- ✅ **Gateway**: bhiv-hr-gateway-ltg0.onrender.com
+- ✅ **Agent**: bhiv-hr-agent-nhgg.onrender.com
+- ✅ **HR Portal**: bhiv-hr-portal-u670.onrender.com
+- ✅ **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com
 - ✅ **Candidate Portal**: bhiv-hr-candidate-portal.onrender.com
 
 ### **System Metrics**
@@ -476,8 +476,8 @@ open http://localhost:8503           # Candidate Portal
 ### **Monitoring Endpoints**
 ```bash
 # Production monitoring
-curl https://bhiv-hr-gateway-46pz.onrender.com/metrics
-curl https://bhiv-hr-gateway-46pz.onrender.com/health/detailed
+curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
 
 # Local monitoring
 curl http://localhost:8000/metrics

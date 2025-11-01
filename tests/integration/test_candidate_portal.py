@@ -11,7 +11,7 @@ from datetime import datetime
 
 # Configuration
 GATEWAY_URL = "http://localhost:8000"  # Local development
-# GATEWAY_URL = "https://bhiv-hr-gateway-46pz.onrender.com"  # Production
+# GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"  # Production
 API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 
 def make_request(endpoint, method="GET", data=None, token=None):

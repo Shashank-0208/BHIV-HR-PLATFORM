@@ -37,12 +37,12 @@ class PortalAnalysis:
 class ComprehensivePortalExplorer:
     def __init__(self):
         self.portals = {
-            "HR Portal": "https://bhiv-hr-portal-cead.onrender.com/",
-            "Client Portal": "https://bhiv-hr-client-portal-5g33.onrender.com/",
+            "HR Portal": "https://bhiv-hr-portal-u670.onrender.com/",
+            "Client Portal": "https://bhiv-hr-client-portal-3iod.onrender.com/",
             "Candidate Portal": "https://bhiv-hr-candidate-portal.onrender.com/"
         }
-        self.gateway_url = "https://bhiv-hr-gateway-46pz.onrender.com"
-        self.agent_url = "https://bhiv-hr-agent-m1me.onrender.com"
+        self.gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
+        self.agent_url = "https://bhiv-hr-agent-nhgg.onrender.com"
         self.api_key = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
         
         # Analysis results

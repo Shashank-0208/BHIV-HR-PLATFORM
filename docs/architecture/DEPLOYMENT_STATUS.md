@@ -12,10 +12,10 @@
 ### **Service Status Overview**
 | Service | Status | URL | Endpoints | Response Time | Last Checked |
 |---------|--------|-----|-----------|---------------|--------------|
-| **Gateway** | ✅ Live | bhiv-hr-gateway-46pz.onrender.com | 55 | <100ms | Active |
-| **Agent** | ✅ Live | bhiv-hr-agent-m1me.onrender.com | 6 | <50ms | Active |
-| **HR Portal** | ✅ Live | bhiv-hr-portal-cead.onrender.com | Web UI | <200ms | Active |
-| **Client Portal** | ✅ Live | bhiv-hr-client-portal-5g33.onrender.com | Web UI | <200ms | Active |
+| **Gateway** | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com | 55 | <100ms | Active |
+| **Agent** | ✅ Live | bhiv-hr-agent-nhgg.onrender.com | 6 | <50ms | Active |
+| **HR Portal** | ✅ Live | bhiv-hr-portal-u670.onrender.com | Web UI | <200ms | Active |
+| **Client Portal** | ✅ Live | bhiv-hr-client-portal-3iod.onrender.com | Web UI | <200ms | Active |
 | **Candidate Portal** | ✅ Live | bhiv-hr-candidate-portal.onrender.com | Web UI | <200ms | Active |
 | **Database** | ✅ Live | Internal Render URL | PostgreSQL 17 | <50ms | Active |
 
@@ -33,7 +33,7 @@
 ## 🌐 Gateway Service (Port 8000)
 
 ### **Production Details**
-- **URL**: https://bhiv-hr-gateway-46pz.onrender.com
+- **URL**: https://bhiv-hr-gateway-ltg0.onrender.com
 - **Status**: ✅ Operational
 - **Technology**: FastAPI 3.1.0 + Python 3.12.7-slim
 - **Endpoints**: 55 total (verified from source code)
@@ -42,16 +42,16 @@
 ### **API Endpoints Verification**
 ```bash
 # Health Check
-curl https://bhiv-hr-gateway-46pz.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 # Response: {"status":"healthy","service":"BHIV HR Gateway","version":"3.1.0"}
 
 # API Documentation
-https://bhiv-hr-gateway-46pz.onrender.com/docs
+https://bhiv-hr-gateway-ltg0.onrender.com/docs
 # Interactive Swagger UI with all 55 endpoints
 
 # Database Schema Check
 curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
-     https://bhiv-hr-gateway-46pz.onrender.com/v1/database/schema
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ```
 
 ### **Endpoint Categories**
@@ -84,7 +84,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ## 🤖 Agent Service (Port 9000)
 
 ### **Production Details**
-- **URL**: https://bhiv-hr-agent-m1me.onrender.com
+- **URL**: https://bhiv-hr-agent-nhgg.onrender.com
 - **Status**: ✅ Operational
 - **Technology**: FastAPI 3.1.0 + Python 3.12.7-slim
 - **Endpoints**: 6 total
@@ -93,15 +93,15 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ### **AI Endpoints Verification**
 ```bash
 # Health Check
-curl https://bhiv-hr-agent-m1me.onrender.com/health
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 # Response: {"status":"healthy","service":"BHIV AI Agent","version":"3.0.0"}
 
 # API Documentation
-https://bhiv-hr-agent-m1me.onrender.com/docs
+https://bhiv-hr-agent-nhgg.onrender.com/docs
 # Interactive Swagger UI with all 6 endpoints
 
 # AI Matching Test
-curl -X POST https://bhiv-hr-agent-m1me.onrender.com/match \
+curl -X POST https://bhiv-hr-agent-nhgg.onrender.com/match \
      -H "Content-Type: application/json" \
      -d '{"job_id": 1}'
 ```
@@ -127,7 +127,7 @@ curl -X POST https://bhiv-hr-agent-m1me.onrender.com/match \
 ## 🖥️ HR Portal Service (Port 8501)
 
 ### **Production Details**
-- **URL**: https://bhiv-hr-portal-cead.onrender.com
+- **URL**: https://bhiv-hr-portal-u670.onrender.com
 - **Status**: ✅ Operational
 - **Technology**: Streamlit 1.41.1 + Python 3.12.7-slim
 - **Features**: 10-step HR workflow
@@ -158,7 +158,7 @@ curl -X POST https://bhiv-hr-agent-m1me.onrender.com/match \
 ## 🏢 Client Portal Service (Port 8502)
 
 ### **Production Details**
-- **URL**: https://bhiv-hr-client-portal-5g33.onrender.com
+- **URL**: https://bhiv-hr-client-portal-3iod.onrender.com
 - **Status**: ✅ Operational
 - **Technology**: Streamlit 1.41.1 + Python 3.12.7-slim
 - **Authentication**: Enterprise JWT with database integration
@@ -314,9 +314,9 @@ Portal Services:
 ### **Monitoring Endpoints**
 ```bash
 # Production Health Monitoring
-curl https://bhiv-hr-gateway-46pz.onrender.com/metrics
-curl https://bhiv-hr-gateway-46pz.onrender.com/health/detailed
-curl https://bhiv-hr-agent-m1me.onrender.com/health
+curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 
 # Response Example:
 {
@@ -434,10 +434,10 @@ curl https://bhiv-hr-agent-m1me.onrender.com/health
 ## 📞 Support & Contact
 
 ### **Service URLs**
-- **Gateway API**: https://bhiv-hr-gateway-46pz.onrender.com/docs
-- **Agent API**: https://bhiv-hr-agent-m1me.onrender.com/docs
-- **HR Portal**: https://bhiv-hr-portal-cead.onrender.com/
-- **Client Portal**: https://bhiv-hr-client-portal-5g33.onrender.com/
+- **Gateway API**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
+- **Agent API**: https://bhiv-hr-agent-nhgg.onrender.com/docs
+- **HR Portal**: https://bhiv-hr-portal-u670.onrender.com/
+- **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com/
 - **Candidate Portal**: https://bhiv-hr-candidate-portal.onrender.com/
 
 ### **Demo Credentials**

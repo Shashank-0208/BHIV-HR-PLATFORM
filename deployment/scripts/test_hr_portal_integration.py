@@ -12,8 +12,8 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 
 API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
-GATEWAY_URL = "https://bhiv-hr-gateway-46pz.onrender.com"
-HR_PORTAL_URL = "https://bhiv-hr-portal-cead.onrender.com"
+GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
+HR_PORTAL_URL = "https://bhiv-hr-portal-u670.onrender.com"
 HEADERS = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
 
 def test_hr_portal_accessibility():
@@ -206,7 +206,7 @@ def test_ai_matching_integration():
             logger.warning(f"⚠️ AI Matching (Gateway): HTTP {response.status_code}")
             
         # Test direct Agent service
-        agent_url = "https://bhiv-hr-agent-m1me.onrender.com"
+        agent_url = "https://bhiv-hr-agent-nhgg.onrender.com"
         response = requests.post(f"{agent_url}/match", json={"job_id": 1}, timeout=20)
         if response.status_code == 200:
             data = response.json()
