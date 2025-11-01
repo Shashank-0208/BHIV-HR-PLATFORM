@@ -160,7 +160,7 @@ Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com
 Port: 5432
 Database: bhiv_hr_jcuu
 Username: bhiv_user
-Password: 3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2
+Password: 8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG
 SSL Configuration (SSL Tab):
   SSL Mode: require (dropdown selection)
   SSL Factory: org.postgresql.ssl.DefaultJavaSSLFactory (dropdown selection)

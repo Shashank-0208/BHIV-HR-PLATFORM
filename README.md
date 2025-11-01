@@ -506,9 +506,9 @@ python tests/test_endpoints.py  # Comprehensive health checks
 ## 🚀 Getting Started (Choose Your Path)
 
 ### **🌐 For Users (Recommended)**
-1. **Visit Live Platform**: bhiv-hr-gateway-46pz.onrender.com/docs
-2. **Access HR Portal**: bhiv-hr-portal-cead.onrender.com/
-3. **Login to Client Portal**: bhiv-hr-client-portal-5g33.onrender.com/ (TECH001/demo123)
+1. **Visit Live Platform**: bhiv-hr-gateway-ltg0.onrender.com/docs
+2. **Access HR Portal**: bhiv-hr-portal-u670.onrender.com/
+3. **Login to Client Portal**: bhiv-hr-client-portal-3iod.onrender.com/ (TECH001/demo123)
 4. **Use Candidate Portal**: http://localhost:8503 (Local development)
 5. **Test API**: Use Bearer token `prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o`
 

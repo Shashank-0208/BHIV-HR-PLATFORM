@@ -117,7 +117,7 @@ Connection Settings:
 │ Port:        5432                                                   │
 │ Database:    bhiv_hr_jcuu                                          │
 │ Username:    bhiv_user                                             │
-│ Password:    3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2                      │
+│ Password:    8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG                      │
 │ Show all databases: ☑                                             │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -377,7 +377,7 @@ Solution: Configure SSL in DBeaver connection settings
 Error: password authentication failed
 Solution: Verify credentials
 - Local: bhiv_user / bhiv_local_password_2025
-- Production: bhiv_user / 3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2
+- Production: bhiv_user / 8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG
 ```
 
 #### 4. Connection Timeout
@@ -548,7 +548,7 @@ GRANT SELECT ON ALL TABLES IN SCHEMA public TO analyst;
 postgresql://bhiv_user:bhiv_local_password_2025@localhost:5432/bhiv_hr
 
 # Production database URL  
-postgresql://bhiv_user:3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2@dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com:5432/bhiv_hr_jcuu
+postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com:5432/bhiv_hr_jcuu_w5fl
 
 # Health check endpoints
 curl http://localhost:8000/health                    # Local gateway
