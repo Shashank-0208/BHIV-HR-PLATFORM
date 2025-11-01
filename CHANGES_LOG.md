@@ -18,7 +18,7 @@
 - ✅ **Schema Version**: Updated to v4.1.0 with proper version tracking
 
 ### **🔧 Portal Configuration Fixes**
-- ✅ **HR Portal Config**: Fixed Docker URL (http://gateway:8000) to production URL (https://bhiv-hr-gateway-46pz.onrender.com)
+- ✅ **HR Portal Config**: Fixed Docker URL (http://gateway:8000) to production URL (https://bhiv-hr-gateway-ltg0.onrender.com)
 - ✅ **Client Portal Config**: Fixed Docker URL to production URL for proper Gateway connection
 - ✅ **Connection Issues**: Resolved portal timeout issues - all portals now connect to Gateway API
 - ✅ **Configuration Management**: Updated all portal configs to use production Render URLs
@@ -50,10 +50,10 @@
 ## 📊 Current System Status
 
 ### **Production Services (5/5 Operational)**
-- **Gateway API**: bhiv-hr-gateway-46pz.onrender.com (55 endpoints) ✅
-- **AI Agent**: bhiv-hr-agent-m1me.onrender.com (6 endpoints) ✅
-- **HR Portal**: bhiv-hr-portal-cead.onrender.com ✅
-- **Client Portal**: bhiv-hr-client-portal-5g33.onrender.com ✅
+- **Gateway API**: bhiv-hr-gateway-ltg0.onrender.com (55 endpoints) ✅
+- **AI Agent**: bhiv-hr-agent-nhgg.onrender.com (6 endpoints) ✅
+- **HR Portal**: bhiv-hr-portal-u670.onrender.com ✅
+- **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com ✅
 - **Candidate Portal**: bhiv-hr-candidate-portal.onrender.com ✅
 
 ### **Database Status**
@@ -102,7 +102,7 @@ INSERT INTO schema_version (version, description) VALUES
 API_BASE = os.getenv("GATEWAY_URL", "http://gateway:8000")
 
 # After (Production URLs - working correctly)
-API_BASE = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-46pz.onrender.com")
+API_BASE = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
 ```
 
 ### **Performance Improvements**
@@ -173,10 +173,10 @@ API_BASE = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-46pz.onrender.com")
 ## 📞 Support Information
 
 ### **Service URLs**
-- **Gateway API**: https://bhiv-hr-gateway-46pz.onrender.com/docs
-- **AI Agent**: https://bhiv-hr-agent-m1me.onrender.com/docs
-- **HR Portal**: https://bhiv-hr-portal-cead.onrender.com/
-- **Client Portal**: https://bhiv-hr-client-portal-5g33.onrender.com/
+- **Gateway API**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
+- **AI Agent**: https://bhiv-hr-agent-nhgg.onrender.com/docs
+- **HR Portal**: https://bhiv-hr-portal-u670.onrender.com/
+- **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com/
 - **Candidate Portal**: https://bhiv-hr-candidate-portal.onrender.com/
 
 ### **Demo Access**

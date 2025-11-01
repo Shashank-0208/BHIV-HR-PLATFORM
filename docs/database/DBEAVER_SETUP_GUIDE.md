@@ -22,7 +22,7 @@ This guide provides step-by-step instructions for setting up DBeaver connections
 | Environment | Host | Port | Database | Username | Status |
 |-------------|------|------|----------|----------|--------|
 | **Local** | localhost | 5432 | bhiv_hr | bhiv_user | ✅ Active |
-| **Production** | dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com | 5432 | bhiv_hr_jcuu | bhiv_user | ✅ Active |
+| **Production** | dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com | 5432 | bhiv_hr_jcuu_w5fl | bhiv_user | ✅ Active |
 
 ---
 
@@ -101,6 +101,64 @@ Connection Settings:
 
 ---
 
+## 🔄 Updating Existing Database Connection
+
+### When Database Credentials Change
+If your database credentials have changed (new deployment, password reset, etc.), follow these steps to update your existing DBeaver connection:
+
+#### Step 1: Edit Existing Connection
+1. **Right-click** your existing connection in DBeaver
+2. **Select** "Edit Connection" from context menu
+3. **Or** double-click the connection name
+
+#### Step 2: Update Connection Details
+**For Production Database Updates:**
+```
+OLD Credentials (Replace These):
+┌─────────────────────────────────────────────────────────────────────┐
+│ Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com         │
+│ Database: bhiv_hr_jcuu                                              │
+│ Password: 3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2                          │
+└─────────────────────────────────────────────────────────────────────┘
+
+NEW Credentials (Use These):
+┌─────────────────────────────────────────────────────────────────────┐
+│ Host: dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com         │
+│ Database: bhiv_hr_jcuu_w5fl                                         │
+│ Password: 8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG                          │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+#### Step 3: Key Fields to Update
+1. **Server Host**: Change to new hostname
+2. **Database**: Update database name if changed
+3. **Password**: Enter new password
+4. **Keep Same**: Port (5432), Username (bhiv_user)
+
+#### Step 4: Test Updated Connection
+1. **Click** "Test Connection" button
+2. **Verify** ✅ "Connected" message appears
+3. **Click** "OK" to save changes
+4. **Refresh** connection to see updated data
+
+#### Step 5: Verify Connection
+```sql
+-- Test query to verify connection works
+SELECT 
+    current_database() as database_name,
+    current_user as username,
+    version() as postgres_version,
+    now() as connection_time;
+```
+
+### ⚠️ Important Notes
+- **External vs Internal Hostnames**: Always use the full external hostname (`.oregon-postgres.render.com`) for DBeaver connections
+- **SSL Settings**: Keep existing SSL configuration when updating credentials
+- **Connection Name**: Consider updating connection name to reflect new deployment
+- **Backup Queries**: Export any saved queries before major connection changes
+
+---
+
 ## ☁️ Production Database Connection Setup
 
 ### Step 1: Create New Connection
@@ -113,9 +171,9 @@ Connection Settings:
 ```
 Connection Settings:
 ┌─────────────────────────────────────────────────────────────────────┐
-│ Server Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com  │
+│ Server Host: dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com  │
 │ Port:        5432                                                   │
-│ Database:    bhiv_hr_jcuu                                          │
+│ Database:    bhiv_hr_jcuu_w5fl                                     │
 │ Username:    bhiv_user                                             │
 │ Password:    8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG                      │
 │ Show all databases: ☑                                             │

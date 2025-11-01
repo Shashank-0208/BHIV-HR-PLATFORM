@@ -46,8 +46,8 @@
 ### Configuration from app.py and auth_service.py
 ```
 ✅ API_KEY_SECRET: Present and configured
-✅ GATEWAY_URL: https://bhiv-hr-gateway-46pz.onrender.com
-✅ CLIENT_PORTAL_URL: https://bhiv-hr-client-portal-5g33.onrender.com
+✅ GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+✅ CLIENT_PORTAL_URL: https://bhiv-hr-client-portal-3iod.onrender.com
 ✅ DATABASE_URL: Properly configured
 ✅ JWT_SECRET: Present and configured
 ✅ JWT_ALGORITHM: HS256
@@ -97,7 +97,7 @@ The authentication endpoint is accessible and responding, but there's a datetime
 # All these variables are properly configured:
 API_KEY_SECRET = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 UNIFIED_HEADERS = {"Authorization": f"Bearer {API_KEY_SECRET}", "Content-Type": "application/json"}
-API_BASE_URL = "https://bhiv-hr-gateway-46pz.onrender.com"
+API_BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
 ```
 
 ### Functions from app.py Verified
