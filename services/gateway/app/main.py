@@ -672,7 +672,7 @@ async def get_top_matches(job_id: int, limit: int = 10, api_key: str = Depends(g
     
     try:
         import httpx
-        agent_url = os.getenv("AGENT_SERVICE_URL", "http://localhost:9000")
+        agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-nhgg.onrender.com")
         
         # Call agent service for AI matching
         async with httpx.AsyncClient(timeout=30.0) as client:
@@ -766,7 +766,7 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
     
     try:
         import httpx
-        agent_url = os.getenv("AGENT_SERVICE_URL", "http://localhost:9000")
+        agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-nhgg.onrender.com")
         
         # Call agent service for batch AI matching
         async with httpx.AsyncClient(timeout=60.0) as client:

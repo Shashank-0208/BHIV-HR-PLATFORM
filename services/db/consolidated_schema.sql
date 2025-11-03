@@ -211,6 +211,18 @@ CREATE TABLE IF NOT EXISTS company_scoring_preferences (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- 13. JOB_APPLICATIONS TABLE (Candidate job applications)
+CREATE TABLE IF NOT EXISTS job_applications (
+    id SERIAL PRIMARY KEY,
+    candidate_id INTEGER NOT NULL REFERENCES candidates(id) ON DELETE CASCADE,
+    job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
+    cover_letter TEXT,
+    status VARCHAR(50) DEFAULT 'applied' CHECK (status IN ('applied', 'reviewed', 'shortlisted', 'rejected', 'withdrawn')),
+    applied_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(candidate_id, job_id)
+);
+
 -- ============================================================================
 -- PERFORMANCE INDEXES
 -- ============================================================================
@@ -289,6 +301,12 @@ CREATE INDEX IF NOT EXISTS idx_csp_violations_ip ON csp_violations(ip_address);
 -- Company scoring preferences indexes
 CREATE INDEX IF NOT EXISTS idx_company_scoring_client ON company_scoring_preferences(client_id);
 
+-- Job applications indexes
+CREATE INDEX IF NOT EXISTS idx_job_applications_candidate ON job_applications(candidate_id);
+CREATE INDEX IF NOT EXISTS idx_job_applications_job ON job_applications(job_id);
+CREATE INDEX IF NOT EXISTS idx_job_applications_status ON job_applications(status);
+CREATE INDEX IF NOT EXISTS idx_job_applications_date ON job_applications(applied_date);
+
 -- Enhanced matching cache with learning data
 ALTER TABLE matching_cache ADD COLUMN IF NOT EXISTS learning_version VARCHAR(50) DEFAULT 'v3.0';
 
@@ -331,12 +349,16 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+-- Apply update triggers
+CREATE TRIGGER update_job_applications_updated_at BEFORE UPDATE ON job_applications FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
 -- Apply audit triggers to sensitive tables
 CREATE TRIGGER audit_candidates_changes AFTER INSERT OR UPDATE OR DELETE ON candidates FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
 CREATE TRIGGER audit_jobs_changes AFTER INSERT OR UPDATE OR DELETE ON jobs FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
 CREATE TRIGGER audit_feedback_changes AFTER INSERT OR UPDATE OR DELETE ON feedback FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
 CREATE TRIGGER audit_users_changes AFTER INSERT OR UPDATE OR DELETE ON users FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
 CREATE TRIGGER audit_clients_changes AFTER INSERT OR UPDATE OR DELETE ON clients FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
+CREATE TRIGGER audit_job_applications_changes AFTER INSERT OR UPDATE OR DELETE ON job_applications FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
 
 -- ============================================================================
 -- SAMPLE DATA FOR TESTING
@@ -385,10 +407,11 @@ CREATE TABLE IF NOT EXISTS schema_version (
 );
 
 INSERT INTO schema_version (version, description) VALUES 
+('4.2.0', 'Production schema with job_applications table and client auth fixes'),
 ('4.1.0', 'Production consolidated schema with Phase 3 learning engine'),
 ('4.0.1', 'Fixed schema - removed invalid generated column update'),
 ('3.0.0', 'Phase 3 - Learning engine and enhanced batch processing')
 ON CONFLICT (version) DO UPDATE SET applied_at = CURRENT_TIMESTAMP;
 
 -- Final success message
-SELECT 'BHIV HR Platform Consolidated Schema v4.1.0 - Successfully Applied' as status;
+SELECT 'BHIV HR Platform Consolidated Schema v4.2.0 - Successfully Applied' as status;
