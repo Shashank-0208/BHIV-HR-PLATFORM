@@ -9,9 +9,6 @@ RUN pip install --no-cache-dir --timeout 300 --retries 3 -r requirements.txt
 # Copy application code
 COPY app/ ./app/
 
-# Copy local semantic_engine
-COPY semantic_engine ./semantic_engine
-
 # Expose port
 EXPOSE 8000
 
