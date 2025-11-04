@@ -784,25 +784,61 @@ async def batch_fallback_matching(job_ids: List[int]):
     try:
         engine = get_db_engine()
         with engine.connect() as connection:
-            query = text("SELECT id, name, email, technical_skills FROM candidates LIMIT 5")
+            # Get job requirements for each job
+            job_requirements = {}
+            for job_id in job_ids:
+                job_query = text("SELECT requirements, location FROM jobs WHERE id = :job_id")
+                job_result = connection.execute(job_query, {"job_id": job_id})
+                job_data = job_result.fetchone()
+                job_requirements[job_id] = {
+                    "requirements": (job_data[0] if job_data else "").lower(),
+                    "location": job_data[1] if job_data else ""
+                }
+            
+            # Get candidates
+            query = text("SELECT id, name, email, technical_skills, location FROM candidates LIMIT 5")
             result = connection.execute(query)
             candidates = list(result)
             
             batch_results = {}
             for job_id in job_ids:
+                job_req = job_requirements[job_id]
                 matches = []
+                
                 for i, row in enumerate(candidates):
+                    candidate_skills = (row[3] or "").lower()
+                    candidate_location = row[4] or ""
+                    
+                    # Basic skill matching
+                    skill_match_count = sum(1 for skill in ['python', 'java', 'javascript'] 
+                                          if skill in candidate_skills and skill in job_req["requirements"])
+                    
+                    # Location matching
+                    location_match = job_req["location"].lower() in candidate_location.lower() if job_req["location"] and candidate_location else False
+                    
+                    # Calculate score
+                    base_score = 60 + (skill_match_count * 10) + (10 if location_match else 0) + (5 - i)
+                    
                     matches.append({
                         "candidate_id": row[0],
                         "name": row[1],
-                        "score": 80 - (i * 5),
-                        "reasoning": f"Fallback batch matching - Job {job_id}"
+                        "email": row[2],
+                        "score": min(95, base_score),
+                        "skills_match": row[3] or "",
+                        "experience_match": f"Skills: {skill_match_count} matches",
+                        "location_match": location_match,
+                        "reasoning": f"Fallback batch matching: {skill_match_count} skill matches, location: {location_match}",
+                        "recommendation_strength": "Good Match" if base_score > 75 else "Fair Match"
                     })
                 
                 batch_results[str(job_id)] = {
                     "job_id": job_id,
                     "matches": matches,
-                    "algorithm": "fallback-batch"
+                    "top_candidates": matches,
+                    "total_candidates": len(matches),
+                    "algorithm": "fallback-batch",
+                    "processing_time": "0.05s",
+                    "ai_analysis": "Database fallback - Agent service unavailable"
                 }
             
             return {
@@ -810,7 +846,8 @@ async def batch_fallback_matching(job_ids: List[int]):
                 "total_jobs_processed": len(job_ids),
                 "total_candidates_analyzed": len(candidates),
                 "algorithm_version": "2.0.0-gateway-fallback-batch",
-                "status": "fallback_success"
+                "status": "fallback_success",
+                "agent_status": "disconnected"
             }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Batch fallback failed: {str(e)}")
@@ -840,7 +877,43 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
             )
             
             if response.status_code == 200:
-                return response.json()
+                agent_result = response.json()
+                
+                # Transform agent batch response to detailed format
+                enhanced_batch_results = {}
+                for job_id_str, job_result in agent_result.get("batch_results", {}).items():
+                    matches = []
+                    for candidate in job_result.get("matches", []):
+                        matches.append({
+                            "candidate_id": candidate.get("candidate_id"),
+                            "name": candidate.get("name"),
+                            "email": candidate.get("email"),
+                            "score": candidate.get("score"),
+                            "skills_match": ", ".join(candidate.get("skills_match", [])),
+                            "experience_match": candidate.get("experience_match"),
+                            "location_match": candidate.get("location_match"),
+                            "reasoning": candidate.get("reasoning"),
+                            "recommendation_strength": "Strong Match" if candidate.get("score", 0) > 80 else "Good Match"
+                        })
+                    
+                    enhanced_batch_results[job_id_str] = {
+                        "job_id": job_result.get("job_id"),
+                        "matches": matches,
+                        "top_candidates": matches,
+                        "total_candidates": len(matches),
+                        "algorithm": job_result.get("algorithm", "phase3-ai"),
+                        "processing_time": job_result.get("processing_time", "0.5s"),
+                        "ai_analysis": "Real AI semantic matching via Agent Service"
+                    }
+                
+                return {
+                    "batch_results": enhanced_batch_results,
+                    "total_jobs_processed": agent_result.get("total_jobs_processed", len(job_ids)),
+                    "total_candidates_analyzed": agent_result.get("total_candidates_analyzed", 0),
+                    "algorithm_version": agent_result.get("algorithm_version", "3.0.0-phase3-production-batch"),
+                    "status": "success",
+                    "agent_status": "connected"
+                }
             else:
                 # Fallback to database batch matching
                 return await batch_fallback_matching(job_ids)
