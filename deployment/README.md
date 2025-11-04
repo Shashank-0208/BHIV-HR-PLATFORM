@@ -52,6 +52,7 @@ docker-compose -f deployment/docker/docker-compose.production.yml down
 | Agent | bhiv-hr-agent-nhgg.onrender.com | 🟢 Live |
 | HR Portal | bhiv-hr-portal-u670.onrender.com | 🟢 Live |
 | Client Portal | bhiv-hr-client-portal-3iod.onrender.com | 🟢 Live |
+| Candidate Portal | bhiv-hr-candidate-portal-abe6.onrender.com | 🟢 Live |
 
 ## 🔧 Environment Configuration
 
@@ -147,6 +148,6 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 ---
 
-**Last Updated**: January 2025  
-**Status**: 🟢 All Services Operational  
+**Last Updated**: November 4, 2025  
+**Status**: 🟢 All 6 Services Operational (85 Endpoints)  
 **Cost**: $0/month (Free tier)

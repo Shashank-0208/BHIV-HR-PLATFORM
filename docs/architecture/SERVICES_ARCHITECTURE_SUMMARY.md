@@ -1,6 +1,6 @@
 # 🏗️ BHIV HR Platform - Services Architecture Summary
 
-**Generated**: October 2025  
+**Generated**: November 4, 2025  
 **Architecture**: Microservices (5 Services)  
 **Status**: ✅ All Services Operational  
 **Deployment**: Production + Local Development
@@ -20,7 +20,7 @@
 | **Database** | PostgreSQL 17 | 5432 | ✅ Live | Internal Render URL |
 
 ### **System Metrics**
-- **Total Endpoints**: 61 (55 Gateway + 6 Agent) - Verified from source code
+- **Total Endpoints**: 85 (79 Gateway + 6 Agent) - Verified from source code
 - **Database Tables**: 12 core tables (Schema v4.1.0)
 - **Schema Version**: v4.1.0 with Phase 3 learning engine
 - **Authentication**: Unified Bearer token + JWT + Candidate JWT system
@@ -53,7 +53,7 @@ engine = create_engine(
 )
 ```
 
-### **API Endpoints (61 Total) - Verified from Source Code**
+### **API Endpoints (79 Total) - Verified from Source Code**
 ```
 Core API (3):
 ├── GET  /                    - Service information
@@ -572,4 +572,4 @@ async def detailed_health_check():
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: October 23, 2025 | **Status**: ✅ Production Ready | **Services**: 5/5 Live | **Endpoints**: 61 Total | **Database**: Schema v4.1.0
+**Last Updated**: November 4, 2025 | **Status**: ✅ Production Ready | **Services**: 5/5 Live | **Endpoints**: 85 Total | **Database**: Schema v4.2.0

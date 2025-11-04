@@ -32,10 +32,10 @@ services:
     environment_variables:
       - DATABASE_URL: [Internal Database URL]
       - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
-    endpoints: 46
+    endpoints: 79
     features:
       - API Gateway with FastAPI
-      - 46 REST endpoints
+      - 79 REST endpoints
       - Authentication & Security
       - Granular rate limiting by endpoint
       - 2FA implementation with QR codes
@@ -116,12 +116,35 @@ services:
       - Password: demo123
       - Additional clients: STARTUP01, ENTERPRISE01
 
+  # Candidate Portal
+  candidate_portal:
+    name: bhiv-hr-candidate-portal
+    type: web_service
+    plan: free
+    region: oregon
+    repository: https://github.com/shashankmishraa/BHIV-HR-Platform
+    branch: main
+    root_directory: services/candidate_portal
+    build_command: pip install -r requirements.txt
+    start_command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+    public_url: bhiv-hr-candidate-portal-abe6.onrender.com
+    status: ✅ Active
+    environment_variables:
+      - GATEWAY_URL: bhiv-hr-gateway-ltg0.onrender.com
+      - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+    features:
+      - Candidate registration & authentication
+      - Job search and application
+      - Application tracking
+      - Profile management
+      - Dashboard analytics
+
 # Deployment Information
 deployment_info:
   platform: Render
   region: Oregon (US West)
-  total_services: 5
-  deployment_date: "2025-01-03"
+  total_services: 6
+  deployment_date: "2025-11-04"
   repository: https://github.com/shashankmishraa/BHIV-HR-Platform
   deployment_method: GitHub integration
   auto_deploy: enabled
@@ -133,6 +156,7 @@ cost_breakdown:
   agent: $0/month (Free tier)
   portal: $0/month (Free tier)
   client_portal: $0/month (Free tier)
+  candidate_portal: $0/month (Free tier)
   total_monthly: $0/month
   
 # Performance & Limitations

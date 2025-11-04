@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 BHIV HR Platform - Comprehensive Endpoint Testing Suite
-Tests all 55 endpoints across Gateway (49) and Agent (6) services
+Tests all 85 endpoints across Gateway (79) and Agent (6) services
 """
 
 import requests
@@ -92,8 +92,8 @@ class BHIVEndpointTester:
             return False
     
     def test_gateway_endpoints(self):
-        """Test all 49 Gateway endpoints"""
-        print("\n🌐 Testing Gateway Service (49 endpoints)")
+        """Test all 79 Gateway endpoints"""
+        print("\n🌐 Testing Gateway Service (79 endpoints)")
         print("=" * 60)
         
         # Core API Endpoints (7)
@@ -369,7 +369,7 @@ class BHIVEndpointTester:
 def main():
     """Run comprehensive endpoint testing"""
     print("🔍 BHIV HR Platform - Comprehensive Endpoint Testing")
-    print("Testing all 55 endpoints across Gateway (49) and Agent (6) services")
+    print("Testing all 85 endpoints across Gateway (79) and Agent (6) services")
     print("=" * 80)
     
     tester = BHIVEndpointTester()

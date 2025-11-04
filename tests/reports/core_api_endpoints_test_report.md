@@ -35,7 +35,7 @@
   "message": "BHIV HR Platform API Gateway",
   "version": "3.1.0",
   "status": "healthy",
-  "endpoints": 83,
+  "endpoints": 85,
   "documentation": "/docs",
   "monitoring": "/metrics",
   "live_demo": "https://bhiv-platform.aws.example.com"
@@ -61,7 +61,7 @@ def read_root():
 **Key Features:**
 - **Service Discovery:** Provides essential API information
 - **Version Information:** Current API version (3.1.0)
-- **Endpoint Count:** Reports 83 total available endpoints
+- **Endpoint Count:** Reports 85 total available endpoints
 - **Documentation Links:** Direct links to API docs and monitoring
 - **No Authentication:** Public endpoint for service discovery
 
@@ -387,7 +387,7 @@ The BHIV HR Platform Core API endpoints demonstrate **enterprise-grade API desig
 The core endpoints provide a solid foundation for the entire platform, enabling reliable service discovery, health monitoring, and database connectivity verification. The implementation follows FastAPI best practices and enterprise security standards.
 
 **Key Metrics:**
-- **Total Endpoints Available:** 83
+- **Total Endpoints Available:** 85
 - **Database Records:** 6 candidates verified
 - **Security Headers:** 6 comprehensive headers applied
 - **Average Response Time:** 0.821s

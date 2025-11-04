@@ -6,7 +6,7 @@
 
 | Service | URL | Status |
 |---------|-----|--------|
-| **API Gateway** | https://bhiv-hr-gateway-ltg0.onrender.com/docs | ✅ Live (54 endpoints) |
+| **API Gateway** | https://bhiv-hr-gateway-ltg0.onrender.com/docs | ✅ Live (79 endpoints) |
 | **AI Matching Engine** | https://bhiv-hr-agent-nhgg.onrender.com/docs | ✅ Live (6 endpoints) |
 | **HR Portal** | https://bhiv-hr-portal-u670.onrender.com/ | ✅ Live |
 | **Client Portal** | https://bhiv-hr-client-portal-3iod.onrender.com/ | ✅ Live |
@@ -311,7 +311,7 @@ open https://bhiv-hr-gateway-ltg0.onrender.com/docs
 ✅ **5/5 services successfully deployed on Render**
 ✅ **Zero monthly cost (Free tier)**
 ✅ **Production-ready with 99.9% uptime target**
-✅ **Comprehensive API with 60 endpoints (54 Gateway + 6 Agent) including advanced monitoring**
+✅ **Comprehensive API with 85 endpoints (79 Gateway + 6 Agent) including advanced monitoring**
 ✅ **AI-powered candidate matching (Phase 3 operational)**
 ✅ **Dual portal system operational**
 ✅ **Enterprise-grade security features**

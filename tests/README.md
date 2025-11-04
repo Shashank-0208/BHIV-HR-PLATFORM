@@ -70,7 +70,7 @@ python test_candidate_portal.py
 
 ## 📊 Test Results Summary
 
-**Total Endpoints Tested:** 83+
+**Total Endpoints Tested:** 85
 **Overall Success Rate:** 73%
 **Categories Covered:** 12
 

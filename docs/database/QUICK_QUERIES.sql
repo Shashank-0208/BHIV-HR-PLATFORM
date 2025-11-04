@@ -1,7 +1,7 @@
 -- BHIV HR Platform - Essential DBeaver Queries
 -- Quick reference queries for database exploration and monitoring
--- Version: 4.1.0 with Phase 3 Features
--- Updated: October 14, 2025
+-- Version: 4.2.0 with Phase 3 Features
+-- Updated: November 4, 2025
 
 -- ============================================================================
 -- 🔍 SCHEMA VERIFICATION QUERIES

@@ -1,19 +1,19 @@
 # BHIV HR Platform - Docker Compose Configuration
 # Version: 3.1.0 with Phase 3 Features
-# Updated: October 13, 2025
+# Updated: November 4, 2025
 # Status: Production Ready (Local Development)
 #
 # This file is for LOCAL DEVELOPMENT only
 # Production deployment is on Render with 5/5 services operational:
-# - Gateway: bhiv-hr-gateway-ltg0.onrender.com (✅ 55 endpoints)
+# - Gateway: bhiv-hr-gateway-ltg0.onrender.com (✅ 79 endpoints)
 # - Agent: bhiv-hr-agent-nhgg.onrender.com (✅ 6 endpoints)
 # - HR Portal: bhiv-hr-portal-u670.onrender.com (✅ Healthy)
 # - Client Portal: bhiv-hr-client-portal-3iod.onrender.com (✅ Healthy)
-# - Candidate Portal: bhiv-hr-candidate-portal.onrender.com (✅ NEW)
+# - Candidate Portal: bhiv-hr-candidate-portal-abe6.onrender.com (✅ Live)
 # - Database: PostgreSQL 17 on Render (✅ Connected)
 #
 # Local Environment: All 6 services operational with Docker fixes applied
-# Database Schema: v4.1.0 with Phase 3 learning engine (17 tables)
+# Database Schema: v4.2.0 with Phase 3 learning engine (13 tables)
 
 services:
   db:
@@ -59,7 +59,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    # Production URL: bhiv-hr-gateway-ltg0.onrender.com (✅ 55 endpoints operational)
+    # Production URL: bhiv-hr-gateway-ltg0.onrender.com (✅ 79 endpoints operational)
 
   agent:
     build:
@@ -165,7 +165,7 @@ services:
         limits:
           memory: 512M
           cpus: '0.5'
-    # Production URL: bhiv-hr-candidate-portal.onrender.com (✅ NEW - Live)
+    # Production URL: bhiv-hr-candidate-portal-abe6.onrender.com (✅ Live)
 
 volumes:
   postgres_data:

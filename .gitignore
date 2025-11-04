@@ -1,11 +1,44 @@
-# BHIV HR Platform - Git Ignore Rules
+# BHIV HR Platform - .gitignore
+# Comprehensive ignore patterns for Python, Node.js, Docker, and cloud deployments
 
-# Python
+# ============================================================================
+# ENVIRONMENT & SECRETS
+# ============================================================================
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+*.env
+config/.env.*
+config/production.env
+config/staging.env
+secrets/
+*.key
+*.pem
+*.p12
+*.pfx
+
+# API Keys and Tokens
+*api_key*
+*secret*
+*token*
+*credentials*
+jwt_secret*
+database_url*
+
+# ============================================================================
+# PYTHON
+# ============================================================================
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-*.pyc
+
+# C extensions
 *.so
+
+# Distribution / packaging
 .Python
 build/
 develop-eggs/
@@ -19,99 +52,95 @@ parts/
 sdist/
 var/
 wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
 MANIFEST
 
-# Virtual Environments
-.env
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
 .venv
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
-
-# Environment Variables
-.env.local
-.env.development
-.env.test
-.env.production.local
-
-# Logs
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# IDE and Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Node.js (if any frontend components)
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Docker
-.dockerignore
-
-# Database
-*.db
-*.sqlite
-*.sqlite3
-
-# Temporary files
-*.tmp
-*.temp
-.cache/
-
-# Test coverage
-htmlcov/
-.coverage
-.coverage.*
-coverage.xml
-*.cover
-.hypothesis/
-.pytest_cache/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# pyenv
-.python-version
-
-# Celery
-celerybeat-schedule
-celerybeat.pid
-
-# SageMath parsed files
-*.sage.py
 
 # Spyder project settings
 .spyderproject
@@ -131,33 +160,440 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Local development files
-local_settings.py
-.local
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# ============================================================================
+# NODE.JS & JAVASCRIPT
+# ============================================================================
+# Logs
+logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# nyc test coverage
+.nyc_output
+
+# Grunt intermediate storage
+.grunt
+
+# Bower dependency directory
+bower_components
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons
+build/Release
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Snowpack dependency directory
+web_modules/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional stylelint cache
+.stylelintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache
+.cache
+.parcel-cache
+
+# Next.js build output
+.next
+out
+
+# Nuxt.js build / generate output
+.nuxt
+dist
+
+# Gatsby files
+.cache/
+public
+
+# Storybook build outputs
+.out
+.storybook-out
+storybook-static
+
+# Temporary folders
+tmp/
+temp/
+
+# ============================================================================
+# DOCKER & CONTAINERS
+# ============================================================================
+# Docker
+Dockerfile.local
+docker-compose.override.yml
+docker-compose.local.yml
+.dockerignore.local
+
+# Container logs
+*.container.log
+
+# ============================================================================
+# DATABASES
+# ============================================================================
+# SQLite
+*.sqlite
+*.sqlite3
+*.db
+
+# PostgreSQL
+*.sql.backup
+*.dump
+*.pg_dump
+
+# Database connection files
+database.ini
+db_config.ini
+
+# ============================================================================
+# LOGS & MONITORING
+# ============================================================================
+# Application logs
+logs/
+*.log
+*.log.*
+log/
+temp_logs/
+
+# Monitoring and metrics
+metrics/
+monitoring/
+*.metrics
+
+# Error reports
+error_reports/
+crash_reports/
+
+# ============================================================================
+# CLOUD & DEPLOYMENT
+# ============================================================================
+# Render deployment
+render.yaml.local
+.render/
+
+# AWS
+.aws/
+aws-config/
+*.pem
+
+# Google Cloud
+.gcloud/
+gcloud-config/
+service-account.json
+*.json.key
+
+# Azure
+.azure/
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfvars
+*.auto.tfvars
+
+# Kubernetes
+*.kubeconfig
+kube-config/
+
+# ============================================================================
+# IDE & EDITORS
+# ============================================================================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ============================================================================
+# OPERATING SYSTEM
+# ============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================================================
+# DEVELOPMENT & TESTING
+# ============================================================================
+# Test files
+test_results/
+test_reports/
+*.test.log
+coverage_reports/
+
+# Temporary development files
+scratch/
+playground/
+experiments/
+dev_notes/
+TODO.md
+NOTES.md
 
 # Backup files
 *.bak
 *.backup
 *.old
+*.orig
+*~
 
-# Security - Never commit credentials
-**/RENDER_ENVIRONMENT_VARIABLES.md
-**/*credentials*
-**/*secrets*
-**/*password*
-**/config/*production*
-**/.env.render
-**/production.env
+# ============================================================================
+# PROJECT SPECIFIC
+# ============================================================================
+# BHIV HR Platform specific ignores
 
-# Temporary documentation files
-temp_reports/
-**/comprehensive_portal_exploration_*.md
-**/configuration_validation_report.md
-**/database_url_verification_report.md
-**/security_audit_report.md
-**/security_configuration_report.md
-**/*_FIX_SUMMARY.md
+# Resume files (keep sample structure but ignore actual files)
+assets/resumes/*.pdf
+assets/resumes/*.docx
+assets/resumes/*.doc
+assets/resumes/*.txt
+!assets/resumes/README.md
 
-# Analysis and report files (keep in repo for now)
-# codebase_analysis_report.json
-# documentation_update_report.json
+# Candidate data (sensitive)
+data/candidates_real.csv
+data/production_data/
+data/exports/
+data/backups/
+
+# Generated reports
+reports/generated/
+temp_reports/generated_*
+*.report.json
+*.report.csv
+
+# Portal session data
+portal_sessions/
+streamlit_sessions/
+
+# AI model cache
+models/cache/
+semantic_cache/
+*.model
+*.pkl
+*.joblib
+
+# Database dumps and backups
+*.sql.gz
+database_backups/
+db_exports/
+
+# Configuration overrides
+config/local/
+config/override/
+local_config/
+
+# Deployment artifacts
+deployment/artifacts/
+deployment/builds/
+deployment/releases/
+
+# Monitoring data
+monitoring_data/
+metrics_data/
+performance_logs/
+
+# Security scan results
+security_reports/
+vulnerability_scans/
+
+# Client-specific data
+client_data/
+client_exports/
+client_reports/
+
+# ============================================================================
+# CACHE & TEMPORARY FILES
+# ============================================================================
+# General cache
+cache/
+.cache/
+*.cache
+
+# Temporary files
+tmp/
+temp/
+temporary/
+*.tmp
+*.temp
+
+# Lock files
+*.lock
+.lock
+
+# ============================================================================
+# DOCUMENTATION BUILD
+# ============================================================================
+# Generated documentation
+docs/build/
+docs/generated/
+site/
+_site/
+
+# ============================================================================
+# MISCELLANEOUS
+# ============================================================================
+# Compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Archives
+archives/
+old_versions/
+
+# Patches
+*.patch
+*.diff
+
+# Editor swap files
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store?
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# ============================================================================
+# KEEP THESE FILES (Negative patterns)
+# ============================================================================
+# Keep important configuration templates
+!.env.example
+!config/.env.example
+!docker-compose.example.yml
+
+# Keep documentation
+!docs/
+!README.md
+!*.md
+
+# Keep sample data structure
+!data/README.md
+!assets/README.md
+
+# Keep deployment templates
+!deployment/docker/
+!deployment/scripts/
+!deployment/README.md
+
+# Keep test structure
+!tests/
+!tests/README.md
+
+# Keep essential configuration
+!requirements.txt
+!Dockerfile
+!docker-compose.yml
+!docker-compose.production.yml
+
+# ============================================================================
+# END OF .gitignore
+# ============================================================================

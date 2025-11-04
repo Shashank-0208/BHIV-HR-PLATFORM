@@ -1,21 +1,22 @@
 # 📁 BHIV HR Platform - Complete Project Structure
 
-**Updated**: October 2025  
-**Architecture**: Microservices (5 Services + Database)  
+**Updated**: November 4, 2025  
+**Architecture**: Microservices (6 Services: 5 Application + 1 Database)  
 **Status**: ✅ Production Ready (99.9% Uptime)  
-**Deployment**: Live on Render + Local Development
+**Deployment**: Live on Render + Local Development with Docker Compose
 
 ---
 
 ## 🏗️ Project Overview
 
 ### **System Architecture**
-- **Microservices**: 5 independent services
-- **Database**: PostgreSQL 17 with Schema v4.1.0 (12 core tables)
-- **Authentication**: Triple-layer (API Key + Client JWT + Candidate JWT)
-- **AI Engine**: Phase 3 semantic matching
-- **Deployment**: Production on Render + Local Docker
-- **Total Endpoints**: 61 (55 Gateway + 6 Agent)
+- **Microservices**: 6 services (5 application + 1 database)
+- **Database**: PostgreSQL 17 with Schema v4.2.0 (13 core tables)
+- **Authentication**: Triple-layer (API Key + Client JWT + Candidate JWT) with 2FA
+- **AI Engine**: Phase 3 semantic matching with learning capabilities
+- **Deployment**: Production on Render + Local Docker Compose
+- **Total Endpoints**: 85 (79 Gateway + 6 Agent)
+- **Security**: CSP policies, rate limiting, input validation, audit logging
 
 ---
 

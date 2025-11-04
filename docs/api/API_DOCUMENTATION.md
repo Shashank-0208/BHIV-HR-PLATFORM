@@ -1,8 +1,8 @@
 # 📚 BHIV HR Platform - Complete API Documentation
 
-**Updated**: October 2025  
+**Updated**: November 4, 2025  
 **API Version**: v3.1.0  
-**Total Endpoints**: 61 (55 Gateway + 6 Agent)  
+**Total Endpoints**: 85 (79 Gateway + 6 Agent)  
 **Status**: ✅ All Endpoints Operational (99.9% Uptime)
 
 ---
@@ -40,7 +40,7 @@ All API responses follow a consistent JSON format:
 
 ---
 
-## 🚀 Gateway Service API (55 Endpoints)
+## 🚀 Gateway Service API (79 Endpoints)
 
 ### **Core API Endpoints (3)**
 
@@ -1056,8 +1056,8 @@ fetch(`${BASE_URL}/v1/match/1/top`, { headers })
 
 ---
 
-**BHIV HR Platform API Documentation** - Complete API reference with 61 endpoints, triple authentication, and comprehensive examples.
+**BHIV HR Platform API Documentation** - Complete API reference with 85 endpoints, triple authentication, and comprehensive examples.
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: October 2025 | **API Version**: v3.1.0 | **Endpoints**: 61 Total | **Status**: ✅ All Operational
+**Last Updated**: November 4, 2025 | **API Version**: v3.1.0 | **Endpoints**: 85 Total | **Status**: ✅ All Operational

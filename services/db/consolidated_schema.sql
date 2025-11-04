@@ -1,7 +1,7 @@
 -- BHIV HR Platform - Consolidated Database Schema
 -- Complete unified schema with Phase 3 learning engine
--- Version: 4.1.0 - Production Ready with Phase 3 Features
--- Generated: January 2025
+-- Version: 4.2.0 - Production Ready with Phase 3 Features
+-- Generated: November 4, 2025
 
 -- Enable required PostgreSQL extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -407,7 +407,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 );
 
 INSERT INTO schema_version (version, description) VALUES 
-('4.2.0', 'Production schema with job_applications table and client auth fixes'),
+('4.2.0', 'Production schema with job_applications table and client auth fixes - November 4, 2025'),
 ('4.1.0', 'Production consolidated schema with Phase 3 learning engine'),
 ('4.0.1', 'Fixed schema - removed invalid generated column update'),
 ('3.0.0', 'Phase 3 - Learning engine and enhanced batch processing')

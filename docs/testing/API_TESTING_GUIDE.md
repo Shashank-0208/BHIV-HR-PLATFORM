@@ -1,6 +1,6 @@
 # 🧪 BHIV HR Platform - API Testing Guide
 
-**Complete testing guide for 62 endpoints (56 Gateway + 6 Agent)**
+**Complete testing guide for 85 endpoints (79 Gateway + 6 Agent)**
 
 ## 🔑 Authentication Requirements
 
@@ -17,7 +17,7 @@ Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 
 ---
 
-## 🌐 Gateway Service (55 Endpoints)
+## 🌐 Gateway Service (79 Endpoints)
 
 ### **Core API (3 endpoints)**
 
@@ -773,7 +773,7 @@ print(f"Jobs: {response.json()}")
 
 ---
 
-**Total Endpoints Tested**: 62 (56 Gateway + 6 Agent)
+**Total Endpoints Tested**: 85 (79 Gateway + 6 Agent)
 **Authentication**: Bearer Token Required
 **Production Status**: ✅ All Services Operational
-**Last Updated**: October 23, 2025
+**Last Updated**: November 4, 2025
