@@ -46,8 +46,8 @@ security = HTTPBearer()
 
 app = FastAPI(
     title="BHIV HR Platform API Gateway",
-    version="3.1.0",
-    description="Enterprise HR Platform with Advanced Security Features"
+    version="4.2.0",
+    description="Enterprise HR Platform with Advanced Security Features - 79 Endpoints"
 )
 
 app.add_middleware(
@@ -330,12 +330,12 @@ def read_root():
     """API Root Information"""
     return {
         "message": "BHIV HR Platform API Gateway",
-        "version": "3.1.0",
+        "version": "4.2.0",
         "status": "healthy",
         "endpoints": len(app.routes),
         "documentation": "/docs",
         "monitoring": "/metrics",
-        "live_demo": "https://bhiv-platform.aws.example.com"
+        "production_url": "https://bhiv-hr-gateway-ltg0.onrender.com"
     }
 
 @app.get("/health", tags=["Core API Endpoints"])
@@ -351,7 +351,7 @@ def health_check(response: Response):
     return {
         "status": "healthy",
         "service": "BHIV HR Gateway",
-        "version": "3.1.0",
+        "version": "4.2.0",
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
