@@ -675,10 +675,10 @@ async def get_top_matches(job_id: int, limit: int = 10, api_key: str = Depends(g
         agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-nhgg.onrender.com")
         
         # Call agent service for AI matching
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient(timeout=60.0) as client:
             response = await client.post(
                 f"{agent_url}/match",
-                json={"job_id": job_id},
+                json={"job_id": job_id, "candidate_ids": []},
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {os.getenv('API_KEY_SECRET', 'prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o')}"
@@ -728,19 +728,42 @@ async def fallback_matching(job_id: int, limit: int):
     try:
         engine = get_db_engine()
         with engine.connect() as connection:
-            query = text("SELECT id, name, email, technical_skills FROM candidates LIMIT :limit")
+            # Get job requirements for better matching
+            job_query = text("SELECT requirements, location FROM jobs WHERE id = :job_id")
+            job_result = connection.execute(job_query, {"job_id": job_id})
+            job_data = job_result.fetchone()
+            job_requirements = (job_data[0] if job_data else "").lower()
+            job_location = job_data[1] if job_data else ""
+            
+            query = text("SELECT id, name, email, technical_skills, location FROM candidates LIMIT :limit")
             result = connection.execute(query, {"limit": limit})
-            matches = [{
-                "candidate_id": row[0],
-                "name": row[1],
-                "email": row[2],
-                "score": 75.0 + (row[0] % 20),  # Varied scores
-                "skills_match": row[3] or "",
-                "experience_match": "Database fallback",
-                "location_match": True,
-                "reasoning": "Fallback database matching",
-                "recommendation_strength": "Database Match"
-            } for row in result]
+            matches = []
+            
+            for i, row in enumerate(result):
+                candidate_skills = (row[3] or "").lower()
+                candidate_location = row[4] or ""
+                
+                # Basic skill matching
+                skill_match_count = sum(1 for skill in ['python', 'java', 'javascript'] 
+                                      if skill in candidate_skills and skill in job_requirements)
+                
+                # Location matching
+                location_match = job_location.lower() in candidate_location.lower() if job_location and candidate_location else False
+                
+                # Calculate score based on matches
+                base_score = 60 + (skill_match_count * 10) + (10 if location_match else 0) + (5 - i)
+                
+                matches.append({
+                    "candidate_id": row[0],
+                    "name": row[1],
+                    "email": row[2],
+                    "score": min(95, base_score),
+                    "skills_match": row[3] or "",
+                    "experience_match": f"Skills: {skill_match_count} matches",
+                    "location_match": location_match,
+                    "reasoning": f"Fallback matching: {skill_match_count} skill matches, location: {location_match}",
+                    "recommendation_strength": "Good Match" if base_score > 75 else "Fair Match"
+                })
         
         return {
             "matches": matches,
@@ -755,6 +778,42 @@ async def fallback_matching(job_id: int, limit: int):
         }
     except Exception as e:
         return {"matches": [], "job_id": job_id, "limit": limit, "error": str(e), "agent_status": "error"}
+
+async def batch_fallback_matching(job_ids: List[int]):
+    """Fallback batch matching when agent service is unavailable"""
+    try:
+        engine = get_db_engine()
+        with engine.connect() as connection:
+            query = text("SELECT id, name, email, technical_skills FROM candidates LIMIT 5")
+            result = connection.execute(query)
+            candidates = list(result)
+            
+            batch_results = {}
+            for job_id in job_ids:
+                matches = []
+                for i, row in enumerate(candidates):
+                    matches.append({
+                        "candidate_id": row[0],
+                        "name": row[1],
+                        "score": 80 - (i * 5),
+                        "reasoning": f"Fallback batch matching - Job {job_id}"
+                    })
+                
+                batch_results[str(job_id)] = {
+                    "job_id": job_id,
+                    "matches": matches,
+                    "algorithm": "fallback-batch"
+                }
+            
+            return {
+                "batch_results": batch_results,
+                "total_jobs_processed": len(job_ids),
+                "total_candidates_analyzed": len(candidates),
+                "algorithm_version": "2.0.0-gateway-fallback-batch",
+                "status": "fallback_success"
+            }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Batch fallback failed: {str(e)}")
 
 @app.post("/v1/match/batch", tags=["AI Matching Engine"])
 async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_key)):
@@ -783,11 +842,13 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
             if response.status_code == 200:
                 return response.json()
             else:
-                raise HTTPException(status_code=response.status_code, detail="Agent service error")
+                # Fallback to database batch matching
+                return await batch_fallback_matching(job_ids)
                 
     except Exception as e:
         log_error("batch_matching_error", str(e), {"job_ids": job_ids})
-        raise HTTPException(status_code=500, detail=f"Batch matching failed: {str(e)}")
+        # Fallback to database batch matching
+        return await batch_fallback_matching(job_ids)
 
 # Assessment & Workflow (5 endpoints)
 @app.post("/v1/feedback", tags=["Assessment & Workflow"])
