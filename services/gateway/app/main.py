@@ -770,7 +770,7 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
         agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-nhgg.onrender.com")
         
         # Call agent service for batch AI matching
-        async with httpx.AsyncClient(timeout=60.0) as client:
+        async with httpx.AsyncClient(timeout=120.0) as client:
             response = await client.post(
                 f"{agent_url}/batch-match",
                 json={"job_ids": job_ids},
