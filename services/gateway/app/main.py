@@ -747,6 +747,7 @@ async def fallback_matching(job_id: int, limit: int):
             "top_candidates": matches,
             "job_id": job_id,
             "limit": limit,
+            "total_candidates": len(matches),
             "algorithm_version": "2.0.0-gateway-fallback",
             "processing_time": "0.05s",
             "ai_analysis": "Database fallback - Agent service unavailable",
