@@ -60,13 +60,13 @@ def check_client_database_tables():
         return False
 
 def test_client_authentication():
-    """Test client authentication with TECH001 credentials"""
+    """Test client authentication with <DEMO_USERNAME> credentials"""
     print("\nTesting Client Authentication...")
     
     try:
         login_data = {
-            "client_id": "TECH001",
-            "password": "demo123"
+            "client_id": "<DEMO_USERNAME>",
+            "password": "<DEMO_PASSWORD>"
         }
         
         response = requests.post(
@@ -103,7 +103,7 @@ def test_client_authentication():
         return None, None
 
 def verify_client_in_database():
-    """Verify TECH001 client data in database"""
+    """Verify <DEMO_USERNAME> client data in database"""
     print("\nVerifying Client Data in Database...")
     
     try:
@@ -113,7 +113,7 @@ def verify_client_in_database():
         cursor.execute("""
             SELECT client_id, company_name, email, status, 
                    two_factor_enabled, created_at
-            FROM clients WHERE client_id = 'TECH001'
+            FROM clients WHERE client_id = '<DEMO_USERNAME>'
         """)
         
         result = cursor.fetchone()
@@ -131,7 +131,7 @@ def verify_client_in_database():
             conn.close()
             return True
         else:
-            print("FAILED: TECH001 client not found in database")
+            print("FAILED: <DEMO_USERNAME> client not found in database")
             cursor.close()
             conn.close()
             return False

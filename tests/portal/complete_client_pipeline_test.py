@@ -19,8 +19,8 @@ def test_step_1_client_authentication():
     
     try:
         login_data = {
-            "client_id": "TECH001",
-            "password": "demo123"
+            "client_id": "<DEMO_USERNAME>",
+            "password": "<DEMO_PASSWORD>"
         }
         
         response = requests.post(
@@ -84,10 +84,10 @@ def test_step_2_job_management(token):
                     print(f"     Client ID: {job.get('client_id', 'N/A')}")
                     
                     # Track jobs for this client
-                    if job.get('client_id') == 'TECH001':
+                    if job.get('client_id') == '<DEMO_USERNAME>':
                         client_jobs.append(job)
                 
-                print(f"\nJobs belonging to TECH001: {len(client_jobs)}")
+                print(f"\nJobs belonging to <DEMO_USERNAME>: {len(client_jobs)}")
                 return jobs, client_jobs
             else:
                 print("No jobs available")
@@ -267,11 +267,11 @@ def verify_client_pipeline_in_database():
         conn = psycopg2.connect(DATABASE_URL)
         cursor = conn.cursor()
         
-        # Verify TECH001 client data
+        # Verify <DEMO_USERNAME> client data
         cursor.execute("""
             SELECT client_id, company_name, email, status, 
                    two_factor_enabled, created_at
-            FROM clients WHERE client_id = 'TECH001'
+            FROM clients WHERE client_id = '<DEMO_USERNAME>'
         """)
         
         client_result = cursor.fetchone()
@@ -287,11 +287,11 @@ def verify_client_pipeline_in_database():
         
         # Verify jobs for this client
         cursor.execute("""
-            SELECT COUNT(*) FROM jobs WHERE client_id = 'TECH001'
+            SELECT COUNT(*) FROM jobs WHERE client_id = '<DEMO_USERNAME>'
         """)
         
         client_jobs_count = cursor.fetchone()[0]
-        print(f"\nJobs for TECH001: {client_jobs_count}")
+        print(f"\nJobs for <DEMO_USERNAME>: {client_jobs_count}")
         
         # Verify feedback records
         cursor.execute("""
@@ -374,7 +374,7 @@ def main():
     
     if passed >= 5:  # Allow some flexibility
         print("\nCLIENT PORTAL PIPELINE: SUCCESS!")
-        print("- Client authentication is working with TECH001 credentials")
+        print("- Client authentication is working with <DEMO_USERNAME> credentials")
         print("- Job management functionality is operational")
         print("- Candidate review system is functional")
         print("- AI matching engine is working")

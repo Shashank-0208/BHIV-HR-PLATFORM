@@ -14,13 +14,13 @@ class Config:
         # API Authentication
         self.API_KEY = os.getenv(
             "API_KEY", 
-            "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+            "<YOUR_API_KEY>"
         )
         
         # JWT Configuration for candidate authentication
         self.JWT_SECRET = os.getenv(
             "JWT_SECRET", 
-            "candidate_jwt_secret_key_2025"
+            "<YOUR_CANDIDATE_JWT_SECRET>"
         )
         
         # Database Configuration (if needed for direct access)

@@ -15,7 +15,7 @@ class BHIVEndpointTester:
     def __init__(self):
         self.gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
         self.agent_url = "https://bhiv-hr-agent-nhgg.onrender.com"
-        self.api_key = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+        self.api_key = "<YOUR_API_KEY>"
         self.headers = {"Authorization": f"Bearer {self.api_key}"}
         self.results = []
         
@@ -179,8 +179,8 @@ class BHIVEndpointTester:
         
         # Client Portal API (1)
         client_login = {
-            "client_id": "TECH001",
-            "password": "demo123"
+            "client_id": "<DEMO_USERNAME>",
+            "password": "<DEMO_PASSWORD>"
         }
         self.test_endpoint("Gateway", "/v1/client/login", "POST", client_login)
         

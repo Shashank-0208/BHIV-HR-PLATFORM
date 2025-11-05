@@ -5,7 +5,7 @@ import time
 # Test configuration
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
 AGENT_URL = "https://bhiv-hr-agent-nhgg.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 def test_endpoint(name, url, method="GET", data=None, timeout=30):
@@ -60,7 +60,7 @@ def main():
         ("Database Schema", f"{BASE_URL}/v1/database/schema"),
         ("Agent Service Health", f"{AGENT_URL}/health"),
         ("AI Matching (Critical Test)", f"{BASE_URL}/v1/match/1/top"),
-        ("Client Login", f"{BASE_URL}/v1/client/login", "POST", {"client_id": "TECH001", "password": "demo123"}),
+        ("Client Login", f"{BASE_URL}/v1/client/login", "POST", {"client_id": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"}),
         ("Jobs List", f"{BASE_URL}/v1/jobs"),
         ("Candidates List", f"{BASE_URL}/v1/candidates")
     ]

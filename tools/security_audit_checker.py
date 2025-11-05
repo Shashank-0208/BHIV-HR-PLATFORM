@@ -21,7 +21,7 @@ class SecurityAuditChecker:
         }
         
         # Expected API key
-        self.expected_api_key = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+        self.expected_api_key = "<YOUR_API_KEY>"
         
         # Files to check
         self.files_to_check = [

@@ -289,7 +289,7 @@ def get_db_engine():
     )
 
 def validate_api_key(api_key: str) -> bool:
-    expected_key = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
+    expected_key = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
     return api_key == expected_key
 
 def get_api_key(credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -308,7 +308,7 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET", "fallback_jwt_secret_key_for_client_auth_2025")
+        jwt_secret = os.getenv("JWT_SECRET", "<YOUR_JWT_SECRET>")
         payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
@@ -316,7 +316,7 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try candidate JWT token
     try:
-        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "candidate_jwt_secret_key_2025")
+        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "<YOUR_CANDIDATE_JWT_SECRET>")
         payload = jwt.decode(credentials.credentials, candidate_jwt_secret, algorithms=["HS256"])
         return {"type": "candidate_token", "candidate_id": payload.get("candidate_id")}
     except:
@@ -681,7 +681,7 @@ async def get_top_matches(job_id: int, limit: int = 10, api_key: str = Depends(g
                 json={"job_id": job_id, "candidate_ids": []},
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {os.getenv('API_KEY_SECRET', 'prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o')}"
+                    "Authorization": f"Bearer {os.getenv('API_KEY_SECRET', '<YOUR_API_KEY>')}"
                 }
             )
             
@@ -872,7 +872,7 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
                 json={"job_ids": job_ids},
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {os.getenv('API_KEY_SECRET', 'prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o')}"
+                    "Authorization": f"Bearer {os.getenv('API_KEY_SECRET', '<YOUR_API_KEY>')}"
                 }
             )
             
@@ -1326,12 +1326,12 @@ async def client_login(login_data: ClientLogin):
                     
                     return {"success": False, "error": "Invalid credentials"}
             else:
-                # For demo purposes, accept demo123 for clients without password hash
-                if login_data.password != "demo123":
+                # For demo purposes, accept <DEMO_PASSWORD> for clients without password hash
+                if login_data.password != "<DEMO_PASSWORD>":
                     return {"success": False, "error": "Invalid credentials"}
             
             # Generate JWT token
-            jwt_secret = os.getenv("JWT_SECRET", "fallback_jwt_secret_key_for_client_auth_2025")
+            jwt_secret = os.getenv("JWT_SECRET", "<YOUR_JWT_SECRET>")
             token_payload = {
                 "client_id": client[0],
                 "company_name": client[1],
@@ -2288,7 +2288,7 @@ async def candidate_login(login_data: CandidateLogin):
             # If no password hash exists, accept any password (for existing test data)
             
             # Generate JWT token
-            jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "candidate_jwt_secret_key_2025")
+            jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "<YOUR_CANDIDATE_JWT_SECRET>")
             token_payload = {
                 "candidate_id": candidate[0],
                 "email": candidate[2],

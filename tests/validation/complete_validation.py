@@ -3,7 +3,7 @@ import json
 
 def complete_validation():
     base_url = "https://bhiv-hr-agent-nhgg.onrender.com"
-    headers = {"Authorization": "Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"}
+    headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
     
     print("AI Agent Service - Complete Validation")
     print("=" * 50)

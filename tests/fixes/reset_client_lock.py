@@ -23,7 +23,7 @@ def reset_client_lock():
             UPDATE clients 
             SET failed_login_attempts = 0, locked_until = NULL
             WHERE client_id = %s
-        """, ("TECH001",))
+        """, ("<DEMO_USERNAME>",))
         
         conn.commit()
         
@@ -31,7 +31,7 @@ def reset_client_lock():
         cursor.execute("""
             SELECT client_id, failed_login_attempts, locked_until, status
             FROM clients WHERE client_id = %s
-        """, ("TECH001",))
+        """, ("<DEMO_USERNAME>",))
         
         client = cursor.fetchone()
         

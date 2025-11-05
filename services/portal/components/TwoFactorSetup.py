@@ -17,7 +17,7 @@ def show_2fa_setup():
             # Call Gateway auth endpoint
             api_base = "http://localhost:8000"  # Local development
             headers = {
-                "Authorization": f"Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o",
+                "Authorization": f"Bearer <YOUR_API_KEY>",
                 "Content-Type": "application/json"
             }
             

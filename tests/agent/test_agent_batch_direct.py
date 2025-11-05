@@ -3,7 +3,7 @@ import json
 
 def test_agent_batch_direct():
     agent_url = "https://bhiv-hr-agent-nhgg.onrender.com"
-    headers = {"Authorization": "Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"}
+    headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
     
     print("Testing Agent Service Batch Endpoint Directly")
     print("=" * 55)

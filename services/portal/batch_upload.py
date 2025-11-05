@@ -218,7 +218,7 @@ def trigger_resume_processing():
     import os
     
     API_BASE = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
-    API_KEY = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
+    API_KEY = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
     headers = {"Authorization": f"Bearer {API_KEY}"}
     
     with st.spinner("Processing resumes and uploading to database..."):

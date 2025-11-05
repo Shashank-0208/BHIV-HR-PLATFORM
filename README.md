@@ -18,8 +18,8 @@
 ### **🔑 Demo Access**
 ```bash
 # Client Portal Login
-Username: TECH001
-Password: demo123
+Username: <DEMO_USERNAME>
+Password: <DEMO_PASSWORD>
 
 # API Testing
 API Key: <YOUR_API_KEY>
@@ -60,7 +60,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 # Live Platform - No Setup Required
 HR Portal: bhiv-hr-portal-u670.onrender.com/
 Client Portal: bhiv-hr-client-portal-3iod.onrender.com/
-Credentials: TECH001 / demo123
+Credentials: <DEMO_USERNAME> / <DEMO_PASSWORD>
 
 # Local Development - Docker Required
 git clone https://github.com/shashankmishraa/BHIV-HR-Platform.git

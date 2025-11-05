@@ -12,7 +12,7 @@ from typing import Dict, Any
 
 # Configuration
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}",
@@ -165,8 +165,8 @@ def main():
             "category": "Client 2FA",
             "description": "Setup 2FA for client",
             "test_data": {
-                "client_id": "TECH001",
-                "email": "client@tech001.com"
+                "client_id": "<DEMO_USERNAME>",
+                "email": "client@<DEMO_USERNAME>.com"
             }
         },
         {
@@ -176,7 +176,7 @@ def main():
             "category": "Client 2FA",
             "description": "Verify 2FA setup for client",
             "test_data": {
-                "client_id": "TECH001",
+                "client_id": "<DEMO_USERNAME>",
                 "token": "123456"
             }
         },
@@ -187,17 +187,17 @@ def main():
             "category": "Client 2FA",
             "description": "Client login with 2FA",
             "test_data": {
-                "client_code": "TECH001",
-                "password": "demo123",
+                "client_code": "<DEMO_USERNAME>",
+                "password": "<DEMO_PASSWORD>",
                 "token": "123456"
             }
         },
         {
             "name": "Get Client 2FA Status",
-            "endpoint": "/v1/2fa/status/TECH001",
+            "endpoint": "/v1/2fa/status/<DEMO_USERNAME>",
             "method": "GET",
             "category": "Client 2FA",
-            "description": "Get 2FA status for client TECH001"
+            "description": "Get 2FA status for client <DEMO_USERNAME>"
         },
         {
             "name": "Disable Client 2FA",
@@ -206,8 +206,8 @@ def main():
             "category": "Client 2FA",
             "description": "Disable 2FA for client",
             "test_data": {
-                "client_id": "TECH001",
-                "password": "demo123"
+                "client_id": "<DEMO_USERNAME>",
+                "password": "<DEMO_PASSWORD>"
             }
         },
         {
@@ -217,15 +217,15 @@ def main():
             "category": "Client 2FA",
             "description": "Regenerate backup codes for client",
             "test_data": {
-                "client_id": "TECH001"
+                "client_id": "<DEMO_USERNAME>"
             }
         },
         {
             "name": "Test Client 2FA Token",
-            "endpoint": "/v1/2fa/test-token/TECH001/123456",
+            "endpoint": "/v1/2fa/test-token/<DEMO_USERNAME>/123456",
             "method": "GET",
             "category": "Client 2FA",
-            "description": "Test 2FA token for client TECH001"
+            "description": "Test 2FA token for client <DEMO_USERNAME>"
         },
         {
             "name": "Demo 2FA Setup",
@@ -480,8 +480,8 @@ def generate_markdown_report(results):
     report += f'  -H "Authorization: Bearer {API_KEY}" \\\n'
     report += '  -H "Content-Type: application/json" \\\n'
     report += '  -d {\n'
-    report += '    "client_id": "TECH001",\n'
-    report += '    "email": "admin@tech001.com"\n'
+    report += '    "client_id": "<DEMO_USERNAME>",\n'
+    report += '    "email": "admin@<DEMO_USERNAME>.com"\n'
     report += '  }\n'
     report += "```\n\n"
     

@@ -12,7 +12,7 @@ from datetime import datetime
 # Configuration
 GATEWAY_URL = "http://localhost:8000"  # Local development
 # GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"  # Production
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 
 def make_request(endpoint, method="GET", data=None, token=None):
     """Make API request with proper headers"""

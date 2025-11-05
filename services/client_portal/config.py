@@ -24,11 +24,11 @@ __status__ = "Production Ready - Database Fixed"
 # API Configuration - LOCAL DEVELOPMENT
 # Local: Use localhost for development, production URLs for deployment
 API_BASE_URL = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
-API_KEY = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
+API_KEY = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
 
 # Set required environment variables for auth service
 os.environ.setdefault("DATABASE_URL", "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl")
-os.environ.setdefault("JWT_SECRET", "fallback_jwt_secret_key_for_client_auth_2025")
+os.environ.setdefault("JWT_SECRET", "<YOUR_JWT_SECRET>")
 
 headers = {
     "Authorization": f"Bearer {API_KEY}",
@@ -39,7 +39,7 @@ headers = {
 if not os.getenv("DATABASE_URL"):
     os.environ["DATABASE_URL"] = "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
 if not os.getenv("JWT_SECRET"):
-    os.environ["JWT_SECRET"] = "fallback_jwt_secret_key_for_client_auth_2025"
+    os.environ["JWT_SECRET"] = "<YOUR_JWT_SECRET>"
 
 # Configure session with retry strategy and timeouts
 def create_session():
@@ -84,8 +84,8 @@ CLIENT_PORTAL_CONFIG = {
         "Real-time Sync with HR Portal"
     ],
     "demo_credentials": {
-        "username": "TECH001",
-        "password": "demo123"
+        "username": "<DEMO_USERNAME>",
+        "password": "<DEMO_PASSWORD>"
     },
     "status": __status__,
     "updated": __updated__

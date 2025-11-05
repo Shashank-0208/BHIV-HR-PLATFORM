@@ -12,7 +12,7 @@ from typing import Dict, Any
 
 # Configuration
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}",
@@ -121,8 +121,8 @@ def main():
             "category": "Client Portal",
             "description": "Authenticate client and get access token",
             "test_data": {
-                "client_code": "TECH001",
-                "password": "demo123"
+                "client_code": "<DEMO_USERNAME>",
+                "password": "<DEMO_PASSWORD>"
             }
         }
     ]
@@ -340,8 +340,8 @@ def generate_markdown_report(results):
     report += f'  -H "Authorization: Bearer {API_KEY}" \\\n'
     report += '  -H "Content-Type: application/json" \\\n'
     report += '  -d {\n'
-    report += '    "client_code": "TECH001",\n'
-    report += '    "password": "demo123"\n'
+    report += '    "client_code": "<DEMO_USERNAME>",\n'
+    report += '    "password": "<DEMO_PASSWORD>"\n'
     report += '  }\n'
     report += "```\n\n"
     

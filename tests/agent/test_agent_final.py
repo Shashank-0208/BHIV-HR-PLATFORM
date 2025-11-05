@@ -3,7 +3,7 @@ import json
 
 def test_agent_final():
     base_url = "https://bhiv-hr-agent-nhgg.onrender.com"
-    headers = {"Authorization": "Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"}
+    headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
     
     print("BHIV AI Agent Service - Final Test Results")
     print("=" * 50)

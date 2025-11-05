@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 
 def test_endpoint(endpoint, auth_required=True):
     url = f"{BASE_URL}{endpoint}"

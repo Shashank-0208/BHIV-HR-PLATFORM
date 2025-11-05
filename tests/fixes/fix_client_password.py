@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Fix client password hash for TECH001
+Fix client password hash for <DEMO_USERNAME>
 """
 
 import psycopg2
@@ -18,8 +18,8 @@ def fix_client_password():
         conn = psycopg2.connect(DATABASE_URL)
         cursor = conn.cursor()
         
-        # Generate proper password hash for "demo123"
-        password = "demo123"
+        # Generate proper password hash for "<DEMO_PASSWORD>"
+        password = "<DEMO_PASSWORD>"
         password_hash = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         
         print(f"Generated hash for '{password}': {password_hash[:50]}...")
@@ -29,7 +29,7 @@ def fix_client_password():
             UPDATE clients 
             SET password_hash = %s
             WHERE client_id = %s
-        """, (password_hash, "TECH001"))
+        """, (password_hash, "<DEMO_USERNAME>"))
         
         conn.commit()
         
@@ -37,7 +37,7 @@ def fix_client_password():
         cursor.execute("""
             SELECT client_id, password_hash
             FROM clients WHERE client_id = %s
-        """, ("TECH001",))
+        """, ("<DEMO_USERNAME>",))
         
         client = cursor.fetchone()
         

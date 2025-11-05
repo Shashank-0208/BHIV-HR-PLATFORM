@@ -5,7 +5,7 @@ import json
 def check_clients_table():
     url = "https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema"
     headers = {
-        "Authorization": "Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+        "Authorization": "Bearer <YOUR_API_KEY>"
     }
     
     response = requests.get(url, headers=headers)
@@ -28,7 +28,7 @@ def test_clients_columns():
     # Test if missing columns exist by trying to use them
     url = "https://bhiv-hr-gateway-ltg0.onrender.com/v1/client/login"
     headers = {"Content-Type": "application/json"}
-    data = {"client_id": "TECH001", "password": "demo123"}
+    data = {"client_id": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"}
     
     response = requests.post(url, headers=headers, json=data)
     result = response.json()
@@ -49,7 +49,7 @@ def test_ai_matching():
     
     url = "https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top"
     headers = {
-        "Authorization": "Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+        "Authorization": "Bearer <YOUR_API_KEY>"
     }
     
     response = requests.get(url, headers=headers)

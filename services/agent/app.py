@@ -49,7 +49,7 @@ security = HTTPBearer()
 
 def validate_api_key(api_key: str) -> bool:
     """Validate API key against environment variable"""
-    expected_key = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
+    expected_key = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
     return api_key == expected_key
 
 def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -63,7 +63,7 @@ def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(securit
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET", "fallback_jwt_secret_key_for_client_auth_2025")
+        jwt_secret = os.getenv("JWT_SECRET", "<YOUR_JWT_SECRET>")
         payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
@@ -71,7 +71,7 @@ def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(securit
     
     # Try candidate JWT token
     try:
-        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "candidate_jwt_secret_key_2025")
+        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "<YOUR_CANDIDATE_JWT_SECRET>")
         payload = jwt.decode(credentials.credentials, candidate_jwt_secret, algorithms=["HS256"])
         return {"type": "candidate_token", "candidate_id": payload.get("candidate_id")}
     except:

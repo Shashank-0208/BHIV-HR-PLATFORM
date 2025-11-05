@@ -3,7 +3,7 @@ import json
 
 # Test critical endpoints
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 print("BHIV HR Platform - Deployment Status Check")
@@ -38,7 +38,7 @@ except Exception as e:
 
 # Test 4: Client Login
 try:
-    login_data = {"username": "TECH001", "password": "demo123"}
+    login_data = {"username": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"}
     response = requests.post(f"{BASE_URL}/v1/client/login", headers=HEADERS, json=login_data, timeout=10)
     print(f"Client Login: {response.status_code} - {'OK' if response.status_code == 200 else 'FAILED'}")
     if response.status_code != 200:

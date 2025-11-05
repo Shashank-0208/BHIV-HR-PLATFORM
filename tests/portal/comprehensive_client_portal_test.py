@@ -14,7 +14,7 @@ import time
 DATABASE_URL = "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
 GATEWAY_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
 CLIENT_PORTAL_URL = "https://bhiv-hr-client-portal-3iod.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 
 def test_service_variables_and_config():
     """Test all variables from client portal service files"""
@@ -39,10 +39,10 @@ def test_service_variables_and_config():
     
     # Test auth service variables
     auth_vars = {
-        "jwt_secret": "fallback_jwt_secret_key_for_client_auth_2025",
+        "jwt_secret": "<YOUR_JWT_SECRET>",
         "jwt_algorithm": "HS256",
         "token_expiry_hours": 24,
-        "default_clients": ["TECH001", "STARTUP01"]
+        "default_clients": ["<DEMO_USERNAME>", "STARTUP01"]
     }
     
     print("\nAuth Service Variables from auth_service.py:")
@@ -175,10 +175,10 @@ def test_authentication_flow_from_service():
     print("\nTesting Authentication Flow from Service Code")
     print("-" * 50)
     
-    # Test TECH001 client (from auth_service.py default_clients)
+    # Test <DEMO_USERNAME> client (from auth_service.py default_clients)
     test_credentials = {
-        "client_id": "TECH001",
-        "password": "demo123"
+        "client_id": "<DEMO_USERNAME>",
+        "password": "<DEMO_PASSWORD>"
     }
     
     try:
@@ -244,7 +244,7 @@ def test_job_posting_functionality():
     # First authenticate
     auth_response = requests.post(
         f"{GATEWAY_URL}/v1/client/login",
-        json={"client_id": "TECH001", "password": "demo123"},
+        json={"client_id": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"},
         timeout=15
     )
     
@@ -264,7 +264,7 @@ def test_job_posting_functionality():
     job_data = {
         "title": "Test Client Portal Job",
         "description": "Test job posted through client portal testing",
-        "client_id": hash("TECH001") % 1000,  # As per app.py logic
+        "client_id": hash("<DEMO_USERNAME>") % 1000,  # As per app.py logic
         "requirements": "Testing skills, API integration, Database knowledge",
         "location": "Remote Testing",
         "department": "Engineering",
@@ -307,7 +307,7 @@ def test_candidate_review_functionality():
     # Authenticate first
     auth_response = requests.post(
         f"{GATEWAY_URL}/v1/client/login",
-        json={"client_id": "TECH001", "password": "demo123"},
+        json={"client_id": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"},
         timeout=15
     )
     
@@ -387,7 +387,7 @@ def test_reports_functionality():
     # Authenticate first
     auth_response = requests.post(
         f"{GATEWAY_URL}/v1/client/login",
-        json={"client_id": "TECH001", "password": "demo123"},
+        json={"client_id": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"},
         timeout=15
     )
     

@@ -3,7 +3,7 @@ import json
 
 # Quick fix for Agent service timeout by testing with a simpler request
 AGENT_URL = "https://bhiv-hr-agent-nhgg.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 
 print("BHIV HR Platform - Agent Service Quick Fix")
 print("=" * 50)

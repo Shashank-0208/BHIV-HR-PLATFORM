@@ -3,7 +3,7 @@ import json
 
 # API Configuration
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 def test_endpoint(endpoint, method="GET", data=None):
@@ -32,7 +32,7 @@ def main():
         ("/health", "GET"),
         ("/v1/database/schema", "GET"),
         ("/v1/match/1/top", "GET"),  # AI matching test
-        ("/v1/client/login", "POST", {"username": "TECH001", "password": "demo123"}),
+        ("/v1/client/login", "POST", {"username": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"}),
         ("/v1/candidates", "GET"),
         ("/v1/jobs", "GET")
     ]

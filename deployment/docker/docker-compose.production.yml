@@ -43,10 +43,10 @@ services:
       - "8000:8000"
     environment:
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
-      API_KEY_SECRET: ${API_KEY_SECRET:-prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o}
-      JWT_SECRET: ${JWT_SECRET:-prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA}
+      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
+      JWT_SECRET: ${JWT_SECRET:-<YOUR_JWT_SECRET>}
       AGENT_SERVICE_URL: http://agent:9000
-      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-candidate_jwt_secret_key_2025}
+      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
     volumes:
       - ../../services/gateway/logs:/app/logs
     depends_on:
@@ -69,9 +69,9 @@ services:
       - "9000:9000"
     environment:
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
-      API_KEY_SECRET: ${API_KEY_SECRET:-prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o}
-      JWT_SECRET: ${JWT_SECRET:-prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA}
-      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-candidate_jwt_secret_key_2025}
+      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
+      JWT_SECRET: ${JWT_SECRET:-<YOUR_JWT_SECRET>}
+      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
     depends_on:
       db:
         condition: service_healthy
@@ -92,8 +92,8 @@ services:
       - "8501:8501"
     environment:
       GATEWAY_URL: http://gateway:8000
-      API_KEY_SECRET: ${API_KEY_SECRET:-prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o}
-      JWT_SECRET: ${JWT_SECRET:-prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA}
+      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
+      JWT_SECRET: ${JWT_SECRET:-<YOUR_JWT_SECRET>}
     depends_on:
       gateway:
         condition: service_healthy
@@ -119,8 +119,8 @@ services:
       - "8502:8502"
     environment:
       GATEWAY_URL: http://gateway:8000
-      API_KEY_SECRET: ${API_KEY_SECRET:-prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o}
-      JWT_SECRET: ${JWT_SECRET:-prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA}
+      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
+      JWT_SECRET: ${JWT_SECRET:-<YOUR_JWT_SECRET>}
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
     depends_on:
       gateway:
@@ -147,8 +147,8 @@ services:
       - "8503:8503"
     environment:
       GATEWAY_URL: http://gateway:8000
-      API_KEY_SECRET: ${API_KEY_SECRET:-prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o}
-      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-candidate_jwt_secret_key_2025}
+      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
+      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
     depends_on:
       gateway:

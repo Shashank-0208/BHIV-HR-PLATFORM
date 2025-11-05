@@ -22,7 +22,7 @@ __status__ = "Production Ready - Database Fixed"
 # API Configuration - FIXED FOR PRODUCTION
 # Production: Use actual Render URLs, not Docker internal URLs
 API_BASE = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
-API_KEY = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
+API_KEY = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
 
 # HTTP Client Configuration with proper timeouts
 timeout_config = httpx.Timeout(

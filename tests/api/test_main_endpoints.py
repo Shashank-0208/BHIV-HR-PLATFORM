@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 
 def test_endpoint(endpoint, method="GET", data=None):
     url = f"{BASE_URL}{endpoint}"
@@ -413,11 +413,11 @@ def get_db_engine():
 ### Job Management
 ```bash
 # List all active jobs
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \\
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \\
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Create a new job posting
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \\
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \\
      -H "Content-Type: application/json" \\
      -d '{"title":"Senior Developer","department":"Engineering","location":"Remote","experience_level":"Senior","requirements":"Python, FastAPI, PostgreSQL","description":"Senior developer position"}' \\
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
@@ -426,26 +426,26 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 ### Candidate Management
 ```bash
 # Get all candidates with pagination
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \\
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \\
      "https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates?limit=20&offset=0"
 
 # Search candidates by skills and location
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \\
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \\
      "https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates/search?skills=python&location=remote"
 
 # Get specific candidate details
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \\
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \\
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates/1
 ```
 
 ### AI Matching Engine
 ```bash
 # Get top candidate matches for a job
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \\
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \\
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # Batch match multiple jobs
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \\
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \\
      -H "Content-Type: application/json" \\
      -d '[1,2,3]' \\
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/batch

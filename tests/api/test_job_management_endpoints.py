@@ -3,7 +3,7 @@ import json
 
 def test_job_management_endpoints():
     base_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
-    headers = {"Authorization": "Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"}
+    headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
     
     # Expected schemas based on Gateway code analysis
     endpoints = [

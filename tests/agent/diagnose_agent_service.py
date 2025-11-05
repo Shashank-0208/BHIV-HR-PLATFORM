@@ -11,7 +11,7 @@ from datetime import datetime
 
 # Configuration
 AGENT_URL = "https://bhiv-hr-agent-nhgg.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 HEADERS = {
     "Authorization": f"Bearer {API_KEY}",
     "Content-Type": "application/json"

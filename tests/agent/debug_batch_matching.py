@@ -4,7 +4,7 @@ import json
 def debug_batch_matching():
     agent_url = "https://bhiv-hr-agent-nhgg.onrender.com"
     gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
-    headers = {"Authorization": "Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"}
+    headers = {"Authorization": "Bearer <YOUR_API_KEY>"}
     
     print("Debugging Batch Matching Issue")
     print("=" * 50)

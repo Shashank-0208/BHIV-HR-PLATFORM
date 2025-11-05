@@ -68,7 +68,7 @@ class ConfigurationValidator:
                 ))
             
             # Check API key configuration
-            if "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" in content:
+            if "<YOUR_API_KEY>" in content:
                 api_key_status = "CORRECT"
             else:
                 api_key_status = "NEEDS_FIX"
@@ -137,7 +137,7 @@ class ConfigurationValidator:
                 "jwt_status": jwt_status,
                 "gateway_url": "https://bhiv-hr-gateway-ltg0.onrender.com",
                 "authentication": "JWT Token-based",
-                "demo_credentials": {"username": "TECH001", "password": "demo123"}
+                "demo_credentials": {"username": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"}
             }
             
         except Exception as e:
@@ -172,7 +172,7 @@ class ConfigurationValidator:
                 ))
             
             # Check API key consistency
-            if "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" in content:
+            if "<YOUR_API_KEY>" in content:
                 api_key_status = "CORRECT"
             else:
                 api_key_status = "NEEDS_FIX"
@@ -297,7 +297,7 @@ class ConfigurationValidator:
                     ))
                 
                 # Check for consistent API keys
-                if "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" in content:
+                if "<YOUR_API_KEY>" in content:
                     api_key_consistency = "CONSISTENT"
                 else:
                     api_key_consistency = "INCONSISTENT"
@@ -325,7 +325,7 @@ class ConfigurationValidator:
         
         # Check URL consistency across services
         expected_gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
-        expected_api_key = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+        expected_api_key = "<YOUR_API_KEY>"
         
         url_consistency = "CONSISTENT"
         api_key_consistency = "CONSISTENT"

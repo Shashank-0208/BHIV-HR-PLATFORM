@@ -66,7 +66,7 @@ def analyze_client_portal_structure(html_content):
         # Check for client portal keywords
         client_keywords = [
             'client', 'login', 'username', 'password', 'job', 'candidate',
-            'interview', 'feedback', 'offer', 'tech001', 'company', 'dashboard'
+            'interview', 'feedback', 'offer', '<DEMO_USERNAME>', 'company', 'dashboard'
         ]
         
         print(f"\nClient Portal Keywords Found:")
@@ -145,10 +145,10 @@ def test_client_authentication_flow():
     print("\nTesting Client Authentication Flow...")
     
     try:
-        # Test TECH001 login
+        # Test <DEMO_USERNAME> login
         login_data = {
-            "client_id": "TECH001",
-            "password": "demo123"
+            "client_id": "<DEMO_USERNAME>",
+            "password": "<DEMO_PASSWORD>"
         }
         
         response = requests.post(
@@ -201,7 +201,7 @@ def test_client_portal_features():
     print("\nTesting Client Portal Features...")
     
     # First authenticate
-    login_data = {"client_id": "TECH001", "password": "demo123"}
+    login_data = {"client_id": "<DEMO_USERNAME>", "password": "<DEMO_PASSWORD>"}
     
     try:
         auth_response = requests.post(f"{GATEWAY_URL}/v1/client/login", json=login_data, timeout=15)

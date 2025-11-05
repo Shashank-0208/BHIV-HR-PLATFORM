@@ -64,7 +64,7 @@ def verify_configurations():
                 gateway_url_consistent = False
                 remaining_issues += 1
             
-            if "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" not in content:
+            if "<YOUR_API_KEY>" not in content:
                 print(f"ERROR {service} not using production API key")
                 api_key_consistent = False
                 remaining_issues += 1
