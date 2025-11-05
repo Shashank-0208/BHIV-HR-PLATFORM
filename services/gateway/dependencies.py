@@ -8,7 +8,7 @@ security = HTTPBearer()
 
 def validate_api_key(api_key: str) -> bool:
     """Validate API key against environment variable"""
-    expected_key = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
+    expected_key = os.getenv("API_KEY_SECRET")
     return api_key == expected_key
 
 def get_api_key(credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -28,7 +28,7 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET", "<YOUR_JWT_SECRET>")
+        jwt_secret = os.getenv("JWT_SECRET")
         payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:

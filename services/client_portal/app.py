@@ -3,10 +3,12 @@ import requests
 from datetime import datetime
 import logging
 import os
-from config import API_BASE_URL, http_session
+from config import API_BASE_URL, http_session, API_KEY_SECRET, setup_logging
+
+# Setup logging
+setup_logging()
 
 # Unified Bearer authentication
-API_KEY_SECRET = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
 UNIFIED_HEADERS = {
     "Authorization": f"Bearer {API_KEY_SECRET}",
     "Content-Type": "application/json"
@@ -51,7 +53,7 @@ def main():
         if jobs_response.status_code == 200:
             jobs_data = jobs_response.json()
             jobs = jobs_data.get('jobs', [])
-            client_hash = get_client_hash(st.session_state.get('client_id', '<DEMO_USERNAME>'))
+            client_hash = get_client_hash(st.session_state.get('client_id', 'DEMO_CLIENT'))
             client_jobs = [j for j in jobs if str(j.get('client_id', 0)) == str(client_hash)]
             st.sidebar.success(f"📊 Your Jobs: {len(client_jobs)}")
         else:
@@ -115,7 +117,7 @@ def show_client_login():
     with tab1:
         st.subheader("Existing Client Login")
         with st.form("client_login"):
-            client_id = st.text_input("Client ID", placeholder="e.g., <DEMO_USERNAME>")
+            client_id = st.text_input("Client ID", placeholder="e.g., COMPANY01")
             password = st.text_input("Password", type="password", placeholder="Enter your secure password")
             
             if st.form_submit_button("🔑 Secure Login", width='stretch'):
@@ -254,7 +256,7 @@ def show_job_posting():
                 return
             
             # Get numeric client_id
-            client_id_str = st.session_state.get('client_id', '<DEMO_USERNAME>')
+            client_id_str = st.session_state.get('client_id', 'DEMO_CLIENT')
             client_id_num = hash(client_id_str) % 1000  # Convert to number
             
             job_data = {

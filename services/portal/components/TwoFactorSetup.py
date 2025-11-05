@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import io
 import base64
+import os
 
 def show_2fa_setup():
     """2FA Setup component for Streamlit"""
@@ -15,9 +16,18 @@ def show_2fa_setup():
     if st.button("🔑 Setup 2FA"):
         try:
             # Call Gateway auth endpoint
-            api_base = "http://localhost:8000"  # Local development
+            api_base = os.getenv("GATEWAY_URL")
+            if not api_base:
+                st.error("❌ GATEWAY_URL environment variable not configured")
+                return
+            
+            api_key = os.getenv("API_KEY_SECRET")
+            if not api_key:
+                st.error("❌ API_KEY_SECRET environment variable not configured")
+                return
+            
             headers = {
-                "Authorization": f"Bearer <YOUR_API_KEY>",
+                "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json"
             }
             
@@ -92,7 +102,10 @@ def show_2fa_login():
         
         if submitted and username and password:
             try:
-                api_base = "http://localhost:8000"
+                api_base = os.getenv("GATEWAY_URL")
+                if not api_base:
+                    st.error("❌ GATEWAY_URL environment variable not configured")
+                    return
                 
                 response = requests.post(
                     f"{api_base}/auth/login",

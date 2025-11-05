@@ -1,7 +1,7 @@
 """
 BHIV HR Platform - Client Portal Configuration
 Version: 3.1.0 with Phase 3 Features
-Updated: October 13, 2025
+Updated: October 23, 2025
 Status: Production Ready
 
 Configuration for Client Portal Streamlit application:
@@ -13,6 +13,7 @@ Configuration for Client Portal Streamlit application:
 
 import requests
 import os
+import logging
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
@@ -21,25 +22,42 @@ __version__ = "3.1.0"
 __updated__ = "2025-10-23"
 __status__ = "Production Ready - Database Fixed"
 
-# API Configuration - LOCAL DEVELOPMENT
-# Local: Use localhost for development, production URLs for deployment
-API_BASE_URL = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
-API_KEY = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
+# Environment Configuration
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+PYTHON_VERSION = os.getenv("PYTHON_VERSION", "3.12.7")
 
-# Set required environment variables for auth service
-os.environ.setdefault("DATABASE_URL", "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl")
-os.environ.setdefault("JWT_SECRET", "<YOUR_JWT_SECRET>")
+# Service URLs - Required
+GATEWAY_URL = os.getenv("GATEWAY_URL")
+if not GATEWAY_URL:
+    raise ValueError("GATEWAY_URL environment variable is required")
+
+AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL")
+if not AGENT_SERVICE_URL:
+    raise ValueError("AGENT_SERVICE_URL environment variable is required")
+
+# Authentication - Required
+API_KEY_SECRET = os.getenv("API_KEY_SECRET")
+if not API_KEY_SECRET:
+    raise ValueError("API_KEY_SECRET environment variable is required")
+
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+if not JWT_SECRET_KEY:
+    raise ValueError("JWT_SECRET_KEY environment variable is required")
+
+# Database - Required
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL environment variable is required")
+
+# API Configuration
+API_BASE_URL = GATEWAY_URL
+API_KEY = API_KEY_SECRET
 
 headers = {
     "Authorization": f"Bearer {API_KEY}",
     "Content-Type": "application/json"
 }
-
-# Ensure environment variables are available
-if not os.getenv("DATABASE_URL"):
-    os.environ["DATABASE_URL"] = "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
-if not os.getenv("JWT_SECRET"):
-    os.environ["JWT_SECRET"] = "<YOUR_JWT_SECRET>"
 
 # Configure session with retry strategy and timeouts
 def create_session():
@@ -71,6 +89,21 @@ def create_session():
 # Global session
 http_session = create_session()
 
+# Logging Configuration
+def setup_logging():
+    """Setup logging based on environment configuration"""
+    log_level = getattr(logging, LOG_LEVEL.upper(), logging.INFO)
+    
+    logging.basicConfig(
+        level=log_level,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[logging.StreamHandler()]
+    )
+    
+    if ENVIRONMENT == "production":
+        logging.getLogger("streamlit").setLevel(logging.WARNING)
+        logging.getLogger("requests").setLevel(logging.WARNING)
+
 # Client Portal Configuration
 CLIENT_PORTAL_CONFIG = {
     "title": "BHIV HR Platform - Client Portal",
@@ -83,10 +116,7 @@ CLIENT_PORTAL_CONFIG = {
         "Offer Management",
         "Real-time Sync with HR Portal"
     ],
-    "demo_credentials": {
-        "username": "<DEMO_USERNAME>",
-        "password": "<DEMO_PASSWORD>"
-    },
     "status": __status__,
-    "updated": __updated__
+    "updated": __updated__,
+    "gateway_url": API_BASE_URL
 }

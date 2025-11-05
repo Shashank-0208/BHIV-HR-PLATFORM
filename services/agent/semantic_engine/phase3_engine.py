@@ -39,8 +39,7 @@ class Phase3SemanticEngine:
     
     def _get_db_engine(self):
         """Get database engine with proper connection pooling"""
-        database_url = os.getenv("DATABASE_URL", 
-            "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl")
+        database_url = os.getenv("DATABASE_URL")
         return create_engine(
             database_url, 
             pool_size=10, 

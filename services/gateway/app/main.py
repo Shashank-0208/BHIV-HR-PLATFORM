@@ -19,6 +19,18 @@ from typing import Optional, List, Dict, Any
 from pydantic import BaseModel, field_validator
 import time
 import psutil
+
+# Import configuration
+try:
+    from config import validate_config, setup_logging, ENVIRONMENT
+    validate_config()
+    setup_logging()
+except ImportError:
+    # Fallback if config module not available
+    ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+except Exception as e:
+    print(f"Configuration error: {e}")
+    ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 try:
     from routes.auth import router as auth_router
 except ImportError:
@@ -277,7 +289,7 @@ class JobApplication(BaseModel):
     cover_letter: Optional[str] = None
 
 def get_db_engine():
-    database_url = os.getenv("DATABASE_URL", "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl")
+    database_url = os.getenv("DATABASE_URL")
     return create_engine(
         database_url, 
         pool_pre_ping=True, 
@@ -289,7 +301,7 @@ def get_db_engine():
     )
 
 def validate_api_key(api_key: str) -> bool:
-    expected_key = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
+    expected_key = os.getenv("API_KEY_SECRET")
     return api_key == expected_key
 
 def get_api_key(credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -308,7 +320,7 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET", "<YOUR_JWT_SECRET>")
+        jwt_secret = os.getenv("JWT_SECRET")
         payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
@@ -316,7 +328,7 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try candidate JWT token
     try:
-        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "<YOUR_CANDIDATE_JWT_SECRET>")
+        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET")
         payload = jwt.decode(credentials.credentials, candidate_jwt_secret, algorithms=["HS256"])
         return {"type": "candidate_token", "candidate_id": payload.get("candidate_id")}
     except:
@@ -672,7 +684,7 @@ async def get_top_matches(job_id: int, limit: int = 10, api_key: str = Depends(g
     
     try:
         import httpx
-        agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-nhgg.onrender.com")
+        agent_url = os.getenv("AGENT_SERVICE_URL")
         
         # Call agent service for AI matching
         async with httpx.AsyncClient(timeout=60.0) as client:
@@ -681,7 +693,7 @@ async def get_top_matches(job_id: int, limit: int = 10, api_key: str = Depends(g
                 json={"job_id": job_id, "candidate_ids": []},
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {os.getenv('API_KEY_SECRET', '<YOUR_API_KEY>')}"
+                    "Authorization": f"Bearer {os.getenv('API_KEY_SECRET')}"
                 }
             )
             
@@ -863,7 +875,7 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
     
     try:
         import httpx
-        agent_url = os.getenv("AGENT_SERVICE_URL", "https://bhiv-hr-agent-nhgg.onrender.com")
+        agent_url = os.getenv("AGENT_SERVICE_URL")
         
         # Call agent service for batch AI matching
         async with httpx.AsyncClient(timeout=120.0) as client:
@@ -872,7 +884,7 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
                 json={"job_ids": job_ids},
                 headers={
                     "Content-Type": "application/json",
-                    "Authorization": f"Bearer {os.getenv('API_KEY_SECRET', '<YOUR_API_KEY>')}"
+                    "Authorization": f"Bearer {os.getenv('API_KEY_SECRET')}"
                 }
             )
             
@@ -1326,12 +1338,11 @@ async def client_login(login_data: ClientLogin):
                     
                     return {"success": False, "error": "Invalid credentials"}
             else:
-                # For demo purposes, accept <DEMO_PASSWORD> for clients without password hash
-                if login_data.password != "<DEMO_PASSWORD>":
-                    return {"success": False, "error": "Invalid credentials"}
+                # No password hash exists - require password to be set
+                return {"success": False, "error": "Account requires password setup"}
             
-            # Generate JWT token
-            jwt_secret = os.getenv("JWT_SECRET", "<YOUR_JWT_SECRET>")
+            # Generate JWT token using JWT_SECRET_KEY (primary) or JWT_SECRET (fallback)
+            jwt_secret = os.getenv("JWT_SECRET_KEY") or os.getenv("JWT_SECRET")
             token_payload = {
                 "client_id": client[0],
                 "company_name": client[1],
@@ -2288,7 +2299,7 @@ async def candidate_login(login_data: CandidateLogin):
             # If no password hash exists, accept any password (for existing test data)
             
             # Generate JWT token
-            jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "<YOUR_CANDIDATE_JWT_SECRET>")
+            jwt_secret = os.getenv("CANDIDATE_JWT_SECRET")
             token_payload = {
                 "candidate_id": candidate[0],
                 "email": candidate[2],

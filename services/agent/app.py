@@ -11,6 +11,18 @@ import jwt
 from typing import List, Dict, Any
 from datetime import datetime
 
+# Import configuration
+try:
+    from config import validate_config, setup_logging, ENVIRONMENT
+    validate_config()
+    setup_logging()
+except ImportError:
+    # Fallback if config module not available
+    ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+except Exception as e:
+    print(f"Configuration error: {e}")
+    ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+
 # Import Phase 3 engine from shared semantic_engine module
 try:
     from semantic_engine.phase3_engine import (
@@ -49,7 +61,7 @@ security = HTTPBearer()
 
 def validate_api_key(api_key: str) -> bool:
     """Validate API key against environment variable"""
-    expected_key = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
+    expected_key = os.getenv("API_KEY_SECRET")
     return api_key == expected_key
 
 def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(security)):
@@ -63,7 +75,7 @@ def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(securit
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET", "<YOUR_JWT_SECRET>")
+        jwt_secret = os.getenv("JWT_SECRET")
         payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
@@ -71,7 +83,7 @@ def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(securit
     
     # Try candidate JWT token
     try:
-        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "<YOUR_CANDIDATE_JWT_SECRET>")
+        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET")
         payload = jwt.decode(credentials.credentials, candidate_jwt_secret, algorithms=["HS256"])
         return {"type": "candidate_token", "candidate_id": payload.get("candidate_id")}
     except:
@@ -165,7 +177,7 @@ connection_pool = None
 def init_connection_pool():
     """Initialize database connection pool"""
     global connection_pool
-    database_url = os.getenv("DATABASE_URL", "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl")
+    database_url = os.getenv("DATABASE_URL")
     
     try:
         connection_pool = psycopg2.pool.ThreadedConnectionPool(

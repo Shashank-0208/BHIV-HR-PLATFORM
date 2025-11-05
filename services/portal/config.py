@@ -13,16 +13,42 @@ Configuration for HR Portal Streamlit application:
 
 import httpx
 import os
+import logging
 
 # Version Information
 __version__ = "3.1.0"
 __updated__ = "2025-10-23"
 __status__ = "Production Ready - Database Fixed"
 
-# API Configuration - FIXED FOR PRODUCTION
-# Production: Use actual Render URLs, not Docker internal URLs
-API_BASE = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
-API_KEY = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
+# Environment Configuration
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
+# Service URLs - Required
+GATEWAY_URL = os.getenv("GATEWAY_URL")
+if not GATEWAY_URL:
+    raise ValueError("GATEWAY_URL environment variable is required")
+
+AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL")
+if not AGENT_SERVICE_URL:
+    raise ValueError("AGENT_SERVICE_URL environment variable is required")
+
+# Authentication - Required
+API_KEY_SECRET = os.getenv("API_KEY_SECRET")
+if not API_KEY_SECRET:
+    raise ValueError("API_KEY_SECRET environment variable is required")
+
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+if not JWT_SECRET_KEY:
+    raise ValueError("JWT_SECRET_KEY environment variable is required")
+
+CANDIDATE_JWT_SECRET = os.getenv("CANDIDATE_JWT_SECRET")
+if not CANDIDATE_JWT_SECRET:
+    raise ValueError("CANDIDATE_JWT_SECRET environment variable is required")
+
+# API Configuration
+API_BASE = GATEWAY_URL
+API_KEY = API_KEY_SECRET
 
 # HTTP Client Configuration with proper timeouts
 timeout_config = httpx.Timeout(
@@ -48,11 +74,26 @@ http_client = httpx.Client(
     follow_redirects=True
 )
 
+# Logging Configuration
+def setup_logging():
+    """Setup logging based on environment configuration"""
+    log_level = getattr(logging, LOG_LEVEL.upper(), logging.INFO)
+    
+    logging.basicConfig(
+        level=log_level,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[logging.StreamHandler()]
+    )
+    
+    if ENVIRONMENT == "production":
+        logging.getLogger("streamlit").setLevel(logging.WARNING)
+        logging.getLogger("httpx").setLevel(logging.WARNING)
+
 # Portal Configuration
 PORTAL_CONFIG = {
     "title": "BHIV HR Platform - Dashboard",
     "version": __version__,
-    "api_endpoints": 55,  # Updated count
+    "api_endpoints": 55,
     "features": [
         "Candidate Management",
         "Job Posting", 
