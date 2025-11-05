@@ -278,7 +278,7 @@ st.set_page_config(
 )
 
 # Unified Bearer Authentication
-API_KEY_SECRET = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
+API_KEY_SECRET = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
 UNIFIED_HEADERS = {
     "Authorization": f"Bearer {API_KEY_SECRET}",
     "Content-Type": "application/json"

@@ -45,7 +45,7 @@ Demo Accounts:
 ### API Access
 ```
 Base URL: https://bhiv-hr-gateway-ltg0.onrender.com
-API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+API Key: <YOUR_API_KEY>
 Documentation: https://bhiv-hr-gateway-ltg0.onrender.com/docs
 Health Check: https://bhiv-hr-gateway-ltg0.onrender.com/health
 ```
@@ -85,7 +85,7 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 curl https://bhiv-hr-gateway-ltg0.onrender.com/
 
 # Authenticated Endpoint
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # AI Agent Health
@@ -119,7 +119,7 @@ curl https://bhiv-hr-agent-nhgg.onrender.com/health
 curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
 
 # Database Test
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 ```
 
@@ -145,15 +145,15 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ### Security Testing Endpoints
 ```bash
 # Rate Limit Status
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/rate-limit-status
 
 # Security Headers Test
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/security-headers-test
 
 # 2FA Demo Setup
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/2fa/demo-setup
 ```
 
@@ -173,7 +173,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 ### Scenario 3: API Integration
 1. **Documentation**: Visit https://bhiv-hr-gateway-ltg0.onrender.com/docs
-2. **Authentication**: Use Bearer token: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+2. **Authentication**: Use Bearer token: <YOUR_API_KEY>
 3. **Testing**: Try different endpoints
 4. **Monitoring**: Check health and metrics endpoints
 

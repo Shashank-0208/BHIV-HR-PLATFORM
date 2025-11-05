@@ -326,7 +326,7 @@ Agent Service:  https://bhiv-hr-agent-nhgg.onrender.com/ (OFFLINE)
 
 ### **Authentication Credentials**
 ```
-API Key:        prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+API Key:        <YOUR_API_KEY>
 Client Login:   TECH001 / demo123
 Admin Access:   Via API key authentication
 ```

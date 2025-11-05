@@ -28,7 +28,7 @@
 **Request Format**:
 ```http
 GET /v1/match/1/top?limit=3
-Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+Authorization: Bearer <YOUR_API_KEY>
 ```
 
 **Response Schema**:
@@ -67,7 +67,7 @@ Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 **Request Format**:
 ```http
 POST /v1/match/batch
-Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+Authorization: Bearer <YOUR_API_KEY>
 Content-Type: application/json
 
 [1, 2, 3]
@@ -121,7 +121,7 @@ Content-Type: application/json
 **Request Format**:
 ```http
 POST /batch-match
-Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+Authorization: Bearer <YOUR_API_KEY>
 Content-Type: application/json
 
 {"job_ids": [1, 2]}
@@ -213,7 +213,7 @@ Content-Type: application/json
 
 ### Authentication Requirements
 ```http
-Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+Authorization: Bearer <YOUR_API_KEY>
 Content-Type: application/json
 ```
 

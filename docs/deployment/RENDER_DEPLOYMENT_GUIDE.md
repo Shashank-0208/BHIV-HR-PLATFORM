@@ -27,7 +27,7 @@
 curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Test Authentication
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # AI Matching Test (OFFLINE)
@@ -83,7 +83,7 @@ Build Command: pip install -r requirements.txt
 Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 Environment Variables:
   - DATABASE_URL: [Internal PostgreSQL URL]
-  - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+  - API_KEY_SECRET: <YOUR_API_KEY>
 ```
 
 ### 3. AI Agent Service
@@ -108,7 +108,7 @@ Build Command: pip install -r requirements.txt
 Start Command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 Environment Variables:
   - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
-  - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+  - API_KEY_SECRET: <YOUR_API_KEY>
 ```
 
 ### 5. Client Portal Service
@@ -121,7 +121,7 @@ Build Command: pip install -r requirements.txt
 Start Command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 Environment Variables:
   - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
-  - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+  - API_KEY_SECRET: <YOUR_API_KEY>
 ```
 
 ## 🚀 Deployment Process (Completed)
@@ -174,14 +174,14 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
 curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics/dashboard
 
 # Database Status
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 ```
 
 ## 🔒 Security Features
 
 ### Authentication & Authorization
-- **API Key**: `prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o`
+- **API Key**: `<YOUR_API_KEY>`
 - **Bearer Token**: Required for protected endpoints
 - **Client Portal**: Username/Password authentication
 - **Rate Limiting**: 60 requests/minute per IP
@@ -245,10 +245,10 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 curl https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 # Test authenticated endpoints
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/candidates/stats
 ```
 
@@ -284,7 +284,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Test database connectivity
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 
 # View API documentation

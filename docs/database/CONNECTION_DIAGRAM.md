@@ -147,7 +147,7 @@ Host: localhost
 Port: 5432
 Database: bhiv_hr
 Username: bhiv_user
-Password: bhiv_local_password_2025
+Password: <LOCAL_PASSWORD>
 SSL Mode: disable
 Application Name: DBeaver-BHIV-Local
 Connection Timeout: 30 seconds
@@ -218,7 +218,7 @@ curl http://localhost:8000/health
 curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # Test database schema endpoint
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ```
 

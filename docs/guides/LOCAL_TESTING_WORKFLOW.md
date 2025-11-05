@@ -92,7 +92,7 @@ curl -X POST http://localhost:8000/v1/candidate/login \
 ### **Step 6: Candidate Views Jobs**
 ```bash
 # Get all jobs
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:8000/v1/jobs
 ```
 
@@ -100,7 +100,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ```bash
 # Apply for job (use job_id from step 3 and candidate_id from step 4)
 curl -X POST http://localhost:8000/v1/candidate/apply \
-  -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
   -H "Content-Type: application/json" \
   -d '{
     "candidate_id": 1,
@@ -122,7 +122,7 @@ curl -X POST http://localhost:8000/v1/candidate/apply \
 ```bash
 # Schedule interview
 curl -X POST http://localhost:8000/v1/interviews \
-  -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
   -H "Content-Type: application/json" \
   -d '{
     "candidate_id": 1,
@@ -138,7 +138,7 @@ curl -X POST http://localhost:8000/v1/interviews \
 ```bash
 # Submit values assessment
 curl -X POST http://localhost:8000/v1/feedback \
-  -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
   -H "Content-Type: application/json" \
   -d '{
     "candidate_id": 1,
@@ -156,7 +156,7 @@ curl -X POST http://localhost:8000/v1/feedback \
 ```bash
 # Create job offer
 curl -X POST http://localhost:8000/v1/offers \
-  -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
   -H "Content-Type: application/json" \
   -d '{
     "candidate_id": 1,
@@ -170,7 +170,7 @@ curl -X POST http://localhost:8000/v1/offers \
 ### **Step 12: Candidate Checks Applications**
 ```bash
 # Get candidate applications
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:8000/v1/candidate/applications/1
 ```
 
@@ -181,7 +181,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ### **Database Verification**
 ```bash
 # Connect to local database
-psql postgresql://bhiv_user:bhiv_local_password_2025@localhost:5432/bhiv_hr
+psql postgresql://bhiv_user:<LOCAL_PASSWORD>@localhost:5432/bhiv_hr
 
 # Check data
 SELECT * FROM clients WHERE client_id = 'TESTCLIENT01';

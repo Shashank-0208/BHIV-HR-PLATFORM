@@ -50,7 +50,7 @@ https://bhiv-hr-gateway-ltg0.onrender.com/docs
 # Interactive Swagger UI with all 79 endpoints
 
 # Database Schema Check
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ```
 
@@ -447,7 +447,7 @@ Username: TECH001
 Password: demo123
 
 # API Testing
-API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+API Key: <YOUR_API_KEY>
 ```
 
 ---

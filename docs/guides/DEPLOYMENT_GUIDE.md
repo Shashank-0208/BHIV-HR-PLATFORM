@@ -57,7 +57,7 @@ ON CONFLICT (version) DO UPDATE SET applied_at = CURRENT_TIMESTAMP;
 
 **Option B: Via Command Line (If you have psql)**
 ```bash
-psql "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl" -f deploy_schema_production.sql
+psql "postgresql://<username>:<password>@<host>:<port>/<database>schema_production.sql
 ```
 
 ---
@@ -88,14 +88,14 @@ https://bhiv-hr-gateway-ltg0.onrender.com/v1/client/login
 
 ### **3.2 Test AI Matching**
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 ```
 **Expected:** Should show `"agent_status": "connected"` and Phase 3 algorithm
 
 ### **3.3 Check Schema Version**
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ```
 **Expected:** Should show `"schema_version": "4.2.0"`

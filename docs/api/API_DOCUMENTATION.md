@@ -18,7 +18,7 @@
 ### **Authentication**
 ```bash
 # API Key Authentication (Primary)
-Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+Authorization: Bearer <YOUR_API_KEY>
 
 # Client JWT Authentication
 Authorization: Bearer <client_jwt_token>
@@ -77,7 +77,7 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 #### **GET /test-candidates** - Database Connectivity Test
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 ```
 **Response:**
@@ -101,7 +101,7 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
 
 #### **GET /health/detailed** - Detailed Health Check
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
 ```
 **Response:**
@@ -123,7 +123,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /metrics/dashboard** - Metrics Dashboard
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/metrics/dashboard
 ```
 
@@ -133,7 +133,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /candidates/stats** - Candidate Statistics
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/candidates/stats
 ```
 **Response:**
@@ -149,7 +149,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /v1/database/schema** - Database Schema Verification
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ```
 **Response:**
@@ -165,7 +165,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /v1/reports/job/{job_id}/export.csv** - Job Report Export
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/reports/job/1/export.csv
 ```
 
@@ -175,7 +175,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /v1/jobs** - List All Jobs
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 ```
 **Response:**
@@ -199,7 +199,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **POST /v1/jobs** - Create New Job
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{
        "title": "Software Engineer",
@@ -226,7 +226,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **GET /v1/candidates** - List Candidates with Pagination
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      "https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates?limit=10&offset=0"
 ```
 **Response:**
@@ -255,7 +255,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /v1/candidates/{id}** - Get Specific Candidate
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates/1
 ```
 **Response:**
@@ -280,7 +280,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /v1/candidates/search** - Advanced Search with Filters
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      "https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates/search?skills=Python&location=Mumbai&experience_min=3"
 ```
 **Response:**
@@ -311,7 +311,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **POST /v1/candidates/bulk** - Bulk Upload with Validation
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{
        "candidates": [
@@ -341,7 +341,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **GET /v1/candidates/job/{job_id}** - Candidates by Job
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates/job/1
 ```
 
@@ -351,7 +351,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /v1/match/{job_id}/top** - AI-Powered Semantic Matching
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top?limit=5
 ```
 **Response:**
@@ -382,7 +382,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **POST /v1/match/batch** - Batch Matching for Multiple Jobs
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"job_ids": [1, 2, 3]}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/batch
@@ -417,7 +417,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **POST /v1/feedback** - Values Assessment (5-Point BHIV Values)
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{
        "candidate_id": 1,
@@ -452,13 +452,13 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **GET /v1/feedback** - Get All Feedback Records
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/feedback
 ```
 
 #### **POST /v1/interviews** - Schedule Interview
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{
        "candidate_id": 1,
@@ -483,13 +483,13 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **GET /v1/interviews** - Get All Interviews
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/interviews
 ```
 
 #### **POST /v1/offers** - Job Offers Management
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{
        "candidate_id": 1,
@@ -503,7 +503,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **GET /v1/offers** - Get All Job Offers
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/offers
 ```
 
@@ -513,7 +513,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **GET /v1/security/rate-limit-status** - Check Rate Limit Status
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/rate-limit-status
 ```
 **Response:**
@@ -530,7 +530,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **POST /v1/security/test-input-validation** - Test Input Validation
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"input_data": "<script>alert(\"test\")</script>"}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/test-input-validation
@@ -547,7 +547,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **POST /v1/security/test-email-validation** - Test Email Validation
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"email": "test@example.com"}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/test-email-validation
@@ -555,7 +555,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **POST /v1/security/test-phone-validation** - Test Phone Validation
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"phone": "+1-555-123-4567"}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/test-phone-validation
@@ -563,19 +563,19 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **GET /v1/security/security-headers-test** - Test Security Headers
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/security-headers-test
 ```
 
 #### **GET /v1/security/blocked-ips** - View Blocked IPs
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/blocked-ips
 ```
 
 #### **GET /v1/security/penetration-test-endpoints** - Penetration Testing Endpoints
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/penetration-test-endpoints
 ```
 
@@ -585,7 +585,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 
 #### **POST /v1/2fa/setup** - Setup 2FA for Client
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"user_id": "client_001"}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/2fa/setup
@@ -604,7 +604,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **POST /v1/2fa/verify-setup** - Verify 2FA Setup
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"user_id": "client_001", "totp_code": "123456"}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/2fa/verify-setup
@@ -612,7 +612,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **POST /v1/2fa/login-with-2fa** - Login with 2FA
 ```bash
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"user_id": "client_001", "totp_code": "123456"}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/2fa/login-with-2fa
@@ -620,7 +620,7 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 
 #### **GET /v1/2fa/status/{client_id}** - Get 2FA Status
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/2fa/status/client_001
 ```
 
@@ -901,7 +901,7 @@ curl https://bhiv-hr-agent-nhgg.onrender.com/test-db
 ### **API Key Authentication**
 ```bash
 # Primary authentication method
-Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+Authorization: Bearer <YOUR_API_KEY>
 ```
 
 ### **Client JWT Authentication**
@@ -1009,7 +1009,7 @@ import requests
 
 # API Configuration
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 HEADERS = {"Authorization": f"Bearer {API_KEY}"}
 
 # Get all jobs
@@ -1024,7 +1024,7 @@ matches = match_response.json()
 ### **JavaScript Integration Example**
 ```javascript
 const BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com";
-const API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o";
+const API_KEY = "<YOUR_API_KEY>";
 
 const headers = {
   "Authorization": `Bearer ${API_KEY}`,

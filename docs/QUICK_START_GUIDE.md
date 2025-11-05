@@ -47,7 +47,7 @@ Username: TECH001
 Password: demo123
 
 # API Testing Key
-API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+API Key: <YOUR_API_KEY>
 ```
 
 #### **⚡ 30-Second Test**
@@ -56,11 +56,11 @@ API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 # 2. Get Real Data (31 candidates)
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates
 
 # 3. AI Matching Test
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # 4. Access HR Portal
@@ -167,7 +167,7 @@ https://bhiv-hr-candidate-portal.onrender.com/  # Production
 ### **4. API Testing (1 minute)**
 ```bash
 # Test Gateway API (55 endpoints)
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:8000/v1/jobs  # Local
      # OR
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs  # Production
@@ -187,11 +187,11 @@ curl -X POST -H "Content-Type: application/json" \
 ### **🤖 AI-Powered Matching**
 ```bash
 # 1. Get AI Matches for Job
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # 2. Batch Processing
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"job_ids": [1, 2, 3]}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/batch
@@ -203,7 +203,7 @@ curl https://bhiv-hr-agent-nhgg.onrender.com/analyze/1
 ### **📊 Values Assessment**
 ```bash
 # Submit 5-Point BHIV Values Assessment
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{
        "candidate_id": 1,
@@ -221,13 +221,13 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 ### **🔒 Security Features**
 ```bash
 # Test 2FA Setup
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"user_id": "test_user"}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/2fa/setup
 
 # Test Input Validation
-curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"input_data": "<script>alert(\"test\")</script>"}' \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/test-input-validation
@@ -253,11 +253,11 @@ curl -X POST -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477n
 ### **Data Verification**
 ```bash
 # Check Database Status
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 
 # Get Candidate Statistics
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/candidates/stats
 ```
 
@@ -308,7 +308,7 @@ python tests/integration/test_client_portal.py
 DATABASE_URL=postgresql://bhiv_user:password@localhost:5432/bhiv_hr
 
 # API Configuration
-API_KEY_SECRET=prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+API_KEY_SECRET=<YOUR_API_KEY>
 JWT_SECRET=fallback_jwt_secret_key_for_client_auth_2025
 CANDIDATE_JWT_SECRET=candidate_jwt_secret_key_2025
 
@@ -374,7 +374,7 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 #### **API Authentication Issues**
 ```bash
 # Verify API Key
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:8000/health
 
 # Check Environment Variables
@@ -442,7 +442,7 @@ python tools/database_sync_manager.py
 import requests
 
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY = "<YOUR_API_KEY>"
 headers = {"Authorization": f"Bearer {API_KEY}"}
 
 # Get candidates
@@ -500,7 +500,7 @@ Username: TECH001
 Password: demo123
 
 # API Testing
-API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+API Key: <YOUR_API_KEY>
 ```
 
 ---

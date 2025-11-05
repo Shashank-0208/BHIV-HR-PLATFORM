@@ -22,8 +22,8 @@ Username: TECH001
 Password: demo123
 
 # API Testing
-API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+API Key: <YOUR_API_KEY>
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/health
 ```
 
@@ -536,19 +536,19 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 curl https://bhiv-hr-agent-nhgg.onrender.com/health
 
 # Authenticated Endpoints
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Database Schema Verification
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 
 # AI Matching Test
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # Security Testing
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/security/rate-limit-status
 ```
 
@@ -584,9 +584,9 @@ python tests/run_all_tests.py       # Complete test suite
 ```bash
 # Production Monitoring
 curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/metrics/dashboard
 
 # Local Monitoring  
@@ -714,7 +714,7 @@ python tests/test_endpoints.py  # Comprehensive health checks
 2. **Access HR Portal**: bhiv-hr-portal-u670.onrender.com/
 3. **Login to Client Portal**: bhiv-hr-client-portal-3iod.onrender.com/ (TECH001/demo123)
 4. **Use Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com/ (Live production)
-5. **Test API**: Use Bearer token `prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o`
+5. **Test API**: Use Bearer token `<YOUR_API_KEY>`
 
 ### **💻 For Developers**
 1. **Clone Repository**: `git clone https://github.com/shashankmishraa/BHIV-HR-Platform.git`

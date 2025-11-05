@@ -24,7 +24,7 @@ The platform supports **3 authentication methods**:
 
 ### **Test Credentials**
 ```bash
-API_KEY="prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY="<YOUR_API_KEY>"
 ```
 
 ### **Gateway Service Testing**
@@ -37,23 +37,23 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 #### **2. API Key Protected Endpoints**
 ```bash
 # Test API Key Authentication
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Test Database Connectivity
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/test-candidates
 
 # Test Candidate Search
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      "https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates/search?skills=python&limit=5"
 
 # Test AI Matching
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 
 # Test Database Schema
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ```
 
@@ -74,21 +74,21 @@ curl https://bhiv-hr-agent-nhgg.onrender.com/health
 #### **2. API Key Protected Endpoints**
 ```bash
 # Test Database Connectivity
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-agent-nhgg.onrender.com/test-db
 
 # Test AI Matching
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"job_id": 1}' \
      https://bhiv-hr-agent-nhgg.onrender.com/match
 
 # Test Candidate Analysis
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-agent-nhgg.onrender.com/analyze/1
 
 # Test Batch Matching
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      -H "Content-Type: application/json" \
      -d '{"job_ids": [1, 2]}' \
      https://bhiv-hr-agent-nhgg.onrender.com/batch-match
@@ -285,11 +285,11 @@ curl http://localhost:8503           # Candidate Portal
 ### **Test Local Authentication**
 ```bash
 # Test API Key on local Gateway
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:8000/v1/jobs
 
 # Test API Key on local Agent
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:9000/test-db
 
 # Test Client Login on local Gateway
@@ -319,7 +319,7 @@ The authentication system tries methods in this order:
 
 ```bash
 # Test with API Key (should work)
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
 # Test with Client JWT (should work)
@@ -338,7 +338,7 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 ```bash
 # Gateway to Agent communication (internal)
 # This happens automatically when you call Gateway matching endpoints
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
 ```
 
@@ -369,7 +369,7 @@ curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr
 ```bash
 # Error: {"detail": "Invalid authentication"}
 # Solution: Check API key is correct
-echo "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+echo "<YOUR_API_KEY>"
 ```
 
 #### **2. Expired JWT Token**
@@ -406,7 +406,7 @@ Create a test script to automate authentication testing:
 #!/bin/bash
 # save as test_auth.sh
 
-API_KEY="prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY="<YOUR_API_KEY>"
 GATEWAY_URL="https://bhiv-hr-gateway-ltg0.onrender.com"
 AGENT_URL="https://bhiv-hr-agent-nhgg.onrender.com"
 

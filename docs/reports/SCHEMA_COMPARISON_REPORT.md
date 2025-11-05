@@ -170,7 +170,7 @@ docker exec docker-db-1 psql -U bhiv_user -d bhiv_hr
 
 ### Production API Testing
 ```bash
-curl -H "Authorization: Bearer prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o" \
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/health/detailed
 ```
 
