@@ -48,7 +48,6 @@ services:
       AGENT_SERVICE_URL: http://agent:9000
       CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
     volumes:
-      - ../../services/gateway:/app:ro  # Live code sync (read-only)
       - ../../services/gateway/logs:/app/logs
     depends_on:
       db:
@@ -73,8 +72,6 @@ services:
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
       JWT_SECRET: ${JWT_SECRET:-<YOUR_JWT_SECRET>}
       CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
-    volumes:
-      - ../../services/agent:/app:ro  # Live code sync
     depends_on:
       db:
         condition: service_healthy
@@ -99,8 +96,6 @@ services:
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
       CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
-    volumes:
-      - ../../services/portal:/app:ro  # Live code sync
     depends_on:
       gateway:
         condition: service_healthy
@@ -130,8 +125,6 @@ services:
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
-    volumes:
-      - ../../services/client_portal:/app:ro  # Live code sync
     depends_on:
       gateway:
         condition: service_healthy
@@ -161,8 +154,6 @@ services:
       JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
       CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
-    volumes:
-      - ../../services/candidate_portal:/app:ro  # Live code sync
     depends_on:
       gateway:
         condition: service_healthy
