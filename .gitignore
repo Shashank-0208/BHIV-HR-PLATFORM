@@ -300,6 +300,14 @@ logs/
 log/
 temp_logs/
 
+# Service-specific logs
+services/*/logs/
+services/gateway/logs/
+services/agent/logs/
+services/portal/logs/
+services/client_portal/logs/
+services/candidate_portal/logs/
+
 # Monitoring and metrics
 metrics/
 monitoring/
