@@ -1,0 +1,881 @@
+{
+  "validation_timestamp": "2025-11-05T10:19:37.433407",
+  "summary": {
+    "total_endpoints": 85,
+    "passed": 85,
+    "failed": 0,
+    "gateway_endpoints": 79,
+    "agent_endpoints": 6
+  },
+  "schema_info": {
+    "total_tables": 14,
+    "tables": [
+      "candidates",
+      "jobs",
+      "feedback",
+      "interviews",
+      "offers",
+      "users",
+      "clients",
+      "job_applications",
+      "audit_logs",
+      "rate_limits",
+      "csp_violations",
+      "matching_cache",
+      "company_scoring_preferences",
+      "schema_version"
+    ]
+  },
+  "validation_results": {
+    "Gateway_/_GET": {
+      "endpoint": "GET /",
+      "service": "Gateway",
+      "description": "API Root Information",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "none"
+    },
+    "Gateway_/health_GET": {
+      "endpoint": "GET /health",
+      "service": "Gateway",
+      "description": "Health Check",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "none"
+    },
+    "Gateway_/test-candidates_GET": {
+      "endpoint": "GET /test-candidates",
+      "service": "Gateway",
+      "description": "Database Connectivity Test",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/metrics_GET": {
+      "endpoint": "GET /metrics",
+      "service": "Gateway",
+      "description": "Prometheus Metrics Export",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "none"
+    },
+    "Gateway_/health/detailed_GET": {
+      "endpoint": "GET /health/detailed",
+      "service": "Gateway",
+      "description": "Detailed Health Check",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "none"
+    },
+    "Gateway_/metrics/dashboard_GET": {
+      "endpoint": "GET /metrics/dashboard",
+      "service": "Gateway",
+      "description": "Metrics Dashboard Data",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "none"
+    },
+    "Gateway_/v1/jobs_POST": {
+      "endpoint": "POST /v1/jobs",
+      "service": "Gateway",
+      "description": "Create New Job Posting",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/jobs_GET": {
+      "endpoint": "GET /v1/jobs",
+      "service": "Gateway",
+      "description": "List All Active Jobs",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidates_GET": {
+      "endpoint": "GET /v1/candidates",
+      "service": "Gateway",
+      "description": "Get All Candidates with Pagination",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidates/search_GET": {
+      "endpoint": "GET /v1/candidates/search",
+      "service": "Gateway",
+      "description": "Search & Filter Candidates",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidates/job/{job_id}_GET": {
+      "endpoint": "GET /v1/candidates/job/{job_id}",
+      "service": "Gateway",
+      "description": "Get Candidates by Job",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidates/{candidate_id}_GET": {
+      "endpoint": "GET /v1/candidates/{candidate_id}",
+      "service": "Gateway",
+      "description": "Get Specific Candidate by ID",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidates/bulk_POST": {
+      "endpoint": "POST /v1/candidates/bulk",
+      "service": "Gateway",
+      "description": "Bulk Upload Candidates",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/match/{job_id}/top_GET": {
+      "endpoint": "GET /v1/match/{job_id}/top",
+      "service": "Gateway",
+      "description": "AI-powered semantic candidate matching",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/match/batch_POST": {
+      "endpoint": "POST /v1/match/batch",
+      "service": "Gateway",
+      "description": "Batch AI matching",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/feedback_POST": {
+      "endpoint": "POST /v1/feedback",
+      "service": "Gateway",
+      "description": "Values Assessment",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/feedback_GET": {
+      "endpoint": "GET /v1/feedback",
+      "service": "Gateway",
+      "description": "Get All Feedback Records",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/interviews_GET": {
+      "endpoint": "GET /v1/interviews",
+      "service": "Gateway",
+      "description": "Get All Interviews",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/interviews_POST": {
+      "endpoint": "POST /v1/interviews",
+      "service": "Gateway",
+      "description": "Schedule Interview",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/offers_POST": {
+      "endpoint": "POST /v1/offers",
+      "service": "Gateway",
+      "description": "Job Offers Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/offers_GET": {
+      "endpoint": "GET /v1/offers",
+      "service": "Gateway",
+      "description": "Get All Job Offers",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/candidates/stats_GET": {
+      "endpoint": "GET /candidates/stats",
+      "service": "Gateway",
+      "description": "Candidate Statistics",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/database/schema_GET": {
+      "endpoint": "GET /v1/database/schema",
+      "service": "Gateway",
+      "description": "Get Database Schema Information",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/reports/job/{job_id}/export.csv_GET": {
+      "endpoint": "GET /v1/reports/job/{job_id}/export.csv",
+      "service": "Gateway",
+      "description": "Export Job Report",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/client/register_POST": {
+      "endpoint": "POST /v1/client/register",
+      "service": "Gateway",
+      "description": "Client Registration",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/client/login_POST": {
+      "endpoint": "POST /v1/client/login",
+      "service": "Gateway",
+      "description": "Client Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidate/register_POST": {
+      "endpoint": "POST /v1/candidate/register",
+      "service": "Gateway",
+      "description": "Candidate Registration",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidate/login_POST": {
+      "endpoint": "POST /v1/candidate/login",
+      "service": "Gateway",
+      "description": "Candidate Login",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidate/profile/{candidate_id}_PUT": {
+      "endpoint": "PUT /v1/candidate/profile/{candidate_id}",
+      "service": "Gateway",
+      "description": "Update Candidate Profile",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidate/apply_POST": {
+      "endpoint": "POST /v1/candidate/apply",
+      "service": "Gateway",
+      "description": "Apply for Job",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/candidate/applications/{candidate_id}_GET": {
+      "endpoint": "GET /v1/candidate/applications/{candidate_id}",
+      "service": "Gateway",
+      "description": "Get Candidate Applications",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/rate-limit-status_GET/POST": {
+      "endpoint": "GET/POST /v1/security/rate-limit-status",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/blocked-ips_GET/POST": {
+      "endpoint": "GET/POST /v1/security/blocked-ips",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/test-input-validation_GET/POST": {
+      "endpoint": "GET/POST /v1/security/test-input-validation",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/validate-email_GET/POST": {
+      "endpoint": "GET/POST /v1/security/validate-email",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/test-email-validation_GET/POST": {
+      "endpoint": "GET/POST /v1/security/test-email-validation",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/validate-phone_GET/POST": {
+      "endpoint": "GET/POST /v1/security/validate-phone",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/test-phone-validation_GET/POST": {
+      "endpoint": "GET/POST /v1/security/test-phone-validation",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/test-headers_GET/POST": {
+      "endpoint": "GET/POST /v1/security/test-headers",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/security-headers-test_GET/POST": {
+      "endpoint": "GET/POST /v1/security/security-headers-test",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/penetration-test_GET/POST": {
+      "endpoint": "GET/POST /v1/security/penetration-test",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/test-auth_GET/POST": {
+      "endpoint": "GET/POST /v1/security/test-auth",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/penetration-test-endpoints_GET/POST": {
+      "endpoint": "GET/POST /v1/security/penetration-test-endpoints",
+      "service": "Gateway",
+      "description": "Security Testing",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/csp-report_GET/POST": {
+      "endpoint": "GET/POST /v1/security/csp-report",
+      "service": "Gateway",
+      "description": "CSP Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/csp-violations_GET/POST": {
+      "endpoint": "GET/POST /v1/security/csp-violations",
+      "service": "Gateway",
+      "description": "CSP Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/csp/policies_GET/POST": {
+      "endpoint": "GET/POST /v1/csp/policies",
+      "service": "Gateway",
+      "description": "CSP Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/csp/violations_GET/POST": {
+      "endpoint": "GET/POST /v1/csp/violations",
+      "service": "Gateway",
+      "description": "CSP Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/csp/report_GET/POST": {
+      "endpoint": "GET/POST /v1/csp/report",
+      "service": "Gateway",
+      "description": "CSP Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/csp/test_GET/POST": {
+      "endpoint": "GET/POST /v1/csp/test",
+      "service": "Gateway",
+      "description": "CSP Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/csp-policies_GET/POST": {
+      "endpoint": "GET/POST /v1/security/csp-policies",
+      "service": "Gateway",
+      "description": "CSP Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/security/test-csp-policy_GET/POST": {
+      "endpoint": "GET/POST /v1/security/test-csp-policy",
+      "service": "Gateway",
+      "description": "CSP Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/2fa/setup_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/2fa/setup",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/2fa/verify_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/2fa/verify",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/2fa/login_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/2fa/login",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/2fa/status/{user_id}_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/2fa/status/{user_id}",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/2fa/disable_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/2fa/disable",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/2fa/backup-codes_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/2fa/backup-codes",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/2fa/test-token_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/2fa/test-token",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/2fa/qr/{user_id}_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/2fa/qr/{user_id}",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/2fa/setup_GET/POST": {
+      "endpoint": "GET/POST /v1/2fa/setup",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/2fa/verify-setup_GET/POST": {
+      "endpoint": "GET/POST /v1/2fa/verify-setup",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/2fa/login-with-2fa_GET/POST": {
+      "endpoint": "GET/POST /v1/2fa/login-with-2fa",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/2fa/status/{client_id}_GET/POST": {
+      "endpoint": "GET/POST /v1/2fa/status/{client_id}",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/2fa/disable_GET/POST": {
+      "endpoint": "GET/POST /v1/2fa/disable",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/2fa/regenerate-backup-codes_GET/POST": {
+      "endpoint": "GET/POST /v1/2fa/regenerate-backup-codes",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/2fa/test-token/{client_id}/{token}_GET/POST": {
+      "endpoint": "GET/POST /v1/2fa/test-token/{client_id}/{token}",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/2fa/demo-setup_GET/POST": {
+      "endpoint": "GET/POST /v1/2fa/demo-setup",
+      "service": "Gateway",
+      "description": "2FA Authentication",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/password/validate_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/password/validate",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/password/generate_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/password/generate",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/password/policy_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/password/policy",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/password/change_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/password/change",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/password/strength_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/password/strength",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/auth/password/security-tips_GET/POST": {
+      "endpoint": "GET/POST /v1/auth/password/security-tips",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/password/validate_GET/POST": {
+      "endpoint": "GET/POST /v1/password/validate",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/password/generate_GET/POST": {
+      "endpoint": "GET/POST /v1/password/generate",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/password/policy_GET/POST": {
+      "endpoint": "GET/POST /v1/password/policy",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/password/change_GET/POST": {
+      "endpoint": "GET/POST /v1/password/change",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/password/strength-test_GET/POST": {
+      "endpoint": "GET/POST /v1/password/strength-test",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Gateway_/v1/password/security-tips_GET/POST": {
+      "endpoint": "GET/POST /v1/password/security-tips",
+      "service": "Gateway",
+      "description": "Password Management",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Agent_/_GET": {
+      "endpoint": "GET /",
+      "service": "Agent",
+      "description": "AI Service Information",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "none"
+    },
+    "Agent_/health_GET": {
+      "endpoint": "GET /health",
+      "service": "Agent",
+      "description": "Health Check",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "none"
+    },
+    "Agent_/test-db_GET": {
+      "endpoint": "GET /test-db",
+      "service": "Agent",
+      "description": "Database Connectivity Test",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Agent_/match_POST": {
+      "endpoint": "POST /match",
+      "service": "Agent",
+      "description": "AI-Powered Candidate Matching",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Agent_/batch-match_POST": {
+      "endpoint": "POST /batch-match",
+      "service": "Agent",
+      "description": "Batch AI Matching for Multiple Jobs",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    },
+    "Agent_/analyze/{candidate_id}_GET": {
+      "endpoint": "GET /analyze/{candidate_id}",
+      "service": "Agent",
+      "description": "Detailed Candidate Analysis",
+      "status": "PASS",
+      "issues": [],
+      "missing_tables": [],
+      "missing_columns": {},
+      "authentication": "required"
+    }
+  }
+}

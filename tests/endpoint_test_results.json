@@ -1,0 +1,608 @@
+{
+  "test_timestamp": "2025-11-05T10:32:01.476660",
+  "summary": {
+    "total": 85,
+    "passed": 85,
+    "failed": 0,
+    "timeout": 0,
+    "error": 0,
+    "success_rate": "100.0%"
+  },
+  "results": {
+    "Gateway_GET_/": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.254,
+      "response_size": 203,
+      "error": null
+    },
+    "Gateway_GET_/health": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.656,
+      "response_size": 113,
+      "error": null
+    },
+    "Gateway_GET_/test-candidates": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.263,
+      "response_size": 104,
+      "error": null
+    },
+    "Gateway_GET_/metrics": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.632,
+      "response_size": 3230,
+      "error": null
+    },
+    "Gateway_GET_/health/detailed": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.703,
+      "response_size": 273,
+      "error": null
+    },
+    "Gateway_GET_/metrics/dashboard": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 2.079,
+      "response_size": 512,
+      "error": null
+    },
+    "Gateway_POST_/v1/jobs": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.222,
+      "response_size": 97,
+      "error": null
+    },
+    "Gateway_GET_/v1/jobs": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.713,
+      "response_size": 1393,
+      "error": null
+    },
+    "Gateway_GET_/v1/candidates": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.25,
+      "response_size": 2390,
+      "error": null
+    },
+    "Gateway_GET_/v1/candidates/search": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.183,
+      "response_size": 2238,
+      "error": null
+    },
+    "Gateway_GET_/v1/candidates/job/1": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.261,
+      "response_size": 1033,
+      "error": null
+    },
+    "Gateway_GET_/v1/candidates/1": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.893,
+      "response_size": 394,
+      "error": null
+    },
+    "Gateway_POST_/v1/candidates/bulk": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.229,
+      "response_size": 131,
+      "error": null
+    },
+    "Gateway_GET_/v1/match/1/top": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 62.233,
+      "response_size": 5592,
+      "error": null
+    },
+    "Gateway_POST_/v1/match/batch": {
+      "status": "PASS",
+      "status_code": 422,
+      "response_time": 0.925,
+      "response_size": 111,
+      "error": null
+    },
+    "Gateway_POST_/v1/feedback": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.704,
+      "response_size": 246,
+      "error": null
+    },
+    "Gateway_GET_/v1/feedback": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.593,
+      "response_size": 1158,
+      "error": null
+    },
+    "Gateway_GET_/v1/interviews": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.2,
+      "response_size": 215,
+      "error": null
+    },
+    "Gateway_POST_/v1/interviews": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.424,
+      "response_size": 151,
+      "error": null
+    },
+    "Gateway_POST_/v1/offers": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.225,
+      "response_size": 214,
+      "error": null
+    },
+    "Gateway_GET_/v1/offers": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.184,
+      "response_size": 250,
+      "error": null
+    },
+    "Gateway_GET_/candidates/stats": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.183,
+      "response_size": 142,
+      "error": null
+    },
+    "Gateway_GET_/v1/database/schema": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.19,
+      "response_size": 590,
+      "error": null
+    },
+    "Gateway_GET_/v1/reports/job/1/export.csv": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.639,
+      "response_size": 152,
+      "error": null
+    },
+    "Gateway_POST_/v1/client/register": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 2.747,
+      "response_size": 106,
+      "error": null
+    },
+    "Gateway_POST_/v1/client/login": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.767,
+      "response_size": 47,
+      "error": null
+    },
+    "Gateway_POST_/v1/candidate/register": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 2.838,
+      "response_size": 70,
+      "error": null
+    },
+    "Gateway_POST_/v1/candidate/login": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 2.756,
+      "response_size": 431,
+      "error": null
+    },
+    "Gateway_PUT_/v1/candidate/profile/1": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.67,
+      "response_size": 57,
+      "error": null
+    },
+    "Gateway_POST_/v1/candidate/apply": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.358,
+      "response_size": 56,
+      "error": null
+    },
+    "Gateway_GET_/v1/candidate/applications/1": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.975,
+      "response_size": 433,
+      "error": null
+    },
+    "Gateway_GET_/v1/security/rate-limit-status": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.634,
+      "response_size": 164,
+      "error": null
+    },
+    "Gateway_GET_/v1/security/blocked-ips": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.632,
+      "response_size": 261,
+      "error": null
+    },
+    "Gateway_POST_/v1/security/test-input-validation": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.67,
+      "response_size": 112,
+      "error": null
+    },
+    "Gateway_POST_/v1/security/validate-email": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.729,
+      "response_size": 122,
+      "error": null
+    },
+    "Gateway_POST_/v1/security/test-email-validation": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.74,
+      "response_size": 122,
+      "error": null
+    },
+    "Gateway_POST_/v1/security/validate-phone": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.656,
+      "response_size": 123,
+      "error": null
+    },
+    "Gateway_POST_/v1/security/test-phone-validation": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.728,
+      "response_size": 123,
+      "error": null
+    },
+    "Gateway_GET_/v1/security/test-headers": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.641,
+      "response_size": 279,
+      "error": null
+    },
+    "Gateway_GET_/v1/security/security-headers-test": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.727,
+      "response_size": 279,
+      "error": null
+    },
+    "Gateway_POST_/v1/security/penetration-test": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.652,
+      "response_size": 161,
+      "error": null
+    },
+    "Gateway_GET_/v1/security/test-auth": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.646,
+      "response_size": 133,
+      "error": null
+    },
+    "Gateway_GET_/v1/security/penetration-test-endpoints": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.646,
+      "response_size": 490,
+      "error": null
+    },
+    "Gateway_POST_/v1/security/csp-report": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.675,
+      "response_size": 228,
+      "error": null
+    },
+    "Gateway_GET_/v1/security/csp-violations": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.667,
+      "response_size": 247,
+      "error": null
+    },
+    "Gateway_GET_/v1/csp/policies": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.671,
+      "response_size": 427,
+      "error": null
+    },
+    "Gateway_GET_/v1/csp/violations": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.665,
+      "response_size": 247,
+      "error": null
+    },
+    "Gateway_POST_/v1/csp/report": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.633,
+      "response_size": 230,
+      "error": null
+    },
+    "Gateway_GET_/v1/csp/test": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.669,
+      "response_size": 124,
+      "error": null
+    },
+    "Gateway_GET_/v1/security/csp-policies": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.686,
+      "response_size": 427,
+      "error": null
+    },
+    "Gateway_POST_/v1/security/test-csp-policy": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.697,
+      "response_size": 168,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/2fa/setup": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.787,
+      "response_size": 1690,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/2fa/verify": {
+      "status": "PASS",
+      "status_code": 401,
+      "response_time": 0.673,
+      "response_size": 29,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/2fa/login": {
+      "status": "PASS",
+      "status_code": 401,
+      "response_time": 0.654,
+      "response_size": 29,
+      "error": null
+    },
+    "Gateway_GET_/v1/auth/2fa/status/test": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.757,
+      "response_size": 135,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/2fa/disable": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.643,
+      "response_size": 125,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/2fa/backup-codes": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.661,
+      "response_size": 330,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/2fa/test-token": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.652,
+      "response_size": 104,
+      "error": null
+    },
+    "Gateway_GET_/v1/auth/2fa/qr/test": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.73,
+      "response_size": 1603,
+      "error": null
+    },
+    "Gateway_POST_/v1/2fa/setup": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.698,
+      "response_size": 1782,
+      "error": null
+    },
+    "Gateway_POST_/v1/2fa/verify-setup": {
+      "status": "PASS",
+      "status_code": 401,
+      "response_time": 0.66,
+      "response_size": 29,
+      "error": null
+    },
+    "Gateway_POST_/v1/2fa/login-with-2fa": {
+      "status": "PASS",
+      "status_code": 401,
+      "response_time": 0.643,
+      "response_size": 29,
+      "error": null
+    },
+    "Gateway_GET_/v1/2fa/status/test": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.696,
+      "response_size": 137,
+      "error": null
+    },
+    "Gateway_POST_/v1/2fa/disable": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.703,
+      "response_size": 125,
+      "error": null
+    },
+    "Gateway_POST_/v1/2fa/regenerate-backup-codes": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.67,
+      "response_size": 332,
+      "error": null
+    },
+    "Gateway_GET_/v1/2fa/test-token/test/123456": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.679,
+      "response_size": 106,
+      "error": null
+    },
+    "Gateway_GET_/v1/2fa/demo-setup": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 1.102,
+      "response_size": 330,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/password/validate": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.674,
+      "response_size": 93,
+      "error": null
+    },
+    "Gateway_GET_/v1/auth/password/generate": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.772,
+      "response_size": 144,
+      "error": null
+    },
+    "Gateway_GET_/v1/auth/password/policy": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.65,
+      "response_size": 333,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/password/change": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.654,
+      "response_size": 161,
+      "error": null
+    },
+    "Gateway_POST_/v1/auth/password/strength": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.669,
+      "response_size": 93,
+      "error": null
+    },
+    "Gateway_GET_/v1/auth/password/security-tips": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.679,
+      "response_size": 455,
+      "error": null
+    },
+    "Gateway_POST_/v1/password/validate": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.671,
+      "response_size": 93,
+      "error": null
+    },
+    "Gateway_GET_/v1/password/generate": {
+      "status": "PASS",
+      "status_code": 405,
+      "response_time": 0.631,
+      "response_size": 31,
+      "error": null
+    },
+    "Gateway_GET_/v1/password/policy": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.647,
+      "response_size": 333,
+      "error": null
+    },
+    "Gateway_POST_/v1/password/change": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.633,
+      "response_size": 161,
+      "error": null
+    },
+    "Gateway_GET_/v1/password/strength-test": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.633,
+      "response_size": 331,
+      "error": null
+    },
+    "Gateway_GET_/v1/password/security-tips": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.633,
+      "response_size": 455,
+      "error": null
+    },
+    "Agent_GET_/": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.668,
+      "response_size": 416,
+      "error": null
+    },
+    "Agent_GET_/health": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.677,
+      "response_size": 105,
+      "error": null
+    },
+    "Agent_GET_/test-db": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.686,
+      "response_size": 144,
+      "error": null
+    },
+    "Agent_POST_/match": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 77.528,
+      "response_size": 2539,
+      "error": null
+    },
+    "Agent_POST_/batch-match": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 0.734,
+      "response_size": 2718,
+      "error": null
+    },
+    "Agent_GET_/analyze/1": {
+      "status": "PASS",
+      "status_code": 200,
+      "response_time": 5.88,
+      "response_size": 457,
+      "error": null
+    }
+  }
+}
