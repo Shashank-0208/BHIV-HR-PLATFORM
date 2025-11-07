@@ -74,6 +74,7 @@ class EndpointTester:
         print("BHIV HR Platform - Comprehensive Endpoint Testing")
         print("=" * 60)
         print(f"Testing 85 endpoints with {self.timeout}s timeout")
+        print(f"Updated: Indian phone validation and enhanced security features")
         print(f"Gateway URL: {self.gateway_url}")
         print(f"Agent URL: {self.agent_url}")
         print()
@@ -135,8 +136,8 @@ class EndpointTester:
             ("POST", "/v1/security/test-input-validation", {"input_data": "test"}, True),
             ("POST", "/v1/security/validate-email", {"email": "test@test.com"}, True),
             ("POST", "/v1/security/test-email-validation", {"email": "test@test.com"}, True),
-            ("POST", "/v1/security/validate-phone", {"phone": "123-456-7890"}, True),
-            ("POST", "/v1/security/test-phone-validation", {"phone": "123-456-7890"}, True),
+            ("POST", "/v1/security/validate-phone", {"phone": "9876543210"}, True),
+            ("POST", "/v1/security/test-phone-validation", {"phone": "9876543210"}, True),
             ("GET", "/v1/security/test-headers", None, True),
             ("GET", "/v1/security/security-headers-test", None, True),
             ("POST", "/v1/security/penetration-test", {"test_type": "xss", "payload": "test"}, True),
@@ -196,8 +197,9 @@ class EndpointTester:
             ("GET", "/analyze/1", None, True)
         ]
         
-        # Test Gateway endpoints
+        # Test Gateway endpoints  
         print("Testing Gateway Service (79 endpoints)...")
+        print("  Including: Security validation, Indian phone format, schema validation")
         for i, (method, endpoint, data, auth) in enumerate(gateway_endpoints, 1):
             print(f"  [{i:2d}/79] {method:4s} {endpoint[:50]:<50}", end=" ")
             result = self.test_endpoint("Gateway", method, endpoint, data, auth)
@@ -270,9 +272,116 @@ class EndpointTester:
         
         print(f"\nDetailed results saved: endpoint_test_results.json")
 
+def test_security_validation():
+    """Test new security validation features"""
+    print("\n[SECURITY] Testing Security Validation Features...")
+    
+    gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
+    headers = {"Authorization": "Bearer <YOUR_API_KEY>", "Content-Type": "application/json"}
+    
+    # Test Indian phone validation
+    phone_tests = [
+        {"phone": "9876543210", "expected": True, "desc": "Valid 10-digit"},
+        {"phone": "+919876543210", "expected": True, "desc": "Valid +91 prefix"},
+        {"phone": "919876543210", "expected": True, "desc": "Valid 91 prefix"},
+        {"phone": "1234567890", "expected": False, "desc": "Invalid start digit"},
+        {"phone": "98765432", "expected": False, "desc": "Too short"}
+    ]
+    
+    for test in phone_tests:
+        try:
+            response = requests.post(
+                f"{gateway_url}/v1/security/validate-phone",
+                headers=headers,
+                json={"phone": test["phone"]},
+                timeout=10
+            )
+            if response.status_code == 200:
+                result = response.json()
+                status = "PASS" if result["is_valid"] == test["expected"] else "FAIL"
+                validation_type = result.get('validation_type', 'unknown')
+                print(f"  Phone {test['desc']}: {status} ({test['phone']} -> {result['is_valid']}) [{validation_type}]")
+            elif response.status_code == 401:
+                print(f"  Phone {test['desc']}: AUTH_REQUIRED (expected)")
+            else:
+                print(f"  Phone {test['desc']}: HTTP_{response.status_code}")
+        except Exception as e:
+            print(f"  Phone {test['desc']}: ERROR - {str(e)[:50]}")
+    
+    # Test input validation
+    input_tests = [
+        {"input": "normal text", "expected": "SAFE", "desc": "Safe input"},
+        {"input": "<script>alert('xss')</script>", "expected": "BLOCKED", "desc": "XSS attempt"},
+        {"input": "'; DROP TABLE users; --", "expected": "BLOCKED", "desc": "SQL injection"}
+    ]
+    
+    for test in input_tests:
+        try:
+            response = requests.post(
+                f"{gateway_url}/v1/security/test-input-validation",
+                headers=headers,
+                json={"input_data": test["input"]},
+                timeout=10
+            )
+            if response.status_code == 200:
+                result = response.json()
+                status = "PASS" if result["validation_result"] == test["expected"] else "FAIL"
+                threats = len(result.get('threats_detected', []))
+                print(f"  Input {test['desc']}: {status} -> {result['validation_result']} ({threats} threats)")
+            elif response.status_code == 401:
+                print(f"  Input {test['desc']}: AUTH_REQUIRED (expected)")
+            else:
+                print(f"  Input {test['desc']}: HTTP_{response.status_code}")
+        except Exception as e:
+            print(f"  Input {test['desc']}: ERROR - {str(e)[:50]}")
+
+def test_schema_validation():
+    """Test database schema validation"""
+    print("\n[SCHEMA] Testing Database Schema Validation...")
+    
+    gateway_url = "https://bhiv-hr-gateway-ltg0.onrender.com"
+    headers = {"Authorization": "Bearer <YOUR_API_KEY>", "Content-Type": "application/json"}
+    
+    try:
+        response = requests.get(
+            f"{gateway_url}/v1/database/schema",
+            headers=headers,
+            timeout=15
+        )
+        
+        if response.status_code == 200:
+            schema = response.json()
+            print(f"  Schema retrieved: {len(schema.get('tables', []))} tables")
+            print(f"  Schema version: {schema.get('schema_version', 'unknown')}")
+            print(f"  Phase 3 enabled: {schema.get('phase3_enabled', False)}")
+            
+            # Check for key tables
+            expected_tables = ['candidates', 'jobs', 'clients', 'users', 'feedback', 'matching_cache', 'company_scoring_preferences']
+            tables = schema.get('tables', [])
+            
+            for table in expected_tables:
+                if table in tables:
+                    print(f"  Table '{table}': Found")
+                else:
+                    print(f"  Table '{table}': Missing")
+            
+            # Validate core tables count
+            core_tables = schema.get('core_tables', [])
+            print(f"  Core tables defined: {len(core_tables)}")
+            
+        elif response.status_code == 401:
+            print(f"  Schema endpoint requires authentication (expected)")
+        else:
+            print(f"  Schema request failed: HTTP {response.status_code}")
+            
+    except Exception as e:
+        print(f"  Schema validation error: {str(e)}")
+
 def main():
     tester = EndpointTester()
     tester.test_all_endpoints()
+    test_security_validation()
+    test_schema_validation()
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,5 @@
 {
-  "test_timestamp": "2025-11-06T11:02:50.005532",
+  "test_timestamp": "2025-11-07T09:20:08.167314",
   "summary": {
     "total": 85,
     "passed": 85,
@@ -12,595 +12,595 @@
     "Gateway_GET_/": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 1.095,
+      "response_time": 1.134,
       "response_size": 203,
       "error": null
     },
     "Gateway_GET_/health": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 0.805,
+      "response_time": 0.576,
       "response_size": 113,
       "error": null
     },
     "Gateway_GET_/test-candidates": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 1.016,
+      "response_time": 0.57,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/metrics": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 1.298,
-      "response_size": 3243,
+      "response_time": 0.552,
+      "response_size": 3248,
       "error": null
     },
     "Gateway_GET_/health/detailed": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 1.768,
+      "response_time": 1.538,
       "response_size": 273,
       "error": null
     },
     "Gateway_GET_/metrics/dashboard": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 2.456,
-      "response_size": 512,
+      "response_time": 2.101,
+      "response_size": 517,
       "error": null
     },
     "Gateway_POST_/v1/jobs": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.837,
+      "response_time": 0.522,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/jobs": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.77,
+      "response_time": 0.557,
       "response_size": 35,
       "error": null
     },
     "Gateway_GET_/v1/candidates": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 1.274,
+      "response_time": 1.046,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/candidates/search": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.79,
+      "response_time": 0.544,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/candidates/job/1": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.833,
+      "response_time": 0.524,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/candidates/1": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.8,
+      "response_time": 1.048,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/candidates/bulk": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.782,
+      "response_time": 0.522,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/match/1/top": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.634,
+      "response_time": 0.518,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/match/batch": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.831,
+      "response_time": 1.144,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/feedback": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.703,
+      "response_time": 0.536,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/feedback": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.722,
+      "response_time": 0.562,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/interviews": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.714,
+      "response_time": 0.545,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/interviews": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.874,
+      "response_time": 0.663,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/offers": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.761,
+      "response_time": 0.556,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/offers": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.755,
+      "response_time": 0.538,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/candidates/stats": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.775,
+      "response_time": 0.525,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/database/schema": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.71,
+      "response_time": 0.565,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/reports/job/1/export.csv": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.822,
+      "response_time": 0.514,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/client/register": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 1.433,
+      "response_time": 1.233,
       "response_size": 52,
       "error": null
     },
     "Gateway_POST_/v1/client/login": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 1.329,
+      "response_time": 1.187,
       "response_size": 47,
       "error": null
     },
     "Gateway_POST_/v1/candidate/register": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 1.726,
+      "response_time": 1.049,
       "response_size": 52,
       "error": null
     },
     "Gateway_POST_/v1/candidate/login": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 2.837,
+      "response_time": 2.689,
       "response_size": 431,
       "error": null
     },
     "Gateway_PUT_/v1/candidate/profile/1": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.843,
+      "response_time": 0.56,
       "response_size": 35,
       "error": null
     },
     "Gateway_POST_/v1/candidate/apply": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.817,
+      "response_time": 0.585,
       "response_size": 35,
       "error": null
     },
     "Gateway_GET_/v1/candidate/applications/1": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.848,
+      "response_time": 0.558,
       "response_size": 35,
       "error": null
     },
     "Gateway_GET_/v1/security/rate-limit-status": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.684,
+      "response_time": 0.525,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/security/blocked-ips": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 1.328,
+      "response_time": 0.539,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/security/test-input-validation": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.771,
+      "response_time": 1.068,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/security/validate-email": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.86,
+      "response_time": 0.542,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/security/test-email-validation": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.773,
+      "response_time": 0.534,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/security/validate-phone": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.87,
+      "response_time": 0.549,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/security/test-phone-validation": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.907,
+      "response_time": 0.566,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/security/test-headers": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.919,
+      "response_time": 0.569,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/security/security-headers-test": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.817,
+      "response_time": 0.512,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/security/penetration-test": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.821,
+      "response_time": 0.531,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/security/test-auth": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.913,
+      "response_time": 0.585,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/security/penetration-test-endpoints": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.852,
+      "response_time": 0.52,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/security/csp-report": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.766,
+      "response_time": 0.537,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/security/csp-violations": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.725,
+      "response_time": 0.557,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/csp/policies": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.815,
+      "response_time": 0.519,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/csp/violations": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.821,
+      "response_time": 0.65,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/csp/report": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.745,
+      "response_time": 0.639,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/csp/test": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.878,
+      "response_time": 0.518,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/security/csp-policies": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.882,
+      "response_time": 0.528,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/security/test-csp-policy": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.852,
+      "response_time": 0.56,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/2fa/setup": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.715,
+      "response_time": 0.574,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/2fa/verify": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.817,
+      "response_time": 0.574,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/2fa/login": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.813,
+      "response_time": 0.585,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/auth/2fa/status/test": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.874,
+      "response_time": 0.602,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/2fa/disable": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.758,
+      "response_time": 0.519,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/2fa/backup-codes": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 1.021,
+      "response_time": 0.583,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/2fa/test-token": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.817,
+      "response_time": 0.528,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/auth/2fa/qr/test": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.82,
+      "response_time": 0.523,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/2fa/setup": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.811,
+      "response_time": 0.635,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/2fa/verify-setup": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.806,
+      "response_time": 0.563,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/2fa/login-with-2fa": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.828,
+      "response_time": 0.556,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/2fa/status/test": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.712,
+      "response_time": 0.569,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/2fa/disable": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.743,
+      "response_time": 0.51,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/2fa/regenerate-backup-codes": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.707,
+      "response_time": 0.624,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/2fa/test-token/test/123456": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.852,
+      "response_time": 0.621,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/2fa/demo-setup": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.864,
+      "response_time": 0.578,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/password/validate": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.774,
+      "response_time": 0.538,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/auth/password/generate": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.647,
+      "response_time": 0.525,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/auth/password/policy": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.918,
+      "response_time": 0.532,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/password/change": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.817,
+      "response_time": 0.514,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/auth/password/strength": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.717,
+      "response_time": 0.534,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/auth/password/security-tips": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 1.336,
+      "response_time": 0.539,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/password/validate": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.814,
+      "response_time": 0.555,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/password/generate": {
       "status": "PASS",
       "status_code": 405,
-      "response_time": 0.759,
+      "response_time": 0.513,
       "response_size": 31,
       "error": null
     },
     "Gateway_GET_/v1/password/policy": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.875,
+      "response_time": 0.573,
       "response_size": 28,
       "error": null
     },
     "Gateway_POST_/v1/password/change": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.748,
+      "response_time": 0.542,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/password/strength-test": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.773,
+      "response_time": 0.652,
       "response_size": 28,
       "error": null
     },
     "Gateway_GET_/v1/password/security-tips": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.715,
+      "response_time": 0.548,
       "response_size": 28,
       "error": null
     },
     "Agent_GET_/": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 1.432,
+      "response_time": 0.506,
       "response_size": 416,
       "error": null
     },
     "Agent_GET_/health": {
       "status": "PASS",
       "status_code": 200,
-      "response_time": 0.812,
+      "response_time": 1.036,
       "response_size": 105,
       "error": null
     },
     "Agent_GET_/test-db": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.814,
+      "response_time": 0.606,
       "response_size": 35,
       "error": null
     },
     "Agent_POST_/match": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.919,
+      "response_time": 0.52,
       "response_size": 35,
       "error": null
     },
     "Agent_POST_/batch-match": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.815,
+      "response_time": 0.527,
       "response_size": 35,
       "error": null
     },
     "Agent_GET_/analyze/1": {
       "status": "PASS",
       "status_code": 401,
-      "response_time": 0.714,
+      "response_time": 0.55,
       "response_size": 35,
       "error": null
     }

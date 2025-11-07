@@ -496,13 +496,15 @@ async def search_candidates(
 ):
     """Search & Filter Candidates"""
     if skills:
+        if len(skills) > 200:
+            raise HTTPException(status_code=400, detail="Skills filter too long (max 200 characters).")
         if not re.match(r"^[A-Za-z0-9, ]+$", skills):
             raise HTTPException(status_code=400, detail="Invalid characters in skills filter.")
-        skills = skills[:200]
     if location:
+        if len(location) > 100:
+            raise HTTPException(status_code=400, detail="Location filter too long (max 100 characters).")
         if not re.match(r"^[A-Za-z0-9, ]+$", location):
             raise HTTPException(status_code=400, detail="Invalid characters in location filter.")
-        location = location[:100]
     if experience_min is not None and experience_min < 0:
         raise HTTPException(status_code=400, detail="experience_min must be non-negative.")
     
@@ -2343,7 +2345,7 @@ async def update_candidate_profile(candidate_id: int, profile_data: CandidatePro
             if profile_data.phone and not re.match(r"^(\+91|91)?[6-9]\d{9}$", profile_data.phone):
                 raise HTTPException(status_code=400, detail="Invalid Indian phone number format.")
             if profile_data.experience_years is not None and profile_data.experience_years < 0:
-                raise HTTPException(status_code=400, detail="experience_years must be non-negative.")
+                raise HTTPException(status_code=400, detail="Experience years cannot be negative.")
             # Build update query dynamically
             update_fields = []
             params = {"candidate_id": candidate_id}
