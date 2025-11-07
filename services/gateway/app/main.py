@@ -496,9 +496,15 @@ async def search_candidates(
 ):
     """Search & Filter Candidates"""
     if skills:
+        if not re.match(r"^[A-Za-z0-9, ]+$", skills):
+            raise HTTPException(status_code=400, detail="Invalid characters in skills filter.")
         skills = skills[:200]
     if location:
+        if not re.match(r"^[A-Za-z0-9, ]+$", location):
+            raise HTTPException(status_code=400, detail="Invalid characters in location filter.")
         location = location[:100]
+    if experience_min is not None and experience_min < 0:
+        raise HTTPException(status_code=400, detail="experience_min must be non-negative.")
     
     try:
         engine = get_db_engine()
@@ -1453,13 +1459,13 @@ async def validate_phone(phone_data: PhoneValidation, api_key: str = Depends(get
     """Phone Validation"""
     phone = phone_data.phone
     
-    phone_pattern = r'^\+?1?[-.s]?\(?[0-9]{3}\)?[-.s]?[0-9]{3}[-.s]?[0-9]{4}$'
+    phone_pattern = r'^(\+91|91)?[6-9]\d{9}$'
     is_valid = re.match(phone_pattern, phone) is not None
     
     return {
         "phone": phone,
         "is_valid": is_valid,
-        "validation_type": "US_phone_format",
+        "validation_type": "Indian_phone_format",
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
@@ -1468,13 +1474,13 @@ async def test_phone_validation(phone_data: PhoneValidation, api_key: str = Depe
     """Test Phone Validation"""
     phone = phone_data.phone
     
-    phone_pattern = r'^\+?1?[-.s]?\(?[0-9]{3}\)?[-.s]?[0-9]{3}[-.s]?[0-9]{4}$'
+    phone_pattern = r'^(\+91|91)?[6-9]\d{9}$'
     is_valid = re.match(phone_pattern, phone) is not None
     
     return {
         "phone": phone,
         "is_valid": is_valid,
-        "validation_type": "US_phone_format",
+        "validation_type": "Indian_phone_format",
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
@@ -2333,6 +2339,11 @@ async def update_candidate_profile(candidate_id: int, profile_data: CandidatePro
     try:
         engine = get_db_engine()
         with engine.begin() as connection:
+            # Input validation
+            if profile_data.phone and not re.match(r"^(\+91|91)?[6-9]\d{9}$", profile_data.phone):
+                raise HTTPException(status_code=400, detail="Invalid Indian phone number format.")
+            if profile_data.experience_years is not None and profile_data.experience_years < 0:
+                raise HTTPException(status_code=400, detail="experience_years must be non-negative.")
             # Build update query dynamically
             update_fields = []
             params = {"candidate_id": candidate_id}
