@@ -44,6 +44,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 - **[🚀 docs/deployment/](docs/deployment/)** - Deployment guides and configurations
 - **[🔒 docs/security/](docs/security/)** - Security analysis, bias mitigation, and audit reports
 - **[🧪 docs/testing/](docs/testing/)** - Testing strategies and API testing guides
+- **[🤖 docs/n8n_automation/](docs/n8n_automation/)** - ✅ N8N automation system documentation and guides
 - **[👥 docs/USER_GUIDE.md](docs/USER_GUIDE.md)** - Complete user manual
 - **[📝 docs/REFLECTION.md](docs/REFLECTION.md)** - ✅ Daily development reflections
 - **[🔍 SCHEMA_COMPARISON_REPORT.md](docs/reports/SCHEMA_COMPARISON_REPORT.md)** - ✅ Database schema analysis
