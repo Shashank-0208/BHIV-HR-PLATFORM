@@ -1,35 +1,3 @@
-# BHIV HR Platform - .gitignore
-# Comprehensive ignore patterns for Python, Node.js, Docker, and cloud deployments
-
-# ============================================================================
-# ENVIRONMENT & SECRETS
-# ============================================================================
-.env
-.env.local
-.env.production
-.env.staging
-.env.development
-*.env
-config/.env.*
-config/production.env
-config/staging.env
-secrets/
-*.key
-*.pem
-*.p12
-*.pfx
-
-# API Keys and Tokens
-*api_key*
-*secret*
-*token*
-*credentials*
-jwt_secret*
-database_url*
-
-# ============================================================================
-# PYTHON
-# ============================================================================
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -52,6 +20,7 @@ parts/
 sdist/
 var/
 wheels/
+pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -59,6 +28,8 @@ share/python-wheels/
 MANIFEST
 
 # PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
 
@@ -79,7 +50,6 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-cover/
 
 # Translations
 *.mo
@@ -102,7 +72,6 @@ instance/
 docs/_build/
 
 # PyBuilder
-.pybuilder/
 target/
 
 # Jupyter Notebook
@@ -116,15 +85,13 @@ ipython_config.py
 .python-version
 
 # pipenv
-Pipfile.lock
+#   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
+#   However, in case of collaboration, if having platform-specific dependencies or dependencies
+#   having no cross-platform support, pipenv may install dependencies that don't work, or not
+#   install all needed dependencies.
+#Pipfile.lock
 
-# poetry
-poetry.lock
-
-# pdm
-.pdm.toml
-
-# PEP 582
+# PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
 # Celery stuff
@@ -135,6 +102,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
+.env
 .venv
 env/
 venv/
@@ -160,448 +128,184 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# pytype static type analyzer
-.pytype/
+# Sensitive configuration files
+config/.env.render
+config/production.env
+.env.local
+.env.production
+.env.development
 
-# Cython debug symbols
-cython_debug/
-
-# ============================================================================
-# NODE.JS & JAVASCRIPT
-# ============================================================================
 # Logs
-logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
-
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage directory used by tools like istanbul
-coverage/
-*.lcov
-
-# nyc test coverage
-.nyc_output
-
-# Grunt intermediate storage
-.grunt
-
-# Bower dependency directory
-bower_components
-
-# node-waf configuration
-.lock-wscript
-
-# Compiled binary addons
-build/Release
-
-# Dependency directories
-node_modules/
-jspm_packages/
-
-# Snowpack dependency directory
-web_modules/
-
-# TypeScript cache
-*.tsbuildinfo
-
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Optional stylelint cache
-.stylelintcache
-
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# parcel-bundler cache
-.cache
-.parcel-cache
-
-# Next.js build output
-.next
-out
-
-# Nuxt.js build / generate output
-.nuxt
-dist
-
-# Gatsby files
-.cache/
-public
-
-# Storybook build outputs
-.out
-.storybook-out
-storybook-static
-
-# Temporary folders
-tmp/
-temp/
-
-# ============================================================================
-# DOCKER & CONTAINERS
-# ============================================================================
-# Docker
-Dockerfile.local
-docker-compose.override.yml
-docker-compose.local.yml
-.dockerignore.local
-
-# Container logs
-*.container.log
-
-# ============================================================================
-# DATABASES
-# ============================================================================
-# SQLite
-*.sqlite
-*.sqlite3
-*.db
-
-# PostgreSQL
-*.sql.backup
-*.dump
-*.pg_dump
-
-# Database connection files
-database.ini
-db_config.ini
-
-# ============================================================================
-# LOGS & MONITORING
-# ============================================================================
-# Application logs
-logs/
 *.log
-*.log.*
-log/
-temp_logs/
-
-# Service-specific logs
-services/*/logs/
+logs/
 services/gateway/logs/
-services/agent/logs/
-services/portal/logs/
-services/client_portal/logs/
-services/candidate_portal/logs/
 
-# Monitoring and metrics
-metrics/
-monitoring/
-*.metrics
-
-# Error reports
-error_reports/
-crash_reports/
-
-# ============================================================================
-# CLOUD & DEPLOYMENT
-# ============================================================================
-# Render deployment
-render.yaml.local
-.render/
-
-# AWS
-.aws/
-aws-config/
-*.pem
-
-# Google Cloud
-.gcloud/
-gcloud-config/
-service-account.json
-*.json.key
-
-# Azure
-.azure/
-
-# Terraform
-*.tfstate
-*.tfstate.*
-.terraform/
-.terraform.lock.hcl
-terraform.tfvars
-*.auto.tfvars
-
-# Kubernetes
-*.kubeconfig
-kube-config/
-
-# ============================================================================
-# IDE & EDITORS
-# ============================================================================
-# VSCode
+# IDE files
 .vscode/
-*.code-workspace
-
-# PyCharm
 .idea/
-*.iws
-*.iml
-*.ipr
-
-# Sublime Text
-*.sublime-project
-*.sublime-workspace
-
-# Vim
 *.swp
 *.swo
 *~
 
-# Emacs
-*~
-\#*\#
-/.emacs.desktop
-/.emacs.desktop.lock
-*.elc
-auto-save-list
-tramp
-.\#*
-
-# ============================================================================
-# OPERATING SYSTEM
-# ============================================================================
-# macOS
+# OS files
 .DS_Store
-.AppleDouble
-.LSOverride
-Icon
+.DS_Store?
 ._*
-.DocumentRevisions-V100
-.fseventsd
 .Spotlight-V100
-.TemporaryItems
 .Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Windows
-Thumbs.db
-Thumbs.db:encryptable
 ehthumbs.db
-ehthumbs_vista.db
+Thumbs.db
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Temporary files
+temp/
+tmp/
 *.tmp
 *.temp
-Desktop.ini
-$RECYCLE.BIN/
-*.cab
-*.msi
-*.msix
-*.msm
-*.msp
-*.lnk
 
-# Linux
-*~
-.fuse_hidden*
-.directory
-.Trash-*
-.nfs*
+# N8N sensitive files (SECURITY: Never commit these)
+# These files may contain sensitive credentials
+services/n8n_automation/credentials.json
+services/n8n_automation/.env
+services/n8n_automation/config.json
 
-# ============================================================================
-# DEVELOPMENT & TESTING
-# ============================================================================
-# Test files
-test_results/
-test_reports/
-*.test.log
-coverage_reports/
-
-# Temporary development files
-scratch/
-playground/
-experiments/
-dev_notes/
-TODO.md
-NOTES.md
+# API Keys and Secrets (SECURITY: Never commit these)
+**/api_keys.txt
+**/secrets.txt
+**/credentials.txt
+**/.env.secrets
+**/.env.production.local
 
 # Backup files
 *.bak
 *.backup
-*.old
-*.orig
 *~
 
-# ============================================================================
-# PROJECT SPECIFIC
-# ============================================================================
-# BHIV HR Platform specific ignores
+# Node modules (if any)
+node_modules/
 
-# Resume files (keep sample structure but ignore actual files)
-assets/resumes/*.pdf
-assets/resumes/*.docx
-assets/resumes/*.doc
-assets/resumes/*.txt
-!assets/resumes/README.md
+# Docker volumes
+docker-volumes/
 
-# Candidate data (sensitive)
-data/candidates_real.csv
-data/production_data/
-data/exports/
-data/backups/
-
-# Generated reports
-reports/generated/
-temp_reports/generated_*
-*.report.json
-*.report.csv
-
-# Portal session data
-portal_sessions/
-streamlit_sessions/
-
-# AI model cache
-models/cache/
-semantic_cache/
-*.model
-*.pkl
-*.joblib
-
-# Database dumps and backups
-*.sql.gz
-database_backups/
-db_exports/
-
-# Configuration overrides
-config/local/
-config/override/
-local_config/
+# Test artifacts
+test-results/
+coverage-reports/
 
 # Deployment artifacts
-deployment/artifacts/
-deployment/builds/
-deployment/releases/
+deployment/temp/
+deployment/logs/
 
-# Monitoring data
-monitoring_data/
-metrics_data/
-performance_logs/
+# Personal notes and drafts
+NOTES.md
+DRAFT_*.md
+TODO_PERSONAL.md
 
-# Security scan results
-security_reports/
-vulnerability_scans/
+# Python cache and compiled files
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
 
-# Client-specific data
-client_data/
-client_exports/
-client_reports/
+# Virtual environments
+.venv/
+venv/
+.virtualenv/
 
-# ============================================================================
-# CACHE & TEMPORARY FILES
-# ============================================================================
-# General cache
-cache/
-.cache/
-*.cache
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
 
-# Temporary files
-tmp/
-temp/
-temporary/
-*.tmp
-*.temp
+# pytest cache
+.pytest_cache/
 
-# Lock files
-*.lock
-.lock
+# Coverage reports
+.coverage
+htmlcov/
 
-# ============================================================================
-# DOCUMENTATION BUILD
-# ============================================================================
-# Generated documentation
-docs/build/
-docs/generated/
-site/
-_site/
+# Environment-specific files
+.env.*
+!.env.example
 
-# ============================================================================
-# MISCELLANEOUS
-# ============================================================================
-# Compressed files
-*.zip
-*.tar.gz
-*.rar
-*.7z
+# Render deployment files (may contain sensitive info)
+render.yaml
 
-# Archives
-archives/
-old_versions/
+# Local development overrides
+local_config.py
+dev_settings.py
 
-# Patches
-*.patch
-*.diff
+# Streamlit cache
+.streamlit/
+
+# FastAPI cache
+fastapi_cache/
+
+# SQL dumps and backups
+*.sql.backup
+*.dump
+*.sql.gz
+
+# Docker compose overrides
+docker-compose.override.yml
+docker-compose.local.yml
+
+# AWS credentials (if any)
+.aws/
+aws-credentials.json
+
+# Local test data
+test_data/
+local_test_files/
 
 # Editor swap files
 *.swp
 *.swo
+*.tmp
 
-# OS generated files
-.DS_Store?
-ehthumbs.db
-Icon?
+# MacOS specific
+.DS_Store
+**/.DS_Store
+
+# Windows specific
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 
-# ============================================================================
-# KEEP THESE FILES (Negative patterns)
-# ============================================================================
-# Keep important configuration templates
-!.env.example
-!config/.env.example
-!docker-compose.example.yml
+# Linux specific
+*~
 
-# Keep documentation
-!docs/
-!README.md
-!*.md
+# Logs from all services
+services/*/logs/
+services/*/*.log
 
-# Keep sample data structure
-!data/README.md
-!assets/README.md
+# Service-specific cache
+services/*/cache/
+services/*/temp/
 
-# Keep deployment templates
-!deployment/docker/
-!deployment/scripts/
-!deployment/README.md
+# Resume files (if containing personal data)
+assets/resumes/*.pdf
+assets/resumes/*.docx
+assets/resumes/*.doc
+!assets/resumes/README.md
 
-# Keep test structure
-!tests/
-!tests/README.md
+# Database connection strings
+db_config.py
+database_url.txt
 
-# Keep essential configuration
-!requirements.txt
-!Dockerfile
-!docker-compose.yml
-!docker-compose.production.yml
+# API documentation builds
+docs/api/_build/
+docs/build/
 
-# ============================================================================
-# END OF .gitignore
-# ============================================================================
+# Monitoring and metrics data
+metrics/
+monitoring_data/
+
+# Backup directories
+backups/
+*.backup/
+
+# Temporary deployment files
+deploy_temp/
+deployment_temp/
