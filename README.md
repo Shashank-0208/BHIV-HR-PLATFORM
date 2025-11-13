@@ -5,14 +5,14 @@
 ## 🌐 Live Production Platform
 
 ### **✅ Currently Deployed on Render**
-- **API Gateway**: bhiv-hr-gateway-ltg0.onrender.com/docs ✅ (79 endpoints)
+- **API Gateway**: bhiv-hr-gateway-ltg0.onrender.com/docs ✅ (82 endpoints + N8N automation)
 - **AI Matching Engine**: bhiv-hr-agent-nhgg.onrender.com/docs ✅ (6 endpoints - LIVE)
 - **HR Portal**: bhiv-hr-portal-u670.onrender.com/ ✅
 - **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com/ ✅
 - **Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com/ ✅ **NEW**
 - **Database**: PostgreSQL 17 on Render ✅
 - **Status**: ✅ **5/5 SERVICES OPERATIONAL** | **Cost**: $0/month (Free tier)
-- **Total Endpoints**: 85 (79 Gateway + 6 Agent verified) | **Updated**: November 4, 2025 - Complete Production System
+- **Total Endpoints**: 88 (82 Gateway + 6 Agent verified) | **Updated**: November 8, 2025 - Complete Production System with N8N Automation
 - **Python Version**: 3.12.7-slim | **FastAPI**: 0.115.6 | **Streamlit**: 1.41.1
 
 ### **🔑 Demo Access**
@@ -36,7 +36,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 - **[🖥️ docs/architecture/PORTAL_SERVICES_SUMMARY.md](docs/architecture/PORTAL_SERVICES_SUMMARY.md)** - ✅ Portal services documentation with recent fixes
 - **[🏢 docs/architecture/CLIENT_PORTAL_SERVICE_SUMMARY.md](docs/architecture/CLIENT_PORTAL_SERVICE_SUMMARY.md)** - ✅ Client portal service documentation with enterprise auth
 - **[🏗️ docs/architecture/SERVICES_ARCHITECTURE_SUMMARY.md](docs/architecture/SERVICES_ARCHITECTURE_SUMMARY.md)** - ✅ Complete services architecture documentation
-- **[📝 CHANGES_LOG.md](CHANGES_LOG.md)** - ✅ Detailed log of all changes made
+- **[📝 CHANGES_LOG.md](CHANGES_LOG.md)** - ✅ Detailed log of all changes made including N8N automation
 - **[⚡ docs/QUICK_START_GUIDE.md](docs/QUICK_START_GUIDE.md)** - ✅ Get started in 5 minutes
 - **[🎯 docs/CURRENT_FEATURES.md](docs/CURRENT_FEATURES.md)** - ✅ Complete feature list and capabilities
 
@@ -44,6 +44,8 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 - **[🚀 docs/deployment/](docs/deployment/)** - Deployment guides and configurations
 - **[🔒 docs/security/](docs/security/)** - Security analysis, bias mitigation, and audit reports
 - **[🧪 docs/testing/](docs/testing/)** - Testing strategies and API testing guides
+- **[🤖 docs/n8n_automation/](docs/n8n_automation/)** - ✅ N8N automation system documentation and guides
+- **[🔐 docs/n8n_automation/N8N_DEPLOYMENT_SECURITY_GUIDE.md](docs/n8n_automation/N8N_DEPLOYMENT_SECURITY_GUIDE.md)** - ✅ N8N security and credential sanitization guide
 - **[👥 docs/USER_GUIDE.md](docs/USER_GUIDE.md)** - Complete user manual
 - **[📝 docs/REFLECTION.md](docs/REFLECTION.md)** - ✅ Daily development reflections
 - **[🔍 SCHEMA_COMPARISON_REPORT.md](docs/reports/SCHEMA_COMPARISON_REPORT.md)** - ✅ Database schema analysis
@@ -76,16 +78,16 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 ### **Microservices Architecture**
 | Service | Purpose | Technology | Port | Status | Production URL |
 |---------|---------|------------|------|--------|----------------|
-| **API Gateway** | REST API Backend | FastAPI 3.1.0 + Python 3.12.7-slim | 8000 | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com |
+| **API Gateway** | REST API Backend + N8N Integration | FastAPI 3.1.0 + Python 3.12.7-slim | 8000 | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com |
 | **AI Agent** | Phase 3 AI Matching | FastAPI 3.1.0 + Python 3.12.7-slim | 9000 | ✅ Live | bhiv-hr-agent-nhgg.onrender.com |
 | **HR Portal** | HR Dashboard | Streamlit 1.41.1 + Python 3.12.7-slim | 8501 | ✅ Live | bhiv-hr-portal-u670.onrender.com |
 | **Client Portal** | Enterprise Interface | Streamlit 1.41.1 + Python 3.12.7-slim | 8502 | ✅ Live | bhiv-hr-client-portal-3iod.onrender.com |
 | **Candidate Portal** | Job Seeker Interface | Streamlit 1.41.1 + Python 3.12.7-slim | 8503 | ✅ Live | bhiv-hr-candidate-portal-abe6.onrender.com |
 | **Database** | PostgreSQL 17 | Schema v4.2.0 (13 core tables) | 5432 | ✅ Live | Render PostgreSQL |
 
-### **API Endpoints (85 Total)**
+### **API Endpoints (88 Total)**
 ```
-Gateway Service (79 endpoints - FastAPI 3.1.0):
+Gateway Service (82 endpoints - FastAPI 3.1.0):
   Core API (3):           GET /, /health, /test-candidates
   Monitoring (3):         GET /metrics, /health/detailed, /metrics/dashboard  
   Job Management (2):     GET /v1/jobs, POST /v1/jobs
@@ -105,6 +107,8 @@ Gateway Service (79 endpoints - FastAPI 3.1.0):
   Candidate Portal (5):   POST /v1/candidate/register, POST /v1/candidate/login,
                           PUT /v1/candidate/profile/{id}, POST /v1/candidate/apply,
                           GET /v1/candidate/applications/{id}
+  N8N Automation (3):     POST /webhooks/candidate-applied, POST /webhooks/candidate-shortlisted,
+                          POST /webhooks/interview-scheduled (Multi-channel notifications)
 
 Agent Service (6 endpoints - Phase 3 AI Engine):
   Core API (2):          GET /, GET /health

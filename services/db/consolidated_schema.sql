@@ -1,7 +1,8 @@
 -- BHIV HR Platform - Consolidated Database Schema
 -- Complete unified schema with Phase 3 learning engine
--- Version: 4.2.0 - Production Ready with Phase 3 Features
--- Generated: November 4, 2025
+-- Version: 4.2.1 - Production Ready with All Missing Components
+-- Generated: November 11, 2025
+-- Includes: All extensions, triggers, functions, and missing columns
 
 -- Enable required PostgreSQL extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -130,6 +131,13 @@ CREATE TABLE IF NOT EXISTS clients (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Add missing columns to existing clients table (for production sync)
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS totp_secret VARCHAR(255);
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS two_factor_enabled BOOLEAN DEFAULT FALSE;
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS backup_codes TEXT;
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS password_changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE clients ADD COLUMN IF NOT EXISTS password_history TEXT;
 
 -- ============================================================================
 -- AI & PERFORMANCE TABLES
@@ -310,6 +318,13 @@ CREATE INDEX IF NOT EXISTS idx_job_applications_date ON job_applications(applied
 -- Enhanced matching cache with learning data
 ALTER TABLE matching_cache ADD COLUMN IF NOT EXISTS learning_version VARCHAR(50) DEFAULT 'v3.0';
 
+-- Add missing performance indexes that may not exist in production
+CREATE INDEX IF NOT EXISTS idx_candidates_skills_gin ON candidates USING gin(to_tsvector('english', technical_skills));
+CREATE INDEX IF NOT EXISTS idx_candidates_score ON candidates(average_score);
+CREATE INDEX IF NOT EXISTS idx_users_2fa_enabled ON users(is_2fa_enabled);
+CREATE INDEX IF NOT EXISTS idx_users_last_login ON users(last_login);
+CREATE INDEX IF NOT EXISTS idx_clients_2fa_enabled ON clients(two_factor_enabled);
+
 -- ============================================================================
 -- TRIGGERS AND FUNCTIONS
 -- ============================================================================
@@ -407,6 +422,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 );
 
 INSERT INTO schema_version (version, description) VALUES 
+('4.2.1', 'Complete consolidated schema with all missing components - November 11, 2025'),
 ('4.2.0', 'Production schema with job_applications table and client auth fixes - November 4, 2025'),
 ('4.1.0', 'Production consolidated schema with Phase 3 learning engine'),
 ('4.0.1', 'Fixed schema - removed invalid generated column update'),
@@ -414,4 +430,37 @@ INSERT INTO schema_version (version, description) VALUES
 ON CONFLICT (version) DO UPDATE SET applied_at = CURRENT_TIMESTAMP;
 
 -- Final success message
-SELECT 'BHIV HR Platform Consolidated Schema v4.2.0 - Successfully Applied' as status;
+SELECT 'BHIV HR Platform Consolidated Schema v4.2.1 - Successfully Applied with All Components' as status;
+
+-- ============================================================================
+-- PRODUCTION SYNC VERIFICATION
+-- ============================================================================
+
+-- Verify all required extensions are installed
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'uuid-ossp') THEN
+        RAISE NOTICE 'Extension uuid-ossp is missing - will be created';
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM pg_extension WHERE extname = 'pg_trgm') THEN
+        RAISE NOTICE 'Extension pg_trgm is missing - will be created';
+    END IF;
+END $$;
+
+-- Verify all required columns exist in clients table
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'clients' AND column_name = 'two_factor_enabled') THEN
+        RAISE NOTICE 'Column clients.two_factor_enabled is missing - will be added';
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'clients' AND column_name = 'backup_codes') THEN
+        RAISE NOTICE 'Column clients.backup_codes is missing - will be added';
+    END IF;
+END $$;
+
+-- Show completion status
+SELECT 
+    'Schema v4.2.1 Ready for Production Deployment' as status,
+    COUNT(*) as total_tables
+FROM information_schema.tables 
+WHERE table_schema = 'public' AND table_type = 'BASE TABLE';
