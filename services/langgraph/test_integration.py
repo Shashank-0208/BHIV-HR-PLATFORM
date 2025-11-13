@@ -1,253 +1,337 @@
 #!/usr/bin/env python3
 """
-Comprehensive Integration Test for BHIV LangGraph Service
-Tests all endpoints, configuration, and integration with Gateway
+Comprehensive Integration Test for LangGraph Service
+Tests the complete workflow integration between LangGraph and Gateway services
 """
+
 import asyncio
-import httpx
+import aiohttp
 import json
+import time
 from datetime import datetime
+from typing import Dict, Any
 
-LANGGRAPH_URL = "http://localhost:9001"
+# Configuration
 GATEWAY_URL = "http://localhost:8000"
+LANGGRAPH_URL = "http://localhost:8004"
+API_KEY = "test-api-key-12345"
 
-async def test_service_health():
-    """Test both services are healthy"""
-    print("🔍 Testing Service Health...")
+class IntegrationTester:
+    def __init__(self):
+        self.session = None
+        self.test_results = []
+        
+    async def __aenter__(self):
+        self.session = aiohttp.ClientSession()
+        return self
+        
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        if self.session:
+            await self.session.close()
     
-    try:
-        async with httpx.AsyncClient() as client:
-            # Test LangGraph health
-            lg_response = await client.get(f"{LANGGRAPH_URL}/health")
-            lg_healthy = lg_response.status_code == 200
-            
-            # Test Gateway health
-            gw_response = await client.get(f"{GATEWAY_URL}/health")
-            gw_healthy = gw_response.status_code == 200
-            
-            print(f"  ✅ LangGraph Service: {'Healthy' if lg_healthy else 'Unhealthy'}")
-            print(f"  ✅ Gateway Service: {'Healthy' if gw_healthy else 'Unhealthy'}")
-            
-            if lg_healthy and gw_healthy:
-                lg_data = lg_response.json()
-                gw_data = gw_response.json()
-                print(f"  📊 LangGraph uptime: {lg_data.get('uptime_seconds', 0)}s")
-                print(f"  📊 Gateway version: {gw_data.get('version', 'unknown')}")
-                return True
-            return False
-            
-    except Exception as e:
-        print(f"  ❌ Health check failed: {e}")
-        return False
-
-async def test_workflow_creation():
-    """Test workflow creation endpoint"""
-    print("\n🚀 Testing Workflow Creation...")
+    def log_test(self, test_name: str, success: bool, details: str = ""):
+        """Log test result"""
+        status = "✅ PASS" if success else "❌ FAIL"
+        print(f"{status} {test_name}: {details}")
+        self.test_results.append({
+            "test": test_name,
+            "success": success,
+            "details": details,
+            "timestamp": datetime.now().isoformat()
+        })
     
-    payload = {
-        "candidate_id": 1,
-        "job_id": 1,
-        "application_id": 123,
-        "candidate_email": "john.doe@example.com",
-        "candidate_phone": "+1234567890",
-        "candidate_name": "John Doe",
-        "job_title": "Senior Python Developer",
-        "job_description": "Develop scalable backend systems using Python and FastAPI"
-    }
+    async def test_service_health(self):
+        """Test both services are running"""
+        print("\n🔍 Testing Service Health...")
+        
+        # Test Gateway
+        try:
+            async with self.session.get(f"{GATEWAY_URL}/health") as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    self.log_test("Gateway Health", True, f"Status: {data.get('status')}")
+                else:
+                    self.log_test("Gateway Health", False, f"HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("Gateway Health", False, str(e))
+        
+        # Test LangGraph
+        try:
+            async with self.session.get(f"{LANGGRAPH_URL}/health") as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    self.log_test("LangGraph Health", True, f"Status: {data.get('status')}")
+                else:
+                    self.log_test("LangGraph Health", False, f"HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("LangGraph Health", False, str(e))
     
-    try:
-        async with httpx.AsyncClient() as client:
-            response = await client.post(
-                f"{LANGGRAPH_URL}/workflows/application/start",
-                json=payload,
-                timeout=30.0
-            )
-            
-            if response.status_code == 200:
-                data = response.json()
-                workflow_id = data.get('workflow_id')
-                print(f"  ✅ Workflow created: {workflow_id}")
-                print(f"  📝 Status: {data.get('status')}")
-                print(f"  💬 Message: {data.get('message')}")
-                return workflow_id
+    async def test_gateway_endpoints(self):
+        """Test key Gateway endpoints"""
+        print("\n🔍 Testing Gateway Endpoints...")
+        
+        headers = {"Authorization": f"Bearer {API_KEY}"}
+        
+        # Test candidates endpoint
+        try:
+            async with self.session.get(f"{GATEWAY_URL}/v1/candidates", headers=headers) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    count = len(data) if isinstance(data, list) else data.get('count', 0)
+                    self.log_test("Gateway Candidates", True, f"Found {count} candidates")
+                else:
+                    self.log_test("Gateway Candidates", False, f"HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("Gateway Candidates", False, str(e))
+        
+        # Test jobs endpoint
+        try:
+            async with self.session.get(f"{GATEWAY_URL}/v1/jobs", headers=headers) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    count = len(data) if isinstance(data, list) else data.get('count', 0)
+                    self.log_test("Gateway Jobs", True, f"Found {count} jobs")
+                else:
+                    self.log_test("Gateway Jobs", False, f"HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("Gateway Jobs", False, str(e))
+    
+    async def test_langgraph_endpoints(self):
+        """Test LangGraph service endpoints"""
+        print("\n🔍 Testing LangGraph Endpoints...")
+        
+        # Test workflow status
+        try:
+            async with self.session.get(f"{LANGGRAPH_URL}/workflow/status") as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    self.log_test("LangGraph Status", True, f"Active workflows: {data.get('active_workflows', 0)}")
+                else:
+                    self.log_test("LangGraph Status", False, f"HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("LangGraph Status", False, str(e))
+        
+        # Test workflow list
+        try:
+            async with self.session.get(f"{LANGGRAPH_URL}/workflow/list") as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    count = len(data.get('workflows', []))
+                    self.log_test("LangGraph Workflows", True, f"Found {count} workflows")
+                else:
+                    self.log_test("LangGraph Workflows", False, f"HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("LangGraph Workflows", False, str(e))
+    
+    async def test_workflow_execution(self):
+        """Test complete workflow execution"""
+        print("\n🔍 Testing Workflow Execution...")
+        
+        # Create test application data
+        test_application = {
+            "candidate_id": 1,
+            "job_id": 1,
+            "candidate_name": "Test Candidate",
+            "candidate_email": "test@example.com",
+            "candidate_phone": "+1234567890",
+            "job_title": "Software Engineer"
+        }
+        
+        try:
+            # Start workflow
+            async with self.session.post(
+                f"{LANGGRAPH_URL}/workflow/start",
+                json=test_application
+            ) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    workflow_id = data.get('workflow_id')
+                    self.log_test("Workflow Start", True, f"ID: {workflow_id}")
+                    
+                    # Monitor workflow progress
+                    await self.monitor_workflow(workflow_id)
+                else:
+                    self.log_test("Workflow Start", False, f"HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("Workflow Start", False, str(e))
+    
+    async def monitor_workflow(self, workflow_id: str):
+        """Monitor workflow execution"""
+        print(f"\n📊 Monitoring Workflow {workflow_id}...")
+        
+        max_attempts = 30  # 30 seconds timeout
+        attempt = 0
+        
+        while attempt < max_attempts:
+            try:
+                async with self.session.get(f"{LANGGRAPH_URL}/workflow/{workflow_id}") as resp:
+                    if resp.status == 200:
+                        data = await resp.json()
+                        status = data.get('status')
+                        stage = data.get('current_stage', 'unknown')
+                        
+                        print(f"  Status: {status}, Stage: {stage}")
+                        
+                        if status == 'completed':
+                            self.log_test("Workflow Completion", True, f"Completed in stage: {stage}")
+                            await self.verify_workflow_results(workflow_id, data)
+                            break
+                        elif status == 'failed':
+                            error = data.get('error', 'Unknown error')
+                            self.log_test("Workflow Completion", False, f"Failed: {error}")
+                            break
+                        
+                        await asyncio.sleep(1)
+                        attempt += 1
+                    else:
+                        self.log_test("Workflow Monitoring", False, f"HTTP {resp.status}")
+                        break
+            except Exception as e:
+                self.log_test("Workflow Monitoring", False, str(e))
+                break
+        
+        if attempt >= max_attempts:
+            self.log_test("Workflow Timeout", False, "Workflow did not complete in 30 seconds")
+    
+    async def verify_workflow_results(self, workflow_id: str, workflow_data: Dict[Any, Any]):
+        """Verify workflow produced expected results"""
+        print(f"\n✅ Verifying Workflow Results for {workflow_id}...")
+        
+        # Check for expected fields
+        expected_fields = ['application_status', 'matching_score', 'notifications_sent']
+        
+        for field in expected_fields:
+            if field in workflow_data:
+                value = workflow_data[field]
+                self.log_test(f"Result Field: {field}", True, f"Value: {value}")
             else:
-                print(f"  ❌ Workflow creation failed: {response.status_code}")
-                print(f"  📄 Response: {response.text}")
-                return None
-                
-    except Exception as e:
-        print(f"  ❌ Workflow creation error: {e}")
-        return None
-
-async def test_workflow_status(workflow_id: str):
-    """Test workflow status endpoint"""
-    print(f"\n📊 Testing Workflow Status for {workflow_id}...")
+                self.log_test(f"Result Field: {field}", False, "Missing from results")
+        
+        # Verify application status is valid
+        status = workflow_data.get('application_status')
+        valid_statuses = ['shortlisted', 'rejected', 'pending']
+        if status in valid_statuses:
+            self.log_test("Valid Status", True, f"Status: {status}")
+        else:
+            self.log_test("Valid Status", False, f"Invalid status: {status}")
+        
+        # Verify matching score is reasonable
+        score = workflow_data.get('matching_score')
+        if isinstance(score, (int, float)) and 0 <= score <= 100:
+            self.log_test("Valid Score", True, f"Score: {score}")
+        else:
+            self.log_test("Valid Score", False, f"Invalid score: {score}")
     
-    try:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(f"{LANGGRAPH_URL}/workflows/{workflow_id}/status")
-            
-            if response.status_code == 200:
-                data = response.json()
-                print(f"  ✅ Status retrieved successfully")
-                print(f"  🎯 Current stage: {data.get('current_stage')}")
-                print(f"  📋 Application status: {data.get('application_status')}")
-                print(f"  🎯 Matching score: {data.get('matching_score')}")
-                print(f"  ⚡ Last action: {data.get('last_action')}")
-                print(f"  ✅ Completed: {data.get('completed')}")
-                return True
-            else:
-                print(f"  ⚠️ Status check returned: {response.status_code}")
-                print(f"  📄 Response: {response.text}")
-                return False
-                
-    except Exception as e:
-        print(f"  ❌ Status check error: {e}")
-        return False
-
-async def test_api_documentation():
-    """Test API documentation endpoint"""
-    print("\n📚 Testing API Documentation...")
+    async def test_gateway_langgraph_integration(self):
+        """Test integration between Gateway and LangGraph"""
+        print("\n🔍 Testing Gateway-LangGraph Integration...")
+        
+        headers = {"Authorization": f"Bearer {API_KEY}"}
+        
+        # Test if Gateway can trigger LangGraph workflow
+        test_data = {
+            "candidate_id": 1,
+            "job_id": 1
+        }
+        
+        try:
+            async with self.session.post(
+                f"{GATEWAY_URL}/v1/workflow/trigger",
+                json=test_data,
+                headers=headers
+            ) as resp:
+                if resp.status == 200:
+                    data = await resp.json()
+                    self.log_test("Gateway-LangGraph Trigger", True, f"Response: {data}")
+                else:
+                    # This endpoint might not exist yet, so we'll test direct communication
+                    self.log_test("Gateway-LangGraph Trigger", False, f"HTTP {resp.status} (endpoint may not exist)")
+        except Exception as e:
+            self.log_test("Gateway-LangGraph Trigger", False, str(e))
     
-    try:
-        async with httpx.AsyncClient() as client:
-            response = await client.get(f"{LANGGRAPH_URL}/docs")
-            
-            if response.status_code == 200:
-                print(f"  ✅ API docs available at: {LANGGRAPH_URL}/docs")
-                return True
-            else:
-                print(f"  ❌ API docs failed: {response.status_code}")
-                return False
-                
-    except Exception as e:
-        print(f"  ❌ API docs error: {e}")
-        return False
-
-async def test_configuration():
-    """Test configuration loading"""
-    print("\n⚙️ Testing Configuration...")
+    async def test_error_handling(self):
+        """Test error handling in both services"""
+        print("\n🔍 Testing Error Handling...")
+        
+        # Test invalid workflow data
+        try:
+            async with self.session.post(
+                f"{LANGGRAPH_URL}/workflow/start",
+                json={"invalid": "data"}
+            ) as resp:
+                if resp.status in [400, 422]:  # Expected error codes
+                    self.log_test("Error Handling", True, f"Properly rejected invalid data: HTTP {resp.status}")
+                else:
+                    self.log_test("Error Handling", False, f"Unexpected response: HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("Error Handling", False, str(e))
+        
+        # Test non-existent workflow
+        try:
+            async with self.session.get(f"{LANGGRAPH_URL}/workflow/nonexistent-id") as resp:
+                if resp.status == 404:
+                    self.log_test("404 Handling", True, "Properly returned 404 for non-existent workflow")
+                else:
+                    self.log_test("404 Handling", False, f"Unexpected response: HTTP {resp.status}")
+        except Exception as e:
+            self.log_test("404 Handling", False, str(e))
     
-    try:
-        # Import and test config
-        import sys
-        import os
-        sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-        from config import settings
+    async def run_all_tests(self):
+        """Run all integration tests"""
+        print("🚀 Starting Comprehensive Integration Tests")
+        print("=" * 60)
         
-        print(f"  ✅ Config loaded successfully")
-        print(f"  🌐 Gateway URL: {settings.gateway_url}")
-        print(f"  🔧 Environment: {settings.environment}")
-        print(f"  📊 Log level: {settings.log_level}")
-        print(f"  🤖 OpenAI model: {settings.openai_model}")
-        print(f"  🔑 API key configured: {'Yes' if settings.api_key_secret != 'your-api-key' else 'No'}")
+        start_time = time.time()
         
-        return True
+        # Run all test suites
+        await self.test_service_health()
+        await self.test_gateway_endpoints()
+        await self.test_langgraph_endpoints()
+        await self.test_workflow_execution()
+        await self.test_gateway_langgraph_integration()
+        await self.test_error_handling()
         
-    except Exception as e:
-        print(f"  ❌ Configuration error: {e}")
-        return False
-
-async def test_mock_communication():
-    """Test mock communication in development mode"""
-    print("\n📞 Testing Mock Communication...")
-    
-    try:
-        # Import communication manager
-        import sys
-        import os
-        sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app'))
-        from app.communication import comm_manager
+        # Generate summary
+        end_time = time.time()
+        duration = end_time - start_time
         
-        # Test mock email
-        email_result = await comm_manager.send_email(
-            "test@example.com",
-            "Test Subject",
-            "Test body content"
-        )
+        passed = sum(1 for result in self.test_results if result['success'])
+        total = len(self.test_results)
         
-        # Test mock WhatsApp
-        whatsapp_result = await comm_manager.send_whatsapp(
-            "+1234567890",
-            "Test WhatsApp message"
-        )
+        print("\n" + "=" * 60)
+        print("📊 TEST SUMMARY")
+        print("=" * 60)
+        print(f"Total Tests: {total}")
+        print(f"Passed: {passed}")
+        print(f"Failed: {total - passed}")
+        print(f"Success Rate: {(passed/total)*100:.1f}%")
+        print(f"Duration: {duration:.2f} seconds")
         
-        print(f"  ✅ Mock email: {email_result.get('status')}")
-        print(f"  ✅ Mock WhatsApp: {whatsapp_result.get('status')}")
+        if passed == total:
+            print("\n🎉 ALL TESTS PASSED! Integration is working correctly.")
+        else:
+            print(f"\n⚠️  {total - passed} tests failed. Check the details above.")
         
-        return True
+        # Save detailed results
+        with open("integration_test_results.json", "w") as f:
+            json.dump({
+                "summary": {
+                    "total_tests": total,
+                    "passed": passed,
+                    "failed": total - passed,
+                    "success_rate": (passed/total)*100,
+                    "duration": duration,
+                    "timestamp": datetime.now().isoformat()
+                },
+                "results": self.test_results
+            }, f, indent=2)
         
-    except Exception as e:
-        print(f"  ❌ Communication test error: {e}")
-        return False
+        print(f"\n📄 Detailed results saved to: integration_test_results.json")
 
 async def main():
-    """Run comprehensive integration tests"""
-    print("🧪 BHIV LangGraph Service - Comprehensive Integration Test")
-    print("=" * 60)
-    
-    results = []
-    
-    # Test 1: Service Health
-    health_ok = await test_service_health()
-    results.append(("Service Health", health_ok))
-    
-    if not health_ok:
-        print("\n❌ Services not healthy. Please ensure both services are running:")
-        print(f"  - LangGraph: {LANGGRAPH_URL}")
-        print(f"  - Gateway: {GATEWAY_URL}")
-        return
-    
-    # Test 2: Configuration
-    config_ok = await test_configuration()
-    results.append(("Configuration", config_ok))
-    
-    # Test 3: Mock Communication
-    comm_ok = await test_mock_communication()
-    results.append(("Mock Communication", comm_ok))
-    
-    # Test 4: API Documentation
-    docs_ok = await test_api_documentation()
-    results.append(("API Documentation", docs_ok))
-    
-    # Test 5: Workflow Creation
-    workflow_id = await test_workflow_creation()
-    workflow_ok = workflow_id is not None
-    results.append(("Workflow Creation", workflow_ok))
-    
-    if workflow_id:
-        # Wait for workflow to process
-        print("\n⏳ Waiting 5 seconds for workflow to process...")
-        await asyncio.sleep(5)
-        
-        # Test 6: Workflow Status
-        status_ok = await test_workflow_status(workflow_id)
-        results.append(("Workflow Status", status_ok))
-    
-    # Summary
-    print("\n" + "=" * 60)
-    print("📋 TEST SUMMARY")
-    print("=" * 60)
-    
-    passed = 0
-    total = len(results)
-    
-    for test_name, result in results:
-        status = "✅ PASS" if result else "❌ FAIL"
-        print(f"  {status} {test_name}")
-        if result:
-            passed += 1
-    
-    print(f"\n🎯 Results: {passed}/{total} tests passed")
-    
-    if passed == total:
-        print("🎉 ALL TESTS PASSED! LangGraph service is fully operational.")
-        print(f"\n🚀 Service URLs:")
-        print(f"  - LangGraph API: {LANGGRAPH_URL}")
-        print(f"  - API Documentation: {LANGGRAPH_URL}/docs")
-        print(f"  - Health Check: {LANGGRAPH_URL}/health")
-    else:
-        print("⚠️ Some tests failed. Please check the logs above.")
+    """Main test runner"""
+    async with IntegrationTester() as tester:
+        await tester.run_all_tests()
 
 if __name__ == "__main__":
     asyncio.run(main())
