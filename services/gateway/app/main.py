@@ -73,12 +73,12 @@ app.add_middleware(
 # Include auth routes
 app.include_router(auth_router)
 
-# Include N8N notification routes
+# Include LangGraph workflow routes
 try:
-    from n8n_routes import router as n8n_router
-    app.include_router(n8n_router, prefix="/api/v1", tags=["N8N Notifications"])
+    from langgraph_integration import router as langgraph_router
+    app.include_router(langgraph_router, prefix="/api/v1", tags=["LangGraph Workflows"])
 except ImportError:
-    pass  # N8N routes optional
+    pass  # LangGraph routes optional
 
 # Add monitoring endpoints
 @app.get("/metrics", tags=["Monitoring"])
@@ -355,8 +355,8 @@ def read_root():
         "documentation": "/docs",
         "monitoring": "/metrics",
         "production_url": "https://bhiv-hr-gateway-ltg0.onrender.com",
-        "n8n_integration": "active",
-        "notification_channels": ["email", "whatsapp", "telegram"]
+        "langgraph_integration": "active",
+        "ai_workflows": ["candidate_applied", "shortlisted", "interview_scheduled"]
     }
 
 @app.get("/health", tags=["Core API Endpoints"])
@@ -2240,75 +2240,7 @@ async def password_security_best_practices(api_key: str = Depends(get_api_key)):
         }
     }
 
-# N8N Webhook Integration (3 endpoints)
-@app.post("/webhooks/candidate-applied", tags=["N8N Webhooks"])
-async def trigger_candidate_applied(request: Request):
-    """Trigger N8N workflows when candidate applies"""
-    try:
-        payload = await request.json()
-        
-        # Use production notification service
-        from notification_service import notify_candidate_applied
-        
-        result = await notify_candidate_applied(
-            email=payload.get("email"),
-            name=payload.get("name"),
-            job_title=payload.get("job_title", "Position"),
-            phone=payload.get("phone")
-        )
-        
-        return {
-            "status": "n8n_workflows_triggered",
-            "notification_result": result,
-            "triggered_at": datetime.now(timezone.utc).isoformat()
-        }
-    except Exception as e:
-        return {"status": "failed", "error": str(e)}
 
-@app.post("/webhooks/candidate-shortlisted", tags=["N8N Webhooks"])
-async def trigger_candidate_shortlisted(request: Request):
-    """Trigger N8N when candidate is shortlisted"""
-    try:
-        payload = await request.json()
-        from notification_service import notify_candidate_shortlisted
-        
-        result = await notify_candidate_shortlisted(
-            email=payload.get("email"),
-            name=payload.get("name"),
-            job_title=payload.get("job_title", "Position")
-        )
-        
-        return {
-            "status": "shortlist_notification_triggered",
-            "notification_result": result,
-            "triggered_at": datetime.now(timezone.utc).isoformat()
-        }
-    except Exception as e:
-        return {"status": "failed", "error": str(e)}
-
-@app.post("/webhooks/interview-scheduled", tags=["N8N Webhooks"])
-async def trigger_interview_scheduled(request: Request):
-    """Trigger N8N when interview is scheduled"""
-    try:
-        payload = await request.json()
-        from notification_service import notify_interview_scheduled
-        
-        result = await notify_interview_scheduled(
-            email=payload.get("email"),
-            name=payload.get("name"),
-            job_title=payload.get("job_title", "Position"),
-            date=payload.get("date"),
-            time=payload.get("time"),
-            interviewer=payload.get("interviewer", "HR Team")
-        )
-        
-        return {
-            "status": "interview_notification_triggered",
-            "notification_result": result,
-            "triggered_at": datetime.now(timezone.utc).isoformat()
-        }
-    except Exception as e:
-        return {"status": "failed", "error": str(e)}
 
 # Candidate Portal APIs (5 endpoints)
 @app.post("/v1/candidate/register", tags=["Candidate Portal"])

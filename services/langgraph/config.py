@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 class Settings(BaseSettings):
     # API Configuration
     gateway_url: str = "http://localhost:8000"
-    api_key: str = "your-api-key"
+    api_key_secret: str = "your-api-key"
     langgraph_port: int = 9001
     
     # Database

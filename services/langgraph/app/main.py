@@ -1,8 +1,12 @@
 from fastapi import FastAPI, HTTPException, BackgroundTasks, WebSocket, WebSocketDisconnect
 from pydantic import BaseModel
-from graphs import create_application_workflow
-from state import CandidateApplicationState
+from .graphs import create_application_workflow
+from .state import CandidateApplicationState
+from .monitoring import monitor
 from langchain_core.messages import HumanMessage
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import settings
 import uuid
 import logging
@@ -83,13 +87,13 @@ class WorkflowStatus(BaseModel):
 @app.get("/health")
 async def health_check():
     """Health check endpoint"""
-    return {
-        "status": "healthy",
+    health_data = monitor.get_health_status()
+    health_data.update({
         "service": "langgraph-orchestrator",
-        "timestamp": datetime.now().isoformat(),
         "version": "1.0.0",
         "environment": settings.environment
-    }
+    })
+    return health_data
 
 @app.post("/workflows/application/start", response_model=WorkflowResponse)
 async def start_application_workflow(

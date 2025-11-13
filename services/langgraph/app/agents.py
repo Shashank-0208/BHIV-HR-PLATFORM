@@ -1,7 +1,10 @@
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
-from state import CandidateApplicationState
-from tools import *
+from .state import CandidateApplicationState
+from .tools import *
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import settings
 import logging
 from datetime import datetime

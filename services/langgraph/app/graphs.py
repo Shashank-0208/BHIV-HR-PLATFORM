@@ -1,12 +1,15 @@
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.postgres import PostgresSaver
-from state import CandidateApplicationState
-from agents import (
+from .state import CandidateApplicationState
+from .agents import (
     application_screener_agent,
     notification_agent,
     hr_update_agent,
     feedback_collection_agent
 )
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import settings
 import logging
 

@@ -5,6 +5,11 @@ from email.mime.multipart import MIMEMultipart
 from typing import Dict, List
 from twilio.rest import Client
 from telegram import Bot
+import sys
+import os
+
+# Import config from parent directory
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import settings
 
 logger = logging.getLogger(__name__)
@@ -13,33 +18,45 @@ class CommunicationManager:
     """Unified communication across multiple channels"""
     
     def __init__(self):
-        try:
-            # Twilio
-            self.twilio_client = Client(
-                settings.twilio_account_sid,
-                settings.twilio_auth_token
-            )
-            logger.info("✅ Twilio client initialized")
-        except Exception as e:
-            logger.warning(f"⚠️ Twilio initialization failed: {e}")
+        # Initialize in development mode with mock clients for testing
+        if settings.environment == "development":
+            logger.info("🧪 Development mode - using mock communication clients")
             self.twilio_client = None
-        
-        try:
-            # Telegram
-            self.telegram_bot = Bot(token=settings.telegram_bot_token)
-            logger.info("✅ Telegram bot initialized")
-        except Exception as e:
-            logger.warning(f"⚠️ Telegram initialization failed: {e}")
             self.telegram_bot = None
-        
-        # Gmail SMTP
-        self.gmail_email = settings.gmail_email
-        self.gmail_app_password = settings.gmail_app_password
-        logger.info("✅ Gmail SMTP configured")
+            self.gmail_email = settings.gmail_email
+            self.gmail_app_password = settings.gmail_app_password
+        else:
+            try:
+                # Twilio
+                self.twilio_client = Client(
+                    settings.twilio_account_sid,
+                    settings.twilio_auth_token
+                )
+                logger.info("✅ Twilio client initialized")
+            except Exception as e:
+                logger.warning(f"⚠️ Twilio initialization failed: {e}")
+                self.twilio_client = None
+            
+            try:
+                # Telegram
+                self.telegram_bot = Bot(token=settings.telegram_bot_token)
+                logger.info("✅ Telegram bot initialized")
+            except Exception as e:
+                logger.warning(f"⚠️ Telegram initialization failed: {e}")
+                self.telegram_bot = None
+            
+            # Gmail SMTP
+            self.gmail_email = settings.gmail_email
+            self.gmail_app_password = settings.gmail_app_password
+            logger.info("✅ Gmail SMTP configured")
     
     async def send_whatsapp(self, phone: str, message: str) -> Dict:
         """Send WhatsApp message via Twilio"""
         try:
+            if settings.environment == "development":
+                logger.info(f"🧪 MOCK WhatsApp to {phone}: {message[:50]}...")
+                return {"status": "success", "channel": "whatsapp", "message_id": "mock_msg_123", "recipient": phone}
+            
             if not self.twilio_client:
                 return {"status": "skipped", "channel": "whatsapp", "reason": "Twilio not initialized"}
             
@@ -61,6 +78,10 @@ class CommunicationManager:
     async def send_email(self, recipient_email: str, subject: str, body: str, html_body: str = None) -> Dict:
         """Send email via Gmail SMTP"""
         try:
+            if settings.environment == "development":
+                logger.info(f"🧪 MOCK Email to {recipient_email}: {subject}")
+                return {"status": "success", "channel": "email", "recipient": recipient_email, "subject": subject}
+            
             if not self.gmail_email or not self.gmail_app_password:
                 return {"status": "skipped", "channel": "email", "reason": "Gmail credentials not configured"}
             

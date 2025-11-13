@@ -46,6 +46,7 @@ services:
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
       JWT_SECRET: ${JWT_SECRET:-<YOUR_JWT_SECRET>}
       AGENT_SERVICE_URL: http://agent:9000
+      LANGGRAPH_URL: http://langgraph:9001
       CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
     volumes:
       - ../../services/gateway/logs:/app/logs
@@ -170,6 +171,30 @@ services:
           memory: 512M
           cpus: '0.5'
     # Production URL: bhiv-hr-candidate-portal-abe6.onrender.com (✅ Live)
+
+  langgraph:
+    build:
+      context: ../../services/langgraph
+      dockerfile: Dockerfile
+    ports:
+      - "9001:9001"
+    environment:
+      DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
+      GATEWAY_URL: http://gateway:8000
+      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
+      ENVIRONMENT: development
+      LOG_LEVEL: INFO
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9001/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Production URL: bhiv-langgraph.onrender.com (🔄 To be deployed)
 
 volumes:
   postgres_data:

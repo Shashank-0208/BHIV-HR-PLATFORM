@@ -2,8 +2,13 @@ from langchain_core.tools import tool
 import httpx
 import logging
 from datetime import datetime
+import sys
+import os
+
+# Import config from parent directory
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import settings
-from communication import comm_manager
+from .communication import comm_manager
 
 logger = logging.getLogger(__name__)
 HTTPX_TIMEOUT = 30.0
@@ -15,7 +20,7 @@ async def get_candidate_profile(candidate_id: int) -> dict:
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 f"{settings.gateway_url}/v1/candidates/{candidate_id}",
-                headers={"Authorization": f"Bearer {settings.api_key}"},
+                headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
             )
             response.raise_for_status()
@@ -32,7 +37,7 @@ async def get_job_details(job_id: int) -> dict:
         async with httpx.AsyncClient() as client:
             response = await client.get(
                 f"{settings.gateway_url}/v1/jobs/{job_id}",
-                headers={"Authorization": f"Bearer {settings.api_key}"},
+                headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
             )
             response.raise_for_status()
@@ -50,7 +55,7 @@ async def update_application_status(application_id: int, status: str, notes: str
             response = await client.put(
                 f"{settings.gateway_url}/v1/applications/{application_id}",
                 json={"status": status, "notes": notes},
-                headers={"Authorization": f"Bearer {settings.api_key}"},
+                headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
             )
             response.raise_for_status()
@@ -64,11 +69,17 @@ async def update_application_status(application_id: int, status: str, notes: str
 async def get_ai_matching_score(candidate_id: int, job_id: int) -> dict:
     """Get AI matching score from matching engine"""
     try:
+        # Mock response for local testing
+        if settings.environment == "development":
+            mock_score = 78  # Good score for testing
+            logger.info(f"🧪 MOCK AI matching score for candidate {candidate_id}: {mock_score}/100")
+            return {"candidate_id": candidate_id, "job_id": job_id, "score": mock_score}
+        
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 f"{settings.gateway_url}/v1/match",
                 json={"candidate_id": candidate_id, "job_id": job_id},
-                headers={"Authorization": f"Bearer {settings.api_key}"},
+                headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=60.0
             )
             response.raise_for_status()
@@ -120,7 +131,7 @@ async def log_audit_event(event_type: str, details: dict) -> dict:
             response = await client.post(
                 f"{settings.gateway_url}/v1/audit-logs",
                 json={"event_type": event_type, "details": details},
-                headers={"Authorization": f"Bearer {settings.api_key}"},
+                headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
             )
             response.raise_for_status()
@@ -138,7 +149,7 @@ async def update_hr_dashboard(application_id: int, update_data: dict) -> dict:
             response = await client.post(
                 f"{settings.gateway_url}/v1/dashboard/refresh",
                 json={"application_id": application_id, "data": update_data},
-                headers={"Authorization": f"Bearer {settings.api_key}"},
+                headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
             )
             response.raise_for_status()
