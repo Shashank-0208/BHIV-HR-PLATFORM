@@ -34,14 +34,14 @@ def main():
     print("🔍 Checking service availability...")
     
     gateway_ok = check_service("http://localhost:8000/health", "Gateway Service")
-    langgraph_ok = check_service("http://localhost:8004/health", "LangGraph Service")
+    langgraph_ok = check_service("http://localhost:9001/health", "LangGraph Service")
     
     if not gateway_ok or not langgraph_ok:
         print("\n⚠️  Some services are not running. Please start them first:")
         if not gateway_ok:
             print("   Gateway: cd services/gateway && python -m uvicorn app.main:app --host 0.0.0.0 --port 8000")
         if not langgraph_ok:
-            print("   LangGraph: cd services/langgraph && python -m uvicorn app.main:app --host 0.0.0.0 --port 8004")
+            print("   LangGraph: cd services/langgraph && python -m uvicorn app.main:app --host 0.0.0.0 --port 9001")
         print()
         return False
     

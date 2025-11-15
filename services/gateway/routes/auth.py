@@ -8,7 +8,9 @@ import jwt
 from datetime import datetime, timezone, timedelta
 import os
 import sys
-sys.path.append('..')
+# Add gateway directory to path for dependencies import
+gateway_dir = os.path.dirname(os.path.dirname(__file__))
+sys.path.insert(0, gateway_dir)
 from dependencies import auth_dependency
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])

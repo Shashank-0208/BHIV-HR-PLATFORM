@@ -13,7 +13,7 @@ from typing import Dict, Any
 
 # Configuration
 GATEWAY_URL = "http://localhost:8000"
-LANGGRAPH_URL = "http://localhost:8004"
+LANGGRAPH_URL = "http://localhost:9001"
 API_KEY = "test-api-key-12345"
 
 class IntegrationTester:

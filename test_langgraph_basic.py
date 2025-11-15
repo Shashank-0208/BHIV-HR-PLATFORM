@@ -9,7 +9,7 @@ import aiohttp
 import json
 from datetime import datetime
 
-LANGGRAPH_URL = "http://localhost:8004"
+LANGGRAPH_URL = "http://localhost:9001"
 
 async def test_basic_functionality():
     """Test basic LangGraph functionality"""

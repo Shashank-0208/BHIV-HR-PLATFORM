@@ -38,7 +38,12 @@ except ImportError:
     from fastapi import APIRouter
     auth_router = APIRouter()
 try:
-    from .monitoring import monitor, log_resume_processing, log_matching_performance, log_user_activity, log_error
+    import sys
+    import os
+    # Add gateway directory to path for monitoring import
+    gateway_dir = os.path.dirname(os.path.dirname(__file__))
+    sys.path.insert(0, gateway_dir)
+    from monitoring import monitor, log_resume_processing, log_matching_performance, log_user_activity, log_error
 except ImportError:
     # Fallback if monitoring module is not available
     class MockMonitor:
@@ -75,9 +80,16 @@ app.include_router(auth_router)
 
 # Include LangGraph workflow routes
 try:
+    import sys
+    import os
+    # Add gateway directory to path to find langgraph_integration.py
+    gateway_dir = os.path.dirname(os.path.dirname(__file__))
+    sys.path.insert(0, gateway_dir)
     from langgraph_integration import router as langgraph_router
     app.include_router(langgraph_router, prefix="/api/v1", tags=["LangGraph Workflows"])
-except ImportError:
+    print("LangGraph integration loaded successfully")
+except ImportError as e:
+    print(f"WARNING: LangGraph integration not available: {e}")
     pass  # LangGraph routes optional
 
 # Add monitoring endpoints
