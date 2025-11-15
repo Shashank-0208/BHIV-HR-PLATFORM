@@ -20,11 +20,21 @@ API_KEY_SECRET=[YOUR_SECURE_API_KEY]
 JWT_SECRET=[YOUR_JWT_SECRET_KEY]
 ```
 
+### **LangGraph Workflow Service (bhiv-hr-langgraph)**
+```bash
+DATABASE_URL=postgresql://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DATABASE]
+GATEWAY_URL=https://[YOUR_GATEWAY_URL]
+API_KEY_SECRET=[YOUR_SECURE_API_KEY]
+JWT_SECRET=[YOUR_JWT_SECRET_KEY]
+CANDIDATE_JWT_SECRET=[YOUR_CANDIDATE_JWT_SECRET]
+```
+
 ### **HR Portal Service (bhiv-hr-portal)**
 ```bash
 GATEWAY_URL=https://[YOUR_GATEWAY_URL]
 API_KEY_SECRET=[YOUR_SECURE_API_KEY]
 AGENT_SERVICE_URL=https://[YOUR_AGENT_SERVICE_URL]
+LANGGRAPH_SERVICE_URL=https://[YOUR_LANGGRAPH_SERVICE_URL]
 ```
 
 ### **Client Portal Service (bhiv-hr-client-portal)**
@@ -34,6 +44,7 @@ API_KEY_SECRET=[YOUR_SECURE_API_KEY]
 JWT_SECRET=[YOUR_JWT_SECRET_KEY]
 DATABASE_URL=postgresql://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DATABASE]
 AGENT_SERVICE_URL=https://[YOUR_AGENT_SERVICE_URL]
+LANGGRAPH_SERVICE_URL=https://[YOUR_LANGGRAPH_SERVICE_URL]
 ```
 
 ### **Candidate Portal Service (bhiv-hr-candidate-portal)**
@@ -42,6 +53,7 @@ GATEWAY_URL=https://[YOUR_GATEWAY_URL]
 API_KEY=[YOUR_SECURE_API_KEY]
 JWT_SECRET=[YOUR_CANDIDATE_JWT_SECRET]
 DATABASE_URL=postgresql://[USERNAME]:[PASSWORD]@[HOST]:[PORT]/[DATABASE]
+LANGGRAPH_SERVICE_URL=https://[YOUR_LANGGRAPH_SERVICE_URL]
 ```
 
 ## 🔒 Security Best Practices
@@ -68,4 +80,4 @@ curl -H "Authorization: Bearer [YOUR_API_KEY]" \
      https://[YOUR_GATEWAY_URL]/health
 ```
 
-*Last Updated: October 23, 2025*
+*Last Updated: November 15, 2025*

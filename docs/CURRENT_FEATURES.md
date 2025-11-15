@@ -1,9 +1,9 @@
 # 🎯 BHIV HR Platform - Current Features & Capabilities
 
-**Generated**: November 4, 2025  
-**Platform Version**: v3.0.0-Phase3-Production  
+**Generated**: November 15, 2025  
+**Platform Version**: v4.2.0-Phase3-LangGraph  
 **Status**: ✅ All Features Operational  
-**Services**: 5/5 Live + Database
+**Services**: 6/6 Live + Database
 
 ---
 
@@ -17,12 +17,12 @@
 - **Real-time Analytics**: Comprehensive reporting and insights
 
 ### **System Architecture**
-- **Microservices**: 5 independent services + PostgreSQL 17 database
-- **Total Endpoints**: 85 (79 Gateway + 6 Agent)
+- **Microservices**: 6 independent services + PostgreSQL 17 database
+- **Total Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph)
 - **Authentication**: API Key + Client JWT + Candidate JWT
 - **Deployment**: Production on Render (99.9% uptime)
 - **Cost**: $0/month (Free tier optimization)
-- **Database**: PostgreSQL 17 with Schema v4.1.0 (12 core tables)
+- **Database**: PostgreSQL 17 with Schema v4.2.0 (13 core tables)
 
 ---
 
@@ -58,7 +58,34 @@
 - **Score Breakdown**: Transparent scoring with reasoning
 - **Learning Adaptation**: Improves based on hiring feedback
 
-### **2. Triple Portal System**
+### **2. LangGraph Workflow Automation (NEW)**
+
+#### **AI Workflow Engine**
+- **Technology**: LangGraph-powered workflow automation with multi-channel notifications
+- **Performance**: Real-time workflow execution with state management
+- **Integration**: Seamless Gateway → LangGraph communication
+- **Scalability**: Async workflow processing with monitoring
+
+```python
+# LangGraph Workflow Features
+✅ Automated Candidate Processing
+✅ Multi-Channel Notifications (Email, WhatsApp, SMS)
+✅ Workflow Triggers (Applied, Shortlisted, Interview Scheduled)
+✅ Real-time Status Tracking
+✅ Customizable Notification Templates
+✅ Workflow State Management
+✅ Integration with Gateway Service
+✅ Webhook Support for External Systems
+```
+
+#### **Workflow Capabilities**
+- **Candidate Applied**: Automated workflow when candidate applies
+- **Shortlist Notifications**: Multi-channel notifications for shortlisted candidates
+- **Interview Scheduling**: Automated interview scheduling workflows
+- **Status Tracking**: Real-time workflow progress monitoring
+- **Template Management**: Customizable messaging templates
+
+### **3. Triple Portal System**
 
 #### **HR Portal (Port 8501)**
 **Purpose**: Complete HR workflow management  
@@ -181,8 +208,8 @@ Core Values Assessment:
 #### **Real-time Dashboard**
 ```
 Dashboard Metrics:
-✅ Total Candidates: 11+ (real production data)
-✅ Active Jobs: 20+ (from 3 client companies)
+✅ Total Candidates: 10+ (real production data)
+✅ Active Jobs: 6+ (from 3+ client companies)
 ✅ Interview Pipeline: Complete interview tracking
 ✅ Values Scores: Average values assessment metrics
 ✅ AI Matching: Real-time matching performance
@@ -226,11 +253,11 @@ Export Capabilities:
 
 ### **1. Database Architecture**
 
-#### **PostgreSQL 17 Schema v4.1.0**
+#### **PostgreSQL 17 Schema v4.2.0**
 ```sql
-Core Tables (12):
-✅ candidates - 11+ candidate profiles with authentication
-✅ jobs - 20+ job postings from clients and HR
+Core Tables (13):
+✅ candidates - 10+ candidate profiles with authentication
+✅ jobs - 6+ job postings from clients and HR
 ✅ feedback - Values assessment with 5-point scoring
 ✅ interviews - Interview scheduling and management
 ✅ offers - Job offer management and tracking
@@ -252,7 +279,7 @@ Core Tables (12):
 
 ### **2. API Architecture**
 
-#### **Gateway Service (79 Endpoints)**
+#### **Gateway Service (94 Endpoints)**
 ```
 Endpoint Categories:
 ✅ Core API (3) - Service info, health, database connectivity
@@ -269,6 +296,7 @@ Endpoint Categories:
 ✅ Auth Routes (6) - Authentication and profile management
 ✅ Client Portal (2) - Client registration and authentication
 ✅ Candidate Portal (5) - Candidate registration and applications
+✅ LangGraph Integration (7) - Workflow automation and webhooks
 ```
 
 #### **Agent Service (6 Endpoints)**
@@ -277,6 +305,15 @@ AI Endpoints:
 ✅ Core (2) - Service information and health check
 ✅ AI Processing (3) - Match, batch-match, candidate analysis
 ✅ Diagnostics (1) - Database connectivity test
+```
+
+#### **LangGraph Service (7 Endpoints)**
+```
+Workflow Endpoints:
+✅ Core API (2) - Service health and information
+✅ Workflow Management (4) - Start, status, list, notifications
+✅ Integration (1) - Gateway integration testing
+✅ Webhook Support (3) - Candidate applied, shortlisted, interview scheduled
 ```
 
 ### **3. Performance Optimization**
@@ -347,7 +384,7 @@ Monitoring Capabilities:
 
 #### **Production Deployment**
 ```
-✅ Render Cloud - 5 services deployed on Render platform
+✅ Render Cloud - 6 services deployed on Render platform
 ✅ Auto-Deploy - GitHub integration with automatic deployment
 ✅ SSL Certificates - Auto-managed HTTPS for all services
 ✅ Health Monitoring - Automated health checks and alerts
@@ -359,7 +396,7 @@ Monitoring Capabilities:
 ```
 ✅ Docker Compose - Complete local development environment
 ✅ Environment Management - Configurable environment variables
-✅ Service Orchestration - All 5 services with database
+✅ Service Orchestration - All 6 services with database
 ✅ Hot Reload - Development mode with auto-reload
 ✅ Debug Support - Comprehensive logging and debugging
 ```
@@ -470,9 +507,9 @@ Integration Features:
 ## 📈 Success Metrics
 
 ### **Platform Adoption**
-- **Services Deployed**: 5/5 (100% success rate)
-- **Endpoints Operational**: 85/85 (100% availability)
-- **Database Health**: 12/12 core tables operational
+- **Services Deployed**: 6/6 (100% success rate)
+- **Endpoints Operational**: 107/107 (100% availability)
+- **Database Health**: 13/13 core tables operational
 - **Real Data Integration**: 11+ candidates, 20+ jobs, 27 resumes
 - **Client Adoption**: 3 active client companies
 - **User Engagement**: Multi-user support with session management
@@ -519,4 +556,4 @@ Integration Features:
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: November 4, 2025 | **Features**: 100+ | **Services**: 5/5 Live | **Endpoints**: 85 Total | **Status**: ✅ Production Ready
+**Last Updated**: November 15, 2025 | **Features**: 100+ | **Services**: 6/6 Live | **Endpoints**: 107 Total | **LangGraph**: ✅ Integrated | **Status**: ✅ Production Ready

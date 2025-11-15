@@ -173,16 +173,16 @@ async def check_langgraph_health():
             "checked_at": datetime.now(timezone.utc).isoformat()
         }
 
-# Webhook endpoints for N8N compatibility
+# Webhook endpoints for workflow automation
 @router.post("/webhooks/candidate-applied", tags=["LangGraph Workflows"])
 async def webhook_candidate_applied(workflow_data: WorkflowTrigger):
-    """Webhook: Candidate Applied (N8N Compatible)"""
+    """Webhook: Candidate Applied - Workflow Automation"""
     workflow_data.trigger_type = "candidate_applied"
     return await trigger_workflow(workflow_data)
 
 @router.post("/webhooks/candidate-shortlisted", tags=["LangGraph Workflows"])
 async def webhook_candidate_shortlisted(workflow_data: WorkflowTrigger):
-    """Webhook: Candidate Shortlisted (N8N Compatible)"""
+    """Webhook: Candidate Shortlisted - Workflow Automation"""
     workflow_data.trigger_type = "candidate_shortlisted"
     # Use the app folder integration for notifications
     try:
@@ -216,7 +216,7 @@ async def webhook_candidate_shortlisted(workflow_data: WorkflowTrigger):
 
 @router.post("/webhooks/interview-scheduled", tags=["LangGraph Workflows"])
 async def webhook_interview_scheduled(workflow_data: WorkflowTrigger):
-    """Webhook: Interview Scheduled (N8N Compatible)"""
+    """Webhook: Interview Scheduled - Workflow Automation"""
     workflow_data.trigger_type = "interview_scheduled"
     # Use the app folder integration for notifications
     try:

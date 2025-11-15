@@ -12,11 +12,14 @@ The platform supports **3 authentication methods**:
 
 ## 🚀 Testing Production Services
 
-### **Gateway Service (55 Endpoints)**
+### **Gateway Service (94 Endpoints)**
 **Base URL**: `https://bhiv-hr-gateway-ltg0.onrender.com`
 
 ### **Agent Service (6 Endpoints)**  
 **Base URL**: `https://bhiv-hr-agent-nhgg.onrender.com`
+
+### **LangGraph Service (7 Endpoints)**
+**Base URL**: `https://bhiv-hr-langgraph.onrender.com`
 
 ---
 
@@ -473,10 +476,11 @@ The triple authentication system provides:
 
 All authentication methods work across both Gateway (55 endpoints) and Agent (6 endpoints) services, with automatic fallback and priority handling.
 
-**Total Testable Endpoints**: 61 (55 Gateway + 6 Agent)
+**Total Testable Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph)
 **Authentication Methods**: 3 (API Key, Client JWT, Candidate JWT)
 **Portal Services**: 3 (HR, Client, Candidate)
+**LangGraph Integration**: ✅ Workflow automation with multi-channel notifications
 
 ---
 
-*Last Updated: October 23, 2025 | Production Services: ✅ All Operational*
+*Last Updated: November 15, 2025 | Production Services: ✅ All 6 Services Operational | Version: 4.2.0 with LangGraph Integration*

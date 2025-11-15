@@ -32,11 +32,11 @@
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## 🗄️ Database Schema Structure (v4.1.0)
+## 🗄️ Database Schema Structure (v4.2.0)
 
 ```
 📊 BHIV HR Platform Schema
-├── 🏢 Core Business Tables (5)
+├── 🏢 Core Business Tables (8)
 │   ├── 👥 candidates
 │   │   ├── id (SERIAL PRIMARY KEY)
 │   │   ├── name, email, phone, location
@@ -50,6 +50,13 @@
 │   │   ├── experience_level, requirements
 │   │   ├── client_id (FK to clients)
 │   │   └── status, created_at, updated_at
+│   │
+│   ├── 📋 job_applications (NEW in v4.2.0)
+│   │   ├── id (SERIAL PRIMARY KEY)
+│   │   ├── candidate_id (FK), job_id (FK)
+│   │   ├── cover_letter, status
+│   │   ├── applied_date, updated_at
+│   │   └── UNIQUE(candidate_id, job_id)
 │   │
 │   ├── 📝 feedback (Values Assessment)
 │   │   ├── id (SERIAL PRIMARY KEY)
@@ -115,7 +122,7 @@
     └── 🏷️ schema_version
         ├── version (PRIMARY KEY)
         ├── applied_at, description
-        └── Current: v4.1.0
+        └── Current: v4.2.0
 ```
 
 ## 🔗 Connection Flow Diagram
@@ -270,3 +277,5 @@ Production:
 **Connection Architecture Complete** ✅
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
+
+**Last Updated**: November 15, 2025 | **Schema Version**: v4.2.0 | **Services**: 6 | **LangGraph Integration**: ✅ Active

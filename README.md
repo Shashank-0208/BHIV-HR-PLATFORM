@@ -5,14 +5,15 @@
 ## 🌐 Live Production Platform
 
 ### **✅ Currently Deployed on Render**
-- **API Gateway**: bhiv-hr-gateway-ltg0.onrender.com/docs ✅ (82 endpoints + N8N automation)
+- **API Gateway**: bhiv-hr-gateway-ltg0.onrender.com/docs ✅ (94 endpoints + LangGraph integration)
 - **AI Matching Engine**: bhiv-hr-agent-nhgg.onrender.com/docs ✅ (6 endpoints - LIVE)
+- **LangGraph Workflows**: bhiv-hr-langgraph.onrender.com ✅ (7 workflow endpoints - NEW)
 - **HR Portal**: bhiv-hr-portal-u670.onrender.com/ ✅
 - **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com/ ✅
-- **Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com/ ✅ **NEW**
+- **Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com/ ✅
 - **Database**: PostgreSQL 17 on Render ✅
-- **Status**: ✅ **5/5 SERVICES OPERATIONAL** | **Cost**: $0/month (Free tier)
-- **Total Endpoints**: 88 (82 Gateway + 6 Agent verified) | **Updated**: November 8, 2025 - Complete Production System with N8N Automation
+- **Status**: ✅ **6/6 SERVICES OPERATIONAL** | **Cost**: $0/month (Free tier)
+- **Total Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph verified) | **Updated**: November 15, 2025 - Complete Production System with LangGraph Workflows
 - **Python Version**: 3.12.7-slim | **FastAPI**: 0.115.6 | **Streamlit**: 1.41.1
 
 ### **🔑 Demo Access**
@@ -36,7 +37,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 - **[🖥️ docs/architecture/PORTAL_SERVICES_SUMMARY.md](docs/architecture/PORTAL_SERVICES_SUMMARY.md)** - ✅ Portal services documentation with recent fixes
 - **[🏢 docs/architecture/CLIENT_PORTAL_SERVICE_SUMMARY.md](docs/architecture/CLIENT_PORTAL_SERVICE_SUMMARY.md)** - ✅ Client portal service documentation with enterprise auth
 - **[🏗️ docs/architecture/SERVICES_ARCHITECTURE_SUMMARY.md](docs/architecture/SERVICES_ARCHITECTURE_SUMMARY.md)** - ✅ Complete services architecture documentation
-- **[📝 CHANGES_LOG.md](CHANGES_LOG.md)** - ✅ Detailed log of all changes made including N8N automation
+- **[📝 CHANGES_LOG.md](CHANGES_LOG.md)** - ✅ Detailed log of all changes made including LangGraph workflow automation
 - **[⚡ docs/QUICK_START_GUIDE.md](docs/QUICK_START_GUIDE.md)** - ✅ Get started in 5 minutes
 - **[🎯 docs/CURRENT_FEATURES.md](docs/CURRENT_FEATURES.md)** - ✅ Complete feature list and capabilities
 
@@ -44,8 +45,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 - **[🚀 docs/deployment/](docs/deployment/)** - Deployment guides and configurations
 - **[🔒 docs/security/](docs/security/)** - Security analysis, bias mitigation, and audit reports
 - **[🧪 docs/testing/](docs/testing/)** - Testing strategies and API testing guides
-- **[🤖 docs/n8n_automation/](docs/n8n_automation/)** - ✅ N8N automation system documentation and guides
-- **[🔐 docs/n8n_automation/N8N_DEPLOYMENT_SECURITY_GUIDE.md](docs/n8n_automation/N8N_DEPLOYMENT_SECURITY_GUIDE.md)** - ✅ N8N security and credential sanitization guide
+- **[🔄 docs/LANGGRAPH_INTEGRATION_GUIDE.md](docs/LANGGRAPH_INTEGRATION_GUIDE.md)** - ✅ LangGraph workflow automation integration guide
 - **[👥 docs/USER_GUIDE.md](docs/USER_GUIDE.md)** - Complete user manual
 - **[📝 docs/REFLECTION.md](docs/REFLECTION.md)** - ✅ Daily development reflections
 - **[🔍 SCHEMA_COMPARISON_REPORT.md](docs/reports/SCHEMA_COMPARISON_REPORT.md)** - ✅ Database schema analysis
@@ -78,16 +78,17 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 ### **Microservices Architecture**
 | Service | Purpose | Technology | Port | Status | Production URL |
 |---------|---------|------------|------|--------|----------------|
-| **API Gateway** | REST API Backend + N8N Integration | FastAPI 3.1.0 + Python 3.12.7-slim | 8000 | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com |
-| **AI Agent** | Phase 3 AI Matching | FastAPI 3.1.0 + Python 3.12.7-slim | 9000 | ✅ Live | bhiv-hr-agent-nhgg.onrender.com |
+| **API Gateway** | REST API Backend + LangGraph Integration | FastAPI 4.2.0 + Python 3.12.7-slim | 8000 | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com |
+| **AI Agent** | Phase 3 AI Matching | FastAPI 4.2.0 + Python 3.12.7-slim | 9000 | ✅ Live | bhiv-hr-agent-nhgg.onrender.com |
+| **LangGraph Service** | AI Workflow Automation | FastAPI 4.2.0 + Python 3.12.7-slim | 9001 | ✅ Live | bhiv-hr-langgraph.onrender.com |
 | **HR Portal** | HR Dashboard | Streamlit 1.41.1 + Python 3.12.7-slim | 8501 | ✅ Live | bhiv-hr-portal-u670.onrender.com |
 | **Client Portal** | Enterprise Interface | Streamlit 1.41.1 + Python 3.12.7-slim | 8502 | ✅ Live | bhiv-hr-client-portal-3iod.onrender.com |
 | **Candidate Portal** | Job Seeker Interface | Streamlit 1.41.1 + Python 3.12.7-slim | 8503 | ✅ Live | bhiv-hr-candidate-portal-abe6.onrender.com |
 | **Database** | PostgreSQL 17 | Schema v4.2.0 (13 core tables) | 5432 | ✅ Live | Render PostgreSQL |
 
-### **API Endpoints (88 Total)**
+### **API Endpoints (107 Total)**
 ```
-Gateway Service (82 endpoints - FastAPI 3.1.0):
+Gateway Service (94 endpoints - FastAPI 4.2.0):
   Core API (3):           GET /, /health, /test-candidates
   Monitoring (3):         GET /metrics, /health/detailed, /metrics/dashboard  
   Job Management (2):     GET /v1/jobs, POST /v1/jobs
@@ -107,14 +108,23 @@ Gateway Service (82 endpoints - FastAPI 3.1.0):
   Candidate Portal (5):   POST /v1/candidate/register, POST /v1/candidate/login,
                           PUT /v1/candidate/profile/{id}, POST /v1/candidate/apply,
                           GET /v1/candidate/applications/{id}
-  N8N Automation (3):     POST /webhooks/candidate-applied, POST /webhooks/candidate-shortlisted,
-                          POST /webhooks/interview-scheduled (Multi-channel notifications)
+  LangGraph Integration (7): GET /api/v1/workflow/health, GET /api/v1/workflow/list,
+                          POST /api/v1/workflow/trigger, GET /api/v1/workflow/status/{id},
+                          POST /api/v1/webhooks/candidate-applied, POST /api/v1/webhooks/candidate-shortlisted,
+                          POST /api/v1/webhooks/interview-scheduled (AI Workflow Automation)
 
 Agent Service (6 endpoints - Phase 3 AI Engine):
   Core API (2):          GET /, GET /health
   System Diagnostics (1): GET /test-db
   AI Processing (2):     POST /match, POST /batch-match
   Candidate Analysis (1): GET /analyze/{candidate_id}
+
+LangGraph Service (7 endpoints - AI Workflow Engine with API Key Auth):
+  Core API (2):          GET /, GET /health
+  Workflow Management (4): POST /workflows/application/start, GET /workflows/{id}/status,
+                          GET /workflows, POST /tools/send-notification
+  Integration (1):       GET /test-integration
+  Authorization:         All endpoints require API key authentication
 ```
 
 ---
@@ -131,7 +141,17 @@ Agent Service (6 endpoints - Phase 3 AI Engine):
 - **Multi-Factor Scoring**: Semantic (40%), Experience (30%), Skills (20%), Location (10%)
 - **No Fallbacks**: Production-grade implementation only
 
+### **🔄 LangGraph Workflow Automation (NEW)**
+- **AI Workflow Engine**: Automated candidate processing workflows
+- **Multi-Channel Notifications**: Email, WhatsApp, SMS integration
+- **Workflow Triggers**: Candidate applied, shortlisted, interview scheduled
+- **Real-time Status Tracking**: Workflow progress and completion monitoring
+- **Integration Ready**: Seamless Gateway → LangGraph communication
+- **Scalable Processing**: Async workflow execution with state management
+- **Notification Templates**: Customizable messaging for different workflow stages
+
 ### **🔒 Enterprise Security**
+- **Unified API Key Authentication**: All 6 services use same API key for consistent security
 - **Triple Authentication**: API Key + Client JWT + Candidate JWT with timezone-aware tokens
 - **Dynamic Rate Limiting**: CPU-based adjustment (60-500 requests/minute) with granular endpoint limits
 - **2FA TOTP**: Complete implementation with QR code generation and backup codes
@@ -653,10 +673,11 @@ python tests/test_endpoints.py  # Comprehensive health checks
 ## 🎯 Current Status & Progress
 
 ### **✅ Completed Features**
-- **Production Deployment**: ✅ 5/5 services live on Render (99.9% uptime)
-- **Local Development**: ✅ 5/5 services fully operational with Docker Compose
-- **API Gateway**: ✅ 79 endpoints with unified authentication system
+- **Production Deployment**: ✅ 6/6 services live on Render (99.9% uptime)
+- **Local Development**: ✅ 6/6 services fully operational with Docker Compose
+- **API Gateway**: ✅ 94 endpoints with unified authentication system
 - **AI Agent Service**: ✅ 6 endpoints with Phase 3 semantic matching
+- **LangGraph Workflows**: ✅ 7 endpoints with AI workflow automation
 - **Triple Portal System**: ✅ HR, Client, and Candidate portals operational
 - **Database Schema**: ✅ v4.2.0 with 13 core tables (PostgreSQL 17)
 - **Real Data Integration**: ✅ 68+ candidates + 20+ jobs + 29 resume files
@@ -671,11 +692,11 @@ python tests/test_endpoints.py  # Comprehensive health checks
 - **Project Organization**: ✅ Professional structure with comprehensive documentation
 
 ### **📈 System Metrics (Production)**
-- **Total Services**: 6 (5 application services + 1 database) - All operational
-- **API Endpoints**: 85 interactive endpoints (79 Gateway + 6 Agent) - **✅ 100% TESTED & FUNCTIONAL**
+- **Total Services**: 7 (6 application services + 1 database) - All operational
+- **API Endpoints**: 107 interactive endpoints (94 Gateway + 6 Agent + 7 LangGraph) - **✅ 100% TESTED & FUNCTIONAL**
 - **AI Algorithm**: Phase 3 - v3.0.0-phase3-production with semantic matching and learning
 - **Learning Engine**: Company preference optimization with adaptive scoring weights
-- **Database Schema**: v4.2.0 with 16 tables (PostgreSQL 17) - **✅ VERIFIED IN PRODUCTION**
+- **Database Schema**: v4.2.0 with 13 core tables (PostgreSQL 17) - **✅ VERIFIED IN PRODUCTION**
 - **Real Candidates**: ✅ 10 verified candidates with complete profiles and authentication
 - **Real Jobs**: ✅ 6 active job postings across multiple departments and experience levels
 - **Active Clients**: ✅ 3+ client companies with JWT authentication and 2FA support
@@ -698,8 +719,9 @@ python tests/test_endpoints.py  # Comprehensive health checks
 - ✅ **Database Verification**: Live data confirmed - 10 candidates, 6 jobs, operational statistics
 - ✅ **Input/Output Validation**: Job creation/retrieval cycle verified with database persistence
 - ✅ **Portal Configuration**: All portals properly configured with production URLs and authentication
-- ✅ **Connection Stability**: All 5 services maintain 99.9% uptime with robust error handling
-- ✅ **API Gateway Enhancement**: 79 endpoints with comprehensive authentication (API key + JWT + Candidate JWT)
+- ✅ **Connection Stability**: All 6 services maintain 99.9% uptime with robust error handling
+- ✅ **API Gateway Enhancement**: 94 endpoints with comprehensive authentication (API key + JWT + Candidate JWT)
+- ✅ **LangGraph Integration**: 7 workflow endpoints with AI automation and multi-channel notifications
 - ✅ **AI Agent Service**: 6 endpoints with Phase 3 semantic matching and batch processing (77s response time)
 - ✅ **Triple Portal System**: HR, Client, and Candidate portals with enhanced UI and security
 - ✅ **Database Integrity**: 10 candidates, 6 jobs, 3+ clients with complete referential integrity
@@ -753,4 +775,4 @@ python tests/test_endpoints.py  # Comprehensive health checks
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: December 2024 | **Production**: ✅ 6/6 Services Live | **Database**: ✅ Schema v4.2.0 (13 Core Tables) | **AI Version**: Phase 3 Advanced with Learning Engine | **Cost**: $0/month | **Uptime**: 99.9% | **Tests**: 15+ test files | **Documentation**: 50+ files
+**Last Updated**: November 15, 2025 | **Production**: ✅ 6/6 Services Live | **Database**: ✅ Schema v4.2.0 (13 Core Tables) | **AI Version**: Phase 3 + LangGraph Workflows | **Endpoints**: 107 Total | **Cost**: $0/month | **Uptime**: 99.9% | **Tests**: 15+ test files | **Documentation**: 45+ files

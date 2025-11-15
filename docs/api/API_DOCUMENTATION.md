@@ -1,8 +1,8 @@
 # 📚 BHIV HR Platform - Complete API Documentation
 
-**Updated**: November 4, 2025  
-**API Version**: v3.1.0  
-**Total Endpoints**: 85 (79 Gateway + 6 Agent)  
+**Updated**: November 15, 2025  
+**API Version**: v4.2.0  
+**Total Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph)  
 **Status**: ✅ All Endpoints Operational (99.9% Uptime)
 
 ---
@@ -12,8 +12,10 @@
 ### **Base URLs**
 - **Production Gateway**: https://bhiv-hr-gateway-ltg0.onrender.com
 - **Production Agent**: https://bhiv-hr-agent-nhgg.onrender.com
+- **Production LangGraph**: https://bhiv-hr-langgraph.onrender.com
 - **Local Gateway**: http://localhost:8000
 - **Local Agent**: http://localhost:9000
+- **Local LangGraph**: http://localhost:9001
 
 ### **Authentication**
 ```bash
@@ -40,7 +42,7 @@ All API responses follow a consistent JSON format:
 
 ---
 
-## 🚀 Gateway Service API (79 Endpoints)
+## 🚀 Gateway Service API (94 Endpoints)
 
 ### **Core API Endpoints (3)**
 
@@ -52,9 +54,9 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/
 ```json
 {
   "message": "BHIV HR Platform API Gateway",
-  "version": "3.1.0",
+  "version": "4.2.0",
   "status": "healthy",
-  "endpoints": 55,
+  "endpoints": 94,
   "documentation": "/docs",
   "monitoring": "/metrics",
   "live_demo": "https://bhiv-platform.aws.example.com"
@@ -70,7 +72,7 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 {
   "status": "healthy",
   "service": "BHIV HR Gateway",
-  "version": "3.1.0",
+  "version": "4.2.0",
   "timestamp": "2025-01-XX T XX:XX:XX Z"
 }
 ```
@@ -84,7 +86,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 ```json
 {
   "database_status": "connected",
-  "total_candidates": 11,
+  "total_candidates": 10,
   "test_timestamp": "2025-01-XX T XX:XX:XX Z"
 }
 ```
@@ -139,8 +141,8 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 **Response:**
 ```json
 {
-  "total_candidates": 11,
-  "active_jobs": 20,
+  "total_candidates": 10,
+  "active_jobs": 6,
   "recent_matches": 25,
   "pending_interviews": 8,
   "statistics_generated_at": "2025-01-XX T XX:XX:XX Z"
@@ -155,9 +157,9 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 **Response:**
 ```json
 {
-  "schema_version": "4.1.0",
-  "total_tables": 12,
-  "tables": ["candidates", "jobs", "feedback", "interviews", "offers", "users", "clients", "audit_logs", "rate_limits", "csp_violations", "matching_cache", "company_scoring_preferences"],
+  "schema_version": "4.2.0",
+  "total_tables": 13,
+  "tables": ["candidates", "jobs", "feedback", "interviews", "offers", "users", "clients", "audit_logs", "rate_limits", "csp_violations", "matching_cache", "company_scoring_preferences", "job_applications"],
   "phase3_enabled": true,
   "checked_at": "2025-01-XX T XX:XX:XX Z"
 }
@@ -246,7 +248,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
       "created_at": "2025-01-XX T XX:XX:XX Z"
     }
   ],
-  "total": 31,
+  "total": 10,
   "limit": 10,
   "offset": 0,
   "count": 10
@@ -372,7 +374,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
   ],
   "job_id": 1,
   "limit": 5,
-  "total_candidates": 31,
+  "total_candidates": 10,
   "algorithm_version": "3.0.0-phase3-production",
   "processing_time": "0.015s",
   "ai_analysis": "Real AI semantic matching via Agent Service",
@@ -810,7 +812,7 @@ curl -X POST -H "Content-Type: application/json" \
       "reasoning": "Semantic match: 0.85; Skills: Python, Django; Experience: 5y"
     }
   ],
-  "total_candidates": 31,
+  "total_candidates": 10,
   "processing_time": 0.015,
   "algorithm_version": "3.0.0-phase3-production",
   "status": "success"
@@ -885,12 +887,147 @@ curl https://bhiv-hr-agent-nhgg.onrender.com/test-db
 ```json
 {
   "status": "success",
-  "candidates_count": 31,
+  "candidates_count": 10,
   "samples": [
     {"id": 1, "name": "John Smith"},
     {"id": 2, "name": "Jane Doe"},
     {"id": 3, "name": "Mike Johnson"}
   ]
+}
+```
+
+---
+
+## 🔄 LangGraph Service API (7 Endpoints)
+
+### **Base URL**
+- **Production**: https://bhiv-hr-langgraph.onrender.com
+- **Local**: http://localhost:9001
+
+### **Core Endpoints (2)**
+
+#### **GET /** - Service Information
+```bash
+curl https://bhiv-hr-langgraph.onrender.com/
+```
+**Response:**
+```json
+{
+  "service": "BHIV LangGraph Workflows",
+  "version": "4.2.0",
+  "endpoints": 7,
+  "status": "operational",
+  "workflows_available": ["application", "shortlist", "interview"]
+}
+```
+
+#### **GET /health** - Health Check
+```bash
+curl https://bhiv-hr-langgraph.onrender.com/health
+```
+**Response:**
+```json
+{
+  "status": "healthy",
+  "service": "BHIV LangGraph",
+  "version": "4.2.0",
+  "timestamp": "2025-11-15T XX:XX:XXZ"
+}
+```
+
+---
+
+### **Workflow Management Endpoints (4)**
+
+#### **POST /workflows/application/start** - Start Application Workflow
+```bash
+curl -X POST -H "Content-Type: application/json" \
+     -d '{"candidate_id": 1, "job_id": 1}' \
+     https://bhiv-hr-langgraph.onrender.com/workflows/application/start
+```
+**Response:**
+```json
+{
+  "workflow_id": "wf_app_001",
+  "status": "started",
+  "candidate_id": 1,
+  "job_id": 1,
+  "steps": ["notification_sent", "hr_notified", "status_updated"],
+  "created_at": "2025-11-15T XX:XX:XXZ"
+}
+```
+
+#### **GET /workflows/{id}/status** - Get Workflow Status
+```bash
+curl https://bhiv-hr-langgraph.onrender.com/workflows/wf_app_001/status
+```
+**Response:**
+```json
+{
+  "workflow_id": "wf_app_001",
+  "status": "completed",
+  "progress": "100%",
+  "steps_completed": 3,
+  "total_steps": 3,
+  "last_updated": "2025-11-15T XX:XX:XXZ"
+}
+```
+
+#### **GET /workflows** - List All Workflows
+```bash
+curl https://bhiv-hr-langgraph.onrender.com/workflows
+```
+**Response:**
+```json
+{
+  "workflows": [
+    {
+      "id": "wf_app_001",
+      "type": "application",
+      "status": "completed",
+      "candidate_id": 1,
+      "job_id": 1
+    }
+  ],
+  "total": 1
+}
+```
+
+#### **POST /tools/send-notification** - Send Multi-Channel Notification
+```bash
+curl -X POST -H "Content-Type: application/json" \
+     -d '{
+       "recipient": "candidate@example.com",
+       "message": "Application received",
+       "channels": ["email", "sms"]
+     }' \
+     https://bhiv-hr-langgraph.onrender.com/tools/send-notification
+```
+**Response:**
+```json
+{
+  "notification_id": "notif_001",
+  "status": "sent",
+  "channels_used": ["email", "sms"],
+  "sent_at": "2025-11-15T XX:XX:XXZ"
+}
+```
+
+---
+
+### **Integration Endpoints (1)**
+
+#### **GET /test-integration** - Test Gateway Integration
+```bash
+curl https://bhiv-hr-langgraph.onrender.com/test-integration
+```
+**Response:**
+```json
+{
+  "integration_status": "connected",
+  "gateway_reachable": true,
+  "database_accessible": true,
+  "test_timestamp": "2025-11-15T XX:XX:XXZ"
 }
 ```
 
@@ -1056,8 +1193,8 @@ fetch(`${BASE_URL}/v1/match/1/top`, { headers })
 
 ---
 
-**BHIV HR Platform API Documentation** - Complete API reference with 85 endpoints, triple authentication, and comprehensive examples.
+**BHIV HR Platform API Documentation** - Complete API reference with 107 endpoints, triple authentication, and comprehensive examples.
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: November 4, 2025 | **API Version**: v3.1.0 | **Endpoints**: 85 Total | **Status**: ✅ All Operational
+**Last Updated**: November 15, 2025 | **API Version**: v4.2.0 | **Endpoints**: 107 Total | **Status**: ✅ All Operational

@@ -1,7 +1,7 @@
 # BHIV LangGraph Service
 
 ## Overview
-AI-powered workflow orchestration service for BHIV HR Platform, replacing N8N with Python-based automation.
+AI-powered workflow orchestration service for BHIV HR Platform with intelligent Python-based automation.
 
 ## Features
 - **Candidate Application Workflows**: Automated processing of job applications
@@ -63,7 +63,7 @@ docker run -p 9001:9001 bhiv-langgraph
 ## Integration with Gateway
 The LangGraph service integrates with the BHIV Gateway through:
 - `/api/v1/workflows/*` endpoints in gateway
-- Replaces N8N webhook functionality
+- Provides intelligent workflow automation
 - Provides AI-powered workflow orchestration
 
 ## Testing

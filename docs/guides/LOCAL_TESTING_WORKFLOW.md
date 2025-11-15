@@ -8,11 +8,12 @@ cd BHIV-HR-Platform
 docker-compose -f deployment/docker/docker-compose.production.yml up -d
 ```
 
-### **2. Verify Services**
+### **2. Verify All 6 Services**
 ```bash
 # Check all services are running
-curl http://localhost:8000/health  # Gateway
-curl http://localhost:9000/health  # Agent
+curl http://localhost:8000/health  # Gateway (94 endpoints)
+curl http://localhost:9000/health  # Agent (6 endpoints)
+curl http://localhost:9001/health  # LangGraph (7 endpoints)
 curl http://localhost:8501         # HR Portal
 curl http://localhost:8502         # Client Portal
 curl http://localhost:8503         # Candidate Portal
@@ -174,6 +175,44 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:8000/v1/candidate/applications/1
 ```
 
+### **Step 13: Test LangGraph Workflow Automation (NEW)**
+```bash
+# 1. Start application workflow
+curl -X POST "http://localhost:9001/workflows/application/start" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "candidate_id": 1,
+    "job_id": 1,
+    "application_id": 1,
+    "candidate_email": "john.smith@example.com",
+    "candidate_phone": "+1-555-0123",
+    "candidate_name": "John Smith",
+    "job_title": "Senior Python Developer",
+    "job_description": "We need a senior Python developer with FastAPI experience"
+  }'
+
+# 2. Get workflow status (use workflow_id from response above)
+curl "http://localhost:9001/workflows/{workflow_id}/status"
+
+# 3. List all workflows
+curl "http://localhost:9001/workflows"
+
+# 4. Test workflow health
+curl "http://localhost:9001/health"
+```
+
+### **Step 14: Test Gateway-LangGraph Integration**
+```bash
+# Test LangGraph endpoints via Gateway
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+     "http://localhost:8000/api/v1/workflow/health"
+
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
+     -H "Content-Type: application/json" \
+     "http://localhost:8000/api/v1/workflow/trigger" \
+     -d '{"workflow_type": "candidate_application", "candidate_id": 1, "job_id": 1}'
+```
+
 ---
 
 ## 🔍 **Verification Points**
@@ -205,24 +244,39 @@ SELECT * FROM offers WHERE candidate_id = 1;
    - View all jobs (should include Senior Python Developer)
    - Check AI matching functionality
 
+3. **LangGraph Service** (http://localhost:9001):
+   - Access API docs at http://localhost:9001/docs
+   - Verify health endpoint shows workflow metrics
+   - Test workflow creation and status endpoints
+   - Check WebSocket connections (if applicable)
+
 ---
 
 ## 🧪 **Test Scenarios**
 
 ### **Scenario A: Happy Path**
-✅ Client registers → ✅ Client posts job → ✅ Candidate registers → ✅ Candidate applies → ✅ Client reviews → ✅ Interview scheduled → ✅ Offer made
+✅ Client registers → ✅ Client posts job → ✅ Candidate registers → ✅ Candidate applies → ✅ Workflow triggers → ✅ Client reviews → ✅ Interview scheduled → ✅ Offer made
 
-### **Scenario B: Multiple Candidates**
+### **Scenario B: Workflow Automation**
+1. Create candidate application
+2. Trigger LangGraph workflow
+3. Monitor workflow progress via status endpoint
+4. Verify multi-channel notifications (development mode)
+5. Check workflow completion and database updates
+
+### **Scenario C: Multiple Candidates**
 1. Register 3 different candidates with varying skills
 2. Have all apply for the same job
 3. Check AI matching ranks them correctly
 4. Test batch operations
+5. Test multiple concurrent workflows
 
-### **Scenario C: Error Handling**
+### **Scenario D: Error Handling**
 1. Try duplicate client registration (should fail)
 2. Try duplicate candidate email (should fail)
 3. Try applying for same job twice (should fail)
 4. Test invalid credentials
+5. Test workflow error handling and recovery
 
 ---
 
@@ -278,6 +332,7 @@ curl http://localhost:8503/_stcore/health
 
 ## ✅ **Success Criteria**
 
+### **Core Functionality (10 criteria)**
 1. ✅ Client can register and login
 2. ✅ Client can post jobs
 3. ✅ Candidate can register and login
@@ -289,4 +344,20 @@ curl http://localhost:8503/_stcore/health
 9. ✅ Job offers can be created
 10. ✅ All data persists in database
 
-**Complete end-to-end workflow testing ready!** 🎉
+### **LangGraph Integration (5 criteria)**
+11. ✅ LangGraph service starts and responds to health checks
+12. ✅ Workflow creation returns valid workflow IDs
+13. ✅ Workflow status tracking works correctly
+14. ✅ Multi-channel notifications work in development mode
+15. ✅ Gateway-LangGraph integration endpoints functional
+
+### **System Integration (5 criteria)**
+16. ✅ All 6 services operational (Gateway, Agent, LangGraph, HR Portal, Client Portal, Candidate Portal)
+17. ✅ All 107 endpoints accessible (94 Gateway + 6 Agent + 7 LangGraph)
+18. ✅ Database schema v4.2.0 with 13 core tables
+19. ✅ Real-time workflow automation processing
+20. ✅ End-to-end candidate journey with workflow triggers
+
+**Complete end-to-end workflow testing with LangGraph automation ready!** 🎉
+
+**Updated**: November 15, 2025 | **Services**: 6/6 | **Endpoints**: 107 | **Version**: 4.2.0

@@ -1,9 +1,9 @@
 # ⚡ BHIV HR Platform - Quick Start Guide
 
 **Get Started in 5 Minutes**  
-**Updated**: October 2025  
+**Updated**: November 15, 2025  
 **Platform**: Production Ready + Local Development  
-**Status**: ✅ All 5 Services Operational (99.9% Uptime)
+**Status**: ✅ All 6 Services Operational (99.9% Uptime)
 
 ---
 
@@ -24,11 +24,14 @@ All services are live and operational - no installation needed!
 
 #### **Service URLs**
 ```bash
-# API Gateway (55 endpoints - FastAPI 3.1.0)
+# API Gateway (94 endpoints - FastAPI 4.2.0)
 https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 # AI Agent Service (6 endpoints - Phase 3 AI Engine)  
 https://bhiv-hr-agent-nhgg.onrender.com/docs
+
+# LangGraph Workflow Service (7 endpoints - AI Automation)
+https://bhiv-hr-langgraph.onrender.com/docs
 
 # HR Portal (Complete HR workflow)
 https://bhiv-hr-portal-u670.onrender.com/
@@ -37,7 +40,7 @@ https://bhiv-hr-portal-u670.onrender.com/
 https://bhiv-hr-client-portal-3iod.onrender.com/
 
 # Candidate Portal (Job seeker interface)
-https://bhiv-hr-candidate-portal.onrender.com/
+https://bhiv-hr-candidate-portal-abe6.onrender.com/
 ```
 
 #### **🔑 Demo Credentials**
@@ -55,7 +58,7 @@ API Key: <YOUR_API_KEY>
 # 1. Test API Health
 curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
-# 2. Get Real Data (31 candidates)
+# 2. Get Real Data (10+ candidates)
 curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates
 
@@ -110,6 +113,7 @@ open http://localhost:8503           # Candidate Portal
 ```bash
 Gateway API:      http://localhost:8000
 AI Agent API:     http://localhost:9000
+LangGraph API:    http://localhost:9001
 HR Portal:        http://localhost:8501
 Client Portal:    http://localhost:8502
 Candidate Portal: http://localhost:8503
@@ -128,9 +132,10 @@ https://bhiv-hr-portal-u670.onrender.com/  # Production
 
 # Try These Features:
 ✅ Dashboard Overview - See real-time metrics
-✅ View 31 Real Candidates - Browse candidate database
-✅ Check 19 Active Jobs - Review job postings
+✅ View 10+ Real Candidates - Browse candidate database
+✅ Check 6+ Active Jobs - Review job postings
 ✅ AI Shortlisting - Test Phase 3 AI matching
+✅ LangGraph Workflows - Test automated processing
 ✅ Export Reports - Download assessment data
 ```
 
@@ -155,7 +160,7 @@ Password: demo123
 ```bash
 # Visit Candidate Portal
 http://localhost:8503  # Local
-https://bhiv-hr-candidate-portal.onrender.com/  # Production
+https://bhiv-hr-candidate-portal-abe6.onrender.com/  # Production
 
 # Features:
 ✅ Register Account - Create candidate profile
@@ -166,7 +171,7 @@ https://bhiv-hr-candidate-portal.onrender.com/  # Production
 
 ### **4. API Testing (1 minute)**
 ```bash
-# Test Gateway API (55 endpoints)
+# Test Gateway API (94 endpoints)
 curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:8000/v1/jobs  # Local
      # OR
@@ -178,6 +183,13 @@ curl -X POST -H "Content-Type: application/json" \
      http://localhost:9000/match  # Local
      # OR
      https://bhiv-hr-agent-nhgg.onrender.com/match  # Production
+
+# Test LangGraph Workflows (7 endpoints)
+curl -X POST -H "Content-Type: application/json" \
+     -d '{"candidate_id": 1, "job_id": 1}' \
+     http://localhost:9001/workflows/application/start  # Local
+     # OR
+     https://bhiv-hr-langgraph.onrender.com/workflows/application/start  # Production
 ```
 
 ---
@@ -198,6 +210,11 @@ curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
 
 # 3. Candidate Analysis
 curl https://bhiv-hr-agent-nhgg.onrender.com/analyze/1
+
+# 4. LangGraph Workflow Trigger
+curl -X POST -H "Content-Type: application/json" \
+     -d '{"candidate_id": 1, "job_id": 1}' \
+     https://bhiv-hr-langgraph.onrender.com/workflows/application/start
 ```
 
 ### **📊 Values Assessment**
@@ -240,14 +257,15 @@ curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
 ### **Production Database**
 ```bash
 # Current Real Data (Production Database):
-✅ 11+ Candidates - Complete profiles with skills and experience
-✅ 20+ Jobs - Active job postings from 3 client companies  
-✅ 27 Resume Files - Processed PDF/DOCX files in assets/resumes/
-✅ 3 Client Companies - TECH001, STARTUP01, ENTERPRISE01
-✅ 3 HR Users - Admin, HR Manager, Recruiter roles
+✅ 10+ Candidates - Complete profiles with skills and experience
+✅ 6+ Jobs - Active job postings from 3+ client companies  
+✅ 29 Resume Files - Processed PDF/DOCX files in assets/resumes/
+✅ 3+ Client Companies - TECH001, STARTUP01, ENTERPRISE01
+✅ 3+ HR Users - Admin, HR Manager, Recruiter roles
 ✅ Assessment Data - 5-point BHIV values framework (Integrity, Honesty, Discipline, Hard Work, Gratitude)
 ✅ Interview Data - Complete scheduling and management system
-✅ Database Schema v4.1.0 - 12 core tables with Phase 3 learning engine
+✅ LangGraph Workflows - Automated candidate processing and notifications
+✅ Database Schema v4.2.0 - 13 core tables with Phase 3 learning engine + workflow management
 ```
 
 ### **Data Verification**
@@ -320,16 +338,23 @@ AGENT_SERVICE_URL=http://agent:9000
 ### **Service Configuration**
 ```bash
 # Gateway Service (Port 8000)
-- FastAPI 0.115.6
-- 55 endpoints
+- FastAPI 4.2.0
+- 94 endpoints
 - Triple authentication
+- LangGraph integration
 - Rate limiting
 
 # Agent Service (Port 9000)
-- FastAPI 0.115.6
+- FastAPI 4.2.0
 - 6 endpoints
 - Phase 3 AI engine
 - Semantic matching
+
+# LangGraph Service (Port 9001)
+- FastAPI 4.2.0
+- 7 endpoints
+- Workflow automation
+- Multi-channel notifications
 
 # Portal Services (Ports 8501-8503)
 - Streamlit 1.41.1
@@ -460,12 +485,12 @@ matches = requests.get(f"{BASE_URL}/v1/match/1/top", headers=headers).json()
 - [ ] Can access all 5 portal URLs
 - [ ] API health checks return "healthy"
 - [ ] Can login to client portal (TECH001/demo123)
-- [ ] Can view 31 candidates in HR portal
+- [ ] Can view 10+ candidates in HR portal
 - [ ] AI matching returns candidate scores
 - [ ] Can create new job posting
 - [ ] Can register new candidate
-- [ ] Database shows 17 tables
-- [ ] All 61 endpoints respond correctly
+- [ ] Database shows 13 core tables
+- [ ] All 107 endpoints respond correctly
 - [ ] Export functionality works
 
 ### **🚀 Ready for Production When:**
@@ -491,7 +516,7 @@ matches = requests.get(f"{BASE_URL}/v1/match/1/top", headers=headers).json()
 - **Agent API**: https://bhiv-hr-agent-nhgg.onrender.com/docs
 - **HR Portal**: https://bhiv-hr-portal-u670.onrender.com/
 - **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com/
-- **Candidate Portal**: https://bhiv-hr-candidate-portal.onrender.com/
+- **Candidate Portal**: https://bhiv-hr-candidate-portal-abe6.onrender.com/
 
 ### **Demo Credentials**
 ```bash
@@ -509,4 +534,4 @@ API Key: <YOUR_API_KEY>
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: January 2025 | **Setup Time**: 0-5 minutes | **Services**: 5/5 Live | **Status**: ✅ Ready to Use
+**Last Updated**: November 15, 2025 | **Setup Time**: 0-5 minutes | **Services**: 6/6 Live | **Status**: ✅ Ready to Use

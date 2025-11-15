@@ -1,104 +1,155 @@
-# 🚀 BHIV HR Platform - Critical Issues Deployment Guide
+# 🚀 BHIV HR Platform - Complete Deployment Guide v4.2.0
 
-## 📋 **Issues to Fix:**
-1. **Database Schema v4.2.0** - Missing columns and tables
-2. **Gateway Service** - AI Agent URL connection
+## 📋 **Current System Status:**
+- **Version**: 4.2.0 with LangGraph Integration
+- **Services**: 6 operational (Gateway, Agent, LangGraph, HR Portal, Client Portal, Candidate Portal)
+- **Database**: PostgreSQL 17 with Schema v4.2.0 (13 core tables)
+- **Endpoints**: 107 total (94 Gateway + 6 Agent + 7 LangGraph)
+- **Platform**: Render Cloud (6/6 services live)
 
 ---
 
-## 🗄️ **STEP 1: Deploy Database Schema (CRITICAL)**
+## 🗄️ **STEP 1: Verify Current Deployment Status**
 
-### **1.1 Access Render PostgreSQL Console**
-1. Go to [Render Dashboard](https://dashboard.render.com)
-2. Click on your PostgreSQL service: `bhiv-hr-jcuu-w5fl`
-3. Click **"Connect"** tab
-4. Click **"External Connection"**
-5. Copy the connection command
+### **1.1 Check All Services Status**
+```bash
+# Gateway Service (94 endpoints)
+curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
-### **1.2 Execute Schema Update**
-**Option A: Via Render Web Console (Recommended)**
-1. In Render PostgreSQL service, click **"Connect"** → **"Web Console"**
-2. Execute these SQL commands one by one:
+# AI Agent Service (6 endpoints)
+curl https://bhiv-hr-agent-nhgg.onrender.com/health
 
-```sql
--- Add missing columns to clients table
-ALTER TABLE clients 
-ADD COLUMN IF NOT EXISTS failed_login_attempts INTEGER DEFAULT 0,
-ADD COLUMN IF NOT EXISTS locked_until TIMESTAMP;
+# LangGraph Service (7 endpoints) - NEW
+curl https://bhiv-hr-langgraph.onrender.com/health
 
--- Update existing records
-UPDATE clients 
-SET failed_login_attempts = 0 
-WHERE failed_login_attempts IS NULL;
-
--- Create job_applications table
-CREATE TABLE IF NOT EXISTS job_applications (
-    id SERIAL PRIMARY KEY,
-    candidate_id INTEGER NOT NULL REFERENCES candidates(id) ON DELETE CASCADE,
-    job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
-    cover_letter TEXT,
-    status VARCHAR(50) DEFAULT 'applied' CHECK (status IN ('applied', 'reviewed', 'shortlisted', 'rejected', 'withdrawn')),
-    applied_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(candidate_id, job_id)
-);
-
--- Add indexes
-CREATE INDEX IF NOT EXISTS idx_job_applications_candidate ON job_applications(candidate_id);
-CREATE INDEX IF NOT EXISTS idx_job_applications_job ON job_applications(job_id);
-CREATE INDEX IF NOT EXISTS idx_job_applications_status ON job_applications(status);
-CREATE INDEX IF NOT EXISTS idx_job_applications_date ON job_applications(applied_date);
-
--- Update schema version
-INSERT INTO schema_version (version, description) VALUES 
-('4.2.0', 'Production schema with job_applications table and client auth fixes')
-ON CONFLICT (version) DO UPDATE SET applied_at = CURRENT_TIMESTAMP;
+# Portal Services
+curl -I https://bhiv-hr-portal-u670.onrender.com/
+curl -I https://bhiv-hr-client-portal-3iod.onrender.com/
+curl -I https://bhiv-hr-candidate-portal-abe6.onrender.com/
 ```
 
-**Option B: Via Command Line (If you have psql)**
+### **1.2 Verify Database Schema v4.2.0**
 ```bash
-psql "postgresql://<username>:<password>@<host>:<port>/<database>schema_production.sql
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
+```
+**Expected Response:**
+```json
+{
+  "schema_version": "4.2.0",
+  "tables": 13,
+  "total_endpoints": 107,
+  "services": 6
+}
+```
+
+### **1.3 Test LangGraph Integration**
+```bash
+# Test workflow creation
+curl -X POST "https://bhiv-hr-langgraph.onrender.com/workflows/application/start" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "candidate_id": 1,
+       "job_id": 1,
+       "application_id": 123,
+       "candidate_email": "test@example.com",
+       "candidate_phone": "+1234567890",
+       "candidate_name": "Test Candidate",
+       "job_title": "Software Engineer"
+     }'
 ```
 
 ---
 
-## 🌐 **STEP 2: Redeploy Gateway Service (CRITICAL)**
+## 🌐 **STEP 2: Deploy New Services (If Needed)**
 
-### **2.1 Access Gateway Service**
-1. Go to [Render Dashboard](https://dashboard.render.com)
-2. Click on **"bhiv-hr-gateway-ltg0"** service
+### **2.1 LangGraph Service Deployment**
+If LangGraph service is not deployed:
 
-### **2.2 Force Redeploy**
-1. Click **"Manual Deploy"** button
-2. Select **"Deploy latest commit"**
-3. Click **"Deploy"**
-4. Wait for deployment to complete (2-3 minutes)
+1. **Create New Web Service on Render:**
+   - Repository: `https://github.com/shashankmishraa/BHIV-HR-Platform`
+   - Root Directory: `services/langgraph`
+   - Build Command: `pip install -r requirements.txt`
+   - Start Command: `python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+
+2. **Environment Variables:**
+   ```
+   GATEWAY_URL=https://bhiv-hr-gateway-ltg0.onrender.com
+   API_KEY_SECRET=<YOUR_API_KEY>
+   DATABASE_URL=<POSTGRESQL_URL>
+   OPENAI_API_KEY=<YOUR_OPENAI_KEY>
+   ENVIRONMENT=production
+   ```
+
+### **2.2 Update Gateway Integration**
+Ensure Gateway service includes LangGraph endpoints:
+
+1. **Verify LangGraph Integration:**
+   ```bash
+   curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+        https://bhiv-hr-gateway-ltg0.onrender.com/api/v1/workflow/health
+   ```
+
+2. **Test Workflow Triggers:**
+   ```bash
+   curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
+        -H "Content-Type: application/json" \
+        https://bhiv-hr-gateway-ltg0.onrender.com/api/v1/workflow/trigger \
+        -d '{"workflow_type": "candidate_application", "data": {}}'
+   ```
 
 ---
 
-## ✅ **STEP 3: Verify Deployment**
+## ✅ **STEP 3: Complete System Verification**
 
-### **3.1 Test Database Schema**
+### **3.1 Verify All 107 Endpoints**
 ```bash
+# Gateway Service (94 endpoints)
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
+
+# AI Agent Service (6 endpoints)
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
+     -H "Content-Type: application/json" \
+     https://bhiv-hr-agent-nhgg.onrender.com/match \
+     -d '{"candidate_id": 1, "job_id": 1}'
+
+# LangGraph Service (7 endpoints)
+curl https://bhiv-hr-langgraph.onrender.com/workflows
+```
+
+### **3.2 Test Complete Workflow**
+```bash
+# 1. Create workflow
+WORKFLOW_ID=$(curl -X POST "https://bhiv-hr-langgraph.onrender.com/workflows/application/start" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "candidate_id": 1,
+    "job_id": 1,
+    "application_id": 123,
+    "candidate_email": "test@example.com",
+    "candidate_phone": "+1234567890",
+    "candidate_name": "Test Candidate",
+    "job_title": "Software Engineer"
+  }' | jq -r '.workflow_id')
+
+# 2. Check workflow status
+curl "https://bhiv-hr-langgraph.onrender.com/workflows/$WORKFLOW_ID/status"
+```
+
+### **3.3 Verify Portal Integration**
+```bash
+# Test client authentication
 curl -X POST -H "Content-Type: application/json" \
--d '{"client_id":"TECH001","password":"demo123"}' \
-https://bhiv-hr-gateway-ltg0.onrender.com/v1/client/login
-```
-**Expected:** Should return success with JWT token
+     -d '{"client_id":"TECH001","password":"demo123"}' \
+     https://bhiv-hr-gateway-ltg0.onrender.com/v1/client/login
 
-### **3.2 Test AI Matching**
-```bash
-curl -H "Authorization: Bearer <YOUR_API_KEY>" \
-https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top
-```
-**Expected:** Should show `"agent_status": "connected"` and Phase 3 algorithm
+# Test candidate portal
+curl -I https://bhiv-hr-candidate-portal-abe6.onrender.com/
 
-### **3.3 Check Schema Version**
-```bash
-curl -H "Authorization: Bearer <YOUR_API_KEY>" \
-https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
+# Test HR portal
+curl -I https://bhiv-hr-portal-u670.onrender.com/
 ```
-**Expected:** Should show `"schema_version": "4.2.0"`
 
 ---
 
@@ -130,9 +181,15 @@ python check_database_structure.py
 ---
 
 ## 🎯 **Success Criteria**
-- ✅ Client login returns JWT token
-- ✅ AI matching shows "agent_status": "connected"
-- ✅ Schema version shows "4.2.0"
-- ✅ All 85 endpoints functional
+- ✅ All 6 services operational (Gateway, Agent, LangGraph, HR Portal, Client Portal, Candidate Portal)
+- ✅ All 107 endpoints functional (94 Gateway + 6 Agent + 7 LangGraph)
+- ✅ Database schema v4.2.0 with 13 core tables
+- ✅ LangGraph workflows creating and processing successfully
+- ✅ Client authentication returns JWT tokens
+- ✅ AI matching shows Phase 3 algorithm connectivity
+- ✅ Multi-channel notifications working in development mode
+- ✅ All portal services accessible and responsive
 
-**Estimated Time:** 10-15 minutes total
+**Estimated Time:** 15-20 minutes total
+**Current Status:** 🟪 6/6 Services Operational
+**Last Updated:** November 15, 2025

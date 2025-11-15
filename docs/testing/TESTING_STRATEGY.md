@@ -1,7 +1,7 @@
 # 🧪 BHIV HR Platform - Testing Strategy Guide
 
-**Version**: 3.0.0-Phase3  
-**Last Updated**: November 4, 2025  
+**Version**: 4.2.0  
+**Last Updated**: November 15, 2025  
 **Status**: Production Testing Framework
 
 ---
@@ -9,11 +9,12 @@
 ## 📊 Testing Overview
 
 ### **Testing Philosophy**
-- **Comprehensive Coverage**: All 85 API endpoints tested (79 Gateway + 6 Agent)
+- **Comprehensive Coverage**: All 107 API endpoints tested (94 Gateway + 6 Agent + 7 LangGraph)
 - **Real Data Testing**: Using actual production data
 - **Integration Focus**: Cross-service communication validation
 - **Security Testing**: Authentication, authorization, input validation
 - **Performance Testing**: Response times, concurrent load testing
+- **Workflow Testing**: LangGraph automation and multi-channel notifications
 
 ### **Testing Pyramid**
 ```
@@ -65,7 +66,7 @@
 
 ## 🎯 Testing Strategies by Component
 
-### **API Gateway Testing (79 Endpoints)
+### **API Gateway Testing (94 Endpoints)
 
 #### **Core API Endpoints (3)**
 ```python
@@ -112,6 +113,21 @@ GET /analyze/{candidate_id} - Candidate analysis
 - Response time < 0.02 seconds
 - Concurrent request handling
 - Algorithm accuracy validation
+```
+
+### **LangGraph Workflow Testing**
+```python
+# Core functionality
+GET /health - Service health check
+POST /workflows/application/start - Workflow initiation
+GET /workflows/{id}/status - Workflow status tracking
+POST /tools/send-notification - Multi-channel notifications
+
+# Integration testing
+- Gateway-LangGraph communication
+- Workflow state management
+- Notification delivery validation
+- Error handling and recovery
 ```
 
 ### **Portal Testing**
@@ -174,8 +190,8 @@ python tests/comprehensive_platform_test.py  # Full system test
 ## 📊 Test Coverage Analysis
 
 ### **Current Coverage (98%+ Functional)**
-- **API Endpoints**: 85/85 endpoints tested (100%) - 79 Gateway + 6 Agent
-- **Service Integration**: All 5 services validated
+- **API Endpoints**: 107/107 endpoints tested (100%) - 94 Gateway + 6 Agent + 7 LangGraph
+- **Service Integration**: All 6 services validated
 - **Security Features**: Complete security testing
 - **Database Operations**: Full CRUD validation
 - **Portal Functionality**: End-to-end workflow testing
@@ -183,10 +199,12 @@ python tests/comprehensive_platform_test.py  # Full system test
 ### **Coverage Metrics**
 ```
 Service Coverage:
-├── Gateway Service: 100% (79 endpoints)
+├── Gateway Service: 100% (94 endpoints)
 ├── AI Agent Service: 100% (6 endpoints)
+├── LangGraph Service: 100% (7 endpoints)
 ├── HR Portal: 95% (core workflows)
 ├── Client Portal: 95% (authentication + workflows)
+├── Candidate Portal: 95% (job seeker workflows)
 └── Database: 100% (all tables and relationships)
 
 Test Types:
@@ -266,10 +284,11 @@ success_rate_threshold = 95%
 ## 🧪 Test Data Management
 
 ### **Test Data Categories**
-- **Real Production Data**: 68+ candidates, 4+ jobs
+- **Real Production Data**: 10+ candidates, 6+ jobs
 - **Generated Test Data**: Dynamic test scenarios
 - **Edge Case Data**: Boundary condition testing
 - **Invalid Data**: Error handling validation
+- **Workflow Data**: LangGraph automation test scenarios
 
 ### **Data Isolation Strategy**
 ```python
@@ -384,12 +403,16 @@ python tests/run_all_tests.py
 python tests/test_endpoints.py
 python tests/test_security.py
 python tests/comprehensive_platform_test.py
+python tests/test_langgraph_workflows.py
 
 # Run with verbose output
 python tests/run_all_tests.py --verbose
 
 # Generate test report
 python tests/run_all_tests.py --report
+
+# Test LangGraph workflows specifically
+python services/langgraph/test_local.py
 ```
 
 ### **Test Configuration**

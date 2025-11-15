@@ -10,16 +10,19 @@
 **Live Services**:
 - **API Gateway**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
 - **AI Matching Engine**: https://bhiv-hr-agent-nhgg.onrender.com/docs
+- **LangGraph Workflows**: https://bhiv-hr-langgraph.onrender.com/docs
 - **HR Portal**: https://bhiv-hr-portal-u670.onrender.com/
 - **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com/
+- **Candidate Portal**: https://bhiv-hr-candidate-portal-abe6.onrender.com/
 
 **Platform Resources**:
 ```
 ├── PostgreSQL Database: Internal Render service (1GB)
-├── Web Services: 4 containerized applications
+├── Web Services: 6 containerized applications
 ├── Auto-Deploy: GitHub integration enabled
 ├── HTTPS: SSL certificates included
 ├── Monitoring: Built-in health checks
+├── Workflow Automation: LangGraph AI orchestration
 └── Logs: Accessible via Render dashboard
 ```
 
@@ -55,23 +58,26 @@ Health Check: https://bhiv-hr-gateway-ltg0.onrender.com/health
 ### Real-Time Data
 - **AI Matching**: <0.02s response time
 - **Resume Processing**: 75-96% accuracy
-- **API Endpoints**: 85 interactive endpoints (79 Gateway + 6 Agent)
+- **API Endpoints**: 107 interactive endpoints (94 Gateway + 6 Agent + 7 LangGraph)
 - **Security Features**: Rate limiting, 2FA, input validation
 
 ### Interactive Demos
-1. **API Explorer**: Test all 79 endpoints via Swagger UI
+1. **API Explorer**: Test all 107 endpoints via Swagger UI
 2. **AI Matching**: Real-time candidate matching
-3. **HR Dashboard**: Complete recruitment workflow
-4. **Client Portal**: Job posting and candidate review
-5. **Security Testing**: 2FA, password policies, penetration testing
+3. **Workflow Automation**: LangGraph AI orchestration demos
+4. **HR Dashboard**: Complete recruitment workflow
+5. **Client Portal**: Job posting and candidate review
+6. **Candidate Portal**: Job seeker interface and applications
+7. **Security Testing**: 2FA, password policies, penetration testing
 
 ## 🔍 Interactive API Explorer
 
 ### Swagger UI
 **URL**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
 **Features**:
-- 85 interactive endpoints (79 Gateway + 6 Agent)
+- 107 interactive endpoints (94 Gateway + 6 Agent + 7 LangGraph)
 - Real-time API testing
+- Workflow automation demos
 - Authentication examples
 - Response schemas
 - Advanced monitoring endpoints
@@ -90,6 +96,9 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 
 # AI Agent Health
 curl https://bhiv-hr-agent-nhgg.onrender.com/health
+
+# LangGraph Workflow Health
+curl https://bhiv-hr-langgraph.onrender.com/health
 ```
 
 ## 🧪 Testing Environment
@@ -164,6 +173,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 2. **Dashboard**: Explore HR interface
 3. **API**: Test endpoints via https://bhiv-hr-gateway-ltg0.onrender.com/docs
 4. **AI**: Test matching via https://bhiv-hr-agent-nhgg.onrender.com/docs
+5. **Workflows**: Test automation via https://bhiv-hr-langgraph.onrender.com/docs
 
 ### Scenario 2: Client Company Workflow  
 1. **Login**: Visit https://bhiv-hr-client-portal-3iod.onrender.com/
@@ -201,7 +211,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 
 ### Technical Details
 **Platform**: Render Cloud
-**Services**: 5 (Database + 4 Web Services)
+**Services**: 6 (Database + 6 Web Services)
 **Cost**: $0/month (Free tier)
 **Auto-Deploy**: GitHub integration
 
@@ -214,22 +224,25 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 1. **API Documentation**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
 2. **HR Portal**: https://bhiv-hr-portal-u670.onrender.com/
 3. **Client Portal**: https://bhiv-hr-client-portal-3iod.onrender.com/ (TECH001/demo123)
-4. **AI Matching**: https://bhiv-hr-agent-nhgg.onrender.com/docs
+4. **Candidate Portal**: https://bhiv-hr-candidate-portal-abe6.onrender.com/
+5. **AI Matching**: https://bhiv-hr-agent-nhgg.onrender.com/docs
+6. **Workflow Automation**: https://bhiv-hr-langgraph.onrender.com/docs
 
 **Demo Features**:
-- ✅ **85 API Endpoints**: Complete REST API with monitoring (79 Gateway + 6 Agent)
+- ✅ **107 API Endpoints**: Complete REST API with monitoring (94 Gateway + 6 Agent + 7 LangGraph)
 - ✅ **AI Matching**: Real-time candidate matching with bias mitigation
+- ✅ **Workflow Automation**: LangGraph AI orchestration with multi-channel notifications
 - ✅ **Security**: Rate limiting, 2FA, input validation
 - ✅ **Advanced Monitoring**: Prometheus metrics, health checks, performance analytics
 - ✅ **Documentation**: Interactive Swagger UI, daily reflections, bias analysis
 
-**Platform Status**: 🟢 ALL 5 SERVICES OPERATIONAL
+**Platform Status**: 🟪 ALL 6 SERVICES OPERATIONAL
 
 ---
 
 *Live platform deployed on Render with zero monthly cost*
 
-**Last Updated**: October 23, 2025  
-**Platform Version**: 3.1.0-phase3-production  
+**Last Updated**: November 15, 2025  
+**Platform Version**: 4.2.0-langgraph-production  
 **Deployment**: ✅ Production Ready  
 **Cost**: $0/month

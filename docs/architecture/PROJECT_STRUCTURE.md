@@ -1,7 +1,7 @@
 # 📁 BHIV HR Platform - Complete Project Structure
 
-**Updated**: November 4, 2025  
-**Architecture**: Microservices (6 Services: 5 Application + 1 Database)  
+**Updated**: November 15, 2025  
+**Architecture**: Microservices (7 Services: 6 Application + 1 Database)  
 **Status**: ✅ Production Ready (99.9% Uptime)  
 **Deployment**: Live on Render + Local Development with Docker Compose
 
@@ -10,12 +10,12 @@
 ## 🏗️ Project Overview
 
 ### **System Architecture**
-- **Microservices**: 6 services (5 application + 1 database)
+- **Microservices**: 7 services (6 application + 1 database)
 - **Database**: PostgreSQL 17 with Schema v4.2.0 (13 core tables)
 - **Authentication**: Triple-layer (API Key + Client JWT + Candidate JWT) with 2FA
-- **AI Engine**: Phase 3 semantic matching with learning capabilities
+- **AI Engine**: Phase 3 semantic matching with learning capabilities + LangGraph workflows
 - **Deployment**: Production on Render + Local Docker Compose
-- **Total Endpoints**: 85 (79 Gateway + 6 Agent)
+- **Total Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph)
 - **Security**: CSP policies, rate limiting, input validation, audit logging
 
 ---
@@ -27,16 +27,17 @@ bhiv-hr-platform/
 ├── services/                    # Microservices Architecture
 │   ├── gateway/                # API Gateway Service (Port 8000)
 │   │   ├── app/               # Application core
-│   │   │   ├── main.py        # FastAPI application (2000+ lines, 55 endpoints)
-│   │   │   ├── monitoring.py  # Prometheus metrics & health checks
+│   │   │   ├── main.py        # FastAPI application (2000+ lines, 94 endpoints)
 │   │   │   └── __init__.py    # Package initialization
 │   │   ├── routes/            # Route modules
-│   │   │   └── auth.py        # 2FA authentication routes (4 endpoints)
+│   │   │   └── auth.py        # 2FA authentication routes
 │   │   ├── logs/              # Application logs
 │   │   ├── semantic_engine/   # Shared semantic engine
+│   │   ├── langgraph_integration.py # LangGraph workflow integration
+│   │   ├── monitoring.py      # Prometheus metrics & health checks
 │   │   ├── dependencies.py    # Triple authentication system
 │   │   ├── Dockerfile         # Container configuration
-│   │   └── requirements.txt   # Dependencies (FastAPI 3.1.0)
+│   │   └── requirements.txt   # Dependencies (FastAPI 4.2.0)
 │   ├── agent/                  # AI Matching Engine Service (Port 9000)
 │   │   ├── app.py             # FastAPI AI service (600+ lines, 6 endpoints)
 │   │   ├── semantic_engine/   # Phase 3 AI engine
@@ -67,11 +68,18 @@ bhiv-hr-platform/
 │   │   ├── Dockerfile         # Container configuration
 │   │   ├── README.md          # Service documentation
 │   │   └── requirements.txt   # Streamlit dependencies
+│   ├── langgraph/             # LangGraph Workflow Service (Port 9001)
+│   │   ├── app.py             # Workflow automation service (7 endpoints)
+│   │   ├── workflows/         # Workflow definitions
+│   │   ├── tools/             # Workflow tools and integrations
+│   │   ├── Dockerfile         # Container configuration
+│   │   ├── README.md          # LangGraph service documentation
+│   │   └── requirements.txt   # LangGraph dependencies
 │   ├── semantic_engine/        # Shared Phase 3 AI Engine
 │   │   ├── __init__.py        # Package initialization
 │   │   └── phase3_engine.py   # Production semantic engine
 │   └── db/                     # Database Schema & Configuration
-│       ├── consolidated_schema.sql # Complete schema v4.1.0 (12 core tables)
+│       ├── consolidated_schema.sql # Complete schema v4.2.0 (13 core tables)
 │       ├── Dockerfile         # Database container
 │       └── README.md          # Database documentation
 ├── docs/                       # Complete Documentation Suite
@@ -137,9 +145,9 @@ bhiv-hr-platform/
 │   ├── .env.render           # Render platform configuration
 │   └── production.env        # Production settings
 ├── data/                       # Production Data
-│   └── candidates.csv        # Candidate data (11+ candidates)
+│   └── candidates.csv        # Candidate data (10+ candidates)
 ├── assets/                     # Static Assets
-│   └── resumes/               # Resume files (27 files)
+│   └── resumes/               # Resume files (29 files)
 │       ├── AdarshYadavResume.pdf
 │       ├── Anmol_Resume.pdf
 │       ├── Anurag_CV.pdf
@@ -193,17 +201,18 @@ bhiv-hr-platform/
 ## 🏗️ Service Architecture Details
 
 ### **1. Gateway Service (services/gateway/)**
-**Purpose**: Central API gateway with authentication and routing  
-**Technology**: FastAPI 3.1.0 + Python 3.12.7  
+**Purpose**: Central API gateway with authentication and routing + LangGraph integration  
+**Technology**: FastAPI 4.2.0 + Python 3.12.7  
 **Port**: 8000  
-**Endpoints**: 55 total
+**Endpoints**: 94 total
 
 ```python
 # Key Files:
 app/main.py              # Main FastAPI application (2000+ lines)
+langgraph_integration.py # LangGraph workflow integration
+monitoring.py           # Prometheus metrics & health monitoring
 dependencies.py          # Triple authentication system
 routes/auth.py          # 2FA authentication routes
-app/monitoring.py       # Prometheus metrics & health monitoring
 ```
 
 **Features**:
@@ -213,11 +222,12 @@ app/monitoring.py       # Prometheus metrics & health monitoring
 - Comprehensive security testing endpoints
 - Values assessment workflow (5-point BHIV values)
 - AI matching integration with Agent service
+- LangGraph workflow integration (7 endpoints)
 - Candidate portal APIs (registration, login, applications)
 
 ### **2. Agent Service (services/agent/)**
 **Purpose**: AI-powered semantic candidate matching  
-**Technology**: FastAPI 3.1.0 + Python 3.12.7  
+**Technology**: FastAPI 4.2.0 + Python 3.12.7  
 **Port**: 9000  
 **Endpoints**: 6 total
 
@@ -232,7 +242,7 @@ semantic_engine/phase3_engine.py # Phase 3 semantic matching
 - Advanced candidate analysis
 - Batch processing for multiple jobs
 - Database connection pooling
-- Fallback matching when Phase 3 unavailable
+- Integration with LangGraph workflows
 
 ### **3. HR Portal Service (services/portal/)**
 **Purpose**: HR dashboard and workflow management  
@@ -292,28 +302,49 @@ config.py               # Configuration management
 - Application tracking
 - Status notifications
 
-### **6. Database (services/db/)**
+### **6. LangGraph Service (services/langgraph/)**
+**Purpose**: AI workflow automation and multi-channel notifications  
+**Technology**: FastAPI 4.2.0 + Python 3.12.7  
+**Port**: 9001  
+**Endpoints**: 7 total
+
+```python
+# Key Files:
+app.py                   # Workflow automation service
+workflows/               # Workflow definitions
+tools/                   # Integration tools
+```
+
+**Features**:
+- Automated candidate processing workflows
+- Multi-channel notifications (Email, WhatsApp, SMS)
+- Workflow triggers (applied, shortlisted, interview scheduled)
+- Real-time status tracking
+- Gateway integration for seamless communication
+
+### **7. Database (services/db/)**
 **Purpose**: Data storage and management  
 **Technology**: PostgreSQL 17  
 **Port**: 5432
 
 ```sql
 # Key Files:
-consolidated_schema.sql  # Complete schema v4.1.0 (17 tables)
+consolidated_schema.sql  # Complete schema v4.2.0 (13 core tables)
 ```
 
 **Features**:
-- 17 tables (12 core + 5 system)
+- 13 core tables + system tables
 - Phase 3 learning engine support
+- LangGraph workflow state management
 - Comprehensive indexing
 - Audit logging triggers
 - Generated columns for calculations
 
 ---
 
-## 📊 Database Schema v4.1.0
+## 📊 Database Schema v4.2.0
 
-### **Core Tables (12)**
+### **Core Tables (13)**
 ```sql
 candidates              -- Candidate profiles with authentication
 jobs                   -- Job postings from clients and HR
@@ -327,15 +358,16 @@ rate_limits            -- API rate limiting by IP and endpoint
 csp_violations         -- Content Security Policy monitoring
 matching_cache         -- AI matching results cache
 company_scoring_preferences -- Phase 3 learning engine
+job_applications       -- Candidate job applications with status tracking
 ```
 
-### **System Tables (5)**
+### **System Tables**
 ```sql
 client_auth            -- Enhanced authentication
 client_sessions        -- Session management
-schema_version         -- Version tracking (v4.1.0)
+schema_version         -- Version tracking (v4.2.0)
+workflow_states        -- LangGraph workflow state management
 pg_stat_statements     -- Performance monitoring
-pg_stat_statements_info -- Statistics metadata
 ```
 
 ---
@@ -363,7 +395,7 @@ deployment/scripts/                              # Deployment automation
 ### **Test Categories**
 ```python
 tests/api/test_endpoints.py              # Core API functionality (300+ lines)
-tests/api/comprehensive_endpoint_testing.py # All 61 endpoints
+tests/api/comprehensive_endpoint_testing.py # All 107 endpoints
 tests/integration/test_client_portal.py  # Client portal integration
 tests/integration/test_candidate_portal.py # Candidate portal integration
 tests/security/test_security.py         # Security validation
@@ -371,7 +403,7 @@ tests/run_all_tests.py                  # Complete test suite
 ```
 
 ### **Testing Coverage**
-- **API Testing**: All 61 endpoints verified
+- **API Testing**: All 107 endpoints verified
 - **Integration Testing**: Portal functionality
 - **Security Testing**: Authentication and validation
 - **Performance Testing**: Response times and load
@@ -419,17 +451,18 @@ deployment/scripts/unified-deploy.sh   # Unified deployment
 
 ## 🚀 Production Deployment
 
-### **Live Services (5/5 Operational)**
+### **Live Services (6/6 Operational)**
 - ✅ **Gateway**: bhiv-hr-gateway-ltg0.onrender.com
 - ✅ **Agent**: bhiv-hr-agent-nhgg.onrender.com
+- ✅ **LangGraph**: bhiv-hr-langgraph.onrender.com
 - ✅ **HR Portal**: bhiv-hr-portal-u670.onrender.com
 - ✅ **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com
-- ✅ **Candidate Portal**: bhiv-hr-candidate-portal.onrender.com
+- ✅ **Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com
 
 ### **System Metrics**
-- **Total Endpoints**: 61 (55 Gateway + 6 Agent)
-- **Database Tables**: 12 core tables (PostgreSQL 17, Schema v4.1.0)
-- **Real Data**: 11+ candidates, 20+ jobs, 27 resume files
+- **Total Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph)
+- **Database Tables**: 13 core tables (PostgreSQL 17, Schema v4.2.0)
+- **Real Data**: 10+ candidates, 6+ jobs, 29 resume files
 - **Monthly Cost**: $0 (Free tier deployment)
 - **Uptime**: 99.9% (all services operational)
 
@@ -511,4 +544,4 @@ curl http://localhost:8000/health/detailed
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: October 2025 | **Status**: ✅ Production Ready (99.9% Uptime) | **Services**: 5/5 Live | **Database**: Schema v4.1.0 | **Timezone Fix**: Completed
+**Last Updated**: November 15, 2025 | **Status**: ✅ Production Ready (99.9% Uptime) | **Services**: 6/6 Live | **Database**: Schema v4.2.0 | **LangGraph**: Integrated

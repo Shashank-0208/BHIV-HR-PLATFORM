@@ -1,7 +1,7 @@
 # 🏗️ BHIV HR Platform - Services Architecture Summary
 
-**Generated**: November 4, 2025  
-**Architecture**: Microservices (5 Services)  
+**Generated**: November 15, 2025  
+**Architecture**: Microservices (6 Services)  
 **Status**: ✅ All Services Operational  
 **Deployment**: Production + Local Development
 
@@ -12,17 +12,18 @@
 ### **Microservices Architecture**
 | Service | Technology | Port | Status | Production URL |
 |---------|------------|------|--------|----------------|
-| **Gateway** | FastAPI 3.1.0 + Python 3.12.7 | 8000 | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com |
-| **Agent** | FastAPI 3.1.0 + Python 3.12.7 | 9000 | ✅ Live | bhiv-hr-agent-nhgg.onrender.com |
+| **Gateway** | FastAPI 4.2.0 + Python 3.12.7 | 8000 | ✅ Live | bhiv-hr-gateway-ltg0.onrender.com |
+| **Agent** | FastAPI 4.2.0 + Python 3.12.7 | 9000 | ✅ Live | bhiv-hr-agent-nhgg.onrender.com |
+| **LangGraph** | FastAPI 4.2.0 + Python 3.12.7 | 9001 | ✅ Live | bhiv-hr-langgraph.onrender.com |
 | **HR Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8501 | ✅ Live | bhiv-hr-portal-u670.onrender.com |
 | **Client Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8502 | ✅ Live | bhiv-hr-client-portal-3iod.onrender.com |
-| **Candidate Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8503 | ✅ Live | bhiv-hr-candidate-portal.onrender.com |
+| **Candidate Portal** | Streamlit 1.41.1 + Python 3.12.7 | 8503 | ✅ Live | bhiv-hr-candidate-portal-abe6.onrender.com |
 | **Database** | PostgreSQL 17 | 5432 | ✅ Live | Internal Render URL |
 
 ### **System Metrics**
-- **Total Endpoints**: 85 (79 Gateway + 6 Agent) - Verified from source code
-- **Database Tables**: 12 core tables (Schema v4.1.0)
-- **Schema Version**: v4.1.0 with Phase 3 learning engine
+- **Total Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph) - Verified from source code
+- **Database Tables**: 13 core tables (Schema v4.2.0)
+- **Schema Version**: v4.2.0 with Phase 3 learning engine + LangGraph workflows
 - **Authentication**: Unified Bearer token + JWT + Candidate JWT system
 - **Monthly Cost**: $0 (Free tier deployment)
 - **Uptime**: 99.9% (all services operational)
@@ -36,7 +37,7 @@
 # FastAPI Application
 app = FastAPI(
     title="BHIV HR Platform API Gateway",
-    version="3.1.0",
+    version="4.2.0",
     description="Enterprise HR Platform with Advanced Security Features"
 )
 
@@ -53,7 +54,7 @@ engine = create_engine(
 )
 ```
 
-### **API Endpoints (79 Total) - Verified from Source Code**
+### **API Endpoints (94 Total) - Verified from Source Code**
 ```
 Core API (3):
 ├── GET  /                    - Service information
@@ -138,6 +139,15 @@ Candidate Portal (5):
 ├── PUT  /v1/candidate/profile/{id} - Update candidate profile
 ├── POST /v1/candidate/apply    - Job application submission
 └── GET  /v1/candidate/applications/{id} - Get candidate applications
+
+LangGraph Integration (7):
+├── GET  /api/v1/workflow/health
+├── GET  /api/v1/workflow/list
+├── POST /api/v1/workflow/trigger
+├── GET  /api/v1/workflow/status/{id}
+├── POST /api/v1/webhooks/candidate-applied
+├── POST /api/v1/webhooks/candidate-shortlisted
+└── POST /api/v1/webhooks/interview-scheduled
 ```
 
 ### **Triple Authentication System**
@@ -190,7 +200,7 @@ def get_dynamic_rate_limit(endpoint: str, user_tier: str = "default") -> int:
 # FastAPI AI Service
 app = FastAPI(
     title="BHIV AI Matching Engine",
-    version="3.0.0",
+    version="4.2.0",
     description="Advanced AI-Powered Semantic Candidate Matching Service"
 )
 
@@ -409,9 +419,67 @@ Candidate Workflow:
 
 ---
 
-## 📊 Database Schema v4.1.0 (17 Tables)
+## 🔄 LangGraph Service (Port 9001)
 
-### **Core Application Tables (12)**
+### **Service Configuration**
+```python
+# FastAPI LangGraph Service
+app = FastAPI(
+    title="BHIV LangGraph Workflows",
+    version="4.2.0",
+    description="AI Workflow Automation and Multi-Channel Notifications"
+)
+
+# Workflow Configuration
+workflow_config = {
+    "application": ApplicationWorkflow(),
+    "shortlist": ShortlistWorkflow(),
+    "interview": InterviewWorkflow()
+}
+```
+
+### **LangGraph Endpoints (7 Total)**
+```
+Core (2):
+├── GET  /                    - Service information
+└── GET  /health              - Health check
+
+Workflow Management (4):
+├── POST /workflows/application/start - Start application workflow
+├── GET  /workflows/{id}/status - Get workflow status
+├── GET  /workflows           - List all workflows
+└── POST /tools/send-notification - Send multi-channel notification
+
+Integration (1):
+└── GET  /test-integration    - Test Gateway integration
+```
+
+### **Workflow Automation Features**
+```python
+# Application Workflow
+class ApplicationWorkflow:
+    def __init__(self):
+        self.steps = [
+            "candidate_applied",
+            "send_confirmation",
+            "notify_hr_team",
+            "update_status",
+            "trigger_matching"
+        ]
+    
+    async def execute(self, candidate_id: int, job_id: int):
+        # Multi-channel notification system
+        await self.send_notification(
+            channels=["email", "sms", "whatsapp"],
+            template="application_received"
+        )
+```
+
+---
+
+## 📊 Database Schema v4.2.0 (13 Core Tables)
+
+### **Core Application Tables (13)**
 ```sql
 -- Primary entities
 candidates              -- Candidate profiles with authentication
@@ -430,15 +498,16 @@ csp_violations         -- Content Security Policy monitoring
 -- AI & Performance
 matching_cache         -- AI matching results cache
 company_scoring_preferences -- Phase 3 learning engine
+job_applications       -- Candidate job applications with status tracking
 ```
 
-### **System Tables (5)**
+### **System Tables**
 ```sql
 client_auth            -- Enhanced authentication
 client_sessions        -- Session management
-schema_version         -- Version tracking (v4.1.0)
+schema_version         -- Version tracking (v4.2.0)
+workflow_states        -- LangGraph workflow state management
 pg_stat_statements     -- Performance monitoring
-pg_stat_statements_info -- Statistics metadata
 ```
 
 ### **Key Schema Features**
@@ -549,18 +618,19 @@ async def detailed_health_check():
 
 ## 🚀 Production Deployment Status
 
-### **Live Services (5/5 Operational)**
-- ✅ **Gateway**: bhiv-hr-gateway-ltg0.onrender.com (55 endpoints)
+### **Live Services (6/6 Operational)**
+- ✅ **Gateway**: bhiv-hr-gateway-ltg0.onrender.com (94 endpoints)
 - ✅ **Agent**: bhiv-hr-agent-nhgg.onrender.com (6 endpoints)
+- ✅ **LangGraph**: bhiv-hr-langgraph.onrender.com (7 endpoints)
 - ✅ **HR Portal**: bhiv-hr-portal-u670.onrender.com
 - ✅ **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com
-- ✅ **Candidate Portal**: bhiv-hr-candidate-portal.onrender.com
-- ✅ **Database**: PostgreSQL 17 on Render (17 tables)
+- ✅ **Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com
+- ✅ **Database**: PostgreSQL 17 on Render (13 core tables)
 
 ### **System Health**
-- **Total Endpoints**: 61 interactive endpoints
-- **Database Schema**: v4.1.0 with Phase 3 features
-- **Real Data**: 31 candidates, 19 jobs, 27 resume files
+- **Total Endpoints**: 107 interactive endpoints
+- **Database Schema**: v4.2.0 with Phase 3 features + LangGraph workflows
+- **Real Data**: 10+ candidates, 6+ jobs, 29 resume files
 - **AI Algorithm**: Phase 3 semantic matching (operational)
 - **Monthly Cost**: $0 (Free tier deployment)
 - **Global Access**: HTTPS with SSL certificates
@@ -572,4 +642,4 @@ async def detailed_health_check():
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: November 4, 2025 | **Status**: ✅ Production Ready | **Services**: 5/5 Live | **Endpoints**: 85 Total | **Database**: Schema v4.2.0
+**Last Updated**: November 15, 2025 | **Status**: ✅ Production Ready | **Services**: 6/6 Live | **Endpoints**: 107 Total | **Database**: Schema v4.2.0

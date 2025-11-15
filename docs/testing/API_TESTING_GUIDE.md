@@ -1,6 +1,6 @@
 # 🧪 BHIV HR Platform - API Testing Guide
 
-**Complete testing guide for 85 endpoints (79 Gateway + 6 Agent)**
+**Complete testing guide for 107 endpoints (94 Gateway + 6 Agent + 7 LangGraph)**
 
 ## 🔑 Authentication Requirements
 
@@ -12,12 +12,14 @@ Authorization: Bearer <YOUR_API_KEY>
 ### **Base URLs**
 - **Production Gateway**: `https://bhiv-hr-gateway-ltg0.onrender.com`
 - **Production Agent**: `https://bhiv-hr-agent-nhgg.onrender.com`
+- **Production LangGraph**: `https://bhiv-hr-langgraph.onrender.com`
 - **Local Gateway**: `http://localhost:8000`
 - **Local Agent**: `http://localhost:9000`
+- **Local LangGraph**: `http://localhost:9001`
 
 ---
 
-## 🌐 Gateway Service (79 Endpoints)
+## 🌐 Gateway Service (94 Endpoints)
 
 ### **Core API (3 endpoints)**
 
@@ -615,18 +617,85 @@ curl -X POST \
 
 ---
 
+## 🔄 LangGraph Service (7 Endpoints)
+
+### **Core (2 endpoints)**
+
+#### 57. LangGraph Root
+```bash
+GET /
+# No authentication required
+curl https://bhiv-hr-langgraph.onrender.com/
+```
+
+#### 58. LangGraph Health
+```bash
+GET /health
+# No authentication required
+curl https://bhiv-hr-langgraph.onrender.com/health
+```
+
+### **Workflow Management (4 endpoints)**
+
+#### 59. Start Application Workflow
+```bash
+POST /workflows/application/start
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{
+       "candidate_id": 1,
+       "job_id": 1
+     }' \
+     https://bhiv-hr-langgraph.onrender.com/workflows/application/start
+```
+
+#### 60. Get Workflow Status
+```bash
+GET /workflows/{id}/status
+curl https://bhiv-hr-langgraph.onrender.com/workflows/wf_app_001/status
+```
+
+#### 61. List All Workflows
+```bash
+GET /workflows
+curl https://bhiv-hr-langgraph.onrender.com/workflows
+```
+
+#### 62. Send Multi-Channel Notification
+```bash
+POST /tools/send-notification
+curl -X POST \
+     -H "Content-Type: application/json" \
+     -d '{
+       "recipient": "candidate@example.com",
+       "message": "Application received",
+       "channels": ["email", "sms"]
+     }' \
+     https://bhiv-hr-langgraph.onrender.com/tools/send-notification
+```
+
+### **Integration (1 endpoint)**
+
+#### 63. Test Integration
+```bash
+GET /test-integration
+curl https://bhiv-hr-langgraph.onrender.com/test-integration
+```
+
+---
+
 ## 🤖 Agent Service (6 Endpoints)
 
 ### **Core (2 endpoints)**
 
-#### 57. Agent Root
+#### 64. Agent Root
 ```bash
 GET /
 # No authentication required
 curl https://bhiv-hr-agent-nhgg.onrender.com/
 ```
 
-#### 58. Agent Health
+#### 65. Agent Health
 ```bash
 GET /health
 # No authentication required
@@ -635,7 +704,7 @@ curl https://bhiv-hr-agent-nhgg.onrender.com/health
 
 ### **AI Processing (3 endpoints)**
 
-#### 59. AI Match
+#### 66. AI Match
 ```bash
 POST /match
 curl -X POST \
@@ -649,7 +718,7 @@ curl -X POST \
      https://bhiv-hr-agent-nhgg.onrender.com/match
 ```
 
-#### 60. Batch Match
+#### 67. Batch Match
 ```bash
 POST /batch-match
 curl -X POST \
@@ -663,7 +732,7 @@ curl -X POST \
      https://bhiv-hr-agent-nhgg.onrender.com/batch-match
 ```
 
-#### 61. Analyze Candidate
+#### 68. Analyze Candidate
 ```bash
 GET /analyze/{candidate_id}
 curl -H "Authorization: Bearer <YOUR_API_KEY>" \
@@ -672,7 +741,7 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 
 ### **Diagnostics (1 endpoint)**
 
-#### 62. Test Database
+#### 69. Test Database
 ```bash
 GET /test-db
 curl -H "Authorization: Bearer <YOUR_API_KEY>" \
@@ -696,18 +765,22 @@ curl -s https://bhiv-hr-gateway-ltg0.onrender.com/health | jq
 echo "2. Agent Health:"
 curl -s https://bhiv-hr-agent-nhgg.onrender.com/health | jq
 
+# LangGraph Health
+echo "3. LangGraph Health:"
+curl -s https://bhiv-hr-langgraph.onrender.com/health | jq
+
 # Get Jobs
-echo "3. Jobs List:"
+echo "4. Jobs List:"
 curl -s -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs | jq
 
 # Get Candidates
-echo "4. Candidates List:"
+echo "5. Candidates List:"
 curl -s -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/candidates | jq
 
 # AI Matching
-echo "5. AI Matching:"
+echo "6. AI Matching:"
 curl -s -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/match/1/top | jq
 
@@ -751,6 +824,7 @@ echo "All tests completed!"
 Import the following environment variables:
 - `base_url_gateway`: `https://bhiv-hr-gateway-ltg0.onrender.com`
 - `base_url_agent`: `https://bhiv-hr-agent-nhgg.onrender.com`
+- `base_url_langgraph`: `https://bhiv-hr-langgraph.onrender.com`
 - `api_key`: `<YOUR_API_KEY>`
 
 ### **Python Testing Script**
@@ -773,7 +847,7 @@ print(f"Jobs: {response.json()}")
 
 ---
 
-**Total Endpoints Tested**: 85 (79 Gateway + 6 Agent)
+**Total Endpoints Tested**: 107 (94 Gateway + 6 Agent + 7 LangGraph)
 **Authentication**: Bearer Token Required
 **Production Status**: ✅ All Services Operational
-**Last Updated**: November 4, 2025
+**Last Updated**: November 15, 2025

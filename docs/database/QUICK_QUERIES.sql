@@ -1,7 +1,9 @@
 -- BHIV HR Platform - Essential DBeaver Queries
 -- Quick reference queries for database exploration and monitoring
--- Version: 4.2.0 with Phase 3 Features
--- Updated: November 4, 2025
+-- Version: 4.2.0 with LangGraph Integration
+-- Updated: November 15, 2025
+-- Services: 6 (Gateway, Agent, LangGraph, HR Portal, Client Portal, Candidate Portal)
+-- Endpoints: 107 total (94 Gateway + 6 Agent + 7 LangGraph)
 
 -- ============================================================================
 -- 🔍 SCHEMA VERIFICATION QUERIES
@@ -30,10 +32,9 @@ SELECT
     table_name,
     table_type,
     CASE 
-        WHEN table_name IN ('candidates', 'jobs', 'feedback', 'interviews', 'offers', 
+        WHEN table_name IN ('candidates', 'jobs', 'job_applications', 'feedback', 'interviews', 'offers', 
                            'users', 'clients', 'matching_cache', 'audit_logs', 
-                           'rate_limits', 'csp_violations', 'company_scoring_preferences', 
-                           'schema_version') 
+                           'rate_limits', 'csp_violations', 'company_scoring_preferences') 
         THEN '✅ Core Table'
         ELSE '❓ Additional Table'
     END as table_category
@@ -51,6 +52,8 @@ SELECT
     MAX(created_at) as latest_record FROM candidates
 UNION ALL
 SELECT 'jobs', COUNT(*), MAX(created_at) FROM jobs
+UNION ALL
+SELECT 'job_applications', COUNT(*), MAX(applied_date) FROM job_applications
 UNION ALL
 SELECT 'feedback', COUNT(*), MAX(created_at) FROM feedback
 UNION ALL
@@ -75,7 +78,7 @@ SELECT
     pg_size_pretty(pg_database_size(pg_database.datname)) as database_size,
     (SELECT count(*) FROM pg_stat_activity WHERE datname = pg_database.datname) as active_connections
 FROM pg_database 
-WHERE datname IN ('bhiv_hr', 'bhiv_hr_jcuu');
+WHERE datname IN ('bhiv_hr', 'bhiv_hr_jcuu') OR datname LIKE 'bhiv_hr%';
 
 -- ============================================================================
 -- 👥 CANDIDATES DATA EXPLORATION
@@ -514,4 +517,5 @@ GROUP BY c.id, c.name, c.email, c.location, c.experience_years,
 -- Usage: Copy and paste individual queries into DBeaver SQL Editor
 -- 
 -- Built with Integrity, Honesty, Discipline, Hard Work & Gratitude
--- BHIV HR Platform v4.1.0 - Production Ready
+-- BHIV HR Platform v4.2.0 - Production Ready with LangGraph Integration
+-- Last Updated: November 15, 2025 | Services: 6 | Endpoints: 107

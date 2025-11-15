@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [4.2.0] - 2025-11-15
+
+### 🆕 Added
+- **LangGraph Service**: Complete AI workflow automation system (7 endpoints)
+- **Workflow Orchestration**: Automated candidate processing with multi-channel notifications
+- **AI Workflow Engine**: LangGraph-powered intelligent decision making
+- **Multi-Channel Notifications**: Email, WhatsApp, SMS integration via workflow automation
+- **Real-time Workflow Tracking**: WebSocket-based workflow status monitoring
+- **Enhanced Gateway Integration**: LangGraph endpoints integrated into API Gateway
+
+### 🔄 Changed
+- **API Endpoints**: Expanded to 107 total endpoints (94 Gateway + 6 Agent + 7 LangGraph)
+- **Service Architecture**: Now 6 services operational with 99.9% uptime
+- **Database Schema**: Updated to v4.2.0 with 13 core tables including workflow state
+- **Production Data**: Enhanced with workflow automation and notification tracking
+- **System Integration**: Complete LangGraph integration across all services
+
+### 🐛 Fixed
+- **Import Issues**: Resolved LangGraph service import path problems
+- **Configuration Management**: Fixed environment variable handling in LangGraph
+- **Workflow State Persistence**: Implemented PostgreSQL checkpointer for workflow continuity
+- **Service Communication**: Enhanced inter-service communication reliability
+
+---
+
 ## [3.1.2] - 2025-10-23
 
 ### 🔄 Changed
@@ -192,6 +217,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Release Date | Features Added | Bugs Fixed | API Endpoints | Services |
 |---------|--------------|----------------|------------|---------------|----------|
+| 4.2.0   | 2025-11-15   | 6              | 4          | 107           | 6        |
 | 3.1.2   | 2025-10-23   | 0              | 2          | 61            | 5        |
 | 3.1.1   | 2025-10-03   | 1              | 0          | 61            | 5        |
 | 3.1.0   | 2025-10-02   | 8              | 5          | 61            | 5        |
@@ -205,7 +231,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 🏷️ Release Tags
 
-- **v3.1.2** - Current production release (documentation update)
+- **v4.2.0** - Current production release (LangGraph integration)
+- **v3.1.2** - Previous release (documentation update)
 - **v3.1.1** - File cleanup release
 - **v3.1.0** - Major feature update
 - **v3.0.0** - Major architecture update
@@ -234,7 +261,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 🐛 Known Issues
 
-### **Current Issues (v3.1.2)**
+### **Current Issues (v4.2.0)**
 - None reported
 
 ### **Resolved Issues**
@@ -272,7 +299,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **GitHub Issues**: Report bugs and feature requests
 
 ### **Version Support**
-- **v3.1.2**: ✅ Active development and support
+- **v4.2.0**: ✅ Active development and support
+- **v3.1.2**: ✅ Security updates only
 - **v3.1.1**: ✅ Security updates only
 - **v3.1.0**: ✅ Security updates only
 - **v3.0.0**: ✅ Security updates only
@@ -282,5 +310,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ---
 
 **Changelog Maintained By**: BHIV Development Team  
-**Last Updated**: October 23, 2025  
-**Current Version**: 3.1.2
+**Last Updated**: November 15, 2025  
+**Current Version**: 4.2.0

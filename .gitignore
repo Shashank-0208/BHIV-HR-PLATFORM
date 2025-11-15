@@ -167,11 +167,10 @@ tmp/
 *.tmp
 *.temp
 
-# N8N sensitive files (SECURITY: Never commit these)
+# LangGraph sensitive files (SECURITY: Never commit these)
 # These files may contain sensitive credentials
-services/n8n_automation/credentials.json
-services/n8n_automation/.env
-services/n8n_automation/config.json
+services/langgraph/.env
+services/langgraph/config.json
 
 # API Keys and Secrets (SECURITY: Never commit these)
 **/api_keys.txt

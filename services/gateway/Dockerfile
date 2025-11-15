@@ -6,8 +6,13 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir --timeout 300 --retries 3 -r requirements.txt
 
-# Copy application code
+# Copy application code and dependencies
 COPY app/ ./app/
+COPY langgraph_integration.py ./
+COPY monitoring.py ./
+COPY config.py ./
+COPY dependencies.py ./
+COPY routes/ ./routes/
 
 # Expose port
 EXPOSE 8000

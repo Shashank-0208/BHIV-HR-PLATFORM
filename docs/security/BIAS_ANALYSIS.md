@@ -416,6 +416,7 @@ async def bias_monitoring_middleware(request: Request, call_next):
 
 ---
 
-**Last Updated**: October 23, 2025  
-**Next Review**: November 23, 2025  
+**Last Updated**: November 15, 2025  
+**Next Review**: December 15, 2025  
+**System Version**: v4.2.0 with LangGraph Integration  
 **Responsible Team**: AI Ethics & Fairness Committee

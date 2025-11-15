@@ -1,22 +1,22 @@
 # 📝 BHIV HR Platform - Changes Log
 
 **Last Updated**: November 8, 2025  
-**Current Version**: v4.2.0 - Complete Production System with N8N Automation  
-**Status**: Production Ready with 88 Endpoints Operational
+**Current Version**: v4.2.0 - Complete Production System with LangGraph Workflow Automation  
+**Status**: Production Ready with 107 Endpoints Operational
 
 ---
 
 ## 🔄 Recent Changes (November 8, 2025)
 
-### **🤖 N8N Automation System Implementation**
-- ✅ **Multi-Channel Notifications**: Gmail, WhatsApp, Telegram integration via N8N Cloud
-- ✅ **Gateway Integration**: Added 3 webhook endpoints for automated candidate communication
-- ✅ **N8N Workflows**: 3 active workflows (Gmail, WhatsApp, Telegram) in production
-- ✅ **Notification Service**: Core async notification service with httpx integration
-- ✅ **API Routes**: 5 direct N8N API routes for manual notification triggering
-- ✅ **Security Sanitization**: All sensitive credentials replaced with placeholders
-- ✅ **Documentation**: Complete N8N automation guides and security documentation
-- ✅ **Cost Optimization**: $0/month deployment using N8N Cloud free tier
+### **🔄 LangGraph Workflow Automation Implementation**
+- ✅ **AI-Powered Workflows**: Intelligent candidate processing with LangGraph orchestration
+- ✅ **Multi-Channel Notifications**: Email, WhatsApp, SMS, Telegram integration
+- ✅ **Gateway Integration**: Added 7 LangGraph workflow endpoints for automated processing
+- ✅ **Workflow Triggers**: Candidate applied, shortlisted, interview scheduled automation
+- ✅ **Real-time Processing**: Async workflow execution with state management
+- ✅ **AI Decision Making**: Context-aware workflow routing and processing
+- ✅ **Documentation**: Complete LangGraph integration guides and workflow documentation
+- ✅ **Cost Optimization**: $0/month deployment with integrated Python-based automation
 
 ### **🔐 Security & Credential Management**
 - ✅ **Credential Sanitization**: All sensitive information replaced with `<YOUR_*>` placeholders
@@ -26,18 +26,22 @@
 - ✅ **Documentation Security**: All guides use placeholder values for public safety
 
 ### **📁 File Structure Updates**
-- ✅ **New Files Created**: 10 files (notification service, N8N routes, documentation, tests)
-- ✅ **Files Modified**: 3 files (main.py, __init__.py, README.md)
-- ✅ **Files Removed**: 4 old N8N implementation files replaced with production-ready system
-- ✅ **Documentation Structure**: Organized N8N automation documentation in dedicated folder
+- ✅ **New Files Created**: 12 files (LangGraph service, workflow routes, documentation, tests)
+- ✅ **Files Modified**: 5 files (main.py, __init__.py, README.md, docker-compose.yml)
+- ✅ **Files Removed**: All N8N implementation files replaced with LangGraph system
+- ✅ **Documentation Structure**: Organized LangGraph workflow documentation and integration guides
 
 ### **🚀 Endpoint Expansion**
-- ✅ **New Webhook Endpoints (3)**:
-  - `POST /webhooks/candidate-applied` - Email + WhatsApp notifications
-  - `POST /webhooks/candidate-shortlisted` - Email notifications
-  - `POST /webhooks/interview-scheduled` - Email + Telegram notifications
-- ✅ **Total Endpoints**: Updated from 85 to 88 (82 Gateway + 6 Agent)
-- ✅ **N8N API Routes**: 5 direct notification endpoints for manual triggering
+- ✅ **New LangGraph Endpoints (7)**:
+  - `GET /api/v1/workflow/health` - LangGraph service health check
+  - `GET /api/v1/workflow/list` - Available workflows listing
+  - `POST /api/v1/workflow/trigger` - Manual workflow triggering
+  - `GET /api/v1/workflow/status/{id}` - Workflow status tracking
+  - `POST /api/v1/webhooks/candidate-applied` - Candidate application workflow
+  - `POST /api/v1/webhooks/candidate-shortlisted` - Shortlist notification workflow
+  - `POST /api/v1/webhooks/interview-scheduled` - Interview scheduling workflow
+- ✅ **Total Endpoints**: Updated to 107 (94 Gateway + 6 Agent + 7 LangGraph)
+- ✅ **LangGraph Service**: Dedicated AI workflow automation service on port 9001
 
 ---
 
@@ -84,18 +88,19 @@
 
 ## 📊 Current System Status
 
-### **Production Services (5/5 Operational)**
-- **Gateway API**: bhiv-hr-gateway-ltg0.onrender.com (82 endpoints + N8N automation) ✅
+### **Production Services (6/6 Operational)**
+- **Gateway API**: bhiv-hr-gateway-ltg0.onrender.com (94 endpoints + LangGraph integration) ✅
+- **LangGraph Service**: bhiv-hr-langgraph.onrender.com (7 workflow endpoints) ✅
 - **AI Agent**: bhiv-hr-agent-nhgg.onrender.com (6 endpoints) ✅
 - **HR Portal**: bhiv-hr-portal-u670.onrender.com ✅
 - **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com ✅
-- **Candidate Portal**: bhiv-hr-candidate-portal.onrender.com ✅
+- **Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com ✅
 
 ### **Database Status**
 - **Platform**: Render PostgreSQL 17 ✅
-- **Schema Version**: v4.1.0 ✅
-- **Core Tables**: 15 (optimized from 23) ✅
-- **Data Records**: 11 candidates, 20 jobs, 3 clients ✅
+- **Schema Version**: v4.2.0 ✅
+- **Core Tables**: 13 (optimized production schema) ✅
+- **Data Records**: 10 candidates, 6 jobs, 3+ clients ✅
 - **Performance**: 75 indexes, <50ms query response ✅
 
 ### **Configuration Status**
@@ -128,7 +133,7 @@ ALTER TABLE candidates ADD COLUMN seniority_level VARCHAR(100);
 
 -- Updated schema version
 INSERT INTO schema_version (version, description) VALUES 
-('4.1.0', 'Production consolidated schema with Phase 3 learning engine - Optimized');
+('4.2.0', 'Production consolidated schema with LangGraph integration - Current');
 ```
 
 ### **Portal Configuration Changes**
@@ -163,7 +168,7 @@ API_BASE = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
 - **Query Performance**: Maintained <50ms response times
 - **Portal Response**: Eliminated timeout errors
 - **Service Uptime**: Maintained 99.9% uptime
-- **API Endpoints**: 88 endpoints fully operational (82 Gateway + 6 Agent)
+- **API Endpoints**: 107 endpoints fully operational (94 Gateway + 6 Agent + 7 LangGraph)
 
 ---
 
@@ -230,4 +235,4 @@ API Key: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: November 8, 2025 | **Status**: ✅ N8N Automation Integrated & Security Sanitized | **Services**: 5/5 Live | **Endpoints**: 88 Total | **Uptime**: 99.9%
+**Last Updated**: November 15, 2025 | **Status**: ✅ LangGraph Workflow Automation Integrated | **Services**: 6/6 Live | **Endpoints**: 107 Total | **Uptime**: 99.9%

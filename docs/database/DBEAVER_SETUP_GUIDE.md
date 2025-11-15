@@ -10,10 +10,10 @@ This guide provides step-by-step instructions for setting up DBeaver connections
 - **Production Database**: PostgreSQL 17 hosted on Render Cloud Platform
 
 ### 🏗️ Database Architecture
-- **Schema Version**: v4.1.0 with Phase 3 learning engine
-- **Total Tables**: 17 (12 core + 5 additional)
+- **Schema Version**: v4.2.0 with LangGraph workflow integration
+- **Total Tables**: 13 core tables (optimized production schema)
 - **Extensions**: uuid-ossp, pg_stat_statements, pg_trgm
-- **Features**: Triggers, indexes, audit logging, rate limiting
+- **Features**: Triggers, indexes, audit logging, rate limiting, workflow state management
 
 ---
 
@@ -22,7 +22,7 @@ This guide provides step-by-step instructions for setting up DBeaver connections
 | Environment | Host | Port | Database | Username | Status |
 |-------------|------|------|----------|----------|--------|
 | **Local** | localhost | 5432 | bhiv_hr | bhiv_user | ✅ Active |
-| **Production** | dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com | 5432 | bhiv_hr_jcuu_w5fl | bhiv_user | ✅ Active |
+| **Production** | dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com | 5432 | bhiv_hr_jcuu | bhiv_user | ✅ Active |
 
 ---
 
@@ -123,9 +123,9 @@ OLD Credentials (Replace These):
 
 NEW Credentials (Use These):
 ┌─────────────────────────────────────────────────────────────────────┐
-│ Host: dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com         │
-│ Database: bhiv_hr_jcuu_w5fl                                         │
-│ Password: 8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG                          │
+│ Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com         │
+│ Database: bhiv_hr_jcuu                                              │
+│ Password: 3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2                          │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -171,11 +171,11 @@ SELECT
 ```
 Connection Settings:
 ┌─────────────────────────────────────────────────────────────────────┐
-│ Server Host: dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com  │
+│ Server Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com  │
 │ Port:        5432                                                   │
-│ Database:    bhiv_hr_jcuu_w5fl                                     │
+│ Database:    bhiv_hr_jcuu                                          │
 │ Username:    bhiv_user                                             │
-│ Password:    8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG                      │
+│ Password:    3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2                      │
 │ Show all databases: ☑                                             │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -647,4 +647,4 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health # Production gateway
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: November 4, 2025 | **Schema Version**: v4.2.0 | **Tables**: 13 | **Status**: ✅ Production Ready
+**Last Updated**: November 15, 2025 | **Schema Version**: v4.2.0 | **Tables**: 13 | **Status**: ✅ Production Ready with LangGraph Integration

@@ -2,7 +2,7 @@
 
 ## 🏗️ Microservices Architecture Overview
 
-The BHIV HR Platform consists of 5 core microservices, each with specific responsibilities and clear interfaces.
+The BHIV HR Platform consists of 6 core microservices, each with specific responsibilities and clear interfaces.
 
 ## 🌐 Gateway Service (Port 8000)
 
@@ -14,7 +14,7 @@ The BHIV HR Platform consists of 5 core microservices, each with specific respon
 - `client_auth.py` - Client authentication utilities
 - `app/db/schemas.py` - Pydantic models for validation
 
-#### API Endpoints (55 total):
+#### API Endpoints (94 total):
 ```
 Core API (7 endpoints):
 ├── GET  /           - Service information
@@ -125,6 +125,69 @@ Diagnostics (1 endpoint):
 - httpx 0.28.1
 - psycopg2-binary 2.9.10
 - pydantic 2.10.3
+
+## 🔄 LangGraph Service (Port 9001)
+
+### 📍 Location: `/services/langgraph/`
+### 🎯 Purpose: AI workflow automation and orchestration
+
+#### Key Files:
+- `app/main.py` - FastAPI workflow orchestration service
+- `app/agents.py` - AI agents for workflow processing
+- `app/graphs.py` - LangGraph workflow definitions
+- `app/tools.py` - Workflow tools and integrations
+- `app/communication.py` - Multi-channel notification system
+
+#### Features:
+- **AI Workflow Engine**: LangGraph-powered intelligent decision making
+- **Multi-Channel Notifications**: Email, WhatsApp, SMS integration
+- **Real-time Processing**: Async workflow execution with state management
+- **Workflow Triggers**: Candidate applied, shortlisted, interview scheduled
+- **State Persistence**: PostgreSQL checkpointer for workflow continuity
+- **WebSocket Support**: Real-time workflow status updates
+
+#### API Endpoints (7 total):
+```
+Core API (2 endpoints):
+├── GET  /           - Service information
+└── GET  /health     - Health check with workflow metrics
+
+Workflow Management (4 endpoints):
+├── POST /workflows/application/start - Start candidate application workflow
+├── GET  /workflows/{id}/status      - Get workflow status and progress
+├── POST /workflows/{id}/resume      - Resume paused workflow
+└── GET  /workflows                  - List active workflows
+
+Real-time Communication (1 endpoint):
+└── WS   /ws/{workflow_id}           - WebSocket for real-time updates
+```
+
+#### Workflow Agents:
+```
+AI Workflow Agents:
+├── 🔍 Application Screener  - AI-powered candidate screening
+├── 📢 Notification Agent    - Multi-channel communication
+├── 📊 HR Update Agent       - Dashboard and database updates
+└── 📝 Feedback Collector    - Learning and optimization data
+```
+
+#### Communication Channels:
+```
+Notification Channels:
+├── 📧 Email (Gmail SMTP)     - Professional email notifications
+├── 📱 WhatsApp (Twilio)      - Instant messaging via Twilio API
+├── 💬 SMS (Twilio)           - Text message notifications
+└── 🤖 Telegram (Bot API)     - Telegram bot integration
+```
+
+#### Dependencies:
+- FastAPI 4.2.0
+- LangGraph >=0.2.0
+- LangChain >=0.2.0
+- OpenAI >=1.0.0
+- httpx 0.24.0
+- Twilio >=8.0.0
+- python-telegram-bot >=20.0
 
 ## 👥 Portal Service (Port 8501)
 
@@ -267,11 +330,11 @@ Views: Materialized views for analytics
 ```
 Client Portal (8502) 
     ↓ HTTP/REST
-Gateway (8000)
-    ↓ HTTP/REST  
+Gateway (8000) → LangGraph (9001)
+    ↓ HTTP/REST       ↓ Workflow/WebSocket
 Agent (9000) ← Semantic Engine
-    ↓ SQL
-Database (5432)
+    ↓ SQL              ↓ Multi-channel
+Database (5432)      Notifications
     ↑ HTTP/REST
 Portal (8501)
 ```
@@ -308,6 +371,7 @@ Resume Upload → comprehensive_resume_extractor.py → candidates.csv → datab
 Service Health Checks:
 ├── http://localhost:8000/health  - Gateway status
 ├── http://localhost:9000/health  - Agent status
+├── http://localhost:9001/health  - LangGraph workflow status
 ├── http://localhost:8501         - Portal accessibility
 ├── http://localhost:8502         - Client Portal accessibility
 └── Database connection checks    - PostgreSQL connectivity
@@ -325,7 +389,8 @@ Service Health Checks:
 ```yaml
 services:
   gateway:    # API Gateway (8000)
-  agent:      # AI Matching (9000)  
+  agent:      # AI Matching (9000)
+  langgraph:  # Workflow Automation (9001)
   portal:     # HR Portal (8501)
   client_portal: # Client Portal (8502)
   db:         # PostgreSQL (5432)
@@ -389,4 +454,4 @@ docker-compose -f docker-compose.production.yml up -d --scale gateway=2
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: October 23, 2025 | **Services**: 5/5 Live | **Endpoints**: 61 Total | **Database**: Schema v4.1.0
+**Last Updated**: November 15, 2025 | **Services**: 6/6 Live | **Endpoints**: 107 Total | **Database**: Schema v4.2.0

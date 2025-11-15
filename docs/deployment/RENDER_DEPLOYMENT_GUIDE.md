@@ -6,10 +6,12 @@
 
 | Service | URL | Status |
 |---------|-----|--------|
-| **API Gateway** | https://bhiv-hr-gateway-ltg0.onrender.com/docs | ✅ Live (79 endpoints) |
+| **API Gateway** | https://bhiv-hr-gateway-ltg0.onrender.com/docs | ✅ Live (94 endpoints) |
 | **AI Matching Engine** | https://bhiv-hr-agent-nhgg.onrender.com/docs | ✅ Live (6 endpoints) |
+| **LangGraph Workflows** | https://bhiv-hr-langgraph.onrender.com/docs | ✅ Live (7 endpoints) |
 | **HR Portal** | https://bhiv-hr-portal-u670.onrender.com/ | ✅ Live |
 | **Client Portal** | https://bhiv-hr-client-portal-3iod.onrender.com/ | ✅ Live |
+| **Candidate Portal** | https://bhiv-hr-candidate-portal-abe6.onrender.com/ | ✅ Live |
 | **Database** | PostgreSQL 17 (Internal) | ✅ Live |
 
 ## 🎯 Quick Access
@@ -30,9 +32,11 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      https://bhiv-hr-gateway-ltg0.onrender.com/v1/jobs
 
-# AI Matching Test (OFFLINE)
+# AI Matching Test
 curl https://bhiv-hr-agent-nhgg.onrender.com/health
-# Expected: Connection timeout (service offline)
+
+# LangGraph Workflows Test
+curl https://bhiv-hr-langgraph.onrender.com/health
 ```
 
 ## 📊 Deployment Architecture
@@ -98,7 +102,20 @@ Environment Variables:
   - DATABASE_URL: [Internal PostgreSQL URL]
 ```
 
-### 4. HR Portal Service
+### 4. LangGraph Workflow Service
+```yaml
+Name: bhiv-hr-langgraph
+Type: Web Service
+Plan: Free
+Root Directory: services/langgraph
+Build Command: pip install -r requirements.txt
+Start Command: uvicorn app:app --host 0.0.0.0 --port $PORT
+Environment Variables:
+  - DATABASE_URL: [Internal PostgreSQL URL]
+  - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+```
+
+### 5. HR Portal Service
 ```yaml
 Name: bhiv-hr-portal
 Type: Web Service
@@ -111,7 +128,7 @@ Environment Variables:
   - API_KEY_SECRET: <YOUR_API_KEY>
 ```
 
-### 5. Client Portal Service
+### 6. Client Portal Service
 ```yaml
 Name: bhiv-hr-client-portal
 Type: Web Service
@@ -144,7 +161,13 @@ Environment Variables:
 2. Connected to database
 3. Service live at: https://bhiv-hr-agent.onrender.com
 
-### Phase 4: Portal Deployments ✅
+### Phase 4: LangGraph Workflow Deployment ✅
+1. Deployed LangGraph workflow service
+2. Connected to database and Gateway
+3. Service live at: https://bhiv-hr-langgraph.onrender.com
+4. Configured workflow automation
+
+### Phase 5: Portal Deployments ✅
 1. Deployed HR Portal (Streamlit)
 2. Deployed Client Portal (Streamlit)
 3. Connected both to API Gateway
@@ -308,12 +331,13 @@ open https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 ## 🎉 Deployment Success Summary
 
-✅ **5/5 services successfully deployed on Render**
+✅ **6/6 services successfully deployed on Render**
 ✅ **Zero monthly cost (Free tier)**
 ✅ **Production-ready with 99.9% uptime target**
-✅ **Comprehensive API with 85 endpoints (79 Gateway + 6 Agent) including advanced monitoring**
+✅ **Comprehensive API with 107 endpoints (94 Gateway + 6 Agent + 7 LangGraph) including advanced monitoring**
 ✅ **AI-powered candidate matching (Phase 3 operational)**
-✅ **Dual portal system operational**
+✅ **LangGraph workflow automation operational**
+✅ **Triple portal system operational**
 ✅ **Enterprise-grade security features**
 
 **BHIV HR Platform is now live and accessible worldwide! 🌍**
