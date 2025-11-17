@@ -35,20 +35,27 @@ def get_langgraph_url():
     return LANGGRAPH_PRODUCTION_URL if environment == "production" else LANGGRAPH_URL
 
 async def call_langgraph_service(endpoint: str, method: str = "GET", data: Dict[Any, Any] = None):
-    """Helper function to call LangGraph service"""
+    """Helper function to call LangGraph service with API key authentication"""
     try:
+        # Get API key from environment
+        api_key = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+        
         async with httpx.AsyncClient(timeout=30.0) as client:
             url = f"{get_langgraph_url()}{endpoint}"
             
             if method == "POST":
-                response = await client.post(url, json=data)
+                response = await client.post(url, json=data, headers=headers)
             else:
-                response = await client.get(url)
+                response = await client.get(url, headers=headers)
             
             if response.status_code == 200:
                 return response.json()
             else:
-                return {"error": f"LangGraph service error: {response.status_code}"}
+                return {"error": f"LangGraph service error: {response.status_code} - {response.text}"}
     except Exception as e:
         return {"error": f"LangGraph connection failed: {str(e)}"}
 
