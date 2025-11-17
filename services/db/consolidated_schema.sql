@@ -231,6 +231,26 @@ CREATE TABLE IF NOT EXISTS job_applications (
     UNIQUE(candidate_id, job_id)
 );
 
+-- 14. WORKFLOWS TABLE (LangGraph workflow tracking)
+CREATE TABLE IF NOT EXISTS workflows (
+    id SERIAL PRIMARY KEY,
+    workflow_id VARCHAR(100) UNIQUE NOT NULL,
+    workflow_type VARCHAR(100) NOT NULL CHECK (workflow_type IN ('candidate_application', 'candidate_shortlisted', 'interview_scheduled', 'custom')),
+    status VARCHAR(50) DEFAULT 'running' CHECK (status IN ('running', 'completed', 'failed', 'cancelled')),
+    candidate_id INTEGER REFERENCES candidates(id) ON DELETE SET NULL,
+    job_id INTEGER REFERENCES jobs(id) ON DELETE SET NULL,
+    client_id VARCHAR(100) REFERENCES clients(client_id) ON DELETE SET NULL,
+    progress_percentage INTEGER DEFAULT 0 CHECK (progress_percentage >= 0 AND progress_percentage <= 100),
+    current_step VARCHAR(255),
+    total_steps INTEGER DEFAULT 1,
+    input_data JSONB,
+    output_data JSONB,
+    error_message TEXT,
+    started_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- ============================================================================
 -- PERFORMANCE INDEXES
 -- ============================================================================
@@ -315,6 +335,16 @@ CREATE INDEX IF NOT EXISTS idx_job_applications_job ON job_applications(job_id);
 CREATE INDEX IF NOT EXISTS idx_job_applications_status ON job_applications(status);
 CREATE INDEX IF NOT EXISTS idx_job_applications_date ON job_applications(applied_date);
 
+-- Workflows table indexes
+CREATE INDEX IF NOT EXISTS idx_workflows_workflow_id ON workflows(workflow_id);
+CREATE INDEX IF NOT EXISTS idx_workflows_status ON workflows(status);
+CREATE INDEX IF NOT EXISTS idx_workflows_type ON workflows(workflow_type);
+CREATE INDEX IF NOT EXISTS idx_workflows_candidate ON workflows(candidate_id);
+CREATE INDEX IF NOT EXISTS idx_workflows_job ON workflows(job_id);
+CREATE INDEX IF NOT EXISTS idx_workflows_client ON workflows(client_id);
+CREATE INDEX IF NOT EXISTS idx_workflows_started_at ON workflows(started_at);
+CREATE INDEX IF NOT EXISTS idx_workflows_completed_at ON workflows(completed_at);
+
 -- Enhanced matching cache with learning data
 ALTER TABLE matching_cache ADD COLUMN IF NOT EXISTS learning_version VARCHAR(50) DEFAULT 'v3.0';
 
@@ -366,6 +396,7 @@ $$ language 'plpgsql';
 
 -- Apply update triggers
 CREATE TRIGGER update_job_applications_updated_at BEFORE UPDATE ON job_applications FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+CREATE TRIGGER update_workflows_updated_at BEFORE UPDATE ON workflows FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- Apply audit triggers to sensitive tables
 CREATE TRIGGER audit_candidates_changes AFTER INSERT OR UPDATE OR DELETE ON candidates FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
@@ -374,6 +405,7 @@ CREATE TRIGGER audit_feedback_changes AFTER INSERT OR UPDATE OR DELETE ON feedba
 CREATE TRIGGER audit_users_changes AFTER INSERT OR UPDATE OR DELETE ON users FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
 CREATE TRIGGER audit_clients_changes AFTER INSERT OR UPDATE OR DELETE ON clients FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
 CREATE TRIGGER audit_job_applications_changes AFTER INSERT OR UPDATE OR DELETE ON job_applications FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
+CREATE TRIGGER audit_workflows_changes AFTER INSERT OR UPDATE OR DELETE ON workflows FOR EACH ROW EXECUTE FUNCTION audit_table_changes();
 
 -- ============================================================================
 -- SAMPLE DATA FOR TESTING
@@ -422,6 +454,7 @@ CREATE TABLE IF NOT EXISTS schema_version (
 );
 
 INSERT INTO schema_version (version, description) VALUES 
+('4.2.2', 'Added workflows table for LangGraph workflow tracking - November 15, 2025'),
 ('4.2.1', 'Complete consolidated schema with all missing components - November 11, 2025'),
 ('4.2.0', 'Production schema with job_applications table and client auth fixes - November 4, 2025'),
 ('4.1.0', 'Production consolidated schema with Phase 3 learning engine'),

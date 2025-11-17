@@ -8,11 +8,19 @@ logger = logging.getLogger(__name__)
 class Settings(BaseSettings):
     # API Configuration
     gateway_url: str = "http://localhost:8000"
-    api_key_secret: str = "your-api-key"
+    api_key_secret: str = "<YOUR_API_KEY>"
     langgraph_port: int = 9001
     
+    # Production URLs
+    langgraph_production_url: str = "https://bhiv-hr-langgraph.onrender.com"
+    gateway_production_url: str = "https://bhiv-hr-gateway-ltg0.onrender.com"
+    
     # Database
-    database_url: str = "postgresql://user:pass@localhost/bhiv_hr"
+    database_url: str = "postgresql://bhiv_user:password@localhost:5432/bhiv_hr"
+    
+    # JWT Secrets (must match gateway service)
+    jwt_secret: str = "<YOUR_JWT_SECRET>"
+    candidate_jwt_secret: str = "<YOUR_CANDIDATE_JWT_SECRET>"
     
     # OpenAI
     openai_api_key: str = ""
@@ -38,6 +46,7 @@ class Settings(BaseSettings):
     class Config:
         env_file = ".env"
         case_sensitive = False
+        extra = "ignore"  # Ignore extra fields from .env
 
 @lru_cache()
 def get_settings():

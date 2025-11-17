@@ -117,14 +117,43 @@ bhiv-hr-platform/
 │   ├── AUDIT_SUMMARY.md       # Audit summary
 │   └── README.md              # Documentation index
 ├── tests/                      # Comprehensive Test Suite
-│   ├── api/                   # API testing
+│   ├── api/                   # API endpoint testing
 │   │   ├── test_endpoints.py  # Core API tests (300+ lines)
-│   │   └── comprehensive_endpoint_testing.py # All endpoints
+│   │   ├── comprehensive_endpoint_testing.py # All endpoints
+│   │   ├── test_2fa_endpoints.py # 2FA testing
+│   │   ├── test_agent_ai_endpoints.py # AI agent tests
+│   │   ├── test_candidate_portal_endpoints.py # Candidate API tests
+│   │   ├── test_core_api_endpoints.py # Core API tests
+│   │   ├── test_csp_endpoints.py # CSP policy tests
+│   │   ├── test_monitoring_endpoints.py # Monitoring tests
+│   │   ├── test_password_endpoints.py # Password policy tests
+│   │   └── test_security_endpoints.py # Security tests
 │   ├── integration/           # Integration testing
 │   │   ├── test_client_portal.py # Client portal tests
 │   │   └── test_candidate_portal.py # Candidate portal tests
 │   ├── security/              # Security testing
 │   │   └── test_security.py   # Security validation
+│   ├── gateway/               # Gateway service tests
+│   │   ├── test_gateway_langgraph_fixes.py # Gateway fixes
+│   │   └── test_gateway_langgraph_workflow.py # Workflow tests
+│   ├── langgraph/             # LangGraph service tests
+│   │   ├── test_langgraph_auth_simple.py # Auth tests
+│   │   ├── test_langgraph_auth.py # Authentication
+│   │   ├── test_langgraph_complete_workflow.py # Workflow tests
+│   │   ├── test_langgraph_comprehensive.py # Comprehensive tests
+│   │   ├── test_langgraph_dependencies_final.py # Dependencies
+│   │   ├── test_langgraph_fixed.py # Fixed tests
+│   │   ├── test_langgraph_imports_simple.py # Import tests
+│   │   ├── test_langgraph_imports.py # Import validation
+│   │   ├── test_langgraph_local_build.py # Local build tests
+│   │   ├── test_langgraph_main_import.py # Main import tests
+│   │   ├── test_langgraph_main_only.py # Main only tests
+│   │   ├── test_langgraph_service.py # Service tests
+│   │   └── test_langgraph_simple.py # Simple tests
+│   ├── workflows/             # Workflow testing
+│   │   └── test_workflow_tracking.py # Workflow tracking
+│   ├── data/                  # Test data
+│   │   └── test.db           # Test database
 │   └── run_all_tests.py       # Complete test suite runner
 ├── deployment/                 # Deployment Configuration
 │   ├── docker/                # Docker configurations
@@ -136,10 +165,20 @@ bhiv-hr-platform/
 │   ├── README.md              # Deployment documentation
 │   └── render-deployment.yml  # Render platform configuration
 ├── tools/                      # Data Processing & Management Tools
+│   ├── security/              # Security tools
+│   │   ├── check_api_keys.py  # API key validation
+│   │   └── get_all_api_keys.py # API key management
 │   ├── dynamic_job_creator.py # Job creation tool (19 jobs created)
 │   ├── database_sync_manager.py # Database synchronization
 │   ├── comprehensive_resume_extractor.py # Resume processing (27 files)
-│   └── auto_sync_watcher.py   # Auto synchronization watcher
+│   ├── auto_sync_watcher.py   # Auto synchronization watcher
+│   ├── comprehensive_portal_explorer.py # Portal exploration
+│   ├── configuration_validator.py # Configuration validation
+│   ├── database_url_checker.py # Database URL validation
+│   ├── final_config_verification.py # Final config verification
+│   ├── precise_db_check.py    # Precise database checks
+│   ├── security_audit_checker.py # Security audit tool
+│   └── simple_portal_explorer.py # Simple portal exploration
 ├── config/                     # Configuration Management
 │   ├── environments/          # Environment-specific configs
 │   ├── .env.render           # Render platform configuration
@@ -190,6 +229,34 @@ bhiv-hr-platform/
 │   └── utils/                 # Utility functions
 │       └── __init__.py        # Package initialization
 ├── lib/                        # External libraries
+├── temp/                       # Temporary files (renamed from temp_files)
+├── logs/                       # Application logs
+│   ├── bhiv_hr_platform.log  # Main application log
+│   └── gateway.log            # Gateway service log
+├── reports/                    # Generated reports
+│   ├── CHANGES_LOG.md         # Detailed changes log
+│   ├── CLEANUP_SUMMARY.md     # Cleanup summary
+│   ├── COMPREHENSIVE_CHANGES_ANALYSIS.md # Changes analysis
+│   ├── FILE_ORGANIZATION_SUMMARY.md # Organization summary
+│   └── PLATFORM_RESTRUCTURE.md # Platform restructure
+├── analysis/                   # Analysis reports
+│   ├── analyze_documentation.py # Documentation analysis
+│   ├── doc_analysis_simple.py # Simple doc analysis
+│   ├── DOCUMENTATION_ANALYSIS_REPORT.md # Analysis report
+│   ├── DOCUMENTATION_FILE_AUDIT.md # File audit
+│   ├── DOCUMENTATION_UPDATE_ACTION_LIST.md # Update actions
+│   ├── DOCUMENTATION_UPDATE_COMPLETE_SUMMARY.md # Update summary
+│   ├── DOCUMENTATION_UPDATE_COMPLETION_REPORT.md # Completion report
+│   ├── DOCUMENTATION_UPDATE_PLAN.md # Update plan
+│   ├── DOCUMENTATION_UPDATE_VERIFICATION_REPORT.md # Verification report
+│   ├── DOCUMENTATION_UPDATE_VERIFICATION_SUMMARY.md # Verification summary
+│   ├── FINAL_N8N_ANALYSIS_SUMMARY.md # N8N analysis
+│   ├── N8N_CLEANUP_COMPLETE_REPORT.md # N8N cleanup
+│   └── N8N_REMOVAL_SUMMARY.md # N8N removal
+├── utils/                      # Utility directory
+├── validation/                 # Validation scripts
+│   ├── final_verification.py  # Final verification
+│   └── verify_fixes.py        # Fix verification
 ├── .env                        # Environment variables (local)
 ├── .env.example               # Environment template
 ├── .gitignore                 # Git ignore rules
