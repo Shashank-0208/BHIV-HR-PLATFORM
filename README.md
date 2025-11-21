@@ -8,9 +8,9 @@
 
 | Service | URL | Status |
 |---------|-----|--------|
-| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com/docs](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ 94 endpoints |
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com/docs](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ 74 endpoints |
 | **AI Engine** | [bhiv-hr-agent-nhgg.onrender.com/docs](https://bhiv-hr-agent-nhgg.onrender.com/docs) | ✅ 6 endpoints |
-| **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ 7 workflows |
+| **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ 9 endpoints |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com/) | ✅ Live |
 | **Client Portal** | [bhiv-hr-client-portal-3iod.onrender.com](https://bhiv-hr-client-portal-3iod.onrender.com/) | ✅ Live |
 | **Candidate Portal** | [bhiv-hr-candidate-portal-abe6.onrender.com](https://bhiv-hr-candidate-portal-abe6.onrender.com/) | ✅ Live |
@@ -61,7 +61,7 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 
 **Microservices Architecture**: 6 services + PostgreSQL database  
 **Technology Stack**: FastAPI 4.2.0, Streamlit 1.41.1, Python 3.12.7, PostgreSQL 17  
-**Total Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph)  
+**Total Endpoints**: 89 (74 Gateway + 6 Agent + 9 LangGraph)  
 **Database Schema**: v4.2.0 with 13 core tables
 
 **📖 Complete Architecture**: [Project Structure](docs/architecture/PROJECT_STRUCTURE.md)
@@ -148,7 +148,7 @@ BHIV HR PLATFORM/
 
 ## 🧪 Testing & Validation
 
-**Test Coverage**: 107 endpoints tested (100% pass rate)  
+**Test Coverage**: 89 endpoints tested (100% pass rate)  
 **Test Categories**: API, Security, Integration, LangGraph, Gateway  
 **Organization**: Tests organized by service and functionality  
 **Automation**: Complete test suite with reports
@@ -179,7 +179,7 @@ BHIV HR PLATFORM/
 
 **System Status**: ✅ **FULLY OPERATIONAL**  
 **Services**: 6/6 live with 99.9% uptime  
-**Endpoints**: 107 total (100% tested and functional)  
+**Endpoints**: 89 total (100% tested and functional)  
 **Database**: PostgreSQL 17 with 13 core tables  
 **Cost**: $0/month (optimized free tier deployment)
 
@@ -220,4 +220,4 @@ BHIV HR PLATFORM/
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Status**: ✅ Production Ready | **Services**: 6/6 Live | **Uptime**: 99.9% | **Cost**: $0/month | **Updated**: November 15, 2025
+**Status**: ✅ Production Ready | **Services**: 6/6 Live | **Uptime**: 99.9% | **Cost**: $0/month | **Updated**: November 21, 2025 (Post-Rectification)

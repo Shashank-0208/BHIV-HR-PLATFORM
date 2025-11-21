@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException, Depends, Security, Response, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.openapi.docs import get_swagger_ui_html
 from datetime import datetime, timezone, timedelta
 import os
 import secrets
@@ -64,7 +65,7 @@ security = HTTPBearer()
 app = FastAPI(
     title="BHIV HR Platform API Gateway",
     version="4.2.0",
-    description="Enterprise HR Platform with Advanced Security Features - 79 Endpoints"
+    description="Enterprise HR Platform with Advanced Security Features - 65 Endpoints"
 )
 
 app.add_middleware(
@@ -355,7 +356,17 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     raise HTTPException(status_code=401, detail="Invalid authentication")
 
-# Core API Endpoints (3 endpoints)
+# Core API Endpoints (5 endpoints)
+@app.get("/openapi.json", tags=["Core API Endpoints"])
+async def get_openapi():
+    """OpenAPI Schema"""
+    return app.openapi()
+
+@app.get("/docs", tags=["Core API Endpoints"])
+async def get_docs():
+    """API Documentation"""
+    return get_swagger_ui_html(openapi_url="/openapi.json", title="BHIV HR Platform API")
+
 @app.get("/", tags=["Core API Endpoints"])
 def read_root():
     """API Root Information"""
@@ -388,7 +399,7 @@ def health_check(response: Response):
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
-@app.get("/test-candidates", tags=["Core API Endpoints"])
+@app.get("/v1/test-candidates", tags=["Core API Endpoints"])
 async def test_candidates_db(api_key: str = Depends(get_api_key)):
     """Database Connectivity Test"""
     try:
@@ -507,6 +518,92 @@ async def get_all_candidates(limit: int = 50, offset: int = 0, api_key: str = De
         }
     except Exception as e:
         return {"candidates": [], "total": 0, "error": str(e)}
+
+# Analytics & Statistics - Move stats endpoint before parameterized routes
+@app.get("/v1/candidates/stats", tags=["Analytics & Statistics"])
+async def get_candidate_stats(api_key: str = Depends(get_api_key)):
+    """Dynamic Candidate Statistics for HR Dashboard Analytics"""
+    try:
+        engine = get_db_engine()
+        with engine.connect() as connection:
+            total_query = text("SELECT COUNT(*) FROM candidates")
+            total_result = connection.execute(total_query)
+            total_candidates = total_result.fetchone()[0]
+            
+            # Get active jobs count
+            active_jobs_query = text("SELECT COUNT(*) FROM jobs WHERE status = 'active'")
+            active_jobs_result = connection.execute(active_jobs_query)
+            active_jobs = active_jobs_result.fetchone()[0]
+            
+            # Get recent matches count (from matching_cache table if exists, otherwise estimate)
+            try:
+                recent_matches_query = text("""
+                    SELECT COUNT(*) FROM matching_cache 
+                    WHERE created_at >= NOW() - INTERVAL '7 days'
+                """)
+                recent_matches_result = connection.execute(recent_matches_query)
+                recent_matches = recent_matches_result.fetchone()[0]
+            except:
+                # Fallback: estimate based on candidates and jobs
+                recent_matches = min(total_candidates * active_jobs // 10, 50) if total_candidates > 0 and active_jobs > 0 else 0
+            
+            # Get pending interviews count
+            try:
+                pending_interviews_query = text("""
+                    SELECT COUNT(*) FROM interviews 
+                    WHERE status IN ('scheduled', 'pending') 
+                    AND interview_date >= NOW()
+                """)
+                pending_interviews_result = connection.execute(pending_interviews_query)
+                pending_interviews = pending_interviews_result.fetchone()[0]
+            except:
+                # Fallback if interviews table doesn't exist
+                pending_interviews = 0
+            
+            # Additional dynamic statistics
+            try:
+                # Get new candidates this week
+                new_candidates_query = text("""
+                    SELECT COUNT(*) FROM candidates 
+                    WHERE created_at >= NOW() - INTERVAL '7 days'
+                """)
+                new_candidates_result = connection.execute(new_candidates_query)
+                new_candidates_this_week = new_candidates_result.fetchone()[0]
+            except:
+                new_candidates_this_week = 0
+            
+            try:
+                # Get feedback submissions count
+                feedback_count_query = text("SELECT COUNT(*) FROM feedback")
+                feedback_count_result = connection.execute(feedback_count_query)
+                total_feedback = feedback_count_result.fetchone()[0]
+            except:
+                total_feedback = 0
+            
+            return {
+                "total_candidates": total_candidates,
+                "active_jobs": active_jobs,
+                "recent_matches": recent_matches,
+                "pending_interviews": pending_interviews,
+                "new_candidates_this_week": new_candidates_this_week,
+                "total_feedback_submissions": total_feedback,
+                "statistics_generated_at": datetime.now(timezone.utc).isoformat(),
+                "data_source": "real_time_database",
+                "dashboard_ready": True
+            }
+    except Exception as e:
+        return {
+            "total_candidates": 0,
+            "active_jobs": 0,
+            "recent_matches": 0,
+            "pending_interviews": 0,
+            "new_candidates_this_week": 0,
+            "total_feedback_submissions": 0,
+            "error": str(e),
+            "statistics_generated_at": datetime.now(timezone.utc).isoformat(),
+            "data_source": "error_fallback",
+            "dashboard_ready": False
+        }
 
 @app.get("/v1/candidates/search", tags=["Candidate Management"])
 async def search_candidates(
@@ -1187,32 +1284,7 @@ async def get_all_offers(api_key: str = Depends(get_api_key)):
     except Exception as e:
         return {"offers": [], "count": 0, "error": str(e)}
 
-# Analytics & Statistics (3 endpoints)
-@app.get("/candidates/stats", tags=["Analytics & Statistics"])
-async def get_candidate_stats(api_key: str = Depends(get_api_key)):
-    """Candidate Statistics"""
-    try:
-        engine = get_db_engine()
-        with engine.connect() as connection:
-            total_query = text("SELECT COUNT(*) FROM candidates")
-            total_result = connection.execute(total_query)
-            total_candidates = total_result.fetchone()[0]
-            
-            return {
-                "total_candidates": total_candidates,
-                "active_jobs": 5,
-                "recent_matches": 25,
-                "pending_interviews": 8,
-                "statistics_generated_at": datetime.now(timezone.utc).isoformat()
-            }
-    except Exception as e:
-        return {
-            "total_candidates": 0,
-            "active_jobs": 0,
-            "recent_matches": 0,
-            "pending_interviews": 0,
-            "error": str(e)
-        }
+# Analytics & Statistics (2 remaining endpoints)
 
 @app.get("/v1/database/schema", tags=["Analytics & Statistics"])
 async def get_database_schema(api_key: str = Depends(get_api_key)):
@@ -1616,56 +1688,7 @@ async def view_csp_violations(api_key: str = Depends(get_api_key)):
         "last_24_hours": 1
     }
 
-@app.get("/v1/csp/policies", tags=["CSP Management"])
-async def get_csp_policies(api_key: str = Depends(get_api_key)):
-    """CSP Policies"""
-    return {
-        "current_policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; media-src 'self'; object-src 'none'; child-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content",
-        "policy_length": 408,
-        "last_updated": datetime.now(timezone.utc).isoformat(),
-        "status": "active"
-    }
 
-@app.get("/v1/csp/violations", tags=["CSP Management"])
-async def get_csp_violations(api_key: str = Depends(get_api_key)):
-    """CSP Violations"""
-    return {
-        "violations": [
-            {
-                "id": "csp_001",
-                "violated_directive": "script-src",
-                "blocked_uri": "https://malicious-site.com/script.js",
-                "document_uri": "https://bhiv-platform.com/dashboard",
-                "timestamp": "2025-01-02T10:15:00Z"
-            }
-        ],
-        "total_violations": 1,
-        "last_24_hours": 1
-    }
-
-@app.post("/v1/csp/report", tags=["CSP Management"])
-async def csp_report(csp_report: CSPReport, api_key: str = Depends(get_api_key)):
-    """CSP Report"""
-    return {
-        "message": "CSP violation reported successfully",
-        "violation": {
-            "violated_directive": csp_report.violated_directive,
-            "blocked_uri": csp_report.blocked_uri,
-            "document_uri": csp_report.document_uri,
-            "timestamp": datetime.now(timezone.utc).isoformat()
-        },
-        "report_id": f"csp_report_{datetime.now().timestamp()}"
-    }
-
-@app.get("/v1/csp/test", tags=["CSP Management"])
-async def test_csp(api_key: str = Depends(get_api_key)):
-    """CSP Test"""
-    return {
-        "message": "CSP test completed",
-        "policy_active": True,
-        "violations_detected": 0,
-        "timestamp": datetime.now(timezone.utc).isoformat()
-    }
 
 @app.get("/v1/security/csp-policies", tags=["CSP Management"])
 async def current_csp_policies(api_key: str = Depends(get_api_key)):
@@ -1824,125 +1847,7 @@ async def get_qr_code(user_id: str, api_key: str = Depends(get_api_key)):
         "generated_at": datetime.now(timezone.utc).isoformat()
     }
 
-@app.post("/v1/2fa/setup", tags=["Two-Factor Authentication"])
-async def setup_2fa_for_client(setup_data: TwoFASetup, api_key: str = Depends(get_api_key)):
-    """Setup 2FA for Client"""
-    secret = pyotp.random_base32()
-    totp_uri = pyotp.totp.TOTP(secret).provisioning_uri(
-        name=setup_data.user_id,
-        issuer_name="BHIV HR Platform"
-    )
-    
-    qr = qrcode.QRCode(version=1, box_size=10, border=5)
-    qr.add_data(totp_uri)
-    qr.make(fit=True)
-    
-    img = qr.make_image(fill_color="black", back_color="white")
-    img_buffer = io.BytesIO()
-    img.save(img_buffer, format='PNG')
-    img_str = base64.b64encode(img_buffer.getvalue()).decode()
-    
-    return {
-        "message": "2FA setup initiated",
-        "user_id": setup_data.user_id,
-        "secret": secret,
-        "qr_code": f"data:image/png;base64,{img_str}",
-        "manual_entry_key": secret,
-        "instructions": "Scan QR code with Google Authenticator, Microsoft Authenticator, or Authy"
-    }
 
-@app.post("/v1/2fa/verify-setup", tags=["Two-Factor Authentication"])
-async def verify_2fa_setup(login_data: TwoFALogin, api_key: str = Depends(get_api_key)):
-    """Verify 2FA Setup"""
-    stored_secret = "JBSWY3DPEHPK3PXP"
-    totp = pyotp.TOTP(stored_secret)
-    
-    if totp.verify(login_data.totp_code, valid_window=1):
-        return {
-            "message": "2FA setup verified successfully",
-            "user_id": login_data.user_id,
-            "setup_complete": True,
-            "verified_at": datetime.now(timezone.utc).isoformat()
-        }
-    else:
-        raise HTTPException(status_code=401, detail="Invalid 2FA code")
-
-@app.post("/v1/2fa/login-with-2fa", tags=["Two-Factor Authentication"])
-async def login_with_2fa(login_data: TwoFALogin, api_key: str = Depends(get_api_key)):
-    """Login with 2FA"""
-    stored_secret = "JBSWY3DPEHPK3PXP"
-    totp = pyotp.TOTP(stored_secret)
-    
-    if totp.verify(login_data.totp_code, valid_window=1):
-        return {
-            "message": "2FA authentication successful",
-            "user_id": login_data.user_id,
-            "access_token": f"2fa_token_{login_data.user_id}_{datetime.now().timestamp()}",
-            "token_type": "bearer",
-            "expires_in": 3600,
-            "2fa_verified": True
-        }
-    else:
-        raise HTTPException(status_code=401, detail="Invalid 2FA code")
-
-@app.get("/v1/2fa/status/{client_id}", tags=["Two-Factor Authentication"])
-async def get_2fa_status(client_id: str, api_key: str = Depends(get_api_key)):
-    """Get 2FA Status"""
-    return {
-        "client_id": client_id,
-        "2fa_enabled": True,
-        "setup_date": "2025-01-01T12:00:00Z",
-        "last_used": "2025-01-02T08:30:00Z",
-        "backup_codes_remaining": 8
-    }
-
-@app.post("/v1/2fa/disable", tags=["Two-Factor Authentication"])
-async def disable_2fa(setup_data: TwoFASetup, api_key: str = Depends(get_api_key)):
-    """Disable 2FA"""
-    return {
-        "message": "2FA disabled successfully",
-        "user_id": setup_data.user_id,
-        "disabled_at": datetime.now(timezone.utc).isoformat(),
-        "2fa_enabled": False
-    }
-
-@app.post("/v1/2fa/regenerate-backup-codes", tags=["Two-Factor Authentication"])
-async def regenerate_backup_codes(setup_data: TwoFASetup, api_key: str = Depends(get_api_key)):
-    """Regenerate Backup Codes"""
-    backup_codes = [f"BACKUP-{secrets.token_hex(4).upper()}" for _ in range(10)]
-    
-    return {
-        "message": "Backup codes regenerated successfully",
-        "user_id": setup_data.user_id,
-        "backup_codes": backup_codes,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
-        "codes_count": len(backup_codes)
-    }
-
-@app.get("/v1/2fa/test-token/{client_id}/{token}", tags=["Two-Factor Authentication"])
-async def test_2fa_token(client_id: str, token: str, api_key: str = Depends(get_api_key)):
-    """Test 2FA Token"""
-    stored_secret = "JBSWY3DPEHPK3PXP"
-    totp = pyotp.TOTP(stored_secret)
-    
-    is_valid = totp.verify(token, valid_window=1)
-    
-    return {
-        "client_id": client_id,
-        "token": token,
-        "is_valid": is_valid,
-        "test_timestamp": datetime.now(timezone.utc).isoformat()
-    }
-
-@app.get("/v1/2fa/demo-setup", tags=["Two-Factor Authentication"])
-async def demo_2fa_setup(api_key: str = Depends(get_api_key)):
-    """Demo 2FA Setup"""
-    return {
-        "demo_secret": "JBSWY3DPEHPK3PXP",
-        "demo_qr_url": "https://chart.googleapis.com/chart?chs=200x200&chld=M|0&cht=qr&chl=otpauth://totp/BHIV%20HR%20Platform:demo_user%3Fsecret%3DJBSWY3DPEHPK3PXP%26issuer%3DBHIV%2520HR%2520Platform",
-        "test_codes": ["123456", "654321", "111111"],
-        "instructions": "Use demo secret or scan QR code for testing"
-    }
 
 # Password Management (6 endpoints)
 @app.post("/v1/auth/password/validate", tags=["Password Management"])
@@ -2117,140 +2022,7 @@ async def get_security_tips(api_key: str = Depends(get_api_key)):
         }
     }
 
-@app.post("/v1/password/validate", tags=["Password Management"])
-async def validate_password_strength(password_data: PasswordValidation, api_key: str = Depends(get_api_key)):
-    """Validate Password Strength"""
-    password = password_data.password
-    
-    score = 0
-    feedback = []
-    
-    if len(password) >= 8:
-        score += 20
-    else:
-        feedback.append("Password should be at least 8 characters long")
-    
-    if any(c.isupper() for c in password):
-        score += 20
-    else:
-        feedback.append("Password should contain uppercase letters")
-    
-    if any(c.islower() for c in password):
-        score += 20
-    else:
-        feedback.append("Password should contain lowercase letters")
-    
-    if any(c.isdigit() for c in password):
-        score += 20
-    else:
-        feedback.append("Password should contain numbers")
-    
-    if any(c in "!@#$%^&*()_+-=[]{}|;:,.<>?" for c in password):
-        score += 20
-    else:
-        feedback.append("Password should contain special characters")
-    
-    strength = "Very Weak"
-    if score >= 80:
-        strength = "Very Strong"
-    elif score >= 60:
-        strength = "Strong"
-    elif score >= 40:
-        strength = "Medium"
-    elif score >= 20:
-        strength = "Weak"
-    
-    return {
-        "password_strength": strength,
-        "score": score,
-        "max_score": 100,
-        "is_valid": score >= 60,
-        "feedback": feedback
-    }
 
-@app.post("/v1/password/generate", tags=["Password Management"])
-async def generate_secure_password(length: int = 12, api_key: str = Depends(get_api_key)):
-    """Generate Secure Password"""
-    if length < 8 or length > 128:
-        raise HTTPException(status_code=400, detail="Password length must be between 8 and 128 characters")
-    
-    chars = string.ascii_letters + string.digits + "!@#$%^&*()_+-="
-    password = ''.join(random.choice(chars) for _ in range(length))
-    
-    return {
-        "generated_password": password,
-        "length": length,
-        "entropy_bits": length * 6.5,
-        "strength": "Very Strong",
-        "generated_at": datetime.now(timezone.utc).isoformat()
-    }
-
-@app.get("/v1/password/policy", tags=["Password Management"])
-async def get_password_policy(api_key: str = Depends(get_api_key)):
-    """Get Password Policy"""
-    return {
-        "policy": {
-            "minimum_length": 8,
-            "require_uppercase": True,
-            "require_lowercase": True,
-            "require_numbers": True,
-            "require_special_chars": True,
-            "max_age_days": 90,
-            "history_count": 5
-        },
-        "complexity_requirements": [
-            "At least 8 characters long",
-            "Contains uppercase letters",
-            "Contains lowercase letters", 
-            "Contains numbers",
-            "Contains special characters"
-        ]
-    }
-
-@app.post("/v1/password/change", tags=["Password Management"])
-async def change_password(password_change: PasswordChange, api_key: str = Depends(get_api_key)):
-    """Change Password"""
-    return {
-        "message": "Password changed successfully",
-        "changed_at": datetime.now(timezone.utc).isoformat(),
-        "password_strength": "Strong",
-        "next_change_due": "2025-04-02T00:00:00Z"
-    }
-
-@app.get("/v1/password/strength-test", tags=["Password Management"])
-async def password_strength_testing_tool(api_key: str = Depends(get_api_key)):
-    """Password Strength Testing Tool"""
-    return {
-        "testing_tool": {
-            "endpoint": "/v1/password/validate",
-            "method": "POST",
-            "sample_passwords": [
-                {"password": "weak", "expected_strength": "Very Weak"},
-                {"password": "StrongPass123!", "expected_strength": "Very Strong"},
-                {"password": "medium123", "expected_strength": "Medium"}
-            ]
-        },
-        "strength_levels": ["Very Weak", "Weak", "Medium", "Strong", "Very Strong"]
-    }
-
-@app.get("/v1/password/security-tips", tags=["Password Management"])
-async def password_security_best_practices(api_key: str = Depends(get_api_key)):
-    """Password Security Best Practices"""
-    return {
-        "security_tips": [
-            "Use a unique password for each account",
-            "Enable two-factor authentication when available",
-            "Use a password manager to generate and store passwords",
-            "Avoid using personal information in passwords",
-            "Change passwords immediately if a breach is suspected",
-            "Use passphrases with random words for better security"
-        ],
-        "password_requirements": {
-            "minimum_length": 8,
-            "character_types": 4,
-            "avoid": ["dictionary words", "personal info", "common patterns"]
-        }
-    }
 
 
 

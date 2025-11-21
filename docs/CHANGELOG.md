@@ -273,23 +273,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## 🤝 Contributing
-
-### **How to Report Issues**
-1. Check existing issues in GitHub
-2. Create detailed issue report
-3. Include version information
-4. Provide reproduction steps
-
-### **How to Contribute**
-1. Fork the repository
-2. Create feature branch
-3. Make changes with tests
-4. Update documentation
-5. Submit pull request
-
----
-
 ## 📞 Support
 
 ### **Getting Help**

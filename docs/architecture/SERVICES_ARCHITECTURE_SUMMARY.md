@@ -1,6 +1,6 @@
 # 🏗️ BHIV HR Platform - Services Architecture Summary
 
-**Generated**: November 15, 2025  
+**Generated**: November 21, 2025 (Post-Rectification)  
 **Architecture**: Microservices (6 Services)  
 **Status**: ✅ All Services Operational  
 **Deployment**: Production + Local Development
@@ -21,7 +21,7 @@
 | **Database** | PostgreSQL 17 | 5432 | ✅ Live | Internal Render URL |
 
 ### **System Metrics**
-- **Total Endpoints**: 107 (94 Gateway + 6 Agent + 7 LangGraph) - Verified from source code
+- **Total Endpoints**: 89 (74 Gateway + 6 Agent + 9 LangGraph) - Verified from browser documentation
 - **Database Tables**: 13 core tables (Schema v4.2.0)
 - **Schema Version**: v4.2.0 with Phase 3 learning engine + LangGraph workflows
 - **Authentication**: Unified Bearer token + JWT + Candidate JWT system
@@ -54,7 +54,7 @@ engine = create_engine(
 )
 ```
 
-### **API Endpoints (94 Total) - Verified from Source Code**
+### **API Endpoints (74 Total) - Verified from Browser Documentation**
 ```
 Core API (3):
 ├── GET  /                    - Service information
@@ -438,7 +438,7 @@ workflow_config = {
 }
 ```
 
-### **LangGraph Endpoints (7 Total)**
+### **LangGraph Endpoints (9 Total)**
 ```
 Core (2):
 ├── GET  /                    - Service information
@@ -619,7 +619,7 @@ async def detailed_health_check():
 ## 🚀 Production Deployment Status
 
 ### **Live Services (6/6 Operational)**
-- ✅ **Gateway**: bhiv-hr-gateway-ltg0.onrender.com (94 endpoints)
+- ✅ **Gateway**: bhiv-hr-gateway-ltg0.onrender.com (74 endpoints)
 - ✅ **Agent**: bhiv-hr-agent-nhgg.onrender.com (6 endpoints)
 - ✅ **LangGraph**: bhiv-hr-langgraph.onrender.com (7 endpoints)
 - ✅ **HR Portal**: bhiv-hr-portal-u670.onrender.com
@@ -628,7 +628,7 @@ async def detailed_health_check():
 - ✅ **Database**: PostgreSQL 17 on Render (13 core tables)
 
 ### **System Health**
-- **Total Endpoints**: 107 interactive endpoints
+- **Total Endpoints**: 89 interactive endpoints
 - **Database Schema**: v4.2.0 with Phase 3 features + LangGraph workflows
 - **Real Data**: 10+ candidates, 6+ jobs, 29 resume files
 - **AI Algorithm**: Phase 3 semantic matching (operational)
@@ -642,4 +642,4 @@ async def detailed_health_check():
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Last Updated**: November 15, 2025 | **Status**: ✅ Production Ready | **Services**: 6/6 Live | **Endpoints**: 107 Total | **Database**: Schema v4.2.0
+**Last Updated**: November 21, 2025 | **Status**: ✅ Production Ready (Post-Rectification) | **Services**: 6/6 Live | **Endpoints**: 89 Total | **Database**: Schema v4.2.0

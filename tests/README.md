@@ -1,146 +1,299 @@
-# BHIV HR Platform - Testing Suite
+# 🧪 BHIV HR Platform - Comprehensive Testing Suite
 
-This directory contains comprehensive testing tools and reports for the BHIV HR Platform.
+**Complete endpoint testing for all 89 endpoints across 6 services with workflow integration**
 
-## 📁 Directory Structure
+## 🚀 Quick Start
 
-### `/api/` - API Endpoint Testing
-Contains comprehensive test scripts for all API endpoints across the platform:
-
-- **`test_2fa_endpoints.py`** - Two-Factor Authentication endpoints (16 endpoints)
-- **`test_agent_ai_endpoints.py`** - AI Agent Service advanced features (4 endpoints)
-- **`test_agent_service_endpoints.py`** - AI Agent Service core API (2 endpoints)
-- **`test_analytics_client_endpoints.py`** - Analytics & Client Portal API (5 endpoints)
-- **`test_assessment_workflow_endpoints.py`** - Assessment & Workflow endpoints (6 endpoints)
-- **`test_candidate_portal_endpoints.py`** - Candidate Portal endpoints (5 endpoints)
-- **`test_core_api_endpoints.py`** - Core API endpoints (3 endpoints)
-- **`test_csp_endpoints.py`** - CSP Management endpoints (8 endpoints)
-- **`test_main_endpoints.py`** - Main business endpoints (9 endpoints)
-- **`test_monitoring_endpoints.py`** - Monitoring endpoints (3 endpoints)
-- **`test_password_endpoints.py`** - Password Management endpoints (12 endpoints)
-- **`test_security_endpoints.py`** - Security Testing endpoints (12 endpoints)
-- **`comprehensive_endpoint_testing.py`** - Legacy comprehensive testing
-- **`test_endpoints.py`** - Core endpoint tests
-
-### `/integration/` - Integration Testing
-- **`test_candidate_portal.py`** - Candidate portal integration tests
-- **`test_client_portal.py`** - Client portal integration tests
-
-### `/security/` - Security Testing
-- **`test_security.py`** - Security validation tests
-
-### `/reports/` - Test Reports
-Contains detailed markdown reports for all endpoint testing:
-
-- **`2fa_endpoints_test_report.md`** - 2FA testing results
-- **`agent_ai_endpoints_test_report.md`** - AI Agent advanced features results
-- **`agent_service_endpoints_test_report.md`** - AI Agent core API results
-- **`analytics_client_endpoints_test_report.md`** - Analytics & Client Portal results
-- **`assessment_workflow_endpoints_test_report.md`** - Assessment & Workflow results
-- **`candidate_portal_endpoints_test_report.md`** - Candidate Portal results
-- **`core_api_endpoints_test_report.md`** - Core API results
-- **`csp_endpoints_test_report.md`** - CSP Management results
-- **`main_endpoints_test_report.md`** - Main business endpoints results
-- **`monitoring_endpoints_test_report.md`** - Monitoring endpoints results
-- **`password_endpoints_test_report.md`** - Password Management results
-- **`security_endpoints_test_report.md`** - Security Testing results
-
-## 🚀 Running Tests
-
-### Individual Endpoint Category Testing
+### Run Enhanced Comprehensive Tests
 ```bash
-# Test specific endpoint category
-cd tests/api
-python test_monitoring_endpoints.py
-python test_security_endpoints.py
-python test_2fa_endpoints.py
+# From project root directory
+python run_comprehensive_tests.py
 ```
 
-### Comprehensive Testing
+### Install Dependencies
 ```bash
-# Run all endpoint tests
-cd tests/api
-python comprehensive_endpoint_testing.py
-
-# Run integration tests
-cd tests/integration
-python test_client_portal.py
-python test_candidate_portal.py
+pip install -r tests/requirements.txt
 ```
 
-## 📊 Test Results Summary - **COMPREHENSIVE TESTING COMPLETED**
+### Enhanced Features
+- **🔍 LangGraph URL Discovery**: Automatically discovers correct LangGraph service URL
+- **🔑 API Key Validation**: Tests and discovers working production API keys
+- **🔐 Enhanced Authentication**: Proper token-based authentication for protected endpoints
+- **📊 Comprehensive Reporting**: Detailed analysis with discovered URLs and authentication status
 
-**Date:** November 5, 2025  
-**Total Endpoints Tested:** 85  
-**Overall Success Rate:** **100%** ✅  
-**Categories Covered:** 13  
-**Test Duration:** ~15 minutes  
-**Database Verification:** ✅ Schema v4.2.0 operational  
+## 📊 What Gets Tested
 
-### Success Rates by Category - **ALL OPERATIONAL:**
-- **Gateway Service:** 100% (79/79) ✅
-- **Agent Service:** 100% (6/6) ✅
-- **Core API:** 100% (3/3) ✅
-- **Monitoring:** 100% (3/3) ✅
-- **Job Management:** 100% (2/2) ✅
-- **Candidate Management:** 100% (5/5) ✅
-- **AI Matching:** 100% (2/2) ✅
-- **Assessment & Workflow:** 100% (6/6) ✅
-- **Analytics:** 100% (3/3) ✅
-- **Client Portal:** 100% (2/2) ✅
-- **Candidate Portal:** 100% (5/5) ✅
-- **Security Testing:** 100% (12/12) ✅
-- **CSP Management:** 100% (8/8) ✅
-- **2FA Authentication:** 100% (16/16) ✅
-- **Password Management:** 100% (12/12) ✅
+### 🏗️ All 6 Services (89 Endpoints)
+- **API Gateway**: 74 endpoints
+- **AI Agent**: 6 endpoints  
+- **LangGraph**: 9 endpoints
+- **HR Portal**: Web interface accessibility
+- **Client Portal**: Web interface accessibility
+- **Candidate Portal**: Web interface accessibility
 
-## ✅ Production Validation Results
+### 🔄 Complete Business Workflow
+1. **Service Health Checks** - All services operational
+2. **Core API Endpoints** - Basic functionality
+3. **Authentication & Security** - 2FA, passwords, validation
+4. **Business Logic Workflow** - Job → Candidate → Interview → Feedback
+5. **AI Matching Engine** - Semantic matching and analysis
+6. **LangGraph Workflows** - Automation and notifications
+7. **Service Integration** - Cross-service communication
+8. **Portal Accessibility** - Web interface availability
 
-### **All Systems Operational:**
-1. **Database Integration** - Schema v4.2.0 with 16 tables verified
-2. **Authentication Systems** - Triple auth (API + Client JWT + Candidate JWT) working
-3. **AI Services** - Phase 3 matching operational (77s response time)
-4. **Security Features** - All 32 security endpoints functional
-5. **Portal Integration** - All 3 portals connected and operational
-6. **Performance** - 2.66s average response time across all endpoints
+## 🎯 Test Categories
 
-### **Database Verification:**
-- **Live Data:** 10 candidates, 6 jobs confirmed
-- **Input/Output Test:** Job creation/retrieval cycle verified
-- **Schema Status:** v4.2.0 operational with all core tables
+### Phase 1: Service Health (6 tests)
+- Gateway health and root endpoints
+- Agent service health checks
+- LangGraph service health checks
 
-## 📝 Usage Instructions
+### Phase 2: Core API (6 tests)
+- OpenAPI schema validation
+- Database connectivity
+- Metrics and monitoring
+- System diagnostics
 
-### **Comprehensive Testing (Recommended):**
-```bash
-# Run complete endpoint test suite
-cd tests
-python test_all_85_endpoints.py
-# Results: endpoint_test_results.json
+### Phase 3: Authentication & Security (15 tests)
+- Rate limiting and security headers
+- Input validation and sanitization
+- Email and phone validation
+- 2FA setup, verification, and QR codes
+- Password validation and generation
+- Security policy enforcement
+
+### Phase 4: Business Workflow (13 tests)
+- Job creation and listing
+- Client registration and authentication
+- Candidate registration and login
+- Bulk candidate upload
+- Interview scheduling
+- Feedback submission
+- Complete end-to-end workflow
+
+### Phase 5: AI Matching (6 tests)
+- Agent database connectivity
+- AI-powered candidate matching
+- Batch matching for multiple jobs
+- Detailed candidate analysis
+- Gateway AI integration
+- Performance validation
+
+### Phase 6: LangGraph Workflows (5 tests)
+- Workflow creation and management
+- Status tracking and monitoring
+- Multi-channel notifications
+- Integration testing
+- Statistics and analytics
+
+### Phase 7: Service Integration (2 tests)
+- Gateway ↔ Agent communication
+- Gateway ↔ LangGraph communication
+- Cross-service data consistency
+
+### Phase 8: Portal Accessibility (3 tests)
+- HR Portal web interface
+- Client Portal web interface
+- Candidate Portal web interface
+
+## 📋 Test Data
+
+### Common Test Inputs
+```python
+# Job Data
+{
+    "title": "Senior Python Developer",
+    "department": "Engineering", 
+    "location": "Mumbai",
+    "experience_level": "Senior",
+    "requirements": "Python, FastAPI, PostgreSQL, 5+ years"
+}
+
+# Candidate Data
+{
+    "name": "Test Candidate",
+    "email": "test.candidate@example.com",
+    "technical_skills": "Python, FastAPI, PostgreSQL, Docker, AWS",
+    "experience_years": 5
+}
+
+# Client Data
+{
+    "client_id": "test_client_123",
+    "company_name": "Test Company Ltd",
+    "contact_email": "test.client@example.com"
+}
 ```
 
-### **Individual Category Testing:**
+## 📊 Report Generation
+
+### Comprehensive Test Report
+- **Executive Summary**: Overall success rate and status
+- **Service-Level Results**: Per-service breakdown
+- **Integration Results**: Cross-service communication
+- **Portal Accessibility**: Web interface status
+- **Business Workflow**: End-to-end process validation
+- **Detailed Results**: Individual endpoint results
+- **Recommendations**: Areas for improvement
+
+### Report Sections
+1. **📊 Executive Summary** - High-level metrics
+2. **🏗️ Service-Level Results** - Per-service analysis
+3. **🔗 Service Integration** - Cross-service testing
+4. **🌐 Portal Accessibility** - Web interface testing
+5. **💼 Business Workflow** - End-to-end validation
+6. **🔍 Detailed Results** - Individual test results
+7. **🎯 Recommendations** - Improvement suggestions
+
+## 🔧 Configuration
+
+### Environment Variables
 ```bash
-# Test specific endpoint categories
-cd tests/api
-python test_monitoring_endpoints.py
-python test_security_endpoints.py
+# Recommended for full testing (will auto-discover if not provided)
+export API_KEY_SECRET="your-production-api-key"
+
+# Optional - enhanced test will discover alternatives if needed
+export GATEWAY_URL="https://bhiv-hr-gateway-ltg0.onrender.com"
+export AGENT_URL="https://bhiv-hr-agent-nhgg.onrender.com"
+export LANGGRAPH_URL="https://bhiv-hr-langgraph.onrender.com"
+export HR_PORTAL_URL="https://bhiv-hr-portal-u670.onrender.com"
+export CLIENT_PORTAL_URL="https://bhiv-hr-client-portal-3iod.onrender.com"
+export CANDIDATE_PORTAL_URL="https://bhiv-hr-candidate-portal-abe6.onrender.com"
 ```
 
-### **Schema Validation:**
+### Enhanced Discovery Features
+- **API Key Discovery**: Tests common API key patterns if none provided
+- **LangGraph URL Discovery**: Tries multiple potential LangGraph service URLs
+- **Authentication Setup**: Automatically registers test users and obtains tokens
+
+### Test Configuration
+- **Timeout**: 30 seconds per endpoint
+- **Retry Logic**: No retries (single attempt)
+- **Parallel Execution**: Sequential for data consistency
+- **Error Handling**: Comprehensive error capture
+
+## 📈 Success Criteria
+
+### Overall System Health
+- **✅ Excellent**: 90%+ success rate
+- **⚠️ Attention Needed**: 70-89% success rate  
+- **❌ Critical Issues**: <70% success rate
+
+### Service-Level Health
+- **Core Services**: Must be 100% operational
+- **Business Logic**: Must be 95%+ operational
+- **Security Features**: Must be 90%+ operational
+- **Integration**: Must be 100% operational
+
+## 🚀 Usage Examples
+
+### Basic Test Run
 ```bash
-# Validate endpoint schema compliance
-cd tests/validation
-python validate_endpoint_schemas.py
+python run_comprehensive_tests.py
 ```
 
-### **Performance Analysis:**
-1. **Response Times**: Check endpoint_test_results.json for detailed metrics
-2. **Database Verification**: Confirm input/output relationships
-3. **Production Readiness**: All systems confirmed operational
+### With Production API Key (Recommended)
+```bash
+export API_KEY_SECRET="your-production-api-key"
+python run_comprehensive_tests.py
+```
 
-## 🔗 Related Documentation
+### With Custom Service URLs
+```bash
+export LANGGRAPH_URL="https://your-custom-langgraph-url.com"
+export API_KEY_SECRET="your-production-api-key"
+python run_comprehensive_tests.py
+```
 
-- **API Documentation**: `/docs/api/API_DOCUMENTATION.md`
-- **Testing Strategy**: `/docs/testing/TESTING_STRATEGY.md`
-- **Deployment Guide**: `/docs/deployment/RENDER_DEPLOYMENT_GUIDE.md`
+### Auto-Discovery Mode (No Configuration)
+```bash
+# Enhanced test will discover URLs and API keys automatically
+python run_comprehensive_tests.py
+```
+
+### Direct Module Usage
+```python
+from tests.comprehensive_endpoint_test import BHIVEndpointTester
+import asyncio
+
+async def run_tests():
+    tester = BHIVEndpointTester()
+    await tester.run_comprehensive_test()
+
+asyncio.run(run_tests())
+```
+
+## 📄 Output Files
+
+### Generated Reports
+- **ENHANCED_COMPREHENSIVE_TEST_REPORT.md** - Enhanced detailed markdown report with discovery results
+- **COMPREHENSIVE_TEST_REPORT.md** - Standard detailed markdown report (fallback)
+- **Console Output** - Real-time test progress with enhanced status indicators
+- **Error Logs** - Detailed error information with troubleshooting suggestions
+
+### Report Format
+```markdown
+# 🧪 BHIV HR Platform - Comprehensive Endpoint Test Report
+
+**Test Date**: 2025-01-21 10:30:00
+**Total Test Time**: 45.2 seconds
+**Success Rate**: 94.4%
+
+## 📊 Executive Summary
+| Metric | Value | Status |
+|--------|-------|--------|
+| Total Endpoints | 89 | 📋 Documented |
+| Tested Endpoints | 89 | 🧪 Executed |
+| Passed Tests | 84 | ✅ Success |
+| Failed Tests | 5 | ❌ Failed |
+| Success Rate | 94.4% | ✅ EXCELLENT |
+```
+
+## 🎯 Best Practices
+
+### Before Running Tests
+1. Ensure all services are deployed and running
+2. Set proper API keys and credentials
+3. Check network connectivity to production services
+4. Review test data for conflicts
+
+### During Testing
+1. Monitor console output for real-time progress
+2. Note any authentication or permission errors
+3. Watch for timeout issues on slower endpoints
+4. Check for rate limiting responses
+
+### After Testing
+1. Review comprehensive test report
+2. Address any failed endpoints
+3. Verify integration test results
+4. Update documentation if needed
+
+## 🔍 Troubleshooting
+
+### Common Issues
+- **Authentication Errors**: Enhanced test will attempt API key discovery
+- **LangGraph 404 Errors**: Enhanced test will discover correct URL automatically
+- **Timeout Errors**: Services may be slow to respond (enhanced error handling)
+- **Rate Limiting**: Enhanced test includes rate limit detection
+- **Network Issues**: Check internet connectivity
+
+### Enhanced Troubleshooting
+- **API Key Issues**: Test will try multiple common API key patterns
+- **Service Discovery**: Automatic discovery of alternative service URLs
+- **Authentication Tokens**: Automatic test user registration and token generation
+- **Detailed Error Reports**: Enhanced error messages with specific recommendations
+
+### Debug Mode
+```python
+# Enable detailed logging
+import logging
+logging.basicConfig(level=logging.DEBUG)
+```
+
+---
+
+**🎯 Goal**: Ensure 100% endpoint functionality with comprehensive workflow validation  
+**📊 Target**: 95%+ success rate across all services  
+**🔄 Frequency**: Run before deployments and weekly for monitoring  
+**✨ Enhanced**: Automatic service discovery, API key validation, and authentication handling

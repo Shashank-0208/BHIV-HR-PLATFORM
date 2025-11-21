@@ -40,7 +40,29 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title="BHIV LangGraph Orchestrator",
     version="1.0.0",
-    description="AI-driven workflow orchestration for BHIV HR Platform with API Key Authentication"
+    description="AI-driven workflow orchestration for BHIV HR Platform with API Key Authentication",
+    tags_metadata=[
+        {
+            "name": "Core API Endpoints",
+            "description": "Service health and system information"
+        },
+        {
+            "name": "Workflow Management",
+            "description": "AI workflow orchestration and candidate processing"
+        },
+        {
+            "name": "Workflow Monitoring",
+            "description": "Real-time workflow status tracking and analytics"
+        },
+        {
+            "name": "Communication Tools",
+            "description": "Multi-channel notification and messaging system"
+        },
+        {
+            "name": "System Diagnostics",
+            "description": "Integration testing and system validation"
+        }
+    ]
 )
 
 # Initialize workflow
@@ -117,9 +139,9 @@ class NotificationRequest(BaseModel):
     channels: List[str] = ["email"]
 
 # API Endpoints
-@app.get("/")
+@app.get("/", tags=["Core API Endpoints"])
 async def read_root():
-    """LangGraph Service Root"""
+    """LangGraph Service Information"""
     return {
         "message": "BHIV LangGraph Orchestrator",
         "version": "1.0.0",
@@ -130,9 +152,9 @@ async def read_root():
         "ai_automation": "enabled"
     }
 
-@app.get("/health")
+@app.get("/health", tags=["Core API Endpoints"])
 async def health_check():
-    """Health check endpoint"""
+    """Health Check"""
     health_data = monitor.get_health_status()
     health_data.update({
         "service": "langgraph-orchestrator",
@@ -141,13 +163,13 @@ async def health_check():
     })
     return health_data
 
-@app.post("/workflows/application/start", response_model=WorkflowResponse)
+@app.post("/workflows/application/start", response_model=WorkflowResponse, tags=["Workflow Management"])
 async def start_application_workflow(
     request: ApplicationRequest,
     background_tasks: BackgroundTasks,
     api_key: str = Depends(get_api_key)
 ):
-    """Start candidate application processing workflow"""
+    """Start AI Workflow for Candidate Processing"""
     try:
         if not application_workflow:
             raise HTTPException(status_code=500, detail="Workflow not initialized")
@@ -216,9 +238,9 @@ async def start_application_workflow(
         logger.error(f"❌ Error starting workflow: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/workflows/{workflow_id}/status")
+@app.get("/workflows/{workflow_id}/status", tags=["Workflow Monitoring"])
 async def get_workflow_status(workflow_id: str, api_key: str = Depends(get_api_key)):
-    """Get detailed workflow status with progress tracking"""
+    """Get Detailed Workflow Status"""
     try:
         # Get status from database tracker (primary source)
         db_status = tracker.get_workflow_status(workflow_id)
@@ -300,9 +322,9 @@ def _calculate_eta(workflow_data: dict) -> str:
     except:
         return "unknown"
 
-@app.post("/workflows/{workflow_id}/resume")
+@app.post("/workflows/{workflow_id}/resume", tags=["Workflow Management"])
 async def resume_workflow(workflow_id: str, api_key: str = Depends(get_api_key)):
-    """Resume a paused workflow"""
+    """Resume Paused Workflow"""
     try:
         if not application_workflow:
             raise HTTPException(status_code=500, detail="Workflow not initialized")
@@ -332,7 +354,7 @@ async def resume_workflow(workflow_id: str, api_key: str = Depends(get_api_key))
 
 @app.websocket("/ws/{workflow_id}")
 async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
-    """WebSocket endpoint for real-time workflow updates (Note: WebSocket auth handled separately)"""
+    """Real-time Workflow Updates (WebSocket)"""
     await manager.connect(websocket, workflow_id)
     try:
         while True:
@@ -342,9 +364,9 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
     except WebSocketDisconnect:
         manager.disconnect(websocket, workflow_id)
 
-@app.get("/workflows")
+@app.get("/workflows", tags=["Workflow Monitoring"])
 async def list_workflows(status: str = None, limit: int = 50, api_key: str = Depends(get_api_key)):
-    """List workflows with filtering and detailed information"""
+    """List All Workflows with Filtering"""
     try:
         if status == "active":
             workflows = tracker.get_active_workflows()
@@ -377,9 +399,9 @@ async def list_workflows(status: str = None, limit: int = 50, api_key: str = Dep
             "status": "error"
         }
 
-@app.post("/tools/send-notification")
+@app.post("/tools/send-notification", tags=["Communication Tools"])
 async def send_notification(notification_data: dict, api_key: str = Depends(get_api_key)):
-    """Send notification via multiple channels"""
+    """Multi-Channel Notification System"""
     try:
         candidate_name = notification_data.get("candidate_name", "Candidate")
         job_title = notification_data.get("job_title", "Position")
@@ -405,9 +427,9 @@ async def send_notification(notification_data: dict, api_key: str = Depends(get_
         logger.error(f"❌ Notification sending failed: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@app.get("/workflows/stats")
+@app.get("/workflows/stats", tags=["Workflow Monitoring"])
 async def get_workflow_stats(api_key: str = Depends(get_api_key)):
-    """Get workflow statistics and system health"""
+    """Workflow Statistics and Analytics"""
     try:
         all_workflows = tracker.list_workflows(limit=1000)
         active_workflows = tracker.get_active_workflows()
@@ -428,9 +450,9 @@ async def get_workflow_stats(api_key: str = Depends(get_api_key)):
         logger.error(f"❌ Error getting workflow stats: {str(e)}")
         return {"error": str(e), "status": "error"}
 
-@app.get("/test-integration")
+@app.get("/test-integration", tags=["System Diagnostics"])
 async def test_integration(api_key: str = Depends(get_api_key)):
-    """Test LangGraph integration with database connectivity"""
+    """Integration Testing and System Validation"""
     return {
         "service": "langgraph-orchestrator",
         "status": "operational",
