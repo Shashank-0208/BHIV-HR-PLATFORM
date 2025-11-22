@@ -169,7 +169,20 @@ async def start_application_workflow(
     background_tasks: BackgroundTasks,
     api_key: str = Depends(get_api_key)
 ):
-    """Start AI Workflow for Candidate Processing"""
+    """Start AI Workflow for Candidate Processing
+    
+    **Note:** This is the correct endpoint for creating workflows (not `POST /workflows`)
+    
+    **Authentication:** Bearer token required
+    
+    **Example:**
+    ```bash
+    curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
+         -H "Content-Type: application/json" \
+         -d '{"candidate_id":1,"job_id":1,"application_id":1,"candidate_email":"test@example.com","candidate_phone":"123-456-7890","candidate_name":"Test User","job_title":"Software Engineer"}' \
+         http://localhost:9001/workflows/application/start
+    ```
+    """
     try:
         if not application_workflow:
             raise HTTPException(status_code=500, detail="Workflow not initialized")
@@ -366,7 +379,14 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
 
 @app.get("/workflows", tags=["Workflow Monitoring"])
 async def list_workflows(status: str = None, limit: int = 50, api_key: str = Depends(get_api_key)):
-    """List All Workflows with Filtering"""
+    """List All Workflows with Filtering
+    
+    **Note:** This endpoint only supports GET method (not POST)
+    
+    **For creating workflows, use:** `POST /workflows/application/start`
+    
+    **Authentication:** Bearer token required
+    """
     try:
         if status == "active":
             workflows = tracker.get_active_workflows()
@@ -429,7 +449,18 @@ async def send_notification(notification_data: dict, api_key: str = Depends(get_
 
 @app.get("/workflows/stats", tags=["Workflow Monitoring"])
 async def get_workflow_stats(api_key: str = Depends(get_api_key)):
-    """Workflow Statistics and Analytics"""
+    """Workflow Statistics and Analytics
+    
+    **Note:** This is the correct endpoint for statistics (not `/statistics`)
+    
+    **Authentication:** Bearer token required
+    
+    **Example:**
+    ```bash
+    curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+         http://localhost:9001/workflows/stats
+    ```
+    """
     try:
         all_workflows = tracker.list_workflows(limit=1000)
         active_workflows = tracker.get_active_workflows()

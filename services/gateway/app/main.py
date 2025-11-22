@@ -65,7 +65,7 @@ security = HTTPBearer()
 app = FastAPI(
     title="BHIV HR Platform API Gateway",
     version="4.2.0",
-    description="Enterprise HR Platform with Advanced Security Features - 65 Endpoints"
+    description="Enterprise HR Platform with Advanced Security Features"
 )
 
 app.add_middleware(
@@ -183,13 +183,26 @@ app.middleware("http")(rate_limit_middleware)
 
 class JobCreate(BaseModel):
     title: str
-    department: str
+    department: str  # Required: e.g., "Engineering", "Marketing", "Sales"
     location: str
-    experience_level: str
+    experience_level: str  # Required: "entry", "mid", "senior", "lead"
     requirements: str
     description: str
     client_id: Optional[int] = 1
     employment_type: Optional[str] = "Full-time"
+    
+    class Config:
+        schema_extra = {
+            "example": {
+                "title": "Senior Software Engineer",
+                "department": "Engineering",
+                "location": "Remote",
+                "experience_level": "senior",
+                "requirements": "5+ years Python, FastAPI, PostgreSQL",
+                "description": "Join our team to build scalable HR solutions",
+                "employment_type": "Full-time"
+            }
+        }
 
 class CandidateBulk(BaseModel):
     candidates: List[Dict[str, Any]]
@@ -424,7 +437,18 @@ async def test_candidates_db(api_key: str = Depends(get_api_key)):
 # Job Management (2 endpoints)
 @app.post("/v1/jobs", tags=["Job Management"])
 async def create_job(job: JobCreate, api_key: str = Depends(get_api_key)):
-    """Create New Job Posting"""
+    """Create New Job Posting
+    
+    **Required Fields:**
+    - title: Job title
+    - department: Department name (e.g., "Engineering", "Marketing")
+    - location: Job location
+    - experience_level: Experience level ("entry", "mid", "senior", "lead")
+    - requirements: Job requirements
+    - description: Job description
+    
+    **Authentication:** Bearer token required
+    """
     try:
         engine = get_db_engine()
         with engine.begin() as connection:
@@ -522,7 +546,18 @@ async def get_all_candidates(limit: int = 50, offset: int = 0, api_key: str = De
 # Analytics & Statistics - Move stats endpoint before parameterized routes
 @app.get("/v1/candidates/stats", tags=["Analytics & Statistics"])
 async def get_candidate_stats(api_key: str = Depends(get_api_key)):
-    """Dynamic Candidate Statistics for HR Dashboard Analytics"""
+    """Dynamic Candidate Statistics for HR Dashboard Analytics
+    
+    **Authentication:** Bearer token required
+    
+    **Example:**
+    ```bash
+    curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+         https://api.bhiv.com/v1/candidates/stats
+    ```
+    
+    **Response:** Real-time statistics including total candidates, active jobs, recent matches, and pending interviews.
+    """
     try:
         engine = get_db_engine()
         with engine.connect() as connection:

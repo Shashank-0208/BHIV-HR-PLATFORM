@@ -409,6 +409,62 @@ echo $API_KEY_SECRET
 curl http://localhost:8000/health
 ```
 
+#### **Common API Endpoint Issues**
+
+**Problem**: `422 Unprocessable Entity` on `/v1/candidates/stats`
+**Solution**: Use Bearer token authentication
+```bash
+# Correct
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+     http://localhost:8000/v1/candidates/stats
+
+# Incorrect
+curl -H "X-API-Key: <YOUR_API_KEY>" \
+     http://localhost:8000/v1/candidates/stats
+```
+
+**Problem**: `422 Unprocessable Entity` on `POST /v1/jobs`
+**Solution**: Include all required fields
+```bash
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "title": "Software Engineer",
+       "department": "Engineering",
+       "location": "Remote",
+       "experience_level": "mid",
+       "requirements": "Python, FastAPI",
+       "description": "Join our team"
+     }' \
+     http://localhost:8000/v1/jobs
+```
+
+**Problem**: `404 Not Found` on LangGraph `/statistics`
+**Solution**: Use correct endpoint path
+```bash
+# Correct
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+     http://localhost:9001/workflows/stats
+
+# Incorrect
+curl -H "Authorization: Bearer <YOUR_API_KEY>" \
+     http://localhost:9001/statistics
+```
+
+**Problem**: `405 Method Not Allowed` on `POST /workflows`
+**Solution**: Use correct workflow creation endpoint
+```bash
+# Correct
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
+     -H "Content-Type: application/json" \
+     -d '{"candidate_id":1,"job_id":1,"application_id":1,"candidate_email":"test@example.com","candidate_phone":"123-456-7890","candidate_name":"Test User","job_title":"Software Engineer"}' \
+     http://localhost:9001/workflows/application/start
+
+# Incorrect
+curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
+     http://localhost:9001/workflows
+```
+
 #### **Portal Access Issues**
 ```bash
 # Check Service Status
