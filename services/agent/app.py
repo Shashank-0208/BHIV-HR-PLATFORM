@@ -75,7 +75,7 @@ def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(securit
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET")
+        jwt_secret = os.getenv("JWT_SECRET_KEY")
         payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
@@ -83,7 +83,7 @@ def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(securit
     
     # Try candidate JWT token
     try:
-        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET")
+        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET_KEY")
         payload = jwt.decode(credentials.credentials, candidate_jwt_secret, algorithms=["HS256"])
         return {"type": "candidate_token", "candidate_id": payload.get("candidate_id")}
     except:

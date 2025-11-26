@@ -10,16 +10,16 @@
 - **Port**: 8000
 - **API Keys Used**:
   - `API_KEY_SECRET`: `<YOUR_API_KEY>`
-  - `JWT_SECRET`: `<YOUR_JWT_SECRET>`
-  - `CANDIDATE_JWT_SECRET`: `<YOUR_CANDIDATE_JWT_SECRET>`
+  - `JWT_SECRET_KEY`: `<YOUR_JWT_SECRET>`
+  - `CANDIDATE_JWT_SECRET_KEY`: `<YOUR_CANDIDATE_JWT_SECRET>`
 - **Authentication**: Triple authentication system (API Key + Client JWT + Candidate JWT)
 
 ### 2. **Agent Service** (`docker-agent-1`)
 - **Port**: 9000
 - **API Keys Used**:
   - `API_KEY_SECRET`: `<YOUR_API_KEY>`
-  - `JWT_SECRET`: `<YOUR_JWT_SECRET>`
-  - `CANDIDATE_JWT_SECRET`: `<YOUR_CANDIDATE_JWT_SECRET>`
+  - `JWT_SECRET_KEY`: `<YOUR_JWT_SECRET>`
+  - `CANDIDATE_JWT_SECRET_KEY`: `<YOUR_CANDIDATE_JWT_SECRET>`
 - **Authentication**: Same as Gateway for consistency
 
 ### 3. **LangGraph Service** (`docker-langgraph-1`)
@@ -34,7 +34,7 @@
 - **API Keys Used**:
   - `API_KEY_SECRET`: `<YOUR_API_KEY>`
   - `JWT_SECRET_KEY`: `<YOUR_JWT_SECRET>`
-  - `CANDIDATE_JWT_SECRET`: `<YOUR_CANDIDATE_JWT_SECRET>`
+  - `CANDIDATE_JWT_SECRET_KEY`: `<YOUR_CANDIDATE_JWT_SECRET>`
 - **Authentication**: Portal-specific JWT implementation
 
 ### 5. **Client Portal** (`docker-client_portal-1`)
@@ -47,9 +47,9 @@
 ### 6. **Candidate Portal** (`docker-candidate_portal-1`)
 - **Port**: 8503
 - **API Keys Used**:
-  - `API_KEY`: `<YOUR_API_KEY>` (Note: Different variable name)
-  - `JWT_SECRET`: `<YOUR_CANDIDATE_JWT_SECRET>`
-  - `CANDIDATE_JWT_SECRET`: `<YOUR_CANDIDATE_JWT_SECRET>`
+  - `API_KEY_SECRET`: `<YOUR_API_KEY>`
+  - `JWT_SECRET_KEY`: `<YOUR_JWT_SECRET>`
+  - `CANDIDATE_JWT_SECRET_KEY`: `<YOUR_CANDIDATE_JWT_SECRET>`
 - **Authentication**: Candidate-specific authentication
 
 ### 7. **Database Service** (`docker-db-1`)
@@ -66,8 +66,8 @@
 - **Purpose**: Service-to-service authentication
 
 ### JWT Secrets
-- **Client JWT**: `<YOUR_JWT_SECRET>`
-- **Candidate JWT**: `<YOUR_CANDIDATE_JWT_SECRET>`
+- **Client JWT**: `<YOUR_JWT_SECRET>` (JWT_SECRET_KEY)
+- **Candidate JWT**: `<YOUR_CANDIDATE_JWT_SECRET>` (CANDIDATE_JWT_SECRET_KEY)
 - **Purpose**: User session management
 
 ## Key Observations
@@ -79,12 +79,12 @@
 
 ### ⚠️ Configuration Notes
 1. **Placeholder Values**: All services currently use Docker Compose placeholder values
-2. **Variable Name Differences**: 
-   - Most services use `API_KEY_SECRET`
-   - Candidate Portal uses `API_KEY`
-3. **JWT Variations**:
-   - Some services use `JWT_SECRET_KEY`
-   - Others use `JWT_SECRET`
+2. **Variable Name Standardization**: 
+   - All services now use `API_KEY_SECRET`
+   - Standardized JWT variable names
+3. **JWT Standardization**:
+   - All services use `JWT_SECRET_KEY`
+   - All services use `CANDIDATE_JWT_SECRET_KEY`
 
 ### 🔒 Security Status
 - **Local Development**: ✅ Functional with placeholders
@@ -93,33 +93,30 @@
 
 ## Environment Variable Mapping
 
-| Service | API_KEY_SECRET | JWT_SECRET | CANDIDATE_JWT_SECRET |
-|---------|----------------|------------|---------------------|
+| Service | API_KEY_SECRET | JWT_SECRET_KEY | CANDIDATE_JWT_SECRET_KEY |
+|---------|----------------|----------------|-------------------------|
 | Gateway | ✅ | ✅ | ✅ |
 | Agent | ✅ | ✅ | ✅ |
-| LangGraph | ✅ | ❌ | ❌ |
-| HR Portal | ✅ | ✅* | ✅ |
-| Client Portal | ✅ | ✅* | ❌ |
-| Candidate Portal | ✅** | ✅ | ✅ |
+| LangGraph | ✅ | ✅ | ✅ |
+| HR Portal | ✅ | ✅ | ✅ |
+| Client Portal | ✅ | ✅ | ❌ |
+| Candidate Portal | ✅ | ✅ | ✅ |
 | Database | ❌ | ❌ | ❌ |
-
-*Uses `JWT_SECRET_KEY` instead of `JWT_SECRET`  
-**Uses `API_KEY` instead of `API_KEY_SECRET`
 
 ## Production vs Local Differences
 
 ### Local Development (Current)
 ```bash
 API_KEY_SECRET=<YOUR_API_KEY>
-JWT_SECRET=<YOUR_JWT_SECRET>
-CANDIDATE_JWT_SECRET=<YOUR_CANDIDATE_JWT_SECRET>
+JWT_SECRET_KEY=<YOUR_JWT_SECRET>
+CANDIDATE_JWT_SECRET_KEY=<YOUR_CANDIDATE_JWT_SECRET>
 ```
 
 ### Production (Render Deployment)
 ```bash
 API_KEY_SECRET=prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
-JWT_SECRET=prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA
-CANDIDATE_JWT_SECRET=candidate_jwt_secret_key_2025
+JWT_SECRET_KEY=prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA
+CANDIDATE_JWT_SECRET_KEY=candidate_jwt_secret_key_2025
 ```
 
 ## Recommendations

@@ -13,7 +13,7 @@ import os
 from datetime import datetime
 
 # Configuration
-LANGGRAPH_URL = "http://localhost:9001"
+LANGGRAPH_SERVICE_URL = "http://localhost:9001"
 # Try all possible API keys
 API_KEY_1 = "<YOUR_API_KEY>"  # Docker default placeholder
 API_KEY_2 = "bhiv-hr-2024-secure-api-key-v2"  # From LangGraph .env
@@ -49,7 +49,7 @@ def test_service_health():
     print("[HEALTH] Testing service health...")
     
     try:
-        response = requests.get(f"{LANGGRAPH_URL}/health", timeout=10)
+        response = requests.get(f"{LANGGRAPH_SERVICE_URL}/health", timeout=10)
         if response.status_code == 200:
             data = response.json()
             print(f"[PASS] Health check passed: {data.get('status', 'unknown')}")
@@ -66,7 +66,7 @@ def test_root_endpoint():
     print("[ROOT] Testing root endpoint...")
     
     try:
-        response = requests.get(f"{LANGGRAPH_URL}/", timeout=10)
+        response = requests.get(f"{LANGGRAPH_SERVICE_URL}/", timeout=10)
         if response.status_code == 200:
             data = response.json()
             print(f"[PASS] Root endpoint: {data.get('message', 'OK')}")
@@ -94,7 +94,7 @@ def test_auth_endpoints():
         # Try all API keys
         for i, headers in enumerate([HEADERS_1, HEADERS_2, HEADERS_3], 1):
             try:
-                response = requests.get(f"{LANGGRAPH_URL}{endpoint}", headers=headers, timeout=10)
+                response = requests.get(f"{LANGGRAPH_SERVICE_URL}{endpoint}", headers=headers, timeout=10)
                 if response.status_code == 200:
                     print(f"[PASS] {endpoint}: OK (API Key {i})")
                     success_count += 1
@@ -127,7 +127,7 @@ def test_workflow_creation():
     for i, headers in enumerate([HEADERS_1, HEADERS_2, HEADERS_3], 1):
         try:
             response = requests.post(
-                f"{LANGGRAPH_URL}/workflows/application/start",
+                f"{LANGGRAPH_SERVICE_URL}/workflows/application/start",
                 json=payload,
                 headers=headers,
                 timeout=30
@@ -159,7 +159,7 @@ def test_notification_tool():
     for i, headers in enumerate([HEADERS_1, HEADERS_2, HEADERS_3], 1):
         try:
             response = requests.post(
-                f"{LANGGRAPH_URL}/tools/send-notification",
+                f"{LANGGRAPH_SERVICE_URL}/tools/send-notification",
                 json=payload,
                 headers=headers,
                 timeout=10
@@ -181,7 +181,7 @@ def check_dependencies():
     
     try:
         # Check if service is running
-        response = requests.get(f"{LANGGRAPH_URL}/health", timeout=5)
+        response = requests.get(f"{LANGGRAPH_SERVICE_URL}/health", timeout=5)
         print("[PASS] Service is running")
         return True
     except:
@@ -193,7 +193,7 @@ def main():
     print("BHIV LangGraph Service - Local Build Verification")
     print("=" * 60)
     print(f"Timestamp: {datetime.now().isoformat()}")
-    print(f"Service URL: {LANGGRAPH_URL}")
+    print(f"Service URL: {LANGGRAPH_SERVICE_URL}")
     print()
     
     # Check if service is running
@@ -241,9 +241,9 @@ def main():
         print("[WARNING] Some tests failed - check service configuration")
     
     print(f"\nService URLs:")
-    print(f"  Health: {LANGGRAPH_URL}/health")
-    print(f"  Docs: {LANGGRAPH_URL}/docs")
-    print(f"  Root: {LANGGRAPH_URL}/")
+    print(f"  Health: {LANGGRAPH_SERVICE_URL}/health")
+    print(f"  Docs: {LANGGRAPH_SERVICE_URL}/docs")
+    print(f"  Root: {LANGGRAPH_SERVICE_URL}/")
 
 if __name__ == "__main__":
     main()

@@ -42,9 +42,15 @@ python -m uvicorn app:app --host 0.0.0.0 --port 9001 --reload
 ### Environment Variables
 ```bash
 DATABASE_URL=postgresql://user:pass@localhost:5432/bhiv_hr
-GATEWAY_URL=http://localhost:8000
+GATEWAY_SERVICE_URL=http://localhost:8000
 API_KEY_SECRET=your_api_key
-OPENAI_API_KEY=your_openai_key  # Optional
+JWT_SECRET_KEY=your_jwt_secret
+CANDIDATE_JWT_SECRET_KEY=your_candidate_jwt_secret
+OPENAI_API_SECRET_KEY=your_openai_key  # Optional
+OPENAI_MODEL=gpt-4-turbo-preview
+TWILIO_AUTH_TOKEN_SECRET_KEY=your_twilio_token  # Optional
+GMAIL_APP_PASSWORD_SECRET_KEY=your_gmail_password  # Optional
+TELEGRAM_BOT_TOKEN_SECRET_KEY=your_telegram_token  # Optional
 ENVIRONMENT=development
 LOG_LEVEL=INFO
 ```

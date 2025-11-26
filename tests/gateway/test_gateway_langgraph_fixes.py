@@ -10,8 +10,8 @@ import time
 from datetime import datetime
 
 # Configuration
-GATEWAY_URL = "http://localhost:8000"
-LANGGRAPH_URL = "http://localhost:9001"
+GATEWAY_SERVICE_URL = "http://localhost:8000"
+LANGGRAPH_SERVICE_URL = "http://localhost:9001"
 API_KEY = "<YOUR_API_KEY>"
 HEADERS = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
 
@@ -19,8 +19,8 @@ def test_gateway_langgraph_fixes():
     """Test ALL Gateway and LangGraph endpoints with workflow continuity"""
     print("Comprehensive Test: ALL Gateway + LangGraph Endpoints")
     print("=" * 70)
-    print(f"Gateway URL: {GATEWAY_URL}")
-    print(f"LangGraph URL: {LANGGRAPH_URL}")
+    print(f"Gateway URL: {GATEWAY_SERVICE_URL}")
+    print(f"LangGraph URL: {LANGGRAPH_SERVICE_URL}")
     print(f"API Key: {API_KEY}")
     print()
     print("TESTING ALL 15 ENDPOINTS (8 LangGraph + 7 Gateway)")
@@ -32,7 +32,7 @@ def test_gateway_langgraph_fixes():
     # LG-1: Root endpoint
     print("[LG-1] GET / - LangGraph Root...")
     try:
-        response = requests.get(f"{LANGGRAPH_URL}/", headers=HEADERS, timeout=10)
+        response = requests.get(f"{LANGGRAPH_SERVICE_URL}/", headers=HEADERS, timeout=10)
         if response.status_code == 200:
             data = response.json()
             print(f"[SUCCESS] {data.get('message')} v{data.get('version')} - {data.get('endpoints')} endpoints")
@@ -44,7 +44,7 @@ def test_gateway_langgraph_fixes():
     # LG-2: Health check
     print("[LG-2] GET /health - LangGraph Health...")
     try:
-        response = requests.get(f"{LANGGRAPH_URL}/health", headers=HEADERS, timeout=10)
+        response = requests.get(f"{LANGGRAPH_SERVICE_URL}/health", headers=HEADERS, timeout=10)
         if response.status_code == 200:
             data = response.json()
             print(f"[SUCCESS] {data.get('service')} - {data.get('status')}")
@@ -68,7 +68,7 @@ def test_gateway_langgraph_fixes():
     
     workflow_id = None
     try:
-        response = requests.post(f"{LANGGRAPH_URL}/workflows/application/start", 
+        response = requests.post(f"{LANGGRAPH_SERVICE_URL}/workflows/application/start", 
                                json=workflow_payload, headers=HEADERS, timeout=30)
         if response.status_code == 200:
             data = response.json()
@@ -84,7 +84,7 @@ def test_gateway_langgraph_fixes():
     if workflow_id:
         try:
             time.sleep(2)
-            response = requests.get(f"{LANGGRAPH_URL}/workflows/{workflow_id}/status", 
+            response = requests.get(f"{LANGGRAPH_SERVICE_URL}/workflows/{workflow_id}/status", 
                                   headers=HEADERS, timeout=10)
             if response.status_code == 200:
                 data = response.json()
@@ -100,7 +100,7 @@ def test_gateway_langgraph_fixes():
     print("[LG-5] POST /workflows/{workflow_id}/resume - Resume Workflow...")
     if workflow_id:
         try:
-            response = requests.post(f"{LANGGRAPH_URL}/workflows/{workflow_id}/resume", 
+            response = requests.post(f"{LANGGRAPH_SERVICE_URL}/workflows/{workflow_id}/resume", 
                                    headers=HEADERS, timeout=10)
             if response.status_code == 200:
                 data = response.json()
@@ -115,7 +115,7 @@ def test_gateway_langgraph_fixes():
     # LG-6: List workflows
     print("[LG-6] GET /workflows - List Workflows...")
     try:
-        response = requests.get(f"{LANGGRAPH_URL}/workflows", headers=HEADERS, timeout=10)
+        response = requests.get(f"{LANGGRAPH_SERVICE_URL}/workflows", headers=HEADERS, timeout=10)
         if response.status_code == 200:
             data = response.json()
             print(f"[SUCCESS] List: {data.get('count')} workflows")
@@ -136,7 +136,7 @@ def test_gateway_langgraph_fixes():
         "channels": ["email", "whatsapp"]
     }
     try:
-        response = requests.post(f"{LANGGRAPH_URL}/tools/send-notification", 
+        response = requests.post(f"{LANGGRAPH_SERVICE_URL}/tools/send-notification", 
                                json=notification_payload, headers=HEADERS, timeout=10)
         if response.status_code == 200:
             data = response.json()
@@ -149,7 +149,7 @@ def test_gateway_langgraph_fixes():
     # LG-8: Test integration
     print("[LG-8] GET /test-integration - Test Integration...")
     try:
-        response = requests.get(f"{LANGGRAPH_URL}/test-integration", headers=HEADERS, timeout=10)
+        response = requests.get(f"{LANGGRAPH_SERVICE_URL}/test-integration", headers=HEADERS, timeout=10)
         if response.status_code == 200:
             data = response.json()
             print(f"[SUCCESS] Integration: {data.get('status')} - {data.get('endpoints_available')} endpoints")
@@ -164,7 +164,7 @@ def test_gateway_langgraph_fixes():
     # GW-1: Gateway health check
     print("[GW-1] GET /api/v1/workflow/health - Gateway Health Check...")
     try:
-        response = requests.get(f"{GATEWAY_URL}/api/v1/workflow/health", headers=HEADERS, timeout=10)
+        response = requests.get(f"{GATEWAY_SERVICE_URL}/api/v1/workflow/health", headers=HEADERS, timeout=10)
         if response.status_code == 200:
             health_data = response.json()
             print(f"[SUCCESS] Gateway Health: {health_data.get('langgraph_status')} - {health_data.get('service_status')}")
@@ -187,7 +187,7 @@ def test_gateway_langgraph_fixes():
     
     gateway_workflow_id = None
     try:
-        response = requests.post(f"{GATEWAY_URL}/api/v1/workflow/trigger", 
+        response = requests.post(f"{GATEWAY_SERVICE_URL}/api/v1/workflow/trigger", 
                                json=gateway_trigger_payload, headers=HEADERS, timeout=30)
         if response.status_code == 200:
             trigger_data = response.json()
@@ -203,7 +203,7 @@ def test_gateway_langgraph_fixes():
     if gateway_workflow_id:
         try:
             time.sleep(2)
-            response = requests.get(f"{GATEWAY_URL}/api/v1/workflow/status/{gateway_workflow_id}", 
+            response = requests.get(f"{GATEWAY_SERVICE_URL}/api/v1/workflow/status/{gateway_workflow_id}", 
                                   headers=HEADERS, timeout=10)
             if response.status_code == 200:
                 status_data = response.json()
@@ -218,7 +218,7 @@ def test_gateway_langgraph_fixes():
     # GW-4: Gateway workflow list
     print("[GW-4] GET /api/v1/workflow/list - Gateway List...")
     try:
-        response = requests.get(f"{GATEWAY_URL}/api/v1/workflow/list", headers=HEADERS, timeout=10)
+        response = requests.get(f"{GATEWAY_SERVICE_URL}/api/v1/workflow/list", headers=HEADERS, timeout=10)
         if response.status_code == 200:
             list_data = response.json()
             print(f"[SUCCESS] Gateway List: {list_data.get('count')} workflows")
@@ -238,7 +238,7 @@ def test_gateway_langgraph_fixes():
         "job_title": "DevOps Engineer"
     }
     try:
-        response = requests.post(f"{GATEWAY_URL}/api/v1/webhooks/candidate-applied", 
+        response = requests.post(f"{GATEWAY_SERVICE_URL}/api/v1/webhooks/candidate-applied", 
                                json=webhook_payload, headers=HEADERS, timeout=30)
         if response.status_code == 200:
             webhook_data = response.json()
@@ -251,7 +251,7 @@ def test_gateway_langgraph_fixes():
     # GW-6: Gateway webhook - candidate shortlisted
     print("[GW-6] POST /api/v1/webhooks/candidate-shortlisted - Webhook Shortlisted...")
     try:
-        response = requests.post(f"{GATEWAY_URL}/api/v1/webhooks/candidate-shortlisted", 
+        response = requests.post(f"{GATEWAY_SERVICE_URL}/api/v1/webhooks/candidate-shortlisted", 
                                json=webhook_payload, headers=HEADERS, timeout=30)
         if response.status_code == 200:
             webhook_data = response.json()
@@ -264,7 +264,7 @@ def test_gateway_langgraph_fixes():
     # GW-7: Gateway webhook - interview scheduled
     print("[GW-7] POST /api/v1/webhooks/interview-scheduled - Webhook Interview...")
     try:
-        response = requests.post(f"{GATEWAY_URL}/api/v1/webhooks/interview-scheduled", 
+        response = requests.post(f"{GATEWAY_SERVICE_URL}/api/v1/webhooks/interview-scheduled", 
                                json=webhook_payload, headers=HEADERS, timeout=30)
         if response.status_code == 200:
             webhook_data = response.json()

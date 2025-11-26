@@ -77,8 +77,10 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 
 ### **🔄 LangGraph Workflows**
 - **AI Workflow Automation** for candidate processing
-- **Multi-Channel Notifications** (Email, WhatsApp, SMS)
+- **Multi-Channel Notifications** (Email, WhatsApp, Telegram)
 - **Real-time Status Tracking** and monitoring
+- **Docker Deployment** with dynamic port allocation
+- **Direct API Integration** (Twilio, Gmail SMTP, Telegram Bot)
 
 ### **🔒 Enterprise Security**
 - **Triple Authentication** (API Key + Client JWT + Candidate JWT)
@@ -185,7 +187,7 @@ BHIV HR PLATFORM/
 **Database**: PostgreSQL 17 with 13 core tables  
 **Cost**: $0/month (optimized free tier deployment)
 
-**Recent Updates**: Complete endpoint testing, database verification, security implementation, performance optimization, comprehensive documentation
+**Recent Updates**: LangGraph Docker deployment, real communication services integration (Twilio, Gmail, Telegram), removed render.yaml for consistency, environment variables optimization, multi-channel notification system operational
 
 **📖 Detailed Status**: [Deployment Status](docs/architecture/DEPLOYMENT_STATUS.md)
 

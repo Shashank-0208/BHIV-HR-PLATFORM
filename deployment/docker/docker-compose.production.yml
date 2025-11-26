@@ -44,10 +44,10 @@ services:
     environment:
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET: ${JWT_SECRET:-<YOUR_JWT_SECRET>}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
       AGENT_SERVICE_URL: http://agent:9000
-      LANGGRAPH_URL: http://langgraph:9001
-      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
+      LANGGRAPH_SERVICE_URL: http://langgraph:9001
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
     volumes:
       - ../../services/gateway/logs:/app/logs
     depends_on:
@@ -71,8 +71,8 @@ services:
     environment:
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET: ${JWT_SECRET:-<YOUR_JWT_SECRET>}
-      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
     depends_on:
       db:
         condition: service_healthy
@@ -92,11 +92,11 @@ services:
     ports:
       - "8501:8501"
     environment:
-      GATEWAY_URL: http://gateway:8000
+      GATEWAY_SERVICE_URL: http://gateway:8000
       AGENT_SERVICE_URL: http://agent:9000
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
-      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
     depends_on:
       gateway:
         condition: service_healthy
@@ -121,7 +121,7 @@ services:
     ports:
       - "8502:8502"
     environment:
-      GATEWAY_URL: http://gateway:8000
+      GATEWAY_SERVICE_URL: http://gateway:8000
       AGENT_SERVICE_URL: http://agent:9000
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
@@ -150,10 +150,10 @@ services:
     ports:
       - "8503:8503"
     environment:
-      GATEWAY_URL: http://gateway:8000
-      API_KEY: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
-      CANDIDATE_JWT_SECRET: ${CANDIDATE_JWT_SECRET:-<YOUR_CANDIDATE_JWT_SECRET>}
+      GATEWAY_SERVICE_URL: http://gateway:8000
+      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
     depends_on:
       gateway:
@@ -180,8 +180,19 @@ services:
       - "9001:9001"
     environment:
       DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-bhiv_local_password_2025}@db:5432/bhiv_hr
-      GATEWAY_URL: http://gateway:8000
+      GATEWAY_SERVICE_URL: http://gateway:8000
       API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-test_account_sid}
+      TWILIO_AUTH_TOKEN_SECRET_KEY: ${TWILIO_AUTH_TOKEN_SECRET_KEY:-test_auth_token}
+      TWILIO_WHATSAPP_NUMBER: ${TWILIO_WHATSAPP_NUMBER:-+15005550006}
+      GMAIL_EMAIL: ${GMAIL_EMAIL:-test@gmail.com}
+      GMAIL_APP_PASSWORD_SECRET_KEY: ${GMAIL_APP_PASSWORD_SECRET_KEY:-test_password}
+      TELEGRAM_BOT_TOKEN_SECRET_KEY: ${TELEGRAM_BOT_TOKEN_SECRET_KEY:-test_bot_token}
+      TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-@test_bot}
+      OPENAI_API_SECRET_KEY: ${OPENAI_API_SECRET_KEY:-your-openai-api-key}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-4-turbo-preview}
       ENVIRONMENT: development
       LOG_LEVEL: INFO
     depends_on:

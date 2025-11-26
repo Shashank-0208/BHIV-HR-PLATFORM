@@ -21,7 +21,7 @@ async def call_langgraph_service(endpoint: str, method: str = "GET", data: Dict[
         }
         
         async with httpx.AsyncClient(timeout=30.0) as client:
-            url = f"{get_langgraph_url()}{endpoint}"
+            url = f"{get_langgraph_service_url()}{endpoint}"
             
             if method == "POST":
                 response = await client.post(url, json=data, headers=headers)

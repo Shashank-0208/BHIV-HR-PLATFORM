@@ -327,12 +327,13 @@ DATABASE_URL=postgresql://bhiv_user:password@localhost:5432/bhiv_hr
 
 # API Configuration
 API_KEY_SECRET=<YOUR_API_KEY>
-JWT_SECRET=fallback_jwt_secret_key_for_client_auth_2025
-CANDIDATE_JWT_SECRET=candidate_jwt_secret_key_2025
+JWT_SECRET_KEY=fallback_jwt_secret_key_for_client_auth_2025
+CANDIDATE_JWT_SECRET_KEY=candidate_jwt_secret_key_2025
 
 # Service URLs
-GATEWAY_URL=http://gateway:8000
+GATEWAY_SERVICE_URL=http://gateway:8000
 AGENT_SERVICE_URL=http://agent:9000
+LANGGRAPH_SERVICE_URL=http://langgraph:9001
 ```
 
 ### **Service Configuration**

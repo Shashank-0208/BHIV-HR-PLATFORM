@@ -10,7 +10,7 @@ from pathlib import Path
 def implement_phase1_remove_duplicates():
     """Phase 1: Remove duplicate endpoints"""
     
-    gateway_file = Path("c:/BHIV HR PLATFORM/services/gateway/app/main.py")
+    gateway_file = Path("c:\\BHIV HR PLATFORM\\services\\gateway\\app\\main.py")
     
     with open(gateway_file, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -91,7 +91,7 @@ if __name__ == "__main__":
     print("=" * 40)
     
     # Read original file
-    gateway_file = Path("c:/BHIV HR PLATFORM/services/gateway/app/main.py")
+    gateway_file = Path("c:\\BHIV HR PLATFORM\\services\\gateway\\app\\main.py")
     
     with open(gateway_file, 'r', encoding='utf-8') as f:
         original_content = f.read()

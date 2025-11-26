@@ -6,7 +6,7 @@ Test Gateway Routes to Debug LangGraph Integration
 import requests
 import json
 
-GATEWAY_URL = "http://localhost:8000"
+GATEWAY_SERVICE_URL = "http://localhost:8000"
 API_KEY = "test-api-key-12345"
 
 def test_routes():
@@ -18,7 +18,7 @@ def test_routes():
     
     # Test root endpoint
     try:
-        resp = requests.get(f"{GATEWAY_URL}/")
+        resp = requests.get(f"{GATEWAY_SERVICE_URL}/")
         data = resp.json()
         print(f"Root endpoint: {resp.status_code}")
         print(f"Endpoints count: {data.get('endpoints', 'unknown')}")
@@ -45,10 +45,10 @@ def test_routes():
                     "candidate_email": "test@example.com",
                     "job_title": "Engineer"
                 }
-                resp = requests.post(f"{GATEWAY_URL}{route}", json=test_data, headers=headers)
+                resp = requests.post(f"{GATEWAY_SERVICE_URL}{route}", json=test_data, headers=headers)
             else:
                 # GET endpoints
-                resp = requests.get(f"{GATEWAY_URL}{route}", headers=headers)
+                resp = requests.get(f"{GATEWAY_SERVICE_URL}{route}", headers=headers)
             
             print(f"{route}: {resp.status_code}")
             if resp.status_code != 404:

@@ -110,8 +110,10 @@ async def get_database_schema(api_key: str = Depends(get_api_key)):
 # Production Environment (Render)
 DATABASE_URL: ✅ Configured (PostgreSQL 17)
 API_KEY_SECRET: ✅ Set (prod_api_key_*)
-JWT_SECRET: ✅ Configured
-AGENT_SERVICE_URL: ✅ Set (offline service)
+JWT_SECRET_KEY: ✅ Configured
+CANDIDATE_JWT_SECRET_KEY: ✅ Configured
+AGENT_SERVICE_URL: ✅ Set (operational service)
+LANGGRAPH_SERVICE_URL: ✅ Set (operational service)
 CORS_ORIGINS: ✅ Wildcard configured
 
 # Security Configuration

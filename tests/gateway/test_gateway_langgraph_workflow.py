@@ -10,8 +10,8 @@ import time
 from datetime import datetime
 
 # Configuration
-GATEWAY_URL = "http://localhost:8000"
-LANGGRAPH_URL = "http://localhost:9001"  # For local testing, use 9001
+GATEWAY_SERVICE_URL = "http://localhost:8000"
+LANGGRAPH_SERVICE_URL = "http://localhost:9001"  # For local testing, use 9001
 API_KEY = "<YOUR_API_KEY>"
 HEADERS = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
 
@@ -19,8 +19,8 @@ def test_complete_gateway_langgraph_workflow():
     """Test complete Gateway → LangGraph workflow integration"""
     print("Gateway -> LangGraph Complete Workflow Integration Test")
     print("=" * 70)
-    print(f"Gateway URL: {GATEWAY_URL}")
-    print(f"LangGraph URL: {LANGGRAPH_URL}")
+    print(f"Gateway URL: {GATEWAY_SERVICE_URL}")
+    print(f"LangGraph URL: {LANGGRAPH_SERVICE_URL}")
     print(f"API Key: {API_KEY}")
     print()
     
@@ -28,7 +28,7 @@ def test_complete_gateway_langgraph_workflow():
     print("[STEP 1] Testing Gateway -> LangGraph Health Check...")
     try:
         response = requests.get(
-            f"{GATEWAY_URL}/api/v1/workflow/health",
+            f"{GATEWAY_SERVICE_URL}/api/v1/workflow/health",
             headers=HEADERS,
             timeout=10
         )
@@ -61,7 +61,7 @@ def test_complete_gateway_langgraph_workflow():
     workflow_id = None
     try:
         response = requests.post(
-            f"{GATEWAY_URL}/api/v1/workflow/trigger",
+            f"{GATEWAY_SERVICE_URL}/api/v1/workflow/trigger",
             json=workflow_payload,
             headers=HEADERS,
             timeout=30
@@ -91,7 +91,7 @@ def test_complete_gateway_langgraph_workflow():
         
         try:
             response = requests.get(
-                f"{GATEWAY_URL}/api/v1/workflow/status/{workflow_id}",
+                f"{GATEWAY_SERVICE_URL}/api/v1/workflow/status/{workflow_id}",
                 headers=HEADERS,
                 timeout=10
             )
@@ -115,7 +115,7 @@ def test_complete_gateway_langgraph_workflow():
     print(f"\n[STEP 4] Testing Gateway Workflow List...")
     try:
         response = requests.get(
-            f"{GATEWAY_URL}/api/v1/workflow/list",
+            f"{GATEWAY_SERVICE_URL}/api/v1/workflow/list",
             headers=HEADERS,
             timeout=10
         )
@@ -145,7 +145,7 @@ def test_complete_gateway_langgraph_workflow():
     
     try:
         response = requests.post(
-            f"{GATEWAY_URL}/api/v1/webhooks/candidate-applied",
+            f"{GATEWAY_SERVICE_URL}/api/v1/webhooks/candidate-applied",
             json=webhook_payload,
             headers=HEADERS,
             timeout=30
@@ -169,7 +169,7 @@ def test_complete_gateway_langgraph_workflow():
     print(f"\n[STEP 6] Testing Webhook - Candidate Shortlisted...")
     try:
         response = requests.post(
-            f"{GATEWAY_URL}/api/v1/webhooks/candidate-shortlisted",
+            f"{GATEWAY_SERVICE_URL}/api/v1/webhooks/candidate-shortlisted",
             json=webhook_payload,
             headers=HEADERS,
             timeout=30
@@ -192,7 +192,7 @@ def test_complete_gateway_langgraph_workflow():
     print(f"\n[STEP 7] Testing Webhook - Interview Scheduled...")
     try:
         response = requests.post(
-            f"{GATEWAY_URL}/api/v1/webhooks/interview-scheduled",
+            f"{GATEWAY_SERVICE_URL}/api/v1/webhooks/interview-scheduled",
             json=webhook_payload,
             headers=HEADERS,
             timeout=30
@@ -226,7 +226,7 @@ def test_complete_gateway_langgraph_workflow():
     
     try:
         response = requests.post(
-            f"{LANGGRAPH_URL}/workflows/application/start",
+            f"{LANGGRAPH_SERVICE_URL}/workflows/application/start",
             json=direct_payload,
             headers=HEADERS,
             timeout=30
@@ -257,7 +257,7 @@ def test_gateway_health():
     
     # Gateway root
     try:
-        response = requests.get(f"{GATEWAY_URL}/", timeout=5)
+        response = requests.get(f"{GATEWAY_SERVICE_URL}/", timeout=5)
         if response.status_code == 200:
             data = response.json()
             print(f"[SUCCESS] Gateway Root: {data.get('message')}")
@@ -270,7 +270,7 @@ def test_gateway_health():
     
     # Gateway health
     try:
-        response = requests.get(f"{GATEWAY_URL}/health", timeout=5)
+        response = requests.get(f"{GATEWAY_SERVICE_URL}/health", timeout=5)
         if response.status_code == 200:
             data = response.json()
             print(f"[SUCCESS] Gateway Health: {data.get('status')}")

@@ -10,10 +10,10 @@ import jwt
 from datetime import datetime, timezone
 
 # Configuration
-GATEWAY_URL = "http://localhost:8000"
+GATEWAY_SERVICE_URL = "http://localhost:8000"
 API_KEY = "<YOUR_API_KEY>"
-JWT_SECRET = "<YOUR_JWT_SECRET>"
-CANDIDATE_JWT_SECRET = "<YOUR_CANDIDATE_JWT_SECRET>"
+JWT_SECRET_KEY = "<YOUR_JWT_SECRET>"
+CANDIDATE_JWT_SECRET_KEY = "<YOUR_CANDIDATE_JWT_SECRET>"
 
 async def test_jwt_validation():
     """Test JWT validation with different configurations"""
@@ -46,11 +46,11 @@ async def test_jwt_validation():
         
         # Test API key
         headers = {'Authorization': f'Bearer {API_KEY}'}
-        response = await client.get(f"{GATEWAY_URL}/health", headers=headers)
+        response = await client.get(f"{GATEWAY_SERVICE_URL}/health", headers=headers)
         print(f"Health check with API key: {response.status_code}")
         
         # Test protected endpoint with API key
-        response = await client.get(f"{GATEWAY_URL}/v1/test-candidates", headers=headers)
+        response = await client.get(f"{GATEWAY_SERVICE_URL}/v1/test-candidates", headers=headers)
         print(f"Protected endpoint with API key: {response.status_code}")
         if response.status_code != 200:
             print(f"Error: {response.text}")
@@ -59,7 +59,7 @@ async def test_jwt_validation():
         print("-" * 40)
         
         # Register client
-        response = await client.post(f"{GATEWAY_URL}/v1/client/register", json=test_client)
+        response = await client.post(f"{GATEWAY_SERVICE_URL}/v1/client/register", json=test_client)
         print(f"Client registration: {response.status_code}")
         if response.status_code not in [200, 201]:
             print(f"Registration error: {response.text}")
@@ -67,7 +67,7 @@ async def test_jwt_validation():
         
         # Login client
         login_data = {"client_id": test_client["client_id"], "password": test_client["password"]}
-        response = await client.post(f"{GATEWAY_URL}/v1/client/login", json=login_data)
+        response = await client.post(f"{GATEWAY_SERVICE_URL}/v1/client/login", json=login_data)
         print(f"Client login: {response.status_code}")
         
         if response.status_code == 200:
@@ -82,14 +82,14 @@ async def test_jwt_validation():
                 
                 # Decode token to check payload
                 try:
-                    decoded = jwt.decode(client_token, JWT_SECRET, algorithms=["HS256"])
+                    decoded = jwt.decode(client_token, JWT_SECRET_KEY, algorithms=["HS256"])
                     print(f"Token decoded successfully: {decoded}")
                 except Exception as e:
                     print(f"Token decode failed: {e}")
                 
                 # Test protected endpoint with JWT
                 jwt_headers = {'Authorization': f'Bearer {client_token}'}
-                response = await client.get(f"{GATEWAY_URL}/v1/jobs", headers=jwt_headers)
+                response = await client.get(f"{GATEWAY_SERVICE_URL}/v1/jobs", headers=jwt_headers)
                 print(f"Jobs endpoint with JWT: {response.status_code}")
                 if response.status_code != 200:
                     print(f"JWT Error: {response.text}")
@@ -114,7 +114,7 @@ async def test_jwt_validation():
         print("-" * 40)
         
         # Register candidate
-        response = await client.post(f"{GATEWAY_URL}/v1/candidate/register", json=test_candidate)
+        response = await client.post(f"{GATEWAY_SERVICE_URL}/v1/candidate/register", json=test_candidate)
         print(f"Candidate registration: {response.status_code}")
         if response.status_code not in [200, 201]:
             print(f"Registration error: {response.text}")
@@ -122,7 +122,7 @@ async def test_jwt_validation():
         
         # Login candidate
         candidate_login = {"email": test_candidate["email"], "password": test_candidate["password"]}
-        response = await client.post(f"{GATEWAY_URL}/v1/candidate/login", json=candidate_login)
+        response = await client.post(f"{GATEWAY_SERVICE_URL}/v1/candidate/login", json=candidate_login)
         print(f"Candidate login: {response.status_code}")
         
         if response.status_code == 200:
@@ -133,14 +133,14 @@ async def test_jwt_validation():
                 
                 # Test candidate JWT validation
                 try:
-                    decoded = jwt.decode(candidate_token, CANDIDATE_JWT_SECRET, algorithms=["HS256"])
+                    decoded = jwt.decode(candidate_token, CANDIDATE_JWT_SECRET_KEY, algorithms=["HS256"])
                     print(f"Candidate token decoded: {decoded}")
                 except Exception as e:
                     print(f"Candidate token decode failed: {e}")
                 
                 # Test protected endpoint with candidate JWT
                 candidate_headers = {'Authorization': f'Bearer {candidate_token}'}
-                response = await client.get(f"{GATEWAY_URL}/v1/jobs", headers=candidate_headers)
+                response = await client.get(f"{GATEWAY_SERVICE_URL}/v1/jobs", headers=candidate_headers)
                 print(f"Jobs endpoint with candidate JWT: {response.status_code}")
                 if response.status_code != 200:
                     print(f"Candidate JWT Error: {response.text}")
@@ -152,8 +152,8 @@ async def test_jwt_validation():
         print("\n6. Environment Variable Check")
         print("-" * 40)
         print(f"API_KEY_SECRET matches: {'<YOUR_API_KEY>' == API_KEY}")
-        print(f"JWT_SECRET matches: {'<YOUR_JWT_SECRET>' == JWT_SECRET}")
-        print(f"CANDIDATE_JWT_SECRET matches: {'<YOUR_CANDIDATE_JWT_SECRET>' == CANDIDATE_JWT_SECRET}")
+        print(f"JWT_SECRET_KEY matches: {'<YOUR_JWT_SECRET>' == JWT_SECRET_KEY}")
+        print(f"CANDIDATE_JWT_SECRET_KEY matches: {'<YOUR_CANDIDATE_JWT_SECRET>' == CANDIDATE_JWT_SECRET_KEY}")
 
 if __name__ == "__main__":
     asyncio.run(test_jwt_validation())

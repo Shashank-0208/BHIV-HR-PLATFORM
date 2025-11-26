@@ -80,7 +80,7 @@ The LangGraph service has been successfully verified for local deployment. All 7
 ## Integration Points
 
 ### Gateway Integration
-- **Gateway URL**: `http://gateway:8000`
+- **Gateway Service URL**: `http://gateway:8000`
 - **Connection**: ✅ Established
 - **API Compatibility**: ✅ Verified
 

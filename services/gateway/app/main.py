@@ -353,7 +353,7 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET")
+        jwt_secret = os.getenv("JWT_SECRET_KEY")
         payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
@@ -361,7 +361,7 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try candidate JWT token
     try:
-        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET")
+        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET_KEY")
         payload = jwt.decode(credentials.credentials, candidate_jwt_secret, algorithms=["HS256"])
         return {"type": "candidate_token", "candidate_id": payload.get("candidate_id")}
     except:
@@ -1477,8 +1477,8 @@ async def client_login(login_data: ClientLogin):
                 # No password hash exists - require password to be set
                 return {"success": False, "error": "Account requires password setup"}
             
-            # Generate JWT token using JWT_SECRET_KEY (primary) or JWT_SECRET (fallback)
-            jwt_secret = os.getenv("JWT_SECRET_KEY") or os.getenv("JWT_SECRET")
+            # Generate JWT token using JWT_SECRET_KEY
+            jwt_secret = os.getenv("JWT_SECRET_KEY")
             token_payload = {
                 "client_id": client[0],
                 "company_name": client[1],
@@ -2137,7 +2137,7 @@ async def candidate_login(login_data: CandidateLogin):
             # If no password hash exists, accept any password (for existing test data)
             
             # Generate JWT token
-            jwt_secret = os.getenv("CANDIDATE_JWT_SECRET")
+            jwt_secret = os.getenv("CANDIDATE_JWT_SECRET_KEY")
             token_payload = {
                 "candidate_id": candidate[0],
                 "email": candidate[2],

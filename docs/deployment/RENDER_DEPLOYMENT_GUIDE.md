@@ -95,6 +95,10 @@ Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 Environment Variables:
   - DATABASE_URL: [Internal PostgreSQL URL]
   - API_KEY_SECRET: <YOUR_API_KEY>
+  - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
+  - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
+  - AGENT_SERVICE_URL: https://bhiv-hr-agent-nhgg.onrender.com
+  - LANGGRAPH_SERVICE_URL: https://bhiv-hr-langgraph.onrender.com
 ```
 
 ### 3. AI Agent Service
@@ -108,6 +112,8 @@ Start Command: uvicorn app:app --host 0.0.0.0 --port $PORT
 Environment Variables:
   - DATABASE_URL: [Internal PostgreSQL URL]
   - API_KEY_SECRET: <YOUR_API_KEY>
+  - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
+  - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
 ```
 
 ### 4. LangGraph Workflow Service
@@ -123,12 +129,21 @@ Docker Build Context Directory: services/langgraph
 Dockerfile Path: services/langgraph/Dockerfile
 Environment Variables:
   - DATABASE_URL: [Internal PostgreSQL URL]
-  - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+  - GATEWAY_SERVICE_URL: https://bhiv-hr-gateway-ltg0.onrender.com
   - API_KEY_SECRET: <YOUR_API_KEY>
   - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
-  - CANDIDATE_JWT_SECRET: <YOUR_CANDIDATE_JWT_SECRET>
+  - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
   - ENVIRONMENT: production
   - LOG_LEVEL: INFO
+  - TWILIO_ACCOUNT_SID: <TWILIO_SID>
+  - TWILIO_AUTH_TOKEN_SECRET_KEY: <TWILIO_TOKEN>
+  - TWILIO_WHATSAPP_NUMBER: +14155238886
+  - GMAIL_EMAIL: <GMAIL_EMAIL>
+  - GMAIL_APP_PASSWORD_SECRET_KEY: <GMAIL_APP_PASSWORD>
+  - TELEGRAM_BOT_TOKEN_SECRET_KEY: <TELEGRAM_BOT_TOKEN>
+  - TELEGRAM_BOT_USERNAME: <TELEGRAM_BOT_USERNAME>
+  - OPENAI_API_SECRET_KEY: <OPENAI_API_KEY>
+  - OPENAI_MODEL: gpt-4-turbo-preview
 ```
 
 ### 5. HR Portal Service
@@ -140,8 +155,12 @@ Root Directory: services/portal
 Build Command: pip install -r requirements.txt
 Start Command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 Environment Variables:
-  - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+  - GATEWAY_SERVICE_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+  - AGENT_SERVICE_URL: https://bhiv-hr-agent-nhgg.onrender.com
+  - LANGGRAPH_SERVICE_URL: https://bhiv-hr-langgraph.onrender.com
   - API_KEY_SECRET: <YOUR_API_KEY>
+  - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
+  - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
 ```
 
 ### 6. Client Portal Service
@@ -153,8 +172,12 @@ Root Directory: services/client_portal
 Build Command: pip install -r requirements.txt
 Start Command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 Environment Variables:
-  - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+  - GATEWAY_SERVICE_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+  - AGENT_SERVICE_URL: https://bhiv-hr-agent-nhgg.onrender.com
+  - LANGGRAPH_SERVICE_URL: https://bhiv-hr-langgraph.onrender.com
   - API_KEY_SECRET: <YOUR_API_KEY>
+  - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
+  - DATABASE_URL: [Internal PostgreSQL URL]
 ```
 
 ### 7. Candidate Portal Service
@@ -166,9 +189,11 @@ Root Directory: services/candidate_portal
 Build Command: pip install -r requirements.txt
 Start Command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
 Environment Variables:
-  - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+  - GATEWAY_SERVICE_URL: https://bhiv-hr-gateway-ltg0.onrender.com
   - API_KEY_SECRET: <YOUR_API_KEY>
-  - JWT_SECRET: <YOUR_CANDIDATE_JWT_SECRET>
+  - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
+  - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
+  - DATABASE_URL: [Internal PostgreSQL URL]
 ```
 
 ## 🚀 Deployment Process (Completed)
@@ -321,6 +346,36 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
    - Login with: TECH001 / demo123
 3. **API Documentation**: Visit https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
+### LangGraph Communication Testing
+```bash
+# Test complete workflow with real notifications
+curl -X POST \
+  https://bhiv-hr-langgraph.onrender.com/workflows/application/start \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "candidate_id": 1,
+    "job_id": 1,
+    "application_id": 1,
+    "candidate_email": "test@example.com",
+    "candidate_phone": "+14155238886",
+    "candidate_name": "Test User",
+    "job_title": "Software Engineer"
+  }'
+
+# Test direct notification
+curl -X POST \
+  https://bhiv-hr-langgraph.onrender.com/tools/send-notification \
+  -H "Authorization: Bearer <YOUR_API_KEY>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "candidate_name": "Test User",
+    "job_title": "Test Position",
+    "message": "Test notification",
+    "channels": ["email", "whatsapp"]
+  }'
+```
+
 ## 🔧 Troubleshooting
 
 ### Common Issues & Solutions
@@ -376,7 +431,7 @@ open https://bhiv-hr-gateway-ltg0.onrender.com/docs
 ✅ **Production-ready with 99.9% uptime target**
 ✅ **Comprehensive API with 89 endpoints (74 Gateway + 6 Agent + 9 LangGraph) including advanced monitoring**
 ✅ **AI-powered candidate matching (Phase 3 operational)**
-✅ **LangGraph workflow automation operational**
+✅ **LangGraph workflow automation with real multi-channel communications (Email, WhatsApp, Telegram)**
 ✅ **Triple portal system operational**
 ✅ **Enterprise-grade security features**
 

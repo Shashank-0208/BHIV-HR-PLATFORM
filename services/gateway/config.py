@@ -26,9 +26,9 @@ if not CLIENT_JWT_SECRET:
     raise ValueError("Either JWT_SECRET_KEY or JWT_SECRET environment variable is required")
 
 # Candidate JWT Configuration
-CANDIDATE_JWT_SECRET = os.getenv("CANDIDATE_JWT_SECRET")
-if not CANDIDATE_JWT_SECRET:
-    raise ValueError("CANDIDATE_JWT_SECRET environment variable is required")
+CANDIDATE_JWT_SECRET_KEY = os.getenv("CANDIDATE_JWT_SECRET_KEY")
+if not CANDIDATE_JWT_SECRET_KEY:
+    raise ValueError("CANDIDATE_JWT_SECRET_KEY environment variable is required")
 
 # Agent Service Configuration
 AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL")
@@ -60,7 +60,7 @@ def validate_config():
     required_vars = [
         "DATABASE_URL",
         "API_KEY_SECRET", 
-        "CANDIDATE_JWT_SECRET",
+        "CANDIDATE_JWT_SECRET_KEY",
         "AGENT_SERVICE_URL"
     ]
     
@@ -86,7 +86,7 @@ __all__ = [
     "DATABASE_URL",
     "API_KEY_SECRET",
     "CLIENT_JWT_SECRET",
-    "CANDIDATE_JWT_SECRET", 
+    "CANDIDATE_JWT_SECRET_KEY", 
     "AGENT_SERVICE_URL",
     "setup_logging",
     "validate_config"

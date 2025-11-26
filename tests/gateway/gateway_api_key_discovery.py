@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 async def test_gateway_keys():
     """Test various API keys against Gateway service"""
     
-    gateway_url = "http://localhost:8000"
+    gateway_service_url = "http://localhost:8000"
     
     # Test keys including environment variables and common patterns
     test_keys = [
@@ -62,7 +62,7 @@ async def test_gateway_keys():
         try:
             headers = {'X-API-Key': api_key}
             async with httpx.AsyncClient(timeout=5) as client:
-                response = await client.get(f"{gateway_url}/v1/jobs", headers=headers)
+                response = await client.get(f"{gateway_service_url}/v1/jobs", headers=headers)
                 
                 if response.status_code == 200:
                     logger.info(f"🎉 FOUND WORKING GATEWAY API KEY!")

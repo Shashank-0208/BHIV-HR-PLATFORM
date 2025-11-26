@@ -7,11 +7,11 @@ logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
     # API Configuration
-    gateway_url: str = "http://localhost:8000"
+    gateway_service_url: str = "http://localhost:8000"
     api_key_secret: str = "<YOUR_API_KEY>"
     
     # Production URLs
-    langgraph_production_url: str = "https://bhiv-hr-langgraph.onrender.com"
+    langgraph_service_url: str = "https://bhiv-hr-langgraph.onrender.com"
     gateway_production_url: str = "https://bhiv-hr-gateway-ltg0.onrender.com"
     
     # Database
@@ -19,23 +19,23 @@ class Settings(BaseSettings):
     
     # JWT Secrets (must match gateway service)
     jwt_secret_key: str = "<YOUR_JWT_SECRET_KEY>"
-    candidate_jwt_secret: str = "<YOUR_CANDIDATE_JWT_SECRET>"
+    candidate_jwt_secret_key: str = "<YOUR_CANDIDATE_JWT_SECRET>"
     
     # OpenAI
-    openai_api_key: str = ""
+    openai_api_secret_key: str = ""
     openai_model: str = "gpt-4-turbo-preview"
     
     # Twilio
     twilio_account_sid: str = ""
-    twilio_auth_token: str = ""
+    twilio_auth_token_secret_key: str = ""
     twilio_whatsapp_number: str = ""
     
     # Gmail
     gmail_email: str = ""
-    gmail_app_password: str = ""
+    gmail_app_password_secret_key: str = ""
     
     # Telegram
-    telegram_bot_token: str = ""
+    telegram_bot_token_secret_key: str = ""
     telegram_bot_username: str = ""
     
     # Environment

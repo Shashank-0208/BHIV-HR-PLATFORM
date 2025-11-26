@@ -120,7 +120,7 @@ class ConfigurationValidator:
                 ))
             
             # Check JWT configuration
-            if "JWT_SECRET" in content:
+            if "JWT_SECRET_KEY" in content:
                 jwt_status = "CONFIGURED"
             else:
                 jwt_status = "MISSING"
@@ -129,7 +129,7 @@ class ConfigurationValidator:
                     issue_type="JWT_CONFIG",
                     description="JWT configuration missing",
                     severity="MEDIUM",
-                    fix_suggestion="Add JWT_SECRET environment variable"
+                    fix_suggestion="Add JWT_SECRET_KEY environment variable"
                 ))
             
             return {

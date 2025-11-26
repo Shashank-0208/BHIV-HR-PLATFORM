@@ -22,23 +22,23 @@ class Config:
         self.LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
         
         # Gateway API Configuration - Required
-        self.GATEWAY_URL = os.getenv("GATEWAY_URL")
-        if not self.GATEWAY_URL:
-            raise ValueError("GATEWAY_URL environment variable is required")
+        self.GATEWAY_SERVICE_URL = os.getenv("GATEWAY_SERVICE_URL")
+        if not self.GATEWAY_SERVICE_URL:
+            raise ValueError("GATEWAY_SERVICE_URL environment variable is required")
         
         # API Authentication - Required
-        self.API_KEY = os.getenv("API_KEY")
-        if not self.API_KEY:
-            raise ValueError("API_KEY environment variable is required")
+        self.API_KEY_SECRET = os.getenv("API_KEY_SECRET")
+        if not self.API_KEY_SECRET:
+            raise ValueError("API_KEY_SECRET environment variable is required")
         
         # JWT Configuration for candidate authentication - Required
-        self.JWT_SECRET = os.getenv("JWT_SECRET")
-        if not self.JWT_SECRET:
-            raise ValueError("JWT_SECRET environment variable is required")
+        self.JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+        if not self.JWT_SECRET_KEY:
+            raise ValueError("JWT_SECRET_KEY environment variable is required")
             
-        self.CANDIDATE_JWT_SECRET = os.getenv("CANDIDATE_JWT_SECRET")
-        if not self.CANDIDATE_JWT_SECRET:
-            raise ValueError("CANDIDATE_JWT_SECRET environment variable is required")
+        self.CANDIDATE_JWT_SECRET_KEY = os.getenv("CANDIDATE_JWT_SECRET_KEY")
+        if not self.CANDIDATE_JWT_SECRET_KEY:
+            raise ValueError("CANDIDATE_JWT_SECRET_KEY environment variable is required")
         
         # Database Configuration - Required
         self.DATABASE_URL = os.getenv("DATABASE_URL")
@@ -77,6 +77,6 @@ class Config:
         """Get API headers with authentication"""
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {token or self.API_KEY}"
+            "Authorization": f"Bearer {token or self.API_KEY_SECRET}"
         }
         return headers

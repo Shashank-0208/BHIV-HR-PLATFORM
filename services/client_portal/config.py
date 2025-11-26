@@ -39,9 +39,9 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 PYTHON_VERSION = os.getenv("PYTHON_VERSION", "3.12.7")
 
 # Service URLs - Required
-GATEWAY_URL = os.getenv("GATEWAY_URL")
-if not GATEWAY_URL:
-    raise ValueError("GATEWAY_URL environment variable is required")
+GATEWAY_SERVICE_URL = os.getenv("GATEWAY_SERVICE_URL")
+if not GATEWAY_SERVICE_URL:
+    raise ValueError("GATEWAY_SERVICE_URL environment variable is required")
 
 AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL")
 if not AGENT_SERVICE_URL:
@@ -62,7 +62,7 @@ if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is required")
 
 # API Configuration
-API_BASE_URL = GATEWAY_URL
+API_BASE_URL = GATEWAY_SERVICE_URL
 API_KEY = API_KEY_SECRET
 
 headers = {

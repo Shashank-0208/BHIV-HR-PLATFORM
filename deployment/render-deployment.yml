@@ -79,8 +79,10 @@ services:
     public_url: bhiv-hr-portal-u670.onrender.com
     status: ✅ Active
     environment_variables:
-      - GATEWAY_URL: bhiv-hr-gateway-ltg0.onrender.com
+      - GATEWAY_SERVICE_URL: bhiv-hr-gateway-ltg0.onrender.com
       - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+      - JWT_SECRET_KEY: [JWT_SECRET_KEY]
+      - CANDIDATE_JWT_SECRET_KEY: [CANDIDATE_JWT_SECRET_KEY]
     features:
       - HR dashboard interface
       - Candidate management
@@ -103,8 +105,10 @@ services:
     public_url: bhiv-hr-client-portal-3iod.onrender.com
     status: ✅ Active
     environment_variables:
-      - GATEWAY_URL: bhiv-hr-gateway-ltg0.onrender.com
+      - GATEWAY_SERVICE_URL: bhiv-hr-gateway-ltg0.onrender.com
       - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+      - JWT_SECRET_KEY: [JWT_SECRET_KEY]
+      - DATABASE_URL: [Internal Database URL]
     features:
       - Client authentication system
       - Job posting interface
@@ -130,8 +134,11 @@ services:
     public_url: bhiv-hr-candidate-portal-abe6.onrender.com
     status: ✅ Active
     environment_variables:
-      - GATEWAY_URL: bhiv-hr-gateway-ltg0.onrender.com
+      - GATEWAY_SERVICE_URL: bhiv-hr-gateway-ltg0.onrender.com
       - API_KEY_SECRET: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+      - JWT_SECRET_KEY: [JWT_SECRET_KEY]
+      - CANDIDATE_JWT_SECRET_KEY: [CANDIDATE_JWT_SECRET_KEY]
+      - DATABASE_URL: [Internal Database URL]
     features:
       - Candidate registration & authentication
       - Job search and application

@@ -36,9 +36,9 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
 
 # Service URLs - Required
-GATEWAY_URL = os.getenv("GATEWAY_URL")
-if not GATEWAY_URL:
-    raise ValueError("GATEWAY_URL environment variable is required")
+GATEWAY_SERVICE_URL = os.getenv("GATEWAY_SERVICE_URL")
+if not GATEWAY_SERVICE_URL:
+    raise ValueError("GATEWAY_SERVICE_URL environment variable is required")
 
 AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL")
 if not AGENT_SERVICE_URL:
@@ -53,12 +53,12 @@ JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 if not JWT_SECRET_KEY:
     raise ValueError("JWT_SECRET_KEY environment variable is required")
 
-CANDIDATE_JWT_SECRET = os.getenv("CANDIDATE_JWT_SECRET")
-if not CANDIDATE_JWT_SECRET:
-    raise ValueError("CANDIDATE_JWT_SECRET environment variable is required")
+CANDIDATE_JWT_SECRET_KEY = os.getenv("CANDIDATE_JWT_SECRET_KEY")
+if not CANDIDATE_JWT_SECRET_KEY:
+    raise ValueError("CANDIDATE_JWT_SECRET_KEY environment variable is required")
 
 # API Configuration
-API_BASE = GATEWAY_URL
+API_BASE = GATEWAY_SERVICE_URL
 API_KEY = API_KEY_SECRET
 
 # HTTP Client Configuration with proper timeouts
