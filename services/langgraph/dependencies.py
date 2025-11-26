@@ -28,9 +28,10 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET")
-        payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
-        return {"type": "client_token", "client_id": payload.get("client_id")}
+        jwt_secret = os.getenv("JWT_SECRET_KEY")
+        if jwt_secret:
+            payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
+            return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
         pass
     

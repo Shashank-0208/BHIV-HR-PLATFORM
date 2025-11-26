@@ -6,9 +6,9 @@
 
 | Service | URL | Status |
 |---------|-----|--------|
-| **API Gateway** | https://bhiv-hr-gateway-ltg0.onrender.com/docs | ✅ Live (94 endpoints) |
+| **API Gateway** | https://bhiv-hr-gateway-ltg0.onrender.com/docs | ✅ Live (74 endpoints) |
 | **AI Matching Engine** | https://bhiv-hr-agent-nhgg.onrender.com/docs | ✅ Live (6 endpoints) |
-| **LangGraph Workflows** | https://bhiv-hr-langgraph.onrender.com/docs | ✅ Live (7 endpoints) |
+| **LangGraph Workflows** | https://bhiv-hr-langgraph.onrender.com/docs | ✅ Live (9 endpoints) |
 | **HR Portal** | https://bhiv-hr-portal-u670.onrender.com/ | ✅ Live |
 | **Client Portal** | https://bhiv-hr-client-portal-3iod.onrender.com/ | ✅ Live |
 | **Candidate Portal** | https://bhiv-hr-candidate-portal-abe6.onrender.com/ | ✅ Live |
@@ -50,17 +50,24 @@ curl https://bhiv-hr-langgraph.onrender.com/health
 │  │   PostgreSQL    │  │   API Gateway   │  │  AI Agent    │ │
 │  │   Database      │  │   (FastAPI)     │  │  (FastAPI)   │ │
 │  │   Port: 5432    │  │   Port: 8000    │  │  Port: 9000  │ │
-│  │   Free Tier     │  │   46 Endpoints  │  │  Matching    │ │
+│  │   Free Tier     │  │   74 Endpoints  │  │  Matching    │ │
 │  └─────────────────┘  └─────────────────┘  └──────────────┘ │
 │           │                     │                    │      │
 │           └─────────────────────┼────────────────────┘      │
 │                                 │                           │
-│  ┌─────────────────┐  ┌─────────────────┐                  │
-│  │   HR Portal     │  │  Client Portal  │                  │
-│  │  (Streamlit)    │  │  (Streamlit)    │                  │
-│  │   Port: 8501    │  │   Port: 8502    │                  │
-│  │   Dashboard     │  │   Client UI     │                  │
-│  └─────────────────┘  └─────────────────┘                  │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌──────────────┐ │
+│  │   HR Portal     │  │  Client Portal  │  │  LangGraph   │ │
+│  │  (Streamlit)    │  │  (Streamlit)    │  │  Workflows   │ │
+│  │   Port: 8501    │  │   Port: 8502    │  │  Port: 9001  │ │
+│  │   Dashboard     │  │   Client UI     │  │  9 Endpoints │ │
+│  └─────────────────┘  └─────────────────┘  └──────────────┘ │
+│                                                             │
+│  ┌─────────────────┐                                       │
+│  │ Candidate Portal│                                       │
+│  │  (Streamlit)    │                                       │
+│  │   Port: 8503    │                                       │
+│  │   Candidate UI  │                                       │
+│  └─────────────────┘                                       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -100,6 +107,7 @@ Build Command: pip install -r requirements.txt
 Start Command: uvicorn app:app --host 0.0.0.0 --port $PORT
 Environment Variables:
   - DATABASE_URL: [Internal PostgreSQL URL]
+  - API_KEY_SECRET: <YOUR_API_KEY>
 ```
 
 ### 4. LangGraph Workflow Service
@@ -109,10 +117,12 @@ Type: Web Service
 Plan: Free
 Root Directory: services/langgraph
 Build Command: pip install -r requirements.txt
-Start Command: uvicorn app:app --host 0.0.0.0 --port $PORT
+Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
 Environment Variables:
   - DATABASE_URL: [Internal PostgreSQL URL]
   - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+  - API_KEY_SECRET: <YOUR_API_KEY>
+  - JWT_SECRET: <YOUR_JWT_SECRET>
 ```
 
 ### 5. HR Portal Service
@@ -141,6 +151,20 @@ Environment Variables:
   - API_KEY_SECRET: <YOUR_API_KEY>
 ```
 
+### 7. Candidate Portal Service
+```yaml
+Name: bhiv-hr-candidate-portal
+Type: Web Service
+Plan: Free
+Root Directory: services/candidate_portal
+Build Command: pip install -r requirements.txt
+Start Command: streamlit run app.py --server.port $PORT --server.address 0.0.0.0
+Environment Variables:
+  - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
+  - API_KEY_SECRET: <YOUR_API_KEY>
+  - JWT_SECRET: <YOUR_CANDIDATE_JWT_SECRET>
+```
+
 ## 🚀 Deployment Process (Completed)
 
 ### Phase 1: Database Setup ✅
@@ -154,12 +178,12 @@ Environment Variables:
 2. Set root directory: `services/gateway`
 3. Configured build and start commands
 4. Added environment variables
-5. Service live at: https://bhiv-hr-gateway.onrender.com
+5. Service live at: https://bhiv-hr-gateway-ltg0.onrender.com
 
 ### Phase 3: AI Agent Deployment ✅
 1. Deployed AI matching service
 2. Connected to database
-3. Service live at: https://bhiv-hr-agent.onrender.com
+3. Service live at: https://bhiv-hr-agent-nhgg.onrender.com
 
 ### Phase 4: LangGraph Workflow Deployment ✅
 1. Deployed LangGraph workflow service
@@ -170,8 +194,9 @@ Environment Variables:
 ### Phase 5: Portal Deployments ✅
 1. Deployed HR Portal (Streamlit)
 2. Deployed Client Portal (Streamlit)
-3. Connected both to API Gateway
-4. Configured authentication
+3. Deployed Candidate Portal (Streamlit)
+4. Connected all portals to API Gateway
+5. Configured authentication
 
 ## 📈 Performance & Monitoring
 
@@ -228,8 +253,10 @@ curl -H "Authorization: Bearer <YOUR_API_KEY>" \
 - **Database**: $0/month (Free PostgreSQL)
 - **API Gateway**: $0/month (Free web service)
 - **AI Agent**: $0/month (Free web service)
+- **LangGraph Service**: $0/month (Free web service)
 - **HR Portal**: $0/month (Free web service)
 - **Client Portal**: $0/month (Free web service)
+- **Candidate Portal**: $0/month (Free web service)
 - **Total**: $0/month
 
 ### Free Tier Limitations
@@ -331,10 +358,10 @@ open https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 ## 🎉 Deployment Success Summary
 
-✅ **6/6 services successfully deployed on Render**
+✅ **7/7 services successfully deployed on Render** (6 web services + 1 database)
 ✅ **Zero monthly cost (Free tier)**
 ✅ **Production-ready with 99.9% uptime target**
-✅ **Comprehensive API with 107 endpoints (94 Gateway + 6 Agent + 7 LangGraph) including advanced monitoring**
+✅ **Comprehensive API with 89 endpoints (74 Gateway + 6 Agent + 9 LangGraph) including advanced monitoring**
 ✅ **AI-powered candidate matching (Phase 3 operational)**
 ✅ **LangGraph workflow automation operational**
 ✅ **Triple portal system operational**

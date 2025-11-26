@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql://bhiv_user:password@localhost:5432/bhiv_hr"
     
     # JWT Secrets (must match gateway service)
-    jwt_secret: str = "<YOUR_JWT_SECRET>"
+    jwt_secret_key: str = "<YOUR_JWT_SECRET_KEY>"
     candidate_jwt_secret: str = "<YOUR_CANDIDATE_JWT_SECRET>"
     
     # OpenAI
