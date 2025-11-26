@@ -27,15 +27,15 @@ class Settings(BaseSettings):
     
     # Twilio
     twilio_account_sid: str = ""
-    twilio_auth_token_secret_key: str = ""
+    twilio_auth_token: str = ""
     twilio_whatsapp_number: str = ""
     
     # Gmail
     gmail_email: str = ""
-    gmail_app_password_secret_key: str = ""
+    gmail_app_password: str = ""
     
     # Telegram
-    telegram_bot_token_secret_key: str = ""
+    telegram_bot_token: str = ""
     telegram_bot_username: str = ""
     
     # Environment
@@ -59,7 +59,7 @@ if settings.environment == "production":
         "openai_api_secret_key",
         "twilio_account_sid",
         "gmail_email",
-        "telegram_bot_token_secret_key"
+        "telegram_bot_token"
     ]
     for req in required:
         if not getattr(settings, req):
