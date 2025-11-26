@@ -62,7 +62,8 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 **Microservices Architecture**: 6 services + PostgreSQL database  
 **Technology Stack**: FastAPI 4.2.0, Streamlit 1.41.1, Python 3.12.7, PostgreSQL 17  
 **Total Endpoints**: 89 (74 Gateway + 6 Agent + 9 LangGraph)  
-**Database Schema**: v4.2.0 with 13 core tables
+**Database Schema**: v4.2.0 with 13 core tables  
+**Deployment**: Docker-based microservices on Render platform
 
 **📖 Complete Architecture**: [Project Structure](docs/architecture/PROJECT_STRUCTURE.md)
 
@@ -100,6 +101,7 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 
 **Microservices Architecture**: 6 services + database  
 **Technology**: FastAPI, Streamlit, PostgreSQL  
+**Deployment**: Docker containers with dynamic port allocation  
 **Organization**: Professional structure with proper categorization
 
 ```

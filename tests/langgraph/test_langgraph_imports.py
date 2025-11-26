@@ -188,8 +188,9 @@ def test_environment_variables():
     
     env_vars = [
         "DATABASE_URL",
-        "API_KEY",
-        "LANGGRAPH_API_KEY"
+        "API_KEY_SECRET",
+        "JWT_SECRET_KEY",
+        "GATEWAY_URL"
     ]
     
     for var in env_vars:

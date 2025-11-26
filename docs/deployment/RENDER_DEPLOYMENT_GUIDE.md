@@ -115,14 +115,20 @@ Environment Variables:
 Name: bhiv-hr-langgraph
 Type: Web Service
 Plan: Free
+Language: Docker
 Root Directory: services/langgraph
-Build Command: pip install -r requirements.txt
-Start Command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+Build Command: [Empty - Docker handles this]
+Start Command: [Empty - Docker handles this]
+Docker Build Context Directory: services/langgraph
+Dockerfile Path: services/langgraph/Dockerfile
 Environment Variables:
   - DATABASE_URL: [Internal PostgreSQL URL]
   - GATEWAY_URL: https://bhiv-hr-gateway-ltg0.onrender.com
   - API_KEY_SECRET: <YOUR_API_KEY>
-  - JWT_SECRET: <YOUR_JWT_SECRET>
+  - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
+  - CANDIDATE_JWT_SECRET: <YOUR_CANDIDATE_JWT_SECRET>
+  - ENVIRONMENT: production
+  - LOG_LEVEL: INFO
 ```
 
 ### 5. HR Portal Service
@@ -186,10 +192,17 @@ Environment Variables:
 3. Service live at: https://bhiv-hr-agent-nhgg.onrender.com
 
 ### Phase 4: LangGraph Workflow Deployment ✅
-1. Deployed LangGraph workflow service
+1. Deployed LangGraph workflow service using Docker
 2. Connected to database and Gateway
 3. Service live at: https://bhiv-hr-langgraph.onrender.com
 4. Configured workflow automation
+5. Docker configuration:
+   - Language: Docker
+   - Build/Start Commands: Empty (Docker handles)
+   - Docker Build Context: services/langgraph
+   - Dockerfile Path: services/langgraph/Dockerfile
+   - Uses dynamic PORT environment variable
+   - No render.yaml file (uses Docker deployment like other services)
 
 ### Phase 5: Portal Deployments ✅
 1. Deployed HR Portal (Streamlit)

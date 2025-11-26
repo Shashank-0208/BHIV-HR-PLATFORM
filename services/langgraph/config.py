@@ -9,7 +9,6 @@ class Settings(BaseSettings):
     # API Configuration
     gateway_url: str = "http://localhost:8000"
     api_key_secret: str = "<YOUR_API_KEY>"
-    langgraph_port: int = 9001
     
     # Production URLs
     langgraph_production_url: str = "https://bhiv-hr-langgraph.onrender.com"

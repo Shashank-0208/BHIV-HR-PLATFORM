@@ -11,7 +11,7 @@ from datetime import datetime
 
 # Configuration
 GATEWAY_URL = "http://localhost:8000"
-LANGGRAPH_URL = "http://localhost:9001"
+LANGGRAPH_URL = "http://localhost:9001"  # For local testing, use 9001
 API_KEY = "<YOUR_API_KEY>"
 HEADERS = {"Authorization": f"Bearer {API_KEY}", "Content-Type": "application/json"}
 

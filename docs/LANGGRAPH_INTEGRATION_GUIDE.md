@@ -7,7 +7,7 @@ This guide provides comprehensive instructions for LangGraph AI-powered workflow
 - Docker and Docker Compose installed
 - Python 3.12.7 or higher
 - Access to BHIV HR Platform codebase
-- LangGraph service operational (Port 9001)
+- LangGraph service operational (Dynamic Port on Render)
 
 ## ✅ Current Implementation Status
 ✅ LangGraph service fully integrated
@@ -29,7 +29,8 @@ This guide provides comprehensive instructions for LangGraph AI-powered workflow
 ```bash
 cd "c:\BHIV HR PLATFORM\services\langgraph"
 pip install -r requirements.txt
-python -m uvicorn app:app --host 0.0.0.0 --port 9001 --reload
+# For local development, use port 9001
+PORT=9001 python -m uvicorn app.main:app --host 0.0.0.0 --port 9001 --reload
 ```
 
 2. **Verify LangGraph Service**
@@ -73,18 +74,23 @@ curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
 
 ### Production Deployment (Render)
 
-1. **Create New Render Service**
-   - Go to Render Dashboard
-   - Create new Web Service
-   - Connect GitHub repository
-   - Set build command: `cd services/langgraph_service && pip install -r requirements.txt`
-   - Set start command: `uvicorn app:app --host 0.0.0.0 --port $PORT`
+1. **LangGraph Service Configuration**
+   - Service Type: Web Service
+   - Language: Docker
+   - Root Directory: services/langgraph
+   - Build Command: [Empty - Docker handles this]
+   - Start Command: [Empty - Docker handles this]
+   - Uses Dockerfile for deployment
 
 2. **Environment Variables for Render**
 ```
-EMAIL_SERVICE_URL=http://localhost:8080
-WHATSAPP_SERVICE_URL=http://localhost:8081
-PORT=9001
+DATABASE_URL=[Internal PostgreSQL URL]
+GATEWAY_URL=https://bhiv-hr-gateway-ltg0.onrender.com
+API_KEY_SECRET=<YOUR_API_KEY>
+JWT_SECRET_KEY=<YOUR_JWT_SECRET_KEY>
+CANDIDATE_JWT_SECRET=<YOUR_CANDIDATE_JWT_SECRET>
+ENVIRONMENT=production
+LOG_LEVEL=INFO
 ```
 
 3. **Update Gateway Service Environment**
@@ -178,9 +184,10 @@ docker-compose logs langgraph_service
 ### Common Issues
 
 1. **LangGraph Service Not Starting**
-   - Check port 9001 is available
-   - Verify requirements.txt dependencies
-   - Check Python version (3.12.7 required)
+   - Check Docker container status
+   - Verify Dockerfile configuration
+   - Check environment variables in Render dashboard
+   - Ensure PORT environment variable is set by Render
 
 2. **Gateway Cannot Connect to LangGraph**
    - Verify LANGGRAPH_URL environment variable
