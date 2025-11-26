@@ -56,10 +56,10 @@ settings = get_settings()
 # Credential validation for production
 if settings.environment == "production":
     required = [
-        "openai_api_key",
+        "openai_api_secret_key",
         "twilio_account_sid",
         "gmail_email",
-        "telegram_bot_token"
+        "telegram_bot_token_secret_key"
     ]
     for req in required:
         if not getattr(settings, req):
