@@ -26,13 +26,11 @@ class WorkflowStatus(BaseModel):
     workflow_id: str
 
 # LangGraph service configuration  
-LANGGRAPH_URL = os.getenv("LANGGRAPH_URL", "http://localhost:9001")
-LANGGRAPH_PRODUCTION_URL = os.getenv("LANGGRAPH_PRODUCTION_URL", "https://bhiv-hr-langgraph.onrender.com")
+LANGGRAPH_SERVICE_URL = os.getenv("LANGGRAPH_SERVICE_URL", "http://localhost:9001")
 
-def get_langgraph_url():
-    """Get appropriate LangGraph URL based on environment"""
-    environment = os.getenv("ENVIRONMENT", "development")
-    return LANGGRAPH_PRODUCTION_URL if environment == "production" else LANGGRAPH_URL
+def get_langgraph_service_url():
+    """Get LangGraph service URL"""
+    return LANGGRAPH_SERVICE_URL
 
 async def call_langgraph_service(endpoint: str, method: str = "GET", data: Dict[Any, Any] = None):
     """Helper function to call LangGraph service with API key authentication"""
@@ -45,7 +43,7 @@ async def call_langgraph_service(endpoint: str, method: str = "GET", data: Dict[
         }
         
         async with httpx.AsyncClient(timeout=30.0) as client:
-            url = f"{get_langgraph_url()}{endpoint}"
+            url = f"{get_langgraph_service_url()}{endpoint}"
             
             if method == "POST":
                 response = await client.post(url, json=data, headers=headers)

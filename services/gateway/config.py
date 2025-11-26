@@ -35,6 +35,11 @@ AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL")
 if not AGENT_SERVICE_URL:
     raise ValueError("AGENT_SERVICE_URL environment variable is required")
 
+# LangGraph Service Configuration
+LANGGRAPH_SERVICE_URL = os.getenv("LANGGRAPH_SERVICE_URL")
+if not LANGGRAPH_SERVICE_URL:
+    raise ValueError("LANGGRAPH_SERVICE_URL environment variable is required")
+
 # Logging Configuration
 def setup_logging():
     """Setup logging based on environment configuration"""
@@ -61,7 +66,8 @@ def validate_config():
         "DATABASE_URL",
         "API_KEY_SECRET", 
         "CANDIDATE_JWT_SECRET_KEY",
-        "AGENT_SERVICE_URL"
+        "AGENT_SERVICE_URL",
+        "LANGGRAPH_SERVICE_URL"
     ]
     
     missing_vars = []
@@ -88,6 +94,7 @@ __all__ = [
     "CLIENT_JWT_SECRET",
     "CANDIDATE_JWT_SECRET_KEY", 
     "AGENT_SERVICE_URL",
+    "LANGGRAPH_SERVICE_URL",
     "setup_logging",
     "validate_config"
 ]
