@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     candidate_jwt_secret_key: str = "<YOUR_CANDIDATE_JWT_SECRET>"
     
     # OpenAI
-    openai_api_secret_key: str = ""
+    openai_api_key: str = "AIzaSyC8vbb0qAgcFlHw6fA14Ta6Nr7zsG5ELIs"
     openai_model: str = "gpt-4-turbo-preview"
     
     # Twilio
@@ -56,7 +56,7 @@ settings = get_settings()
 # Credential validation for production
 if settings.environment == "production":
     required = [
-        "openai_api_secret_key",
+        "openai_api_key",
         "twilio_account_sid",
         "gmail_email",
         "telegram_bot_token"
