@@ -21,9 +21,9 @@ class Settings(BaseSettings):
     jwt_secret_key: str = "<YOUR_JWT_SECRET_KEY>"
     candidate_jwt_secret_key: str = "<YOUR_CANDIDATE_JWT_SECRET>"
     
-    # OpenAI
-    openai_api_key: str = "AIzaSyC8vbb0qAgcFlHw6fA14Ta6Nr7zsG5ELIs"
-    openai_model: str = "gpt-4-turbo-preview"
+    # Gemini AI
+    gemini_api_key: str = ""
+    gemini_model: str = "gemini-pro"
     
     # Twilio
     twilio_account_sid: str = ""
@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     telegram_bot_username: str = ""
     
     # Environment
-    environment: str = "development"
+    environment: str = "production"
     log_level: str = "INFO"
     
     class Config:
@@ -56,7 +56,7 @@ settings = get_settings()
 # Credential validation for production
 if settings.environment == "production":
     required = [
-        "openai_api_key",
+        "gemini_api_key",
         "twilio_account_sid",
         "gmail_email",
         "telegram_bot_token"

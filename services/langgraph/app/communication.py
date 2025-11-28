@@ -159,7 +159,22 @@ _Thank you for your interest!_"""
             results.append(result)
         
         if "telegram" in channels:
-            logger.info("ℹ️ Telegram notification placeholder - requires user chat_id")
+            # Try to send Telegram if chat_id is available
+            chat_id = payload.get('candidate_telegram_id') or payload.get('telegram_chat_id')
+            if chat_id:
+                telegram_msg = f"""🔔 *BHIV HR Update*
+
+*Job:* {payload['job_title']}
+*Status:* {payload['application_status'].upper()}
+
+{payload['message']}
+
+_Thank you for your interest in BHIV!_"""
+                result = await self.send_telegram(chat_id, telegram_msg)
+                results.append(result)
+            else:
+                logger.info("ℹ️ Telegram skipped - no chat_id provided")
+                results.append({"status": "skipped", "channel": "telegram", "reason": "No chat_id provided"})
         
         return results
 

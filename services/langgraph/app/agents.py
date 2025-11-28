@@ -1,4 +1,4 @@
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from .state import CandidateApplicationState
 from .tools import *
@@ -13,12 +13,12 @@ logger = logging.getLogger(__name__)
 
 # Initialize LLM
 try:
-    llm = ChatOpenAI(
-        model=settings.openai_model,
+    llm = ChatGoogleGenerativeAI(
+        model=settings.gemini_model,
         temperature=0.7,
-        api_key=settings.openai_api_key
+        google_api_key=settings.gemini_api_key
     )
-    logger.info(f"✅ LLM initialized: {settings.openai_model}")
+    logger.info(f"✅ LLM initialized: {settings.gemini_model}")
 except Exception as e:
     logger.error(f"❌ Failed to initialize LLM: {e}")
     llm = None

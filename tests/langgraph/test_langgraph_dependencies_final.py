@@ -80,7 +80,7 @@ import os
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    environment: str = "development"
+    environment: str = "production"
     log_level: str = "INFO"
     database_url: str = os.getenv("DATABASE_URL", "sqlite:///langgraph.db")
     api_key: str = os.getenv("API_KEY", "default-api-key")

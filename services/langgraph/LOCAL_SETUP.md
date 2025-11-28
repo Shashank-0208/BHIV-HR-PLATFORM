@@ -50,12 +50,12 @@ python test_local.py
 GATEWAY_URL=http://localhost:8000
 API_KEY_SECRET=<YOUR_API_KEY>
 DATABASE_URL=postgresql://bhiv_user:bhiv_local_password_2025@localhost:5432/bhiv_hr
-ENVIRONMENT=development
+ENVIRONMENT=production
 ```
 
 ### Optional (for full functionality)
 ```
-OPENAI_API_KEY=your-openai-key
+GEMINI_API_KEY=your-gemini-key
 TWILIO_ACCOUNT_SID=your-twilio-sid
 TWILIO_AUTH_TOKEN=your-twilio-token
 GMAIL_EMAIL=your-email@gmail.com
@@ -120,7 +120,7 @@ The LangGraph service integrates with the BHIV Gateway through:
 
 ## Development Mode
 
-The service runs in development mode by default with:
+The service runs in production mode by default with:
 - Auto-reload on file changes
 - Mock AI responses for testing
 - Detailed logging

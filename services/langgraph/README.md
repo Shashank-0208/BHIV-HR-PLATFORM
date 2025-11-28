@@ -30,7 +30,7 @@ AI-powered workflow orchestration service for BHIV HR Platform with intelligent 
 ### Prerequisites
 - Python 3.12.7+
 - PostgreSQL database
-- OpenAI API key (optional)
+- Gemini API key (optional)
 
 ### Setup
 ```bash
@@ -46,12 +46,12 @@ GATEWAY_SERVICE_URL=http://localhost:8000
 API_KEY_SECRET=your_api_key
 JWT_SECRET_KEY=your_jwt_secret
 CANDIDATE_JWT_SECRET_KEY=your_candidate_jwt_secret
-OPENAI_API_SECRET_KEY=your_openai_key  # Optional
-OPENAI_MODEL=gpt-4-turbo-preview
+GEMINI_API_KEY=your_gemini_key  # Optional
+GEMINI_MODEL=gemini-pro
 TWILIO_AUTH_TOKEN_SECRET_KEY=your_twilio_token  # Optional
 GMAIL_APP_PASSWORD_SECRET_KEY=your_gmail_password  # Optional
 TELEGRAM_BOT_TOKEN_SECRET_KEY=your_telegram_token  # Optional
-ENVIRONMENT=development
+ENVIRONMENT=production
 LOG_LEVEL=INFO
 ```
 
