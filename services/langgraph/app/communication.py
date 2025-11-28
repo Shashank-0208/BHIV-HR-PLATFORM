@@ -18,14 +18,24 @@ class CommunicationManager:
     """Unified communication across multiple channels"""
     
     def __init__(self):
-        # Initialize in development mode with mock clients for testing
-        if settings.environment == "development":
-            logger.info("🧪 Development mode - using mock communication clients")
-            self.twilio_client = None
-            self.telegram_bot = None
-            self.gmail_email = settings.gmail_email
-            self.gmail_app_password = settings.gmail_app_password
+        # Always try to initialize real clients if credentials are provided
+        logger.info(f"🔧 Initializing communication manager (env: {settings.environment})")
+        
+        # Check if we have real credentials
+        has_twilio = (settings.twilio_account_sid and 
+                     settings.twilio_account_sid != "your_twilio_account_sid")
+        has_gmail = (settings.gmail_email and 
+                    settings.gmail_email != "your_gmail_email")
+        has_telegram = (settings.telegram_bot_token and 
+                       settings.telegram_bot_token != "your_telegram_bot_token")
+        
+        if has_twilio or has_gmail or has_telegram:
+            logger.info("✅ Real credentials detected - initializing live services")
         else:
+            logger.info("🧪 No real credentials - using development mode")
+        
+        # Initialize services based on available credentials
+        if True:  # Always try to initialize
             try:
                 # Twilio
                 self.twilio_client = Client(
@@ -53,12 +63,10 @@ class CommunicationManager:
     async def send_whatsapp(self, phone: str, message: str) -> Dict:
         """Send WhatsApp message via Twilio"""
         try:
-            if settings.environment == "development":
-                logger.info(f"🧪 MOCK WhatsApp to {phone}: {message[:50]}...")
-                return {"status": "success", "channel": "whatsapp", "message_id": "mock_msg_123", "recipient": phone}
-            
+            # Check if we have real Twilio credentials
             if not self.twilio_client:
-                return {"status": "skipped", "channel": "whatsapp", "reason": "Twilio not initialized"}
+                logger.info(f"🧪 MOCK WhatsApp to {phone}: {message[:50]}...")
+                return {"status": "mock_sent", "channel": "whatsapp", "message_id": "mock_msg_123", "recipient": phone, "note": "Mock mode - add real Twilio credentials to send actual messages"}
             
             if not phone.startswith('+'):
                 phone = f"+{phone}"
@@ -78,12 +86,12 @@ class CommunicationManager:
     async def send_email(self, recipient_email: str, subject: str, body: str, html_body: str = None) -> Dict:
         """Send email via Gmail SMTP"""
         try:
-            if settings.environment == "development":
+            # Check if we have real Gmail credentials
+            if (not self.gmail_email or 
+                not self.gmail_app_password or 
+                self.gmail_email == "your_gmail_email"):
                 logger.info(f"🧪 MOCK Email to {recipient_email}: {subject}")
-                return {"status": "success", "channel": "email", "recipient": recipient_email, "subject": subject}
-            
-            if not self.gmail_email or not self.gmail_app_password:
-                return {"status": "skipped", "channel": "email", "reason": "Gmail credentials not configured"}
+                return {"status": "mock_sent", "channel": "email", "recipient": recipient_email, "subject": subject, "note": "Mock mode - add real Gmail credentials to send actual emails"}
             
             msg = MIMEMultipart('alternative')
             msg['Subject'] = subject
@@ -108,7 +116,8 @@ class CommunicationManager:
         """Send Telegram message"""
         try:
             if not self.telegram_bot:
-                return {"status": "skipped", "channel": "telegram", "reason": "Telegram bot not initialized"}
+                logger.info(f"🧪 MOCK Telegram to {chat_id}: {message[:50]}...")
+                return {"status": "mock_sent", "channel": "telegram", "message_id": "mock_tg_123", "recipient": chat_id, "note": "Mock mode - add real Telegram bot token to send actual messages"}
             
             msg = await self.telegram_bot.send_message(
                 chat_id=chat_id,

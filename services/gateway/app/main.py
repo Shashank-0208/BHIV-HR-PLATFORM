@@ -79,6 +79,13 @@ app.add_middleware(
 # Include auth routes
 app.include_router(auth_router)
 
+# Include AI integration routes
+try:
+    from routes.ai_integration import router as ai_router
+    app.include_router(ai_router, prefix="/api/v1", tags=["AI Integration"])
+except ImportError:
+    pass
+
 # Include LangGraph workflow routes
 try:
     import sys

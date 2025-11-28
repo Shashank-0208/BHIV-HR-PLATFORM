@@ -421,30 +421,86 @@ async def list_workflows(status: str = None, limit: int = 50, api_key: str = Dep
 
 @app.post("/tools/send-notification", tags=["Communication Tools"])
 async def send_notification(notification_data: dict, api_key: str = Depends(get_api_key)):
-    """Multi-Channel Notification System"""
+    """Multi-Channel Notification System - Real Implementation"""
     try:
+        from .communication import comm_manager
+        
+        # Extract notification data
         candidate_name = notification_data.get("candidate_name", "Candidate")
+        candidate_email = notification_data.get("candidate_email", "test@example.com")
+        candidate_phone = notification_data.get("candidate_phone", "+1234567890")
         job_title = notification_data.get("job_title", "Position")
         message = notification_data.get("message", "Notification from BHIV HR Platform")
         channels = notification_data.get("channels", ["email"])
+        application_status = notification_data.get("application_status", "updated")
         
-        # Simulate notification sending
-        sent_channels = []
-        for channel in channels:
-            if channel in ["email", "whatsapp", "sms"]:
-                sent_channels.append(channel)
+        # Prepare payload for multi-channel sending
+        payload = {
+            "candidate_name": candidate_name,
+            "candidate_email": candidate_email,
+            "candidate_phone": candidate_phone,
+            "job_title": job_title,
+            "message": message,
+            "application_status": application_status
+        }
+        
+        # Send via communication manager
+        results = await comm_manager.send_multi_channel(payload, channels)
         
         return {
             "success": True,
-            "message": "Notification sent successfully",
+            "message": "Notification processing completed",
             "candidate_name": candidate_name,
             "job_title": job_title,
-            "channels_sent": sent_channels,
-            "notification_message": message,
+            "channels_requested": channels,
+            "results": results,
             "sent_at": datetime.now().isoformat()
         }
     except Exception as e:
         logger.error(f"❌ Notification sending failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/test/send-email", tags=["Communication Tools"])
+async def test_send_email(
+    recipient_email: str,
+    subject: str = "BHIV HR Test Email",
+    message: str = "This is a test email from BHIV HR Platform",
+    api_key: str = Depends(get_api_key)
+):
+    """Test Email Sending"""
+    try:
+        from .communication import comm_manager
+        result = await comm_manager.send_email(recipient_email, subject, message)
+        return {"success": True, "result": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/test/send-whatsapp", tags=["Communication Tools"])
+async def test_send_whatsapp(
+    phone: str,
+    message: str = "Test message from BHIV HR Platform",
+    api_key: str = Depends(get_api_key)
+):
+    """Test WhatsApp Sending"""
+    try:
+        from .communication import comm_manager
+        result = await comm_manager.send_whatsapp(phone, message)
+        return {"success": True, "result": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/test/send-telegram", tags=["Communication Tools"])
+async def test_send_telegram(
+    chat_id: str,
+    message: str = "Test message from BHIV HR Platform",
+    api_key: str = Depends(get_api_key)
+):
+    """Test Telegram Sending"""
+    try:
+        from .communication import comm_manager
+        result = await comm_manager.send_telegram(chat_id, message)
+        return {"success": True, "result": result}
+    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/workflows/stats", tags=["Workflow Monitoring"])

@@ -67,7 +67,8 @@ menu = st.sidebar.selectbox("Select HR Task", [
     "📊 Step 6: Submit Values Assessment",
     "🏆 Step 7: Export Assessment Reports",
     "🔄 Live Client Jobs Monitor",
-    "📁 Batch Operations"
+    "📁 Batch Operations",
+    "📧 Communication Testing"
 ])
 
 
@@ -1443,6 +1444,122 @@ elif menu == "📅 Step 5: Schedule Interviews":
 elif menu == "📁 Batch Operations":
     from batch_upload import show_batch_upload
     show_batch_upload()
+
+elif menu == "📧 Communication Testing":
+    st.header("📧 Communication System Testing")
+    st.write("Test email, WhatsApp, and Telegram notifications")
+    
+    # Test Email
+    st.subheader("📧 Test Email Notification")
+    with st.form("email_test"):
+        email_recipient = st.text_input("Recipient Email", placeholder="test@example.com")
+        email_subject = st.text_input("Subject", value="BHIV HR Test Email")
+        email_message = st.text_area("Message", value="This is a test email from BHIV HR Platform")
+        
+        if st.form_submit_button("📧 Send Test Email"):
+            try:
+                langgraph_url = os.getenv("LANGGRAPH_SERVICE_URL", "https://bhiv-hr-langgraph.onrender.com")
+                response = httpx.post(f"{langgraph_url}/test/send-email",
+                                    params={
+                                        "recipient_email": email_recipient,
+                                        "subject": email_subject,
+                                        "message": email_message
+                                    },
+                                    headers=UNIFIED_HEADERS,
+                                    timeout=10.0)
+                if response.status_code == 200:
+                    result = response.json()
+                    st.success("✅ Email test completed!")
+                    st.json(result)
+                else:
+                    st.error(f"❌ Email test failed: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
+    
+    # Test WhatsApp
+    st.subheader("📱 Test WhatsApp Notification")
+    with st.form("whatsapp_test"):
+        whatsapp_phone = st.text_input("Phone Number", placeholder="+1234567890")
+        whatsapp_message = st.text_area("Message", value="Test message from BHIV HR Platform")
+        
+        if st.form_submit_button("📱 Send Test WhatsApp"):
+            try:
+                langgraph_url = os.getenv("LANGGRAPH_SERVICE_URL", "https://bhiv-hr-langgraph.onrender.com")
+                response = httpx.post(f"{langgraph_url}/test/send-whatsapp",
+                                    params={
+                                        "phone": whatsapp_phone,
+                                        "message": whatsapp_message
+                                    },
+                                    headers=UNIFIED_HEADERS,
+                                    timeout=10.0)
+                if response.status_code == 200:
+                    result = response.json()
+                    st.success("✅ WhatsApp test completed!")
+                    st.json(result)
+                else:
+                    st.error(f"❌ WhatsApp test failed: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
+    
+    # Test Telegram
+    st.subheader("📲 Test Telegram Notification")
+    with st.form("telegram_test"):
+        telegram_chat_id = st.text_input("Chat ID", placeholder="123456789")
+        telegram_message = st.text_area("Message", value="Test message from BHIV HR Platform")
+        
+        if st.form_submit_button("📲 Send Test Telegram"):
+            try:
+                langgraph_url = os.getenv("LANGGRAPH_SERVICE_URL", "https://bhiv-hr-langgraph.onrender.com")
+                response = httpx.post(f"{langgraph_url}/test/send-telegram",
+                                    params={
+                                        "chat_id": telegram_chat_id,
+                                        "message": telegram_message
+                                    },
+                                    headers=UNIFIED_HEADERS,
+                                    timeout=10.0)
+                if response.status_code == 200:
+                    result = response.json()
+                    st.success("✅ Telegram test completed!")
+                    st.json(result)
+                else:
+                    st.error(f"❌ Telegram test failed: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
+    
+    # Multi-channel test
+    st.subheader("📢 Test Multi-Channel Notification")
+    with st.form("multi_channel_test"):
+        candidate_name = st.text_input("Candidate Name", value="Test Candidate")
+        candidate_email = st.text_input("Candidate Email", placeholder="candidate@example.com")
+        candidate_phone = st.text_input("Candidate Phone", placeholder="+1234567890")
+        job_title = st.text_input("Job Title", value="Software Engineer")
+        message = st.text_area("Notification Message", value="Your application has been updated")
+        channels = st.multiselect("Channels", ["email", "whatsapp", "telegram"], default=["email"])
+        
+        if st.form_submit_button("📢 Send Multi-Channel Test"):
+            try:
+                langgraph_url = os.getenv("LANGGRAPH_SERVICE_URL", "https://bhiv-hr-langgraph.onrender.com")
+                notification_data = {
+                    "candidate_name": candidate_name,
+                    "candidate_email": candidate_email,
+                    "candidate_phone": candidate_phone,
+                    "job_title": job_title,
+                    "message": message,
+                    "channels": channels,
+                    "application_status": "updated"
+                }
+                response = httpx.post(f"{langgraph_url}/tools/send-notification",
+                                    json=notification_data,
+                                    headers=UNIFIED_HEADERS,
+                                    timeout=10.0)
+                if response.status_code == 200:
+                    result = response.json()
+                    st.success("✅ Multi-channel test completed!")
+                    st.json(result)
+                else:
+                    st.error(f"❌ Multi-channel test failed: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
 
 elif menu == "📤 Step 2: Upload Candidates":
     st.header("Bulk Candidate Upload")
