@@ -3,11 +3,11 @@ import sys
 
 # Database connection details
 DB_CONFIG = {
-    'host': 'dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com',
+    'host': 'dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com',
     'port': 5432,
-    'database': 'bhiv_hr_jcuu_w5fl',
+    'database': 'bhiv_hr_i7zb',
     'user': 'bhiv_user',
-    'password': '8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG'
+    'password': 'JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA'
 }
 
 # SQL commands to execute

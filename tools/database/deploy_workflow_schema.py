@@ -10,7 +10,7 @@ import os
 from datetime import datetime
 
 # Database configuration
-DATABASE_URL = "postgresql://bhiv_user:bhiv_local_password_2025@localhost:5432/bhiv_hr"
+DATABASE_URL = "postgresql://bhiv_user:JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA@dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com/bhiv_hr_i7zb"
 
 def deploy_schema():
     """Deploy the updated schema with workflows table"""

@@ -17,7 +17,7 @@ class SecurityAuditChecker:
             "hr_portal": "https://bhiv-hr-portal-u670.onrender.com",
             "client_portal": "https://bhiv-hr-client-portal-3iod.onrender.com",
             "candidate_portal": "https://bhiv-hr-candidate-portal.onrender.com",
-            "database": "postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl"
+            "database": "postgresql://bhiv_user:JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA@dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com/bhiv_hr_i7zb"
         }
         
         # Expected API key

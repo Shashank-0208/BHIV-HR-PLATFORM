@@ -22,7 +22,7 @@ This guide provides step-by-step instructions for setting up DBeaver connections
 | Environment | Host | Port | Database | Username | Status |
 |-------------|------|------|----------|----------|--------|
 | **Local** | localhost | 5432 | bhiv_hr | bhiv_user | ✅ Active |
-| **Production** | dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com | 5432 | bhiv_hr_jcuu | bhiv_user | ✅ Active |
+| **Production** | dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com | 5432 | bhiv_hr_i7zb | bhiv_user | ✅ Active |
 
 ---
 
@@ -116,16 +116,16 @@ If your database credentials have changed (new deployment, password reset, etc.)
 ```
 OLD Credentials (Replace These):
 ┌─────────────────────────────────────────────────────────────────────┐
-│ Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com         │
-│ Database: bhiv_hr_jcuu                                              │
-│ Password: 3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2                          │
+│ Host: dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com         │
+│ Database: bhiv_hr_jcuu_w5fl                                         │
+│ Password: JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA                          │
 └─────────────────────────────────────────────────────────────────────┘
 
 NEW Credentials (Use These):
 ┌─────────────────────────────────────────────────────────────────────┐
-│ Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com         │
-│ Database: bhiv_hr_jcuu                                              │
-│ Password: 3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2                          │
+│ Host: dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com         │
+│ Database: bhiv_hr_i7zb                                              │
+│ Password: JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA                          │
 └─────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -171,11 +171,11 @@ SELECT
 ```
 Connection Settings:
 ┌─────────────────────────────────────────────────────────────────────┐
-│ Server Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com  │
+│ Server Host: dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com  │
 │ Port:        5432                                                   │
-│ Database:    bhiv_hr_jcuu                                          │
+│ Database:    bhiv_hr_i7zb                                          │
 │ Username:    bhiv_user                                             │
-│ Password:    3CvUtwqULlIcQujUzJ3SNzhStTGbRbU2                      │
+│ Password:    JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA                      │
 │ Show all databases: ☑                                             │
 └─────────────────────────────────────────────────────────────────────┘
 ```
@@ -435,7 +435,7 @@ Solution: Configure SSL in DBeaver connection settings
 Error: password authentication failed
 Solution: Verify credentials
 - Local: bhiv_user / <LOCAL_PASSWORD>
-- Production: bhiv_user / 8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG
+- Production: bhiv_user / JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA
 ```
 
 #### 4. Connection Timeout

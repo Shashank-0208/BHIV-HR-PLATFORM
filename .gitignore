@@ -130,7 +130,6 @@ dmypy.json
 
 # Sensitive configuration files
 config/.env.render
-config/production.env
 .env.local
 .env.production
 .env.development
@@ -227,6 +226,7 @@ htmlcov/
 # Environment-specific files
 .env.*
 !.env.example
+!config/production.env
 
 # Render deployment files (may contain sensitive info)
 render.yaml

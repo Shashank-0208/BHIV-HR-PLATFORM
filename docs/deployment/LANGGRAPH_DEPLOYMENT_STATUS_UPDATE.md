@@ -11,7 +11,7 @@
 ### **Environment Variables (Production):**
 ```bash
 # Core Configuration
-DATABASE_URL = postgresql://bhiv_user:8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG@dpg-d40c0kf5r7bs73abt080-a.oregon-postgres.render.com/bhiv_hr_jcuu_w5fl
+DATABASE_URL = postgresql://bhiv_user:JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA@dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com/bhiv_hr_i7zb
 API_KEY_SECRET = prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 JWT_SECRET_KEY = prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA
 GATEWAY_URL = https://bhiv-hr-gateway-ltg0.onrender.com

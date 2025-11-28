@@ -8,7 +8,7 @@ import psycopg2.errors
 import sys
 from datetime import datetime
 
-DATABASE_URL = "postgresql://bhiv_user:bhiv_local_password_2025@localhost:5432/bhiv_hr"
+DATABASE_URL = "postgresql://bhiv_user:JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA@dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com/bhiv_hr_i7zb"
 
 def deploy_workflows_table():
     """Deploy only the workflows table"""

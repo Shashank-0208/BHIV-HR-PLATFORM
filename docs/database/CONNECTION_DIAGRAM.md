@@ -15,7 +15,7 @@
 │  │  │ PostgreSQL 15       ││            │  │ PostgreSQL 17               ││ │
 │  │  │ Host: localhost     ││            │  │ Host: dpg-d3bfmj8dl3ps...   ││ │
 │  │  │ Port: 5432          ││            │  │ Port: 5432                  ││ │
-│  │  │ DB: bhiv_hr         ││            │  │ DB: bhiv_hr_jcuu            ││ │
+│  │  │ DB: bhiv_hr         ││            │  │ DB: bhiv_hr_i7zb            ││ │
 │  │  │ User: bhiv_user     ││            │  │ User: bhiv_user             ││ │
 │  │  │ SSL: Disabled       ││            │  │ SSL: Required               ││ │
 │  │  └─────────────────────┘│            │  └─────────────────────────────┘│ │
@@ -165,9 +165,9 @@ Connection Timeout: 30 seconds
 Connection Type: PostgreSQL
 Host: dpg-d3bfmj8dl3ps739blqt0-a.oregon-postgres.render.com
 Port: 5432
-Database: bhiv_hr_jcuu
+Database: bhiv_hr_i7zb
 Username: bhiv_user
-Password: 8oaleQyxSfBJp7uqt0UJoAXnOhPj63nG
+Password: JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA
 SSL Configuration (SSL Tab):
   SSL Mode: require (dropdown selection)
   SSL Factory: org.postgresql.ssl.DefaultJavaSSLFactory (dropdown selection)

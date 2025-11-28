@@ -78,7 +78,7 @@ SELECT
     pg_size_pretty(pg_database_size(pg_database.datname)) as database_size,
     (SELECT count(*) FROM pg_stat_activity WHERE datname = pg_database.datname) as active_connections
 FROM pg_database 
-WHERE datname IN ('bhiv_hr', 'bhiv_hr_jcuu') OR datname LIKE 'bhiv_hr%';
+WHERE datname IN ('bhiv_hr', 'bhiv_hr_i7zb') OR datname LIKE 'bhiv_hr%';
 
 -- ============================================================================
 -- 👥 CANDIDATES DATA EXPLORATION
@@ -389,7 +389,7 @@ SELECT
     COUNT(*) as connection_count,
     MAX(state_change) as last_state_change
 FROM pg_stat_activity
-WHERE datname IN ('bhiv_hr', 'bhiv_hr_jcuu')
+WHERE datname IN ('bhiv_hr', 'bhiv_hr_i7zb')
 GROUP BY datname, state
 ORDER BY datname, connection_count DESC;
 
