@@ -50,7 +50,7 @@ st.markdown("""
 def make_api_request(endpoint, method="GET", data=None, headers=None):
     """Make API request to Gateway service"""
     try:
-        url = f"{config.GATEWAY_URL}{endpoint}"
+        url = f"{config.GATEWAY_SERVICE_URL}{endpoint}"
         default_headers = {"Authorization": f"Bearer {config.API_KEY}"}
         if headers:
             default_headers.update(headers)
