@@ -21,12 +21,12 @@ services:
     environment:
       POSTGRES_DB: bhiv_hr
       POSTGRES_USER: bhiv_user
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-your_password}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ../../services/db/consolidated_schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./services/db/consolidated_schema.sql:/docker-entrypoint-initdb.d/init.sql
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U bhiv_user -d bhiv_hr"]
@@ -36,20 +36,18 @@ services:
       start_period: 30s
 
   gateway:
-    build:
-      context: ../../services/gateway
-      dockerfile: Dockerfile
+    build: ./services/gateway
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-your_password}@db:5432/bhiv_hr
-      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
-      AGENT_SERVICE_URL: http://agent:9000
-      LANGGRAPH_SERVICE_URL: http://langgraph:9001
-      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
-    volumes:
-      - ../../services/gateway/logs:/app/logs
+      DATABASE_URL: ${DATABASE_URL}
+      API_KEY_SECRET: ${API_KEY_SECRET}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      AGENT_SERVICE_URL: ${AGENT_SERVICE_URL}
+      LANGGRAPH_SERVICE_URL: ${LANGGRAPH_SERVICE_URL}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
+      GATEWAY_SECRET_KEY: ${GATEWAY_SECRET_KEY}
+      ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       db:
         condition: service_healthy
@@ -60,18 +58,23 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
 
   agent:
-    build:
-      context: ../../services/agent
-      dockerfile: Dockerfile
+    build: ./services/agent
     ports:
       - "9000:9000"
     environment:
-      DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-your_password}@db:5432/bhiv_hr
-      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
-      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
+      DATABASE_URL: ${DATABASE_URL}
+      API_KEY_SECRET: ${API_KEY_SECRET}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       db:
         condition: service_healthy
@@ -82,19 +85,23 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
 
   portal:
-    build:
-      context: ../../services/portal
-      dockerfile: Dockerfile
+    build: ./services/portal
     ports:
       - "8501:8501"
     environment:
-      GATEWAY_SERVICE_URL: http://gateway:8000
-      AGENT_SERVICE_URL: http://agent:9000
-      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
-      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
+      GATEWAY_SERVICE_URL: ${GATEWAY_SERVICE_URL}
+      AGENT_SERVICE_URL: ${AGENT_SERVICE_URL}
+      API_KEY_SECRET: ${API_KEY_SECRET}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
+      ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       gateway:
         condition: service_healthy
@@ -112,17 +119,14 @@ services:
           cpus: '0.5'
 
   client_portal:
-    build:
-      context: ../../services/client_portal
-      dockerfile: Dockerfile
+    build: ./services/client_portal
     ports:
       - "8502:8502"
     environment:
-      GATEWAY_SERVICE_URL: http://gateway:8000
-      AGENT_SERVICE_URL: http://agent:9000
-      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
-      DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-your_password}@db:5432/bhiv_hr
+      GATEWAY_SERVICE_URL: ${GATEWAY_SERVICE_URL}
+      API_KEY_SECRET: ${API_KEY_SECRET}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       gateway:
         condition: service_healthy
@@ -140,17 +144,16 @@ services:
           cpus: '0.5'
 
   candidate_portal:
-    build:
-      context: ../../services/candidate_portal
-      dockerfile: Dockerfile
+    build: ./services/candidate_portal
     ports:
       - "8503:8503"
     environment:
-      GATEWAY_SERVICE_URL: http://gateway:8000
-      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
-      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
-      DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-your_password}@db:5432/bhiv_hr
+      GATEWAY_SERVICE_URL: ${GATEWAY_SERVICE_URL}
+      API_KEY_SECRET: ${API_KEY_SECRET}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       gateway:
         condition: service_healthy
@@ -168,28 +171,21 @@ services:
           cpus: '0.5'
 
   langgraph:
-    build:
-      context: ../../services/langgraph
-      dockerfile: Dockerfile
+    build: ./services/langgraph
     ports:
       - "9001:9001"
     environment:
-      DATABASE_URL: postgresql://bhiv_user:${DB_PASSWORD:-your_password}@db:5432/bhiv_hr
-      GATEWAY_SERVICE_URL: http://gateway:8000
-      API_KEY_SECRET: ${API_KEY_SECRET:-<YOUR_API_KEY>}
-      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-<YOUR_JWT_SECRET>}
-      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY:-<YOUR_CANDIDATE_JWT_SECRET>}
-      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID:-<YOUR_TWILIO_ACCOUNT_SID>}
-      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN:-<YOUR_TWILIO_AUTH_TOKEN>}
-      TWILIO_WHATSAPP_NUMBER: ${TWILIO_WHATSAPP_NUMBER:-<YOUR_WHATSAPP_NUMBER>}
-      GMAIL_EMAIL: ${GMAIL_EMAIL:-<YOUR_GMAIL_EMAIL>}
-      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:-<YOUR_GMAIL_APP_PASSWORD>}
-      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-<YOUR_TELEGRAM_BOT_TOKEN>}
-      TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME:-<YOUR_TELEGRAM_BOT_USERNAME>}
-      GEMINI_API_KEY: ${GEMINI_API_KEY:-<YOUR_GEMINI_API_KEY>}
-      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-pro}
-      ENVIRONMENT: production
-      LOG_LEVEL: INFO
+      DATABASE_URL: ${DATABASE_URL}
+      API_KEY_SECRET: ${API_KEY_SECRET}
+      TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
+      TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
+      TWILIO_WHATSAPP_NUMBER: ${TWILIO_WHATSAPP_NUMBER}
+      GMAIL_EMAIL: ${GMAIL_EMAIL}
+      GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL}
+      ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       db:
         condition: service_healthy
@@ -200,6 +196,11 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
 
 volumes:
   postgres_data:

@@ -171,7 +171,21 @@ elif menu == "🔍 Step 3: Search & Filter Candidates":
         search_query = st.text_input("🔍 Search Candidates", placeholder="Search by name, skills, experience, location...")
     
     with col2:
-        job_filter = st.selectbox("Filter by Job", ["All Jobs", "Job ID 1 - Software Engineer", "Job ID 2 - AI/ML Intern"])
+        # Get dynamic job list for filter
+        try:
+            jobs_response = http_client.get(f"{API_BASE}/v1/jobs")
+            if jobs_response.status_code == 200:
+                jobs_data = jobs_response.json()
+                jobs = jobs_data.get('jobs', [])
+                job_options = ["All Jobs"]
+                for job in jobs:
+                    if job.get('id') and job.get('title'):
+                        job_options.append(f"Job ID {job.get('id')} - {job.get('title')}")
+                job_filter = st.selectbox("Filter by Job", job_options)
+            else:
+                job_filter = st.selectbox("Filter by Job", ["All Jobs", "No jobs available"])
+        except:
+            job_filter = st.selectbox("Filter by Job", ["All Jobs", "Connection Error"])
     
     # Advanced filters
     st.subheader("🔧 Advanced Filters")
@@ -223,8 +237,19 @@ elif menu == "🔍 Step 3: Search & Filter Candidates":
         else:
             with st.spinner("🔄 Searching candidates with real API..."):
                 try:
-                    # Build search parameters
-                    params = {"job_id": 1}
+                    # Build search parameters with dynamic job filter
+                    params = {}
+                    
+                    # Extract job ID from job filter if selected
+                    if job_filter != "All Jobs" and "Job ID " in job_filter:
+                        try:
+                            job_id_from_filter = job_filter.split("Job ID ")[1].split(" - ")[0]
+                            params["job_id"] = int(job_id_from_filter)
+                        except:
+                            params["job_id"] = 1  # Default fallback
+                    else:
+                        params["job_id"] = 1  # Default job ID when "All Jobs" selected
+                    
                     if search_query.strip():
                         params["q"] = search_query.strip()
                     if skills_filter:
@@ -249,6 +274,22 @@ elif menu == "🔍 Step 3: Search & Filter Candidates":
                         data = response.json()
                         candidates = data.get("candidates", [])
                         count = data.get("count", 0)
+                        
+                        # Show search criteria summary
+                        search_summary = []
+                        if search_query.strip():
+                            search_summary.append(f"Query: '{search_query.strip()}'")
+                        if job_filter != "All Jobs":
+                            search_summary.append(f"Job: {job_filter}")
+                        if skills_filter:
+                            search_summary.append(f"Skills: {', '.join(skills_filter)}")
+                        if location_filter:
+                            search_summary.append(f"Location: {', '.join(location_filter)}")
+                        if experience_filter != "Any":
+                            search_summary.append(f"Experience: {experience_filter}")
+                        
+                        if search_summary:
+                            st.info(f"🔍 Search criteria: {' | '.join(search_summary)}")
                         
                         st.success(f"✅ Found {count} candidates matching your criteria")
                         

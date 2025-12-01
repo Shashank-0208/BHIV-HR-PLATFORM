@@ -176,71 +176,134 @@ def dashboard_overview():
     """Dashboard overview with metrics"""
     st.subheader("📊 Your Dashboard Overview")
     
-    # Get candidate applications
+    # Get candidate applications dynamically
     candidate_id = st.session_state.candidate_data.get("id")
+    if not candidate_id:
+        st.error("Candidate ID not found. Please login again.")
+        return
+    
     applications = make_api_request(f"/v1/candidate/applications/{candidate_id}")
     
-    # Metrics
+    # Handle API errors gracefully
+    if "error" in applications:
+        st.warning(f"Unable to load applications: {applications.get('error')}")
+        applications = {"applications": []}
+    
+    apps_list = applications.get("applications", [])
+    
+    # Dynamic metrics calculation
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        total_apps = len(applications.get("applications", []))
+        total_apps = len(apps_list)
         st.markdown(f'<div class="metric-card"><h3>{total_apps}</h3><p>Total Applications</p></div>', unsafe_allow_html=True)
     
     with col2:
-        pending_apps = len([app for app in applications.get("applications", []) if app.get("status") == "applied"])
+        pending_apps = len([app for app in apps_list if app.get("status", "").lower() in ["applied", "pending"]])
         st.markdown(f'<div class="metric-card"><h3>{pending_apps}</h3><p>Pending Review</p></div>', unsafe_allow_html=True)
     
     with col3:
-        interviews = len([app for app in applications.get("applications", []) if app.get("status") == "interviewed"])
+        interviews = len([app for app in apps_list if app.get("status", "").lower() in ["interviewed", "interview_scheduled"]])
         st.markdown(f'<div class="metric-card"><h3>{interviews}</h3><p>Interviews</p></div>', unsafe_allow_html=True)
     
     with col4:
-        offers = len([app for app in applications.get("applications", []) if app.get("status") == "offered"])
+        offers = len([app for app in apps_list if app.get("status", "").lower() in ["offered", "offer_extended"]])
         st.markdown(f'<div class="metric-card"><h3>{offers}</h3><p>Job Offers</p></div>', unsafe_allow_html=True)
     
-    # Recent activity
+    # Recent activity - fully dynamic
     st.subheader("📈 Recent Activity")
-    if applications.get("applications"):
-        recent_apps = applications["applications"][:5]
+    if apps_list:
+        # Sort by most recent first if date is available
+        try:
+            sorted_apps = sorted(apps_list, key=lambda x: x.get('applied_date', ''), reverse=True)
+        except:
+            sorted_apps = apps_list
+        
+        recent_apps = sorted_apps[:5]
         for app in recent_apps:
-            status_class = f"status-{app.get('status', 'pending').lower()}"
+            status = app.get('status', 'pending').lower()
+            status_class = f"status-{status}"
+            
+            # Dynamic status display
+            status_display = app.get('status', 'Pending').title()
+            if status in ['applied', 'pending']:
+                status_display = "Under Review"
+            elif status in ['interviewed', 'interview_scheduled']:
+                status_display = "Interview Stage"
+            elif status in ['offered', 'offer_extended']:
+                status_display = "Offer Received"
+            
             st.markdown(f"""
             <div class="job-card">
-                <h4>{app.get('job_title', 'Unknown Position')}</h4>
-                <p><strong>Company:</strong> {app.get('company', 'N/A')} | <strong>Status:</strong> <span class="{status_class}">{app.get('status', 'Pending').title()}</span></p>
-                <p><strong>Applied:</strong> {app.get('applied_date', 'N/A')}</p>
+                <h4>{app.get('job_title', app.get('title', 'Unknown Position'))}</h4>
+                <p><strong>Company:</strong> {app.get('company', app.get('client_name', 'N/A'))} | <strong>Status:</strong> <span class="{status_class}">{status_display}</span></p>
+                <p><strong>Applied:</strong> {app.get('applied_date', app.get('created_at', 'N/A'))}</p>
             </div>
             """, unsafe_allow_html=True)
     else:
-        st.info("No applications yet. Start by browsing available jobs!")
+        st.info("🔍 No applications yet. Start by browsing available jobs in the Job Search tab!")
+        
+        # Show available jobs count
+        jobs_data = make_api_request("/v1/jobs")
+        if "error" not in jobs_data:
+            available_jobs = len(jobs_data.get("jobs", []))
+            st.success(f"💼 {available_jobs} jobs are currently available for application!")
 
 def job_search_page():
     """Job search and application page"""
     st.subheader("💼 Browse Available Jobs")
     
     # Search filters
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     with col1:
         search_skills = st.text_input("Skills", placeholder="Python, React, SQL...")
     with col2:
         search_location = st.text_input("Location", placeholder="New York, Remote...")
     with col3:
         min_experience = st.number_input("Min Experience (years)", min_value=0, value=0)
+    with col4:
+        # Dynamic job filter
+        jobs_data = make_api_request("/v1/jobs")
+        available_jobs = jobs_data.get("jobs", [])
+        job_filter_options = ["All Jobs"]
+        for job in available_jobs:
+            if job.get('id') and job.get('title'):
+                job_filter_options.append(f"Job ID {job.get('id')} - {job.get('title')}")
+        selected_job_filter = st.selectbox("Filter by Job", job_filter_options)
     
-    # Get jobs
+    # Get jobs with error handling
     jobs_data = make_api_request("/v1/jobs")
-    jobs = jobs_data.get("jobs", [])
+    if "error" in jobs_data:
+        st.error(f"Unable to load jobs: {jobs_data.get('error')}")
+        jobs = []
+    else:
+        jobs = jobs_data.get("jobs", [])
+    
+    if not jobs:
+        st.warning("No jobs available at the moment. Please check back later.")
+        return
     
     # Filter jobs based on search criteria
-    if search_skills or search_location or min_experience > 0:
+    if search_skills or search_location or min_experience > 0 or selected_job_filter != "All Jobs":
         filtered_jobs = []
         for job in jobs:
             match = True
+            
+            # Job filter
+            if selected_job_filter != "All Jobs":
+                job_id_from_filter = selected_job_filter.split("Job ID ")[1].split(" - ")[0] if "Job ID " in selected_job_filter else None
+                if job_id_from_filter and str(job.get("id")) != job_id_from_filter:
+                    match = False
+            
+            # Skills filter
             if search_skills and search_skills.lower() not in job.get("requirements", "").lower():
                 match = False
+            
+            # Location filter
             if search_location and search_location.lower() not in job.get("location", "").lower():
                 match = False
+            
+            # Experience filter
             if min_experience > 0:
                 # Extract experience from requirements (simplified)
                 job_exp = 0
@@ -253,11 +316,26 @@ def job_search_page():
                     job_exp = 2
                 if job_exp < min_experience:
                     match = False
+            
             if match:
                 filtered_jobs.append(job)
         jobs = filtered_jobs
     
-    st.write(f"Found {len(jobs)} jobs")
+    # Search results summary
+    if selected_job_filter != "All Jobs" or search_skills or search_location or min_experience > 0:
+        filter_summary = []
+        if selected_job_filter != "All Jobs":
+            filter_summary.append(f"Job: {selected_job_filter}")
+        if search_skills:
+            filter_summary.append(f"Skills: {search_skills}")
+        if search_location:
+            filter_summary.append(f"Location: {search_location}")
+        if min_experience > 0:
+            filter_summary.append(f"Min Experience: {min_experience} years")
+        
+        st.info(f"🔍 Filtered by: {', '.join(filter_summary)}")
+    
+    st.write(f"💼 Found {len(jobs)} job{'s' if len(jobs) != 1 else ''} matching your criteria")
     
     # Display jobs
     for job in jobs:
@@ -293,11 +371,27 @@ def my_applications_page():
     st.subheader("📋 My Job Applications")
     
     candidate_id = st.session_state.candidate_data.get("id")
+    if not candidate_id:
+        st.error("Candidate ID not found. Please login again.")
+        return
+    
     applications_data = make_api_request(f"/v1/candidate/applications/{candidate_id}")
-    applications = applications_data.get("applications", [])
+    
+    if "error" in applications_data:
+        st.warning(f"Unable to load applications: {applications_data.get('error')}")
+        applications = []
+    else:
+        applications = applications_data.get("applications", [])
     
     if not applications:
         st.info("You haven't applied to any jobs yet. Browse available positions to get started!")
+        
+        # Show available jobs count
+        jobs_data = make_api_request("/v1/jobs")
+        if "error" not in jobs_data:
+            available_jobs = len(jobs_data.get("jobs", []))
+            if available_jobs > 0:
+                st.success(f"💼 {available_jobs} jobs are currently available for application!")
         return
     
     # Applications table

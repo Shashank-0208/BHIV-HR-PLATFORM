@@ -315,7 +315,8 @@ def show_candidate_review():
                     # Sort jobs by ID in ascending order
                     sorted_jobs = sorted(unique_jobs.items(), key=lambda x: x[0])
                     job_options = {f"{job.get('title')} (ID: {job_id})": job_id for job_id, job in sorted_jobs}
-                    selected_job = st.selectbox("Select Job", list(job_options.keys()))
+                    job_keys = list(job_options.keys())
+                    selected_job = st.selectbox("Select Job", job_keys, key="candidate_review_job_select")
                     
                     if selected_job:
                         job_id = job_options[selected_job]
@@ -428,8 +429,11 @@ def show_match_results():
                 
                 if job_titles:
                     # Sort job titles by ID in ascending order
-                    job_titles_sorted = sorted(job_titles, key=lambda x: int(x.split('ID: ')[1].split(')')[0]))
-                    selected_job = st.selectbox("Select Job for AI Matching", job_titles_sorted)
+                    try:
+                        job_titles_sorted = sorted(job_titles, key=lambda x: int(x.split('ID: ')[1].split(')')[0]))
+                    except:
+                        job_titles_sorted = job_titles
+                    selected_job = st.selectbox("Select Job for AI Matching", job_titles_sorted, key="match_results_job_select")
                     
                     # Initialize AI match state
                     if 'ai_match_clicked' not in st.session_state:
