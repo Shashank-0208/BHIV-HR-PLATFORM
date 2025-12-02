@@ -1521,14 +1521,19 @@ elif menu == "📧 Communication Testing":
     # Communication Service Status
     st.subheader("📊 Communication Service Status")
     try:
-        langgraph_url = os.getenv("LANGGRAPH_SERVICE_URL", "https://bhiv-hr-langgraph.onrender.com")
+        # Try local Docker URL first
+        langgraph_url = "http://langgraph:9001"
         response = httpx.get(f"{langgraph_url}/health", headers=UNIFIED_HEADERS, timeout=5.0)
         if response.status_code == 200:
             st.success("✅ LangGraph Communication Service: Online")
         else:
             st.error("❌ LangGraph Communication Service: Offline")
+    except httpx.ConnectError:
+        st.error("❌ LangGraph Communication Service: Not Running (Start with docker-compose up langgraph)")
+    except httpx.TimeoutException:
+        st.warning("⚠️ LangGraph Communication Service: Timeout (service may be starting)")
     except Exception as e:
-        st.error(f"❌ LangGraph Communication Service: Error - {str(e)}")
+        st.error(f"❌ LangGraph Communication Service: {str(e)[:50]}")
     
     # Multi-channel test
     st.subheader("📢 Test Multi-Channel Notification")
@@ -1542,7 +1547,7 @@ elif menu == "📧 Communication Testing":
         
         if st.form_submit_button("📢 Send Multi-Channel Test"):
             try:
-                langgraph_url = os.getenv("LANGGRAPH_SERVICE_URL", "https://bhiv-hr-langgraph.onrender.com")
+                langgraph_url = "http://langgraph:9001"
                 notification_data = {
                     "candidate_name": candidate_name,
                     "candidate_email": candidate_email,
@@ -1555,7 +1560,7 @@ elif menu == "📧 Communication Testing":
                 response = httpx.post(f"{langgraph_url}/tools/send-notification",
                                     json=notification_data,
                                     headers=UNIFIED_HEADERS,
-                                    timeout=10.0)
+                                    timeout=30.0)
                 if response.status_code == 200:
                     result = response.json()
                     st.success("✅ Multi-channel test completed!")

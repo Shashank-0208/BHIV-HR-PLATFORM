@@ -21,12 +21,37 @@ except ImportError:
     monitor = MockMonitor()
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import settings
-sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
-# Import dependencies from the langgraph service directory
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from dependencies import get_api_key, get_auth
+
+# Add parent directory to path for config and dependencies
+parent_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(parent_dir)
+
+try:
+    from config import settings
+except ImportError:
+    # Fallback configuration for Docker
+    class Settings:
+        log_level = os.getenv('LOG_LEVEL', 'INFO')
+        environment = os.getenv('ENVIRONMENT', 'production')
+    settings = Settings()
+
+try:
+    from dependencies import get_api_key, get_auth
+except ImportError:
+    # Fallback dependencies
+    from fastapi import HTTPException, Depends
+    from fastapi.security import HTTPBearer
+    
+    security = HTTPBearer()
+    
+    def get_api_key(credentials = Depends(security)):
+        expected_key = os.getenv("API_KEY_SECRET")
+        if not credentials or credentials.credentials != expected_key:
+            raise HTTPException(status_code=401, detail="Invalid API key")
+        return credentials.credentials
+    
+    def get_auth(credentials = Depends(security)):
+        return get_api_key(credentials)
 from .database_tracker import tracker
 import uuid
 import logging
@@ -34,8 +59,11 @@ from typing import Dict, List, Optional
 from datetime import datetime
 
 # Configure logging
-logging.basicConfig(level=settings.log_level)
+logging.basicConfig(level=getattr(settings, 'log_level', 'INFO'))
 logger = logging.getLogger(__name__)
+
+# Service initialization
+logger.info("🚀 LangGraph service initializing...")
 
 app = FastAPI(
     title="BHIV LangGraph Orchestrator",
@@ -191,7 +219,7 @@ async def start_application_workflow(
         logger.info(f"🚀 Starting workflow {workflow_id} for application {request.application_id}")
         
         # Initialize state
-        initial_state: CandidateApplicationState = {
+        initial_state = {
             "candidate_id": request.candidate_id,
             "job_id": request.job_id,
             "application_id": request.application_id,
@@ -201,7 +229,7 @@ async def start_application_workflow(
             "job_title": request.job_title,
             "job_description": request.job_description or "",
             "application_status": "pending",
-            "messages": [HumanMessage(content=f"New application from {request.candidate_name} for {request.job_title}")],
+            "messages": [HumanMessage(content=f"New application from {request.candidate_name} for {request.job_title}") if HumanMessage else {"content": f"New application from {request.candidate_name} for {request.job_title}"}],
             "notifications_sent": [],
             "matching_score": 0.0,
             "ai_recommendation": "",

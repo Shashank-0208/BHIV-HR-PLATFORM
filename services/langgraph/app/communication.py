@@ -10,7 +10,20 @@ import os
 
 # Import config from parent directory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import settings
+try:
+    from config import settings
+except ImportError:
+    # Fallback for Docker environment
+    import os
+    class Settings:
+        twilio_account_sid = os.getenv("TWILIO_ACCOUNT_SID", "")
+        twilio_auth_token = os.getenv("TWILIO_AUTH_TOKEN", "")
+        twilio_whatsapp_number = os.getenv("TWILIO_WHATSAPP_NUMBER", "+14155238886")
+        gmail_email = os.getenv("GMAIL_EMAIL", "")
+        gmail_app_password = os.getenv("GMAIL_APP_PASSWORD", "")
+        telegram_bot_token = os.getenv("TELEGRAM_BOT_TOKEN", "")
+        environment = os.getenv("ENVIRONMENT", "development")
+    settings = Settings()
 
 logger = logging.getLogger(__name__)
 

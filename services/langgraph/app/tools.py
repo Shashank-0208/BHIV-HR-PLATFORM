@@ -7,11 +7,19 @@ import os
 
 # Import config from parent directory
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from config import settings
+try:
+    from config import settings
+except ImportError:
+    # Fallback for Docker environment
+    import os
+    class Settings:
+        gateway_url = os.getenv("GATEWAY_SERVICE_URL", "http://gateway:8000")
+        api_key_secret = os.getenv("API_KEY_SECRET", "")
+    settings = Settings()
 from .communication import comm_manager
 
 logger = logging.getLogger(__name__)
-HTTPX_TIMEOUT = 30.0
+HTTPX_TIMEOUT = 120.0
 
 @tool
 async def get_candidate_profile(candidate_id: int) -> dict:
