@@ -43,9 +43,11 @@ GATEWAY_SERVICE_URL = os.getenv("GATEWAY_SERVICE_URL")
 if not GATEWAY_SERVICE_URL:
     raise ValueError("GATEWAY_SERVICE_URL environment variable is required")
 
-AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL")
-if not AGENT_SERVICE_URL:
-    raise ValueError("AGENT_SERVICE_URL environment variable is required")
+# Agent service URL (optional for client portal)
+AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL", "http://agent:9000")
+
+# LangGraph service URL (optional for client portal)
+LANGGRAPH_SERVICE_URL = os.getenv("LANGGRAPH_SERVICE_URL", "http://langgraph:9001")
 
 # Authentication - Required
 API_KEY_SECRET = os.getenv("API_KEY_SECRET")
@@ -56,10 +58,11 @@ JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
 if not JWT_SECRET_KEY:
     raise ValueError("JWT_SECRET_KEY environment variable is required")
 
-# Database - Required
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise ValueError("DATABASE_URL environment variable is required")
+# Candidate JWT Secret (optional for client portal)
+CANDIDATE_JWT_SECRET_KEY = os.getenv("CANDIDATE_JWT_SECRET_KEY", "candidate_jwt_secret_key_2025")
+
+# Database URL (optional for client portal - uses gateway)
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://bhiv_user:password@db:5432/bhiv_hr")
 
 # API Configuration
 API_BASE_URL = GATEWAY_SERVICE_URL

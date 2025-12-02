@@ -40,9 +40,8 @@ GATEWAY_SERVICE_URL = os.getenv("GATEWAY_SERVICE_URL")
 if not GATEWAY_SERVICE_URL:
     raise ValueError("GATEWAY_SERVICE_URL environment variable is required")
 
-AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL")
-if not AGENT_SERVICE_URL:
-    raise ValueError("AGENT_SERVICE_URL environment variable is required")
+# Agent service URL (optional for HR portal - uses gateway)
+AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL", "http://agent:9000")
 
 # Authentication - Required
 API_KEY_SECRET = os.getenv("API_KEY_SECRET")

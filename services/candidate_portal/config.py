@@ -45,6 +45,9 @@ class Config:
         if not self.DATABASE_URL:
             raise ValueError("DATABASE_URL environment variable is required")
         
+        # LangGraph Service URL (optional for candidate portal)
+        self.LANGGRAPH_SERVICE_URL = os.getenv("LANGGRAPH_SERVICE_URL", "http://langgraph:9001")
+        
         # Portal Configuration
         self.PORTAL_PORT = int(os.getenv("CANDIDATE_PORTAL_PORT", "8503"))
         self.DEBUG = os.getenv("DEBUG", "False").lower() == "true"

@@ -47,6 +47,9 @@ services:
       LANGGRAPH_SERVICE_URL: ${LANGGRAPH_SERVICE_URL}
       CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
       GATEWAY_SECRET_KEY: ${GATEWAY_SECRET_KEY}
+      LOG_LEVEL: ${LOG_LEVEL}
+      OBSERVABILITY_ENABLED: ${OBSERVABILITY_ENABLED}
+      PYTHON_VERSION: ${PYTHON_VERSION}
       ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       db:
@@ -74,6 +77,9 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
       GEMINI_API_KEY: ${GEMINI_API_KEY}
+      LOG_LEVEL: ${LOG_LEVEL}
+      OBSERVABILITY_ENABLED: ${OBSERVABILITY_ENABLED}
+      PYTHON_VERSION: ${PYTHON_VERSION}
       ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       db:
@@ -101,6 +107,8 @@ services:
       API_KEY_SECRET: ${API_KEY_SECRET}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
+      LOG_LEVEL: ${LOG_LEVEL}
+      PYTHON_VERSION: ${PYTHON_VERSION}
       ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       gateway:
@@ -124,8 +132,14 @@ services:
       - "8502:8502"
     environment:
       GATEWAY_SERVICE_URL: ${GATEWAY_SERVICE_URL}
+      AGENT_SERVICE_URL: ${AGENT_SERVICE_URL}
+      LANGGRAPH_SERVICE_URL: ${LANGGRAPH_SERVICE_URL}
       API_KEY_SECRET: ${API_KEY_SECRET}
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
+      DATABASE_URL: ${DATABASE_URL}
+      LOG_LEVEL: ${LOG_LEVEL}
+      PYTHON_VERSION: ${PYTHON_VERSION}
       ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       gateway:
@@ -153,6 +167,8 @@ services:
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
       CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
       DATABASE_URL: ${DATABASE_URL}
+      LANGGRAPH_SERVICE_URL: ${LANGGRAPH_SERVICE_URL}
+      LOG_LEVEL: ${LOG_LEVEL}
       ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       gateway:
@@ -177,14 +193,20 @@ services:
     environment:
       DATABASE_URL: ${DATABASE_URL}
       API_KEY_SECRET: ${API_KEY_SECRET}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      CANDIDATE_JWT_SECRET_KEY: ${CANDIDATE_JWT_SECRET_KEY}
+      GATEWAY_SERVICE_URL: ${GATEWAY_SERVICE_URL}
       TWILIO_ACCOUNT_SID: ${TWILIO_ACCOUNT_SID}
       TWILIO_AUTH_TOKEN: ${TWILIO_AUTH_TOKEN}
       TWILIO_WHATSAPP_NUMBER: ${TWILIO_WHATSAPP_NUMBER}
       GMAIL_EMAIL: ${GMAIL_EMAIL}
       GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD}
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      TELEGRAM_BOT_USERNAME: ${TELEGRAM_BOT_USERNAME}
       GEMINI_API_KEY: ${GEMINI_API_KEY}
       GEMINI_MODEL: ${GEMINI_MODEL}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      LOG_LEVEL: ${LOG_LEVEL}
       ENVIRONMENT: ${ENVIRONMENT}
     depends_on:
       db:
@@ -192,10 +214,10 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9001/health')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
+      interval: 60s
+      timeout: 30s
+      retries: 5
+      start_period: 120s
     deploy:
       resources:
         limits:
