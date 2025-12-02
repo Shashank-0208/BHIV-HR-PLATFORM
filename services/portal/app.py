@@ -129,9 +129,9 @@ if menu == "🏢 Step 1: Create Job Positions":
             }
             
             try:
-                response = httpx.post(f"{API_BASE}/v1/jobs", 
-                                    json=job_data, 
-                                    headers=UNIFIED_HEADERS, timeout=10.0)
+                response = http_client.post(f"{API_BASE}/v1/jobs", 
+                                           json=job_data, 
+                                           timeout=10.0)
                 if response.status_code == 200:
                     result = response.json()
                     job_id = result.get("job_id", "Unknown")
@@ -265,10 +265,9 @@ elif menu == "🔍 Step 3: Search & Filter Candidates":
                             params["experience_min"] = 5
                     
                     # Make API call
-                    response = httpx.get(f"{API_BASE}/v1/candidates/search", 
-                                       params=params, 
-                                       headers=UNIFIED_HEADERS, 
-                                       timeout=10.0)
+                    response = http_client.get(f"{API_BASE}/v1/candidates/search", 
+                                             params=params, 
+                                             timeout=10.0)
                     
                     if response.status_code == 200:
                         data = response.json()
@@ -417,8 +416,8 @@ elif menu == "📈 Dashboard Overview":
     # Get real data from database via API
     try:
         # Get actual candidate count from database
-        test_response = httpx.get(f"{API_BASE}/test-candidates", headers=headers, timeout=10.0)
-        jobs_response = httpx.get(f"{API_BASE}/v1/jobs", headers=headers, timeout=10.0)
+        test_response = http_client.get(f"{API_BASE}/test-candidates", timeout=10.0)
+        jobs_response = http_client.get(f"{API_BASE}/v1/jobs", timeout=10.0)
         
         total_candidates = 31  # Current database count
         total_jobs = 4        # Current jobs count
@@ -1028,7 +1027,7 @@ elif menu == "🔄 Live Client Jobs Monitor":
     st.info("📊 Real-time view of all jobs posted by clients across the platform")
     
     try:
-        response = httpx.get(f"{API_BASE}/v1/jobs", headers=headers, timeout=10.0)
+        response = http_client.get(f"{API_BASE}/v1/jobs", timeout=10.0)
         if response.status_code == 200:
             jobs_data = response.json()
             jobs = jobs_data.get('jobs', [])
@@ -1437,9 +1436,9 @@ elif menu == "📅 Step 5: Schedule Interviews":
                 }
                 
                 try:
-                    response = httpx.post(f"{API_BASE}/v1/interviews", 
-                                        json=interview_data, 
-                                        headers=headers, timeout=10.0)
+                    response = http_client.post(f"{API_BASE}/v1/interviews", 
+                                               json=interview_data, 
+                                               timeout=10.0)
                     if response.status_code == 200:
                         st.success(f"✅ Interview scheduled for {candidate_name}!")
                         
@@ -1479,7 +1478,7 @@ elif menu == "📅 Step 5: Schedule Interviews":
         st.subheader("Scheduled Interviews")
         
         try:
-            response = httpx.get(f"{API_BASE}/v1/interviews", headers=headers, timeout=10.0)
+            response = http_client.get(f"{API_BASE}/v1/interviews", timeout=10.0)
             if response.status_code == 200:
                 data = response.json()
                 interviews = data.get('interviews', [])
@@ -1523,7 +1522,7 @@ elif menu == "📧 Communication Testing":
     try:
         # Try local Docker URL first
         langgraph_url = "http://langgraph:9001"
-        response = httpx.get(f"{langgraph_url}/health", headers=UNIFIED_HEADERS, timeout=5.0)
+        response = http_client.get(f"{langgraph_url}/health", timeout=5.0)
         if response.status_code == 200:
             st.success("✅ LangGraph Communication Service: Online")
         else:
@@ -1557,10 +1556,11 @@ elif menu == "📧 Communication Testing":
                     "channels": channels,
                     "application_status": "updated"
                 }
-                response = httpx.post(f"{langgraph_url}/tools/send-notification",
-                                    json=notification_data,
-                                    headers=UNIFIED_HEADERS,
-                                    timeout=30.0)
+                
+                # Use http_client for proper connection handling
+                response = http_client.post(f"{langgraph_url}/tools/send-notification",
+                                          json=notification_data,
+                                          timeout=30.0)
                 if response.status_code == 200:
                     result = response.json()
                     st.success("✅ Multi-channel test completed!")
@@ -1624,9 +1624,9 @@ elif menu == "📤 Step 2: Upload Candidates":
                     candidates.append(candidate)
                 
                 try:
-                    response = httpx.post(f"{API_BASE}/v1/candidates/bulk", 
-                                        json={"candidates": candidates}, 
-                                        headers=headers, timeout=10.0)
+                    response = http_client.post(f"{API_BASE}/v1/candidates/bulk", 
+                                               json={"candidates": candidates}, 
+                                               timeout=10.0)
                     if response.status_code == 200:
                         st.success(f"✅ Successfully uploaded {len(df)} candidates for Job ID: {job_id}")
                         st.info("📊 Candidates are now available for AI matching and assessment")
