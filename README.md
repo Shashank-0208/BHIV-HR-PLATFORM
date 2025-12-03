@@ -4,18 +4,18 @@
 
 ## 🌐 Live Production System
 
-**Status**: ✅ **6/6 SERVICES OPERATIONAL** | **Cost**: $0/month | **Uptime**: 99.9%
+**Status**: ✅ **6/6 SERVICES OPERATIONAL** | **Cost**: $0/month | **Uptime**: 99.9% | **Total Endpoints**: 89
 
 | Service | URL | Status |
 |---------|-----|--------|
 | **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com/docs](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ 74 endpoints |
 | **AI Engine** | [bhiv-hr-agent-nhgg.onrender.com/docs](https://bhiv-hr-agent-nhgg.onrender.com/docs) | ✅ 6 endpoints |
-| **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ 9 endpoints |
+| **LangGraph Automation** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ 9 endpoints |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com/) | ✅ Live |
 | **Client Portal** | [bhiv-hr-client-portal-3iod.onrender.com](https://bhiv-hr-client-portal-3iod.onrender.com/) | ✅ Live |
 | **Candidate Portal** | [bhiv-hr-candidate-portal-abe6.onrender.com](https://bhiv-hr-candidate-portal-abe6.onrender.com/) | ✅ Live |
 
-**Demo Access**: Username: `<DEMO_USERNAME>` | Password: `<DEMO_PASSWORD>` | API Key: `<YOUR_API_KEY>`
+**Demo Access**: Username: `demo_user` | Password: `demo_password` | API Key: Available in Render dashboard
 
 ## 📚 Documentation
 
@@ -52,7 +52,7 @@
 git clone https://github.com/shashankmishraa/BHIV-HR-Platform.git
 cd BHIV-HR-Platform
 cp .env.example .env
-docker-compose -f deployment/docker/docker-compose.production.yml up -d
+docker-compose -f docker-compose.production.yml up -d
 ```
 
 **📖 Detailed Setup**: [Quick Start Guide](docs/QUICK_START_GUIDE.md)
@@ -63,7 +63,8 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 **Technology Stack**: FastAPI 4.2.0, Streamlit 1.41.1, Python 3.12.7, PostgreSQL 17  
 **Total Endpoints**: 89 (74 Gateway + 6 Agent + 9 LangGraph)  
 **Database Schema**: v4.2.0 with 13 core tables  
-**Deployment**: Docker-based microservices on Render platform
+**Deployment**: Docker-based microservices on Render platform  
+**Organization**: Professional structure with files in proper subfolders
 
 **📖 Complete Architecture**: [Project Structure](docs/architecture/PROJECT_STRUCTURE.md)
 
@@ -77,9 +78,9 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 
 ### **🔄 LangGraph Workflows**
 - **AI Workflow Automation** for candidate processing
-- **Multi-Channel Notifications** (Email, WhatsApp, Telegram)
+- **Multi-Channel Notifications** (Email, WhatsApp, Telegram) - ✅ Confirmed Working
 - **Real-time Status Tracking** and monitoring
-- **Docker Deployment** with dynamic port allocation
+- **Automated Sequences** with `/tools/send-notification` endpoint
 - **Direct API Integration** (Twilio, Gmail SMTP, Telegram Bot)
 
 ### **🔒 Enterprise Security**
@@ -109,13 +110,16 @@ docker-compose -f deployment/docker/docker-compose.production.yml up -d
 ```
 BHIV HR PLATFORM/
 ├── services/          # 6 microservices (gateway, agent, portals, langgraph, db)
-├── docs/             # Complete documentation suite
+├── docs/             # Complete documentation suite (organized in subfolders)
 ├── tests/            # Comprehensive test suite (organized by service)
+├── tools/            # Data processing & security utilities (organized in subfolders)
+├── config/           # Environment configurations (secure templates)
 ├── deployment/       # Docker & deployment configurations
-├── tools/            # Data processing & security utilities
-├── config/           # Environment configurations
-├── assets/           # Static assets (resumes, etc.)
-└── data/             # Production data
+├── validation/       # Validation scripts (organized in subfolders)
+├── assets/           # Static assets (29 resume files)
+├── data/             # Production data
+├── logs/             # System logs
+└── reports/          # Analysis and audit reports
 ```
 
 **📖 Complete Structure**: [Project Structure](docs/architecture/PROJECT_STRUCTURE.md)
@@ -187,7 +191,7 @@ BHIV HR PLATFORM/
 **Database**: PostgreSQL 17 with 13 core tables  
 **Cost**: $0/month (optimized free tier deployment)
 
-**Recent Updates**: LangGraph Docker deployment, real communication services integration (Twilio, Gmail, Telegram), removed render.yaml for consistency, environment variables optimization, multi-channel notification system operational
+**Recent Updates**: Fixed automation endpoints (/tools/send-notification), removed hardcoded URLs, secured credentials with placeholders, environment variables standardized, WhatsApp/Email automation confirmed working, project files organized into proper subfolders
 
 **📖 Detailed Status**: [Deployment Status](docs/architecture/DEPLOYMENT_STATUS.md)
 
@@ -220,8 +224,8 @@ BHIV HR PLATFORM/
 
 ---
 
-**BHIV HR Platform v3.0.0** - Enterprise AI-powered recruiting platform with intelligent candidate matching and comprehensive assessment tools.
+**BHIV HR Platform v3.0.0** - Enterprise AI-powered recruiting platform with intelligent candidate matching, comprehensive assessment tools, and production-grade security.
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Status**: ✅ Production Ready | **Services**: 6/6 Live | **Uptime**: 99.9% | **Cost**: $0/month | **Updated**: November 21, 2025 (Post-Rectification)
+**Status**: ✅ Production Ready | **Services**: 6/6 Live | **Endpoints**: 89 Total | **Uptime**: 99.9% | **Cost**: $0/month | **Updated**: November 21, 2025 (Post-Rectification)
