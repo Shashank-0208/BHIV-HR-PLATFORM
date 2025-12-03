@@ -594,6 +594,47 @@ async def test_send_automated_sequence(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/automation/trigger-workflow", tags=["Communication Tools"])
+async def trigger_workflow_automation(
+    event_type: str,
+    payload: dict,
+    api_key: str = Depends(get_api_key)
+):
+    """Trigger Portal Integration Workflows"""
+    try:
+        from .communication import comm_manager
+        
+        result = await comm_manager.trigger_workflow_automation(event_type, payload)
+        
+        return {
+            "success": True,
+            "automation_result": result,
+            "triggered_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/automation/bulk-notifications", tags=["Communication Tools"])
+async def send_bulk_notifications(
+    candidates: List[dict],
+    sequence_type: str,
+    job_data: dict,
+    api_key: str = Depends(get_api_key)
+):
+    """Send Bulk Notifications to Multiple Candidates"""
+    try:
+        from .communication import comm_manager
+        
+        result = await comm_manager.send_bulk_notifications(candidates, sequence_type, job_data)
+        
+        return {
+            "success": True,
+            "bulk_result": result,
+            "sent_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/webhook/whatsapp", tags=["Communication Tools"])
 async def whatsapp_webhook(request: dict):
     """Handle WhatsApp Interactive Button Responses"""

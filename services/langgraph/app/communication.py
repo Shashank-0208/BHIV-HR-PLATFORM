@@ -230,24 +230,34 @@ class CommunicationManager:
         sequences = {
             "application_received": {
                 "email": {
-                    "subject": f"Application Received - {payload['job_title']}",
-                    "body": f"""Dear {payload['candidate_name']},\n\nThank you for applying to {payload['job_title']} at BHIV.\n\nYour application is under review. We'll contact you within 3-5 business days.\n\nApplication ID: {payload.get('application_id', 'N/A')}\n\nBest regards,\nBHIV HR Team"""
+                    "subject": f"✅ Application Received - {payload['job_title']} | BHIV HR",
+                    "body": f"""Dear {payload['candidate_name']},\n\nThank you for applying to {payload['job_title']} at BHIV.\n\nYour application is under review. We'll contact you within 3-5 business days.\n\nApplication ID: {payload.get('application_id', 'N/A')}\n\nNext Steps:\n• AI screening in progress\n• HR review within 24-48 hours\n• Interview scheduling if shortlisted\n\nBest regards,\nBHIV HR Team""",
+                    "html_body": f"""<html><body style='font-family: Arial, sans-serif; color: #333;'>\n<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>\n<h2 style='color: #2c5aa0;'>✅ Application Received</h2>\n<p>Dear <strong>{payload['candidate_name']}</strong>,</p>\n<p>Thank you for applying to <strong>{payload['job_title']}</strong> at BHIV.</p>\n<div style='background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;'>\n<h3>Application Details:</h3>\n<p><strong>Position:</strong> {payload['job_title']}<br>\n<strong>Application ID:</strong> {payload.get('application_id', 'N/A')}<br>\n<strong>Status:</strong> Under Review</p>\n</div>\n<h3>Next Steps:</h3>\n<ul>\n<li>🤖 AI screening in progress</li>\n<li>👥 HR review within 24-48 hours</li>\n<li>📅 Interview scheduling if shortlisted</li>\n</ul>\n<p>Best regards,<br><strong>BHIV HR Team</strong></p>\n</div></body></html>"""
                 },
-                "whatsapp": f"""🎯 *Application Received*\n\n*Position:* {payload['job_title']}\n*Status:* Under Review\n\nWe'll update you within 3-5 days!\n\n_BHIV HR Team_"""
+                "whatsapp": f"""🎯 *Application Received*\n\n*Position:* {payload['job_title']}\n*Application ID:* {payload.get('application_id', 'N/A')}\n*Status:* Under Review\n\n📋 *Next Steps:*\n• AI screening in progress\n• HR review within 24-48 hours\n\nWe'll update you within 3-5 days!\n\n_BHIV HR Team_"""
             },
             "interview_scheduled": {
                 "email": {
-                    "subject": f"Interview Scheduled - {payload['job_title']}",
-                    "body": f"""Dear {payload['candidate_name']},\n\nYour interview is scheduled!\n\n📅 Date: {payload.get('interview_date', 'TBD')}\n🕐 Time: {payload.get('interview_time', 'TBD')}\n👤 Interviewer: {payload.get('interviewer', 'HR Team')}\n\nPlease confirm your availability.\n\nBest regards,\nBHIV HR Team"""
+                    "subject": f"📅 Interview Scheduled - {payload['job_title']} | BHIV HR",
+                    "body": f"""Dear {payload['candidate_name']},\n\nYour interview is scheduled!\n\n📅 Date: {payload.get('interview_date', 'TBD')}\n🕐 Time: {payload.get('interview_time', 'TBD')}\n👤 Interviewer: {payload.get('interviewer', 'HR Team')}\n🎥 Format: Video Call\n⏱️ Duration: 45 minutes\n\nInterview Preparation:\n• Review the job description\n• Prepare examples of your work\n• Test your video call setup\n\nPlease confirm your availability by replying to this email.\n\nBest regards,\nBHIV HR Team""",
+                    "html_body": f"""<html><body style='font-family: Arial, sans-serif; color: #333;'>\n<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>\n<h2 style='color: #28a745;'>📅 Interview Scheduled</h2>\n<p>Dear <strong>{payload['candidate_name']}</strong>,</p>\n<p>Your interview for <strong>{payload['job_title']}</strong> is confirmed!</p>\n<div style='background: #e8f5e8; padding: 15px; border-radius: 5px; margin: 20px 0;'>\n<h3>Interview Details:</h3>\n<p><strong>📅 Date:</strong> {payload.get('interview_date', 'TBD')}<br>\n<strong>🕐 Time:</strong> {payload.get('interview_time', 'TBD')}<br>\n<strong>👤 Interviewer:</strong> {payload.get('interviewer', 'HR Team')}<br>\n<strong>🎥 Format:</strong> Video Call<br>\n<strong>⏱️ Duration:</strong> 45 minutes</p>\n</div>\n<h3>📋 Preparation Checklist:</h3>\n<ul>\n<li>✅ Review the job description</li>\n<li>✅ Prepare examples of your work</li>\n<li>✅ Test your video call setup</li>\n</ul>\n<p><strong>Please confirm your availability by replying to this email.</strong></p>\n<p>Best regards,<br><strong>BHIV HR Team</strong></p>\n</div></body></html>"""
                 },
-                "whatsapp": f"""📅 *Interview Scheduled*\n\n*Job:* {payload['job_title']}\n*Date:* {payload.get('interview_date', 'TBD')}\n*Time:* {payload.get('interview_time', 'TBD')}\n\nPlease confirm! 👍"""
+                "whatsapp": f"""📅 *Interview Scheduled*\n\n*Job:* {payload['job_title']}\n*Date:* {payload.get('interview_date', 'TBD')}\n*Time:* {payload.get('interview_time', 'TBD')}\n*Interviewer:* {payload.get('interviewer', 'HR Team')}\n\n📋 *Preparation:*\n• Review job description\n• Prepare work examples\n• Test video setup\n\nPlease confirm! 👍"""
             },
             "shortlisted": {
                 "email": {
-                    "subject": f"Congratulations! Shortlisted - {payload['job_title']}",
-                    "body": f"""Dear {payload['candidate_name']},\n\n🎉 Congratulations! You've been shortlisted for {payload['job_title']}!\n\nOur AI matching system scored your profile highly. We'll contact you within 24 hours for the next steps.\n\nBest regards,\nBHIV HR Team"""
+                    "subject": f"🎉 Congratulations! Shortlisted - {payload['job_title']} | BHIV HR",
+                    "body": f"""Dear {payload['candidate_name']},\n\n🎉 Congratulations! You've been shortlisted for {payload['job_title']}!\n\nOur AI matching system scored your profile highly based on:\n• Technical skills alignment\n• Experience relevance\n• Cultural fit assessment\n\nMatching Score: {payload.get('matching_score', 'High')}/100\n\nNext Steps:\n• Our HR team will contact you within 24 hours\n• Interview scheduling will follow\n• Please keep your calendar flexible\n\nWe're excited about the possibility of you joining our team!\n\nBest regards,\nBHIV HR Team""",
+                    "html_body": f"""<html><body style='font-family: Arial, sans-serif; color: #333;'>\n<div style='max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;'>\n<h2 style='color: #ffc107;'>🎉 Congratulations! You're Shortlisted!</h2>\n<p>Dear <strong>{payload['candidate_name']}</strong>,</p>\n<p>We're excited to inform you that you've been <strong>shortlisted</strong> for the <strong>{payload['job_title']}</strong> position!</p>\n<div style='background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;'>\n<h3>🎯 AI Assessment Results:</h3>\n<p><strong>Matching Score:</strong> {payload.get('matching_score', 'High')}/100<br>\n<strong>Technical Skills:</strong> Excellent alignment<br>\n<strong>Experience:</strong> Highly relevant<br>\n<strong>Cultural Fit:</strong> Strong match</p>\n</div>\n<h3>🚀 Next Steps:</h3>\n<ul>\n<li>📞 HR team will contact you within 24 hours</li>\n<li>📅 Interview scheduling will follow</li>\n<li>🗓️ Please keep your calendar flexible</li>\n</ul>\n<p><strong>We're excited about the possibility of you joining our team!</strong></p>\n<p>Best regards,<br><strong>BHIV HR Team</strong></p>\n</div></body></html>"""
                 },
-                "whatsapp": f"""🎉 *SHORTLISTED!*\n\n*Job:* {payload['job_title']}\n*Score:* {payload.get('matching_score', 'High')}\n\nWe'll call you within 24 hours!\n\n_Congratulations! 🎊_"""
+                "whatsapp": f"""🎉 *SHORTLISTED!*\n\n*Job:* {payload['job_title']}\n*AI Score:* {payload.get('matching_score', 'High')}/100\n\n🎯 *Why you were selected:*\n• Technical skills alignment\n• Experience relevance\n• Cultural fit assessment\n\n📞 We'll call you within 24 hours!\n\n_Congratulations! 🎊_"""
+            },
+            "feedback_request": {
+                "email": {
+                    "subject": f"📝 Feedback Request - {payload['job_title']} | BHIV HR",
+                    "body": f"""Dear {payload['candidate_name']},\n\nThank you for your interest in {payload['job_title']} at BHIV.\n\nWe'd love to hear about your experience with our recruitment process. Your feedback helps us improve.\n\nPlease take 2 minutes to share your thoughts:\n• How was the application process?\n• Was the communication clear and timely?\n• Any suggestions for improvement?\n\nReply to this email with your feedback.\n\nThank you for your time!\n\nBest regards,\nBHIV HR Team"""
+                },
+                "whatsapp": f"""📝 *Feedback Request*\n\n*Job:* {payload['job_title']}\n\nHow was your experience with BHIV?\n\n📋 *Quick feedback:*\n• Application process?\n• Communication quality?\n• Suggestions?\n\nReply with your thoughts!\n\n_Thank you! 🙏_"""
             }
         }
         
@@ -269,6 +279,18 @@ class CommunicationManager:
                     payload['candidate_phone'],
                     sequence["whatsapp"],
                     ["✅ Confirm", "❌ Reschedule", "❓ More Info"]
+                )
+            elif sequence_type == "shortlisted":
+                whatsapp_result = await self.send_whatsapp_with_buttons(
+                    payload['candidate_phone'],
+                    sequence["whatsapp"],
+                    ["🎉 Excited!", "📅 Schedule Interview", "❓ Questions"]
+                )
+            elif sequence_type == "feedback_request":
+                whatsapp_result = await self.send_whatsapp_with_buttons(
+                    payload['candidate_phone'],
+                    sequence["whatsapp"],
+                    ["⭐ Excellent", "👍 Good", "👎 Needs Improvement"]
                 )
             else:
                 whatsapp_result = await self.send_whatsapp(payload['candidate_phone'], sequence["whatsapp"])
@@ -344,16 +366,26 @@ _Thank you for your interest in BHIV!_"""
                 results = await self.send_automated_sequence(payload, "application_received")
                 automation_results.extend(results)
             
-            elif event_type == "candidate_shortlisted":
+            elif event_type == "candidate_shortlisted" or event_type == "hr_shortlisted":
                 results = await self.send_automated_sequence(payload, "shortlisted")
                 automation_results.extend(results)
+                # Notify HR dashboard
+                await self._notify_portal_update("hr", "candidate_shortlisted", payload)
             
-            elif event_type == "interview_scheduled":
+            elif event_type == "interview_scheduled" or event_type == "client_scheduled":
                 results = await self.send_automated_sequence(payload, "interview_scheduled")
                 automation_results.extend(results)
+                # Notify all portals
+                await self._notify_portal_update("all", "interview_scheduled", payload)
+            
+            elif event_type == "candidate_feedback_submitted":
+                results = await self.send_automated_sequence(payload, "feedback_request")
+                automation_results.extend(results)
+                # Notify HR portal
+                await self._notify_portal_update("hr", "feedback_received", payload)
             
             elif event_type == "status_inquiry":
-                # Handle candidate status inquiries via WhatsApp/Telegram
+                # Handle candidate status inquiries via WhatsApp
                 if payload.get('candidate_phone'):
                     status_msg = f"""📊 *Application Status*\n\n*Job:* {payload['job_title']}\n*Current Status:* {payload.get('current_status', 'Under Review')}\n*Last Updated:* {payload.get('last_updated', 'Recently')}\n\n_We'll notify you of any changes!_"""
                     result = await self.send_whatsapp_with_buttons(
@@ -362,6 +394,14 @@ _Thank you for your interest in BHIV!_"""
                         ["📧 Email Update", "📞 Call Request", "✅ Thanks"]
                     )
                     automation_results.append(result)
+            
+            elif event_type == "bulk_notification":
+                # Handle bulk notifications to multiple candidates
+                candidates = payload.get('candidates', [])
+                for candidate in candidates:
+                    candidate_payload = {**payload, **candidate}
+                    results = await self.send_automated_sequence(candidate_payload, payload.get('sequence_type', 'application_received'))
+                    automation_results.extend(results)
             
             logger.info(f"✅ Automation completed: {len(automation_results)} notifications sent")
             
@@ -375,6 +415,77 @@ _Thank you for your interest in BHIV!_"""
         except Exception as e:
             logger.error(f"❌ Automation error for {event_type}: {str(e)}")
             return {"status": "failed", "event_type": event_type, "error": str(e)}
+    
+    async def _notify_portal_update(self, portal_type: str, event_type: str, payload: Dict):
+        """Notify portals of updates for real-time synchronization"""
+        try:
+            from datetime import datetime
+            # This would integrate with WebSocket or Server-Sent Events
+            # For now, we'll log the portal notification
+            logger.info(f"🔄 Portal notification: {portal_type} - {event_type}")
+            
+            notification_data = {
+                "portal": portal_type,
+                "event": event_type,
+                "candidate_id": payload.get('candidate_id'),
+                "job_id": payload.get('job_id'),
+                "timestamp": datetime.now().isoformat(),
+                "data": payload
+            }
+            
+            # In a real implementation, this would send to WebSocket connections
+            # or trigger dashboard refresh APIs
+            logger.info(f"📱 Portal update sent: {notification_data}")
+            
+        except Exception as e:
+            logger.error(f"❌ Portal notification error: {str(e)}")
+    
+    async def send_bulk_notifications(self, candidates: List[Dict], sequence_type: str, job_data: Dict) -> Dict:
+        """Send bulk notifications to multiple candidates"""
+        try:
+            logger.info(f"📨 Sending bulk notifications to {len(candidates)} candidates")
+            
+            results = []
+            success_count = 0
+            failed_count = 0
+            
+            for candidate in candidates:
+                try:
+                    payload = {
+                        **job_data,
+                        "candidate_name": candidate.get('name', 'Candidate'),
+                        "candidate_email": candidate.get('email', ''),
+                        "candidate_phone": candidate.get('phone', ''),
+                        "candidate_id": candidate.get('id')
+                    }
+                    
+                    candidate_results = await self.send_automated_sequence(payload, sequence_type)
+                    results.extend(candidate_results)
+                    
+                    # Count successes
+                    for result in candidate_results:
+                        if result.get('status') == 'success':
+                            success_count += 1
+                        else:
+                            failed_count += 1
+                            
+                except Exception as candidate_error:
+                    logger.error(f"❌ Bulk notification error for candidate {candidate.get('id')}: {str(candidate_error)}")
+                    failed_count += 1
+            
+            logger.info(f"✅ Bulk notifications completed: {success_count} success, {failed_count} failed")
+            
+            return {
+                "status": "completed",
+                "total_candidates": len(candidates),
+                "success_count": success_count,
+                "failed_count": failed_count,
+                "results": results
+            }
+            
+        except Exception as e:
+            logger.error(f"❌ Bulk notification error: {str(e)}")
+            return {"status": "failed", "error": str(e)}
 
 # Singleton instance
 comm_manager = CommunicationManager()
