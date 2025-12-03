@@ -36,11 +36,11 @@ class CommunicationManager:
         
         # Check if we have real credentials
         has_twilio = (settings.twilio_account_sid and 
-                     settings.twilio_account_sid != "your_twilio_account_sid")
+                     not settings.twilio_account_sid.startswith("<"))
         has_gmail = (settings.gmail_email and 
-                    settings.gmail_email != "your_gmail_email")
+                    not settings.gmail_email.startswith("<"))
         has_telegram = (settings.telegram_bot_token and 
-                       settings.telegram_bot_token != "your_telegram_bot_token")
+                       not settings.telegram_bot_token.startswith("<"))
         
         if has_twilio or has_gmail or has_telegram:
             logger.info("✅ Real credentials detected - initializing live services")
@@ -135,9 +135,9 @@ class CommunicationManager:
             # Check if we have real Gmail credentials
             if (not self.gmail_email or 
                 not self.gmail_app_password or 
-                self.gmail_email == "your_gmail_email"):
+                self.gmail_email.startswith("<")):
                 logger.info(f"🧪 MOCK Email to {recipient_email}: {subject}")
-                return {"status": "mock_sent", "channel": "email", "recipient": recipient_email, "subject": subject, "note": "Mock mode - add real Gmail credentials to send actual emails"}
+                return {"status": "mock_sent", "channel": "email", "recipient": recipient_email, "subject": subject, "note": "Mock mode - configure Gmail credentials in environment variables"}
             
             msg = MIMEMultipart('alternative')
             msg['Subject'] = subject

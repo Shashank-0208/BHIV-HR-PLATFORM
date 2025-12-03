@@ -128,11 +128,16 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Sensitive configuration files
+# Sensitive configuration files (CRITICAL SECURITY)
 config/.env.render
+config/*credentials*
+config/*secrets*
 .env.local
 .env.production
 .env.development
+*.env.production
+*credentials.env
+*secrets.env
 
 # Logs
 *.log

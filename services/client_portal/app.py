@@ -3,7 +3,7 @@ import requests
 from datetime import datetime
 import logging
 import os
-from config import API_BASE_URL, http_session, API_KEY_SECRET, setup_logging
+from config import API_BASE_URL, http_session, API_KEY_SECRET, LANGGRAPH_SERVICE_URL, setup_logging
 
 # Setup logging
 setup_logging()
@@ -279,6 +279,22 @@ def show_job_posting():
                     st.success(f"✅ Job posted successfully! Job ID: {job_id}")
                     st.info("📊 This job is now visible to HR team for candidate matching")
                     
+                    # Trigger job posting notification to HR
+                    try:
+                        notification_payload = {
+                            "candidate_name": "HR Team",
+                            "candidate_email": "hr@bhiv.com",
+                            "job_title": job_title,
+                            "message": f"New job posted: {job_title} in {department} at {location}",
+                            "application_status": "job_posted",
+                            "channels": ["email"]
+                        }
+                        requests.post(f"{LANGGRAPH_SERVICE_URL}/tools/send-notification", 
+                                    json=notification_payload, headers=UNIFIED_HEADERS, timeout=10.0)
+                        st.info("📧 HR team notified of new job posting")
+                    except:
+                        pass  # Silent fail for automation
+                    
                     if 'client_jobs' not in st.session_state:
                         st.session_state['client_jobs'] = []
                     st.session_state['client_jobs'].append({
@@ -384,6 +400,18 @@ def show_candidate_review():
                                                 btn_col1, btn_col2 = st.columns(2)
                                                 with btn_col1:
                                                     if st.button(f"✅ Approve", key=f"approve_{job_id}_{i}"):
+                                                        # Trigger approval notification
+                                                        try:
+                                                            requests.post(f"{LANGGRAPH_SERVICE_URL}/test/send-automated-sequence",
+                                                                        json={
+                                                                            "candidate_name": candidate.get('name', 'Candidate'),
+                                                                            "candidate_email": candidate.get('email', 'test@example.com'),
+                                                                            "candidate_phone": candidate.get('phone', '+1234567890'),
+                                                                            "job_title": job_details.get('title', 'Position'),
+                                                                            "sequence_type": "shortlisted"
+                                                                        }, headers=UNIFIED_HEADERS, timeout=10.0)
+                                                        except:
+                                                            pass
                                                         st.success("✅ Candidate approved for interview")
                                                 with btn_col2:
                                                     if st.button(f"❌ Reject", key=f"reject_{job_id}_{i}"):

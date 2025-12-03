@@ -21,6 +21,9 @@ UNIFIED_HEADERS = {
     "Content-Type": "application/json"
 }
 
+# LangGraph service URL for automation
+os.environ["LANGGRAPH_SERVICE_URL"] = os.getenv("LANGGRAPH_SERVICE_URL", "http://langgraph:9001")
+
 st.set_page_config(page_title="BHIV HR Platform v2.0", page_icon="🎯", layout="wide")
 
 # Header
@@ -68,7 +71,7 @@ menu = st.sidebar.selectbox("Select HR Task", [
     "🏆 Step 7: Export Assessment Reports",
     "🔄 Live Client Jobs Monitor",
     "📁 Batch Operations",
-    "📧 Communication Testing"
+    "📧 Email & WhatsApp Automation"
 ])
 
 
@@ -383,6 +386,26 @@ elif menu == "📊 Step 6: Submit Values Assessment":
             avg_score = sum(values.values()) / len(values)
             top_value = max(values, key=values.get)
             lowest_value = min(values, key=values.get)
+            
+            # Trigger automated feedback notification
+            try:
+                langgraph_url = "http://langgraph:9001"
+                payload = {
+                    "candidate_name": candidate_name,
+                    "candidate_email": f"{candidate_name.lower().replace(' ', '.')}@example.com",
+                    "candidate_phone": "+1234567890",
+                    "job_title": job_title,
+                    "values_score": f"{avg_score:.1f}/5",
+                    "top_strength": top_value,
+                    "recommendation": overall_recommendation
+                }
+                response = http_client.post(f"{langgraph_url}/automation/trigger-workflow", 
+                                          json={"event_type": "candidate_feedback_submitted", "payload": payload}, 
+                                          timeout=15.0)
+                if response.status_code == 200:
+                    st.info("📧 Automated feedback notification sent to candidate")
+            except Exception as e:
+                st.warning(f"⚠️ Assessment saved but automation failed: {str(e)}")
             
             st.success("✅ Values assessment submitted successfully!")
             
@@ -920,12 +943,36 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                                 with values_cols[idx]:
                                     st.metric(value.title(), f"{score:.1f}/5")
                         
-                        # Action buttons
+                        # Action buttons with automation
                         col1, col2, col3, col4 = st.columns(4)
                         
                         with col1:
-                            if st.button(f"📞 Contact {candidate.get('name', 'Candidate').split()[0]}", key=f"contact_{i}"):
-                                st.success(f"✅ Contact initiated for {candidate.get('name', 'Candidate')}")
+                            if st.button(f"📧 Send Shortlist Email", key=f"shortlist_{i}"):
+                                # Trigger automated shortlist notification
+                                try:
+                                    langgraph_url = "http://langgraph:9001"
+                                    payload = {
+                                        "candidate_name": candidate.get('name', 'Candidate'),
+                                        "candidate_email": candidate.get('email', 'test@example.com'),
+                                        "candidate_phone": candidate.get('phone', '+1234567890'),
+                                        "job_title": f"Job ID {job_id}",
+                                        "matching_score": str(candidate.get('score', 0)),
+                                        "application_status": "shortlisted"
+                                    }
+                                    response = http_client.post(f"{langgraph_url}/test/send-automated-sequence", 
+                                                               json={
+                                                                   "candidate_name": payload["candidate_name"],
+                                                                   "candidate_email": payload["candidate_email"],
+                                                                   "candidate_phone": payload["candidate_phone"],
+                                                                   "job_title": payload["job_title"],
+                                                                   "sequence_type": "shortlisted"
+                                                               }, timeout=15.0)
+                                    if response.status_code == 200:
+                                        st.success(f"✅ Shortlist notification sent to {candidate.get('name', 'Candidate')}")
+                                    else:
+                                        st.error(f"❌ Notification failed: {response.text}")
+                                except Exception as e:
+                                    st.error(f"❌ Automation error: {str(e)}")
                         
                         with col2:
                             if st.button(f"📋 View Full Profile", key=f"profile_{i}"):
@@ -933,7 +980,32 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                         
                         with col3:
                             if st.button(f"📅 Schedule Interview", key=f"interview_{i}"):
-                                st.success(f"📅 Interview scheduled for {candidate.get('name', 'Candidate')}")
+                                # Trigger automated interview scheduling notification
+                                try:
+                                    langgraph_url = "http://langgraph:9001"
+                                    payload = {
+                                        "candidate_name": candidate.get('name', 'Candidate'),
+                                        "candidate_email": candidate.get('email', 'test@example.com'),
+                                        "candidate_phone": candidate.get('phone', '+1234567890'),
+                                        "job_title": f"Job ID {job_id}",
+                                        "interview_date": "Tomorrow",
+                                        "interview_time": "2:00 PM",
+                                        "interviewer": "HR Team"
+                                    }
+                                    response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                                                               json={
+                                                                   "candidate_name": payload["candidate_name"],
+                                                                   "candidate_email": payload["candidate_email"],
+                                                                   "candidate_phone": payload["candidate_phone"],
+                                                                   "job_title": payload["job_title"],
+                                                                   "sequence_type": "interview_scheduled"
+                                                               }, timeout=15.0)
+                                    if response.status_code == 200:
+                                        st.success(f"📅 Interview notification sent to {candidate.get('name', 'Candidate')}")
+                                    else:
+                                        st.error(f"❌ Notification failed: {response.text}")
+                                except Exception as e:
+                                    st.error(f"❌ Automation error: {str(e)}")
                         
                         with col4:
                             if st.button(f"⭐ Add to Favorites", key=f"favorite_{i}"):
@@ -947,7 +1019,32 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                 
                 with bulk_col1:
                     if st.button("📧 Email All Top Candidates", width='stretch'):
-                        st.success(f"📧 Emails sent to top {len(candidates)} candidates with interview invitations")
+                        # Trigger bulk automated notifications for all shortlisted candidates
+                        try:
+                            langgraph_url = "http://langgraph:9001"
+                            bulk_payload = {
+                                "candidates": [
+                                    {
+                                        "name": candidate.get('name', 'Candidate'),
+                                        "email": candidate.get('email', 'test@example.com'),
+                                        "phone": candidate.get('phone', '+1234567890'),
+                                        "id": i
+                                    } for i, candidate in enumerate(candidates, 1)
+                                ],
+                                "sequence_type": "shortlisted",
+                                "job_title": f"Job ID {job_id}",
+                                "matching_score": "High"
+                            }
+                            response = http_client.post(f"{langgraph_url}/automation/bulk-notifications", json=bulk_payload, timeout=30.0)
+                            if response.status_code == 200:
+                                result = response.json()
+                                success_count = result.get('bulk_result', {}).get('success_count', 0)
+                                st.success(f"✅ Bulk notifications sent to {success_count}/{len(candidates)} candidates")
+                                st.json(result)
+                            else:
+                                st.error(f"❌ Bulk notification failed: {response.text}")
+                        except Exception as e:
+                            st.error(f"❌ Bulk automation error: {str(e)}")
                 
                 with bulk_col2:
                     if st.button("📊 Export Shortlist Report", width='stretch'):
@@ -1442,29 +1539,39 @@ elif menu == "📅 Step 5: Schedule Interviews":
                     if response.status_code == 200:
                         st.success(f"✅ Interview scheduled for {candidate_name}!")
                         
-                        # Trigger automated email notification
+                        # Trigger automated interview notification via LangGraph
                         try:
-                            from email_automation import trigger_interview_notification
+                            langgraph_url = "http://langgraph:9001"
+                            payload = {
+                                "candidate_name": candidate_name,
+                                "candidate_email": f"{candidate_name.lower().replace(' ', '.')}@example.com",
+                                "candidate_phone": "+1234567890",
+                                "job_title": f"Job ID {job_id}",
+                                "interview_date": str(interview_date),
+                                "interview_time": str(interview_time),
+                                "interviewer": interviewer
+                            }
                             
-                            candidate_email = f"{candidate_name.lower().replace(' ', '.')}@example.com"
-                            job_title = f"Job ID {job_id}"
+                            # Use automated sequence for better templates
+                            response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                                                       json={
+                                                           "candidate_name": candidate_name,
+                                                           "candidate_email": payload["candidate_email"],
+                                                           "candidate_phone": payload["candidate_phone"],
+                                                           "job_title": payload["job_title"],
+                                                           "sequence_type": "interview_scheduled"
+                                                       },
+                                                       timeout=15.0)
                             
-                            email_result = trigger_interview_notification(
-                                candidate_name=candidate_name,
-                                candidate_email=candidate_email,
-                                job_title=job_title,
-                                interview_date=str(interview_date),
-                                interview_time=str(interview_time),
-                                interviewer=interviewer
-                            )
-                            
-                            if email_result.get("success"):
-                                st.info(f"📧 Automated email sent to {candidate_name}")
+                            if response.status_code == 200:
+                                result = response.json()
+                                st.info(f"📧 Automated interview notification sent to {candidate_name}")
+                                st.success(f"✅ Email & WhatsApp notifications delivered successfully")
                             else:
-                                st.warning(f"⚠️ Interview scheduled but email failed")
+                                st.warning(f"⚠️ Interview scheduled but automation failed: {response.text}")
                                 
                         except Exception as email_error:
-                            st.warning(f"⚠️ Interview scheduled but email automation failed")
+                            st.warning(f"⚠️ Interview scheduled but automation failed: {str(email_error)}")
                         
                         st.balloons()
                     else:
@@ -1507,8 +1614,87 @@ elif menu == "📅 Step 5: Schedule Interviews":
             st.error(f"❌ Error loading interviews: {str(e)}")
 
 elif menu == "📁 Batch Operations":
-    from batch_upload import show_batch_upload
-    show_batch_upload()
+    st.header("📁 Batch Operations")
+    st.write("Perform bulk operations on candidates and jobs")
+    
+    tab1, tab2 = st.tabs(["📤 Bulk Upload", "📧 Bulk Notifications"])
+    
+    with tab1:
+        st.subheader("📤 Bulk Candidate Upload")
+        st.info("Upload multiple candidates at once using CSV format")
+        
+        # File upload for bulk operations
+        uploaded_file = st.file_uploader("Choose CSV file for bulk upload", type="csv")
+        job_id_bulk = st.number_input("Job ID for bulk upload", min_value=1, step=1, value=1)
+        
+        if uploaded_file is not None:
+            try:
+                df = pd.read_csv(uploaded_file)
+                st.write("**Preview:**")
+                st.dataframe(df.head(), width='stretch')
+                
+                if st.button("🚀 Upload All Candidates", width='stretch'):
+                    candidates = []
+                    for _, row in df.iterrows():
+                        candidate = {
+                            "name": str(row.get("name", "")).strip(),
+                            "email": str(row.get("email", "")).strip(),
+                            "phone": str(row.get("phone", "")).strip(),
+                            "job_id": job_id_bulk
+                        }
+                        candidates.append(candidate)
+                    
+                    try:
+                        response = http_client.post(f"{API_BASE}/v1/candidates/bulk", 
+                                                   json={"candidates": candidates}, 
+                                                   timeout=30.0)
+                        if response.status_code == 200:
+                            st.success(f"✅ Successfully uploaded {len(candidates)} candidates!")
+                        else:
+                            st.error(f"❌ Upload failed: {response.text}")
+                    except Exception as e:
+                        st.error(f"❌ Error: {str(e)}")
+            except Exception as e:
+                st.error(f"❌ Error reading file: {str(e)}")
+    
+    with tab2:
+        st.subheader("📧 Bulk Notification System")
+        st.info("Send automated notifications to multiple candidates")
+        
+        notification_type = st.selectbox("Notification Type", 
+                                       ["shortlisted", "interview_scheduled", "feedback_request", "application_received"])
+        
+        # Sample candidates for bulk notification
+        sample_candidates = [
+            {"name": "John Doe", "email": "john.doe@example.com", "phone": "+1234567890"},
+            {"name": "Jane Smith", "email": "jane.smith@example.com", "phone": "+1234567891"},
+            {"name": "Mike Johnson", "email": "mike.johnson@example.com", "phone": "+1234567892"}
+        ]
+        
+        st.write("**Sample candidates for bulk notification:**")
+        st.json(sample_candidates)
+        
+        if st.button("📧 Send Bulk Notifications", width='stretch'):
+            try:
+                langgraph_url = "http://langgraph:9001"
+                bulk_payload = {
+                    "candidates": sample_candidates,
+                    "sequence_type": notification_type,
+                    "job_title": "Software Engineer",
+                    "matching_score": "High"
+                }
+                
+                response = http_client.post(f"{langgraph_url}/automation/bulk-notifications", 
+                                          json=bulk_payload, timeout=30.0)
+                if response.status_code == 200:
+                    result = response.json()
+                    success_count = result.get('bulk_result', {}).get('success_count', 0)
+                    st.success(f"✅ Bulk notifications sent to {success_count}/{len(sample_candidates)} candidates")
+                    st.json(result)
+                else:
+                    st.error(f"❌ Bulk notification failed: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
 
 elif menu == "📧 Communication Testing":
     st.header("📧 Communication System Testing")
@@ -1567,6 +1753,74 @@ elif menu == "📧 Communication Testing":
                     st.json(result)
                 else:
                     st.error(f"❌ Multi-channel test failed: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
+    
+    # Automated sequence tests
+    st.subheader("🤖 Test Automated Sequences")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        if st.button("📧 Test Shortlist Notification", width='stretch'):
+            try:
+                langgraph_url = "http://langgraph:9001"
+                response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                                           json={
+                                               "candidate_name": "John Doe",
+                                               "candidate_email": "john.doe@example.com",
+                                               "candidate_phone": "+1234567890",
+                                               "job_title": "Software Engineer",
+                                               "sequence_type": "shortlisted"
+                                           }, timeout=15.0)
+                if response.status_code == 200:
+                    result = response.json()
+                    st.success("✅ Shortlist notification sent!")
+                    st.json(result)
+                else:
+                    st.error(f"❌ Failed: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
+    
+    with col2:
+        if st.button("📅 Test Interview Notification", width='stretch'):
+            try:
+                langgraph_url = "http://langgraph:9001"
+                response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                                           json={
+                                               "candidate_name": "Jane Smith",
+                                               "candidate_email": "jane.smith@example.com",
+                                               "candidate_phone": "+1234567890",
+                                               "job_title": "Data Analyst",
+                                               "sequence_type": "interview_scheduled"
+                                           }, timeout=15.0)
+                if response.status_code == 200:
+                    result = response.json()
+                    st.success("✅ Interview notification sent!")
+                    st.json(result)
+                else:
+                    st.error(f"❌ Failed: {response.text}")
+            except Exception as e:
+                st.error(f"❌ Error: {str(e)}")
+    
+    with col3:
+        if st.button("📝 Test Feedback Request", width='stretch'):
+            try:
+                langgraph_url = "http://langgraph:9001"
+                response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                                           json={
+                                               "candidate_name": "Mike Johnson",
+                                               "candidate_email": "mike.johnson@example.com",
+                                               "candidate_phone": "+1234567890",
+                                               "job_title": "Product Manager",
+                                               "sequence_type": "feedback_request"
+                                           }, timeout=15.0)
+                if response.status_code == 200:
+                    result = response.json()
+                    st.success("✅ Feedback request sent!")
+                    st.json(result)
+                else:
+                    st.error(f"❌ Failed: {response.text}")
             except Exception as e:
                 st.error(f"❌ Error: {str(e)}")
 
@@ -1663,8 +1917,16 @@ with footer_col2:
         st.caption("❌ Talah AI: Offline")
 
 with footer_col3:
-    st.markdown("**📊 Data Status**")
-    st.caption("✅ System Active")
+    st.markdown("**📧 Automation Status**")
+    try:
+        langgraph_url = "http://langgraph:9001"
+        automation_response = http_client.get(f"{langgraph_url}/health", timeout=3.0)
+        if automation_response.status_code == 200:
+            st.caption("✅ Email/WhatsApp: Ready")
+        else:
+            st.caption("⚠️ Automation: Limited")
+    except:
+        st.caption("❌ Automation: Offline")
 
-st.markdown("*Powered by Advanced Semantic AI + MDVP Compliance | Built with Integrity, Honesty, Discipline, Hard Work & Gratitude | © 2025*")
-st.caption("📊 Values-driven recruiting with comprehensive reporting and daily value delivery tracking")
+st.markdown("*Powered by Advanced Semantic AI + Email/WhatsApp Automation | Built with Integrity, Honesty, Discipline, Hard Work & Gratitude | © 2025*")
+st.caption("📊 Values-driven recruiting with automated notifications and comprehensive reporting")

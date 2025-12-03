@@ -46,8 +46,10 @@ if not GATEWAY_SERVICE_URL:
 # Agent service URL (optional for client portal)
 AGENT_SERVICE_URL = os.getenv("AGENT_SERVICE_URL", "http://agent:9000")
 
-# LangGraph service URL (optional for client portal)
-LANGGRAPH_SERVICE_URL = os.getenv("LANGGRAPH_SERVICE_URL", "http://langgraph:9001")
+# LangGraph service URL (required for automation)
+LANGGRAPH_SERVICE_URL = os.getenv("LANGGRAPH_SERVICE_URL")
+if not LANGGRAPH_SERVICE_URL:
+    raise ValueError("LANGGRAPH_SERVICE_URL environment variable is required for automation")
 
 # Authentication - Required
 API_KEY_SECRET = os.getenv("API_KEY_SECRET")

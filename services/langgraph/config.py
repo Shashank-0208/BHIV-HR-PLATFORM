@@ -6,38 +6,37 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
-    # API Configuration - Local Docker URLs
+    # API Configuration - Environment Variables
     gateway_service_url: str = "http://gateway:8000"
     gateway_url: str = "http://gateway:8000"  # Alias for tools.py
-    api_key_secret: str = "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+    api_key_secret: str = "<API_KEY_SECRET>"
     
-    # Production URLs (Reference only)
+    # Service URLs
     langgraph_service_url: str = "http://langgraph:9001"
-    gateway_production_url: str = "https://bhiv-hr-gateway-ltg0.onrender.com"
     
-    # Database - Local Docker
-    database_url: str = "postgresql://bhiv_user:bhiv_local_password_2025@db:5432/bhiv_hr"
+    # Database
+    database_url: str = "<DATABASE_URL>"
     
-    # JWT Secrets (Production values)
-    jwt_secret_key: str = "prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA"
-    candidate_jwt_secret_key: str = "candidate_jwt_secret_key_2025"
+    # JWT Secrets
+    jwt_secret_key: str = "<JWT_SECRET_KEY>"
+    candidate_jwt_secret_key: str = "<CANDIDATE_JWT_SECRET_KEY>"
     
-    # Gemini AI (Real credentials)
-    gemini_api_key: str = "AIzaSyC8vbb0qAgcFlHw6fA14Ta6Nr7zsG5ELIs"
+    # Gemini AI
+    gemini_api_key: str = "<GEMINI_API_KEY>"
     gemini_model: str = "gemini-pro"
     
-    # Twilio (Real credentials)
+    # Twilio
     twilio_account_sid: str = "<TWILIO_ACCOUNT_SID>"
     twilio_auth_token: str = "<TWILIO_AUTH_TOKEN>"
     twilio_whatsapp_number: str = "+14155238886"
     
-    # Gmail (Real credentials)
-    gmail_email: str = "shashankmishra0411@gmail.com"
-    gmail_app_password: str = "krho jird yikm huzy"
+    # Gmail
+    gmail_email: str = "<GMAIL_EMAIL>"
+    gmail_app_password: str = "<GMAIL_APP_PASSWORD>"
     
-    # Telegram (Updated real credentials)
-    telegram_bot_token: str = "8260513283:AAFoYOeQKEcYdoFOtBTi7ZgsuPt_YNlgvCo"
-    telegram_bot_username: str = "BHIV_HR_PLATFORM_ASSISTANT_bot"
+    # Telegram
+    telegram_bot_token: str = "<TELEGRAM_BOT_TOKEN>"
+    telegram_bot_username: str = "<TELEGRAM_BOT_USERNAME>"
     
     # Environment
     environment: str = "production"

@@ -361,6 +361,19 @@ def job_search_page():
                     result = make_api_request("/v1/candidate/apply", "POST", application_data)
                     
                     if "error" not in result and result.get("success"):
+                        # Trigger application notification
+                        try:
+                            langgraph_url = config.LANGGRAPH_SERVICE_URL
+                            requests.post(f"{langgraph_url}/test/send-automated-sequence",
+                                        json={
+                                            "candidate_name": st.session_state.candidate_data.get('name', 'Candidate'),
+                                            "candidate_email": st.session_state.candidate_data.get('email', 'test@example.com'),
+                                            "candidate_phone": st.session_state.candidate_data.get('phone', '+1234567890'),
+                                            "job_title": job.get('title', 'Position'),
+                                            "sequence_type": "application_received"
+                                        }, timeout=10.0)
+                        except:
+                            pass
                         st.success("Application submitted successfully!")
                         st.rerun()
                     else:
@@ -485,6 +498,21 @@ def profile_management_page():
             result = make_api_request(f"/v1/candidate/profile/{candidate_id}", "PUT", update_data)
             
             if "error" not in result and result.get("success"):
+                # Trigger profile update notification to HR
+                try:
+                    langgraph_url = config.LANGGRAPH_SERVICE_URL
+                    requests.post(f"{langgraph_url}/automation/trigger-workflow",
+                                json={
+                                    "event_type": "candidate_profile_updated",
+                                    "payload": {
+                                        "candidate_name": name,
+                                        "candidate_email": candidate.get('email', 'test@example.com'),
+                                        "skills_updated": skills,
+                                        "experience_years": experience
+                                    }
+                                }, timeout=10.0)
+                except:
+                    pass
                 st.success("Profile updated successfully!")
                 # Update session data
                 st.session_state.candidate_data.update(update_data)
