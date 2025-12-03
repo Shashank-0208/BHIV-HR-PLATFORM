@@ -449,7 +449,7 @@ async def list_workflows(status: str = None, limit: int = 50, api_key: str = Dep
 
 @app.post("/tools/send-notification", tags=["Communication Tools"])
 async def send_notification(notification_data: dict, api_key: str = Depends(get_api_key)):
-    """Multi-Channel Notification System - Real Implementation"""
+    """Multi-Channel Notification System with Interactive Features"""
     try:
         from .communication import comm_manager
         
@@ -462,24 +462,36 @@ async def send_notification(notification_data: dict, api_key: str = Depends(get_
         channels = notification_data.get("channels", ["email"])
         application_status = notification_data.get("application_status", "updated")
         
-        # Prepare payload for multi-channel sending
+        # Prepare payload for automated sequence
         payload = {
             "candidate_name": candidate_name,
             "candidate_email": candidate_email,
             "candidate_phone": candidate_phone,
             "job_title": job_title,
             "message": message,
-            "application_status": application_status
+            "application_status": application_status,
+            "interview_date": notification_data.get("interview_date", "TBD"),
+            "interview_time": notification_data.get("interview_time", "TBD"),
+            "interviewer": notification_data.get("interviewer", "HR Team"),
+            "matching_score": notification_data.get("matching_score", "High")
         }
         
-        # Send via communication manager
-        results = await comm_manager.send_multi_channel(payload, channels)
+        # Use automated sequence for better templates and interactive features
+        sequence_type = "application_received"
+        if "interview" in application_status.lower():
+            sequence_type = "interview_scheduled"
+        elif "shortlist" in application_status.lower():
+            sequence_type = "shortlisted"
+        
+        # Send via automated sequence (includes interactive buttons)
+        results = await comm_manager.send_automated_sequence(payload, sequence_type)
         
         return {
             "success": True,
-            "message": "Notification processing completed",
+            "message": "Automated notification sequence completed",
             "candidate_name": candidate_name,
             "job_title": job_title,
+            "sequence_type": sequence_type,
             "channels_requested": channels,
             "results": results,
             "sent_at": datetime.now().isoformat()
@@ -531,6 +543,96 @@ async def test_send_telegram(
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/test/send-whatsapp-buttons", tags=["Communication Tools"])
+async def test_send_whatsapp_buttons(
+    phone: str,
+    message: str = "📅 Interview Scheduled for Software Engineer. Please confirm!",
+    api_key: str = Depends(get_api_key)
+):
+    """Test WhatsApp Interactive Buttons"""
+    try:
+        from .communication import comm_manager
+        button_options = ["✅ Confirm", "❌ Reschedule", "❓ More Info"]
+        result = await comm_manager.send_whatsapp_with_buttons(phone, message, button_options)
+        return {"success": True, "result": result, "interactive_options": button_options}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/test/send-automated-sequence", tags=["Communication Tools"])
+async def test_send_automated_sequence(
+    candidate_name: str = "John Doe",
+    candidate_email: str = "test@example.com",
+    candidate_phone: str = "9284967526",
+    job_title: str = "Software Engineer",
+    sequence_type: str = "interview_scheduled",
+    api_key: str = Depends(get_api_key)
+):
+    """Test Automated Email & WhatsApp Sequence with Interactive Features"""
+    try:
+        from .communication import comm_manager
+        
+        payload = {
+            "candidate_name": candidate_name,
+            "candidate_email": candidate_email,
+            "candidate_phone": candidate_phone,
+            "job_title": job_title,
+            "interview_date": "December 25, 2024",
+            "interview_time": "2:00 PM",
+            "interviewer": "Sarah Johnson",
+            "matching_score": "85"
+        }
+        
+        results = await comm_manager.send_automated_sequence(payload, sequence_type)
+        
+        return {
+            "success": True,
+            "sequence_type": sequence_type,
+            "payload": payload,
+            "results": results,
+            "sent_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/webhook/whatsapp", tags=["Communication Tools"])
+async def whatsapp_webhook(request: dict):
+    """Handle WhatsApp Interactive Button Responses"""
+    try:
+        from .communication import comm_manager
+        
+        # Extract Twilio webhook data
+        from_number = request.get("From", "").replace("whatsapp:", "")
+        message_body = request.get("Body", "").strip()
+        
+        logger.info(f"📱 WhatsApp response from {from_number}: {message_body}")
+        
+        # Process user responses
+        response_message = ""
+        
+        if message_body == "1":
+            response_message = "✅ *Interview Confirmed!*\n\nThank you for confirming. We'll send you the meeting details shortly.\n\n_BHIV HR Team_"
+        elif message_body == "2":
+            response_message = "📅 *Reschedule Request*\n\nWe'll contact you within 24 hours to reschedule your interview.\n\n_BHIV HR Team_"
+        elif message_body == "3":
+            response_message = "ℹ️ *Interview Information*\n\n• Duration: 45 minutes\n• Format: Video call\n• Preparation: Review job description\n• Contact: hr@bhiv.com\n\n_BHIV HR Team_"
+        else:
+            response_message = "🤖 *BHIV HR Assistant*\n\nPlease reply with:\n1️⃣ Confirm\n2️⃣ Reschedule\n3️⃣ More Info\n\n_Thank you!_"
+        
+        # Send automated response
+        result = await comm_manager.send_whatsapp(from_number, response_message)
+        
+        return {
+            "success": True,
+            "from_number": from_number,
+            "user_choice": message_body,
+            "response_sent": result.get("status") == "success",
+            "message_id": result.get("message_id")
+        }
+    
+    except Exception as e:
+        logger.error(f"❌ Webhook error: {str(e)}")
+        return {"success": False, "error": str(e)}
+
 @app.get("/workflows/stats", tags=["Workflow Monitoring"])
 async def get_workflow_stats(api_key: str = Depends(get_api_key)):
     """Workflow Statistics and Analytics
@@ -572,7 +674,7 @@ async def test_integration(api_key: str = Depends(get_api_key)):
         "service": "langgraph-orchestrator",
         "status": "operational",
         "integration_test": "passed",
-        "endpoints_available": 8,  # Updated count
+        "endpoints_available": 10,  # Updated count
         "workflow_engine": "active",
         "database_tracking": "enabled" if tracker.connection else "fallback_mode",
         "progress_tracking": "detailed",

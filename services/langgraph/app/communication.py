@@ -204,6 +204,78 @@ class CommunicationManager:
             logger.error(f"❌ Telegram keyboard error for {chat_id}: {str(e)}")
             return {"status": "failed", "channel": "telegram", "error": str(e), "recipient": chat_id}
     
+    async def send_whatsapp_with_buttons(self, phone: str, message: str, button_options: List[str] = None) -> Dict:
+        """Send WhatsApp message with interactive buttons (Twilio limitation: text-based options)"""
+        try:
+            if not self.twilio_client:
+                logger.info(f"🧪 MOCK WhatsApp with buttons to {phone}: {message[:50]}...")
+                return {"status": "mock_sent", "channel": "whatsapp", "message_id": "mock_wa_btn_123", "recipient": phone}
+            
+            # Add button options as numbered list (Twilio WhatsApp limitation)
+            if button_options:
+                message += "\n\n📋 *Quick Actions:*\n"
+                for i, option in enumerate(button_options, 1):
+                    message += f"{i}. {option}\n"
+                message += "\n_Reply with the number of your choice_"
+            
+            return await self.send_whatsapp(phone, message)
+        except Exception as e:
+            logger.error(f"❌ WhatsApp buttons error for {phone}: {str(e)}")
+            return {"status": "failed", "channel": "whatsapp", "error": str(e), "recipient": phone}
+    
+    async def send_automated_sequence(self, payload: Dict, sequence_type: str) -> List[Dict]:
+        """Send automated email/WhatsApp sequences based on triggers"""
+        results = []
+        
+        sequences = {
+            "application_received": {
+                "email": {
+                    "subject": f"Application Received - {payload['job_title']}",
+                    "body": f"""Dear {payload['candidate_name']},\n\nThank you for applying to {payload['job_title']} at BHIV.\n\nYour application is under review. We'll contact you within 3-5 business days.\n\nApplication ID: {payload.get('application_id', 'N/A')}\n\nBest regards,\nBHIV HR Team"""
+                },
+                "whatsapp": f"""🎯 *Application Received*\n\n*Position:* {payload['job_title']}\n*Status:* Under Review\n\nWe'll update you within 3-5 days!\n\n_BHIV HR Team_"""
+            },
+            "interview_scheduled": {
+                "email": {
+                    "subject": f"Interview Scheduled - {payload['job_title']}",
+                    "body": f"""Dear {payload['candidate_name']},\n\nYour interview is scheduled!\n\n📅 Date: {payload.get('interview_date', 'TBD')}\n🕐 Time: {payload.get('interview_time', 'TBD')}\n👤 Interviewer: {payload.get('interviewer', 'HR Team')}\n\nPlease confirm your availability.\n\nBest regards,\nBHIV HR Team"""
+                },
+                "whatsapp": f"""📅 *Interview Scheduled*\n\n*Job:* {payload['job_title']}\n*Date:* {payload.get('interview_date', 'TBD')}\n*Time:* {payload.get('interview_time', 'TBD')}\n\nPlease confirm! 👍"""
+            },
+            "shortlisted": {
+                "email": {
+                    "subject": f"Congratulations! Shortlisted - {payload['job_title']}",
+                    "body": f"""Dear {payload['candidate_name']},\n\n🎉 Congratulations! You've been shortlisted for {payload['job_title']}!\n\nOur AI matching system scored your profile highly. We'll contact you within 24 hours for the next steps.\n\nBest regards,\nBHIV HR Team"""
+                },
+                "whatsapp": f"""🎉 *SHORTLISTED!*\n\n*Job:* {payload['job_title']}\n*Score:* {payload.get('matching_score', 'High')}\n\nWe'll call you within 24 hours!\n\n_Congratulations! 🎊_"""
+            }
+        }
+        
+        sequence = sequences.get(sequence_type, sequences["application_received"])
+        
+        # Send email
+        if payload.get('candidate_email'):
+            email_result = await self.send_email(
+                payload['candidate_email'],
+                sequence["email"]["subject"],
+                sequence["email"]["body"]
+            )
+            results.append(email_result)
+        
+        # Send WhatsApp with interactive options for certain sequences
+        if payload.get('candidate_phone'):
+            if sequence_type == "interview_scheduled":
+                whatsapp_result = await self.send_whatsapp_with_buttons(
+                    payload['candidate_phone'],
+                    sequence["whatsapp"],
+                    ["✅ Confirm", "❌ Reschedule", "❓ More Info"]
+                )
+            else:
+                whatsapp_result = await self.send_whatsapp(payload['candidate_phone'], sequence["whatsapp"])
+            results.append(whatsapp_result)
+        
+        return results
+    
     async def send_multi_channel(self, payload: Dict, channels: List[str]) -> List[Dict]:
         """Send notification across multiple channels"""
         results = []
@@ -259,6 +331,50 @@ _Thank you for your interest in BHIV!_"""
                 results.append({"status": "skipped", "channel": "telegram", "reason": "No chat_id provided"})
         
         return results
+    
+    async def trigger_workflow_automation(self, event_type: str, payload: Dict) -> Dict:
+        """Trigger automated workflows based on events"""
+        try:
+            logger.info(f"🔄 Triggering automation for event: {event_type}")
+            
+            automation_results = []
+            
+            # Event-driven automation triggers
+            if event_type == "application_submitted":
+                results = await self.send_automated_sequence(payload, "application_received")
+                automation_results.extend(results)
+            
+            elif event_type == "candidate_shortlisted":
+                results = await self.send_automated_sequence(payload, "shortlisted")
+                automation_results.extend(results)
+            
+            elif event_type == "interview_scheduled":
+                results = await self.send_automated_sequence(payload, "interview_scheduled")
+                automation_results.extend(results)
+            
+            elif event_type == "status_inquiry":
+                # Handle candidate status inquiries via WhatsApp/Telegram
+                if payload.get('candidate_phone'):
+                    status_msg = f"""📊 *Application Status*\n\n*Job:* {payload['job_title']}\n*Current Status:* {payload.get('current_status', 'Under Review')}\n*Last Updated:* {payload.get('last_updated', 'Recently')}\n\n_We'll notify you of any changes!_"""
+                    result = await self.send_whatsapp_with_buttons(
+                        payload['candidate_phone'],
+                        status_msg,
+                        ["📧 Email Update", "📞 Call Request", "✅ Thanks"]
+                    )
+                    automation_results.append(result)
+            
+            logger.info(f"✅ Automation completed: {len(automation_results)} notifications sent")
+            
+            return {
+                "status": "success",
+                "event_type": event_type,
+                "notifications_sent": len(automation_results),
+                "results": automation_results
+            }
+        
+        except Exception as e:
+            logger.error(f"❌ Automation error for {event_type}: {str(e)}")
+            return {"status": "failed", "event_type": event_type, "error": str(e)}
 
 # Singleton instance
 comm_manager = CommunicationManager()
