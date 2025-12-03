@@ -1922,9 +1922,9 @@ with footer_col3:
         langgraph_url = "http://langgraph:9001"
         automation_response = http_client.get(f"{langgraph_url}/health", timeout=3.0)
         if automation_response.status_code == 200:
-            st.caption("✅ Email/WhatsApp: Ready")
+            st.caption("✅ Automation: Online")
         else:
-            st.caption("⚠️ Automation: Limited")
+            st.caption("⚠️ Automation: Offline")
     except:
         st.caption("❌ Automation: Offline")
 
