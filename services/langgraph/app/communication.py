@@ -81,8 +81,26 @@ class CommunicationManager:
                 logger.info(f"🧪 MOCK WhatsApp to {phone}: {message[:50]}...")
                 return {"status": "mock_sent", "channel": "whatsapp", "message_id": "mock_msg_123", "recipient": phone, "note": "Mock mode - add real Twilio credentials to send actual messages"}
             
-            if not phone.startswith('+'):
-                phone = f"+{phone}"
+            # Normalize Indian phone number formats
+            original_phone = phone
+            phone = phone.replace(' ', '').replace('-', '')  # Remove spaces and dashes
+            
+            # Handle different Indian number formats
+            if phone.startswith('91') and len(phone) == 12:  # 919284967526
+                phone = '+' + phone
+            elif phone.startswith('+91') and len(phone) == 13:  # +919284967526 (correct)
+                pass  # Already correct
+            elif len(phone) == 10 and phone.isdigit():  # 92*****526 (any 10 digits)
+                phone = '+91' + phone
+            elif phone.startswith('+9') and len(phone) == 11:  # +9284967526 (missing 1)
+                phone = '+91' + phone[1:]  # Keep the 9
+            elif not phone.startswith('+') and len(phone) >= 10:
+                phone = f"+91{phone}"  # Default to Indian format
+            
+            if phone != original_phone:
+                logger.info(f"🔧 Normalized phone: {original_phone} → {phone}")
+            
+            logger.info(f"📱 Sending WhatsApp to: {phone}")
             
             msg = self.twilio_client.messages.create(
                 from_=f"whatsapp:{settings.twilio_whatsapp_number}",
@@ -91,6 +109,21 @@ class CommunicationManager:
             )
             
             logger.info(f"✅ WhatsApp sent to {phone}: {msg.sid}")
+            
+            # Check message status immediately
+            try:
+                import time
+                time.sleep(1)  # Wait 1 second
+                updated_msg = self.twilio_client.messages(msg.sid).fetch()
+                if updated_msg.status == 'failed':
+                    error_msg = f"Message failed - Error {updated_msg.error_code}: {updated_msg.error_message or 'Phone number not verified in Twilio sandbox'}"
+                    logger.error(f"❌ {error_msg}")
+                    return {"status": "failed", "channel": "whatsapp", "error": error_msg, "recipient": phone, "message_id": msg.sid}
+                else:
+                    logger.info(f"📊 Message status: {updated_msg.status}")
+            except Exception as status_error:
+                logger.warning(f"⚠️ Could not check message status: {status_error}")
+            
             return {"status": "success", "channel": "whatsapp", "message_id": msg.sid, "recipient": phone}
         except Exception as e:
             logger.error(f"❌ WhatsApp error for {phone}: {str(e)}")
@@ -142,6 +175,33 @@ class CommunicationManager:
             return {"status": "success", "channel": "telegram", "message_id": msg.message_id, "recipient": chat_id}
         except Exception as e:
             logger.error(f"❌ Telegram error for {chat_id}: {str(e)}")
+            return {"status": "failed", "channel": "telegram", "error": str(e), "recipient": chat_id}
+    
+    async def send_telegram_with_keyboard(self, chat_id: str, message: str, keyboard_options: List[str] = None) -> Dict:
+        """Send Telegram message with inline keyboard for interactive responses"""
+        try:
+            if not self.telegram_bot:
+                logger.info(f"🧪 MOCK Telegram with keyboard to {chat_id}: {message[:50]}...")
+                return {"status": "mock_sent", "channel": "telegram", "message_id": "mock_tg_kb_123", "recipient": chat_id}
+            
+            from telegram import InlineKeyboardButton, InlineKeyboardMarkup
+            
+            keyboard = None
+            if keyboard_options:
+                keyboard_buttons = [[InlineKeyboardButton(option, callback_data=option.lower().replace(' ', '_'))] for option in keyboard_options]
+                keyboard = InlineKeyboardMarkup(keyboard_buttons)
+            
+            msg = await self.telegram_bot.send_message(
+                chat_id=chat_id,
+                text=message,
+                parse_mode='Markdown',
+                reply_markup=keyboard
+            )
+            
+            logger.info(f"✅ Telegram message with keyboard sent to {chat_id}: {msg.message_id}")
+            return {"status": "success", "channel": "telegram", "message_id": msg.message_id, "recipient": chat_id}
+        except Exception as e:
+            logger.error(f"❌ Telegram keyboard error for {chat_id}: {str(e)}")
             return {"status": "failed", "channel": "telegram", "error": str(e), "recipient": chat_id}
     
     async def send_multi_channel(self, payload: Dict, channels: List[str]) -> List[Dict]:
