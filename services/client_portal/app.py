@@ -4,15 +4,16 @@ from datetime import datetime
 import logging
 import os
 from config import API_BASE_URL, http_session, API_KEY_SECRET, LANGGRAPH_SERVICE_URL, setup_logging
+from auth_manager import init_auth, get_auth_headers
 
 # Setup logging
 setup_logging()
 
+# Initialize authentication
+auth_manager = init_auth()
+
 # Unified Bearer authentication
-UNIFIED_HEADERS = {
-    "Authorization": f"Bearer {API_KEY_SECRET}",
-    "Content-Type": "application/json"
-}
+UNIFIED_HEADERS = get_auth_headers()
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

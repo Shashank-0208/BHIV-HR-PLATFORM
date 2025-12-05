@@ -5,6 +5,7 @@ from datetime import datetime
 import numpy as np
 import os
 from config import API_BASE, API_KEY, headers, http_client, LANGGRAPH_SERVICE_URL
+from auth_manager import init_auth, get_auth_headers
 
 # Import portal configuration
 try:
@@ -14,12 +15,11 @@ except Exception as e:
     st.error(f"Configuration error: {e}")
     ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
 
+# Initialize authentication
+auth_manager = init_auth()
+
 # Unified Bearer authentication
-API_KEY_SECRET = os.getenv("API_KEY_SECRET")
-UNIFIED_HEADERS = {
-    "Authorization": f"Bearer {API_KEY_SECRET}",
-    "Content-Type": "application/json"
-}
+UNIFIED_HEADERS = get_auth_headers()
 
 # LangGraph service URL imported from config
 

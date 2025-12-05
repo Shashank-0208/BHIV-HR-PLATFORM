@@ -4,6 +4,7 @@ import os
 from datetime import datetime
 import pandas as pd
 from config import Config
+from auth_manager import init_auth, get_auth_headers
 
 # Page configuration
 st.set_page_config(
@@ -13,8 +14,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Initialize config
+# Initialize config and authentication
 config = Config()
+auth_manager = init_auth()
 
 # Custom CSS
 st.markdown("""
