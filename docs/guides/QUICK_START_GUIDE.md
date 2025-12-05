@@ -24,13 +24,13 @@ All services are live and operational - no installation needed!
 
 #### **Service URLs**
 ```bash
-# API Gateway (94 endpoints - FastAPI 4.2.0)
+# API Gateway (74 endpoints - FastAPI 4.2.0)
 https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 # AI Agent Service (6 endpoints - Phase 3 AI Engine)  
 https://bhiv-hr-agent-nhgg.onrender.com/docs
 
-# LangGraph Workflow Service (7 endpoints - AI Automation)
+# LangGraph Workflow Service (9 endpoints - AI Automation + RL Integration)
 https://bhiv-hr-langgraph.onrender.com/docs
 
 # HR Portal (Complete HR workflow)
@@ -265,7 +265,7 @@ curl -X POST -H "Authorization: Bearer <YOUR_API_KEY>" \
 ✅ Assessment Data - 5-point BHIV values framework (Integrity, Honesty, Discipline, Hard Work, Gratitude)
 ✅ Interview Data - Complete scheduling and management system
 ✅ LangGraph Workflows - Automated candidate processing and notifications
-✅ Database Schema v4.2.0 - 13 core tables with Phase 3 learning engine + workflow management
+✅ Database Schema v4.3.0 - 13 core tables + 6 RL tables with Phase 3 learning engine + RL integration + workflow management
 ```
 
 ### **Data Verification**
@@ -340,8 +340,9 @@ LANGGRAPH_SERVICE_URL=http://langgraph:9001
 ```bash
 # Gateway Service (Port 8000)
 - FastAPI 4.2.0
-- 94 endpoints
+- 74 endpoints
 - Triple authentication
+- RL integration
 - LangGraph integration
 - Rate limiting
 
@@ -353,7 +354,8 @@ LANGGRAPH_SERVICE_URL=http://langgraph:9001
 
 # LangGraph Service (Port 9001)
 - FastAPI 4.2.0
-- 7 endpoints
+- 9 endpoints
+- RL integration
 - Workflow automation
 - Multi-channel notifications
 
@@ -547,7 +549,7 @@ matches = requests.get(f"{BASE_URL}/v1/match/1/top", headers=headers).json()
 - [ ] Can create new job posting
 - [ ] Can register new candidate
 - [ ] Database shows 13 core tables
-- [ ] All 107 endpoints respond correctly
+- [ ] All 89 endpoints respond correctly
 - [ ] Export functionality works
 
 ### **🚀 Ready for Production When:**

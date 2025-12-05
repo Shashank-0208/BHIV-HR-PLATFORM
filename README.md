@@ -20,9 +20,9 @@
 ## 📚 Documentation
 
 ### **🚀 Quick Start**
-- **[Get Started in 5 Minutes](docs/QUICK_START_GUIDE.md)** - Setup and deployment guide
-- **[Current Features](docs/CURRENT_FEATURES.md)** - Complete feature list and capabilities
-- **[User Guide](docs/USER_GUIDE.md)** - Complete user manual
+- **[Get Started in 5 Minutes](docs/guides/QUICK_START_GUIDE.md)** - Setup and deployment guide
+- **[Current Features](docs/guides/CURRENT_FEATURES.md)** - Complete feature list and capabilities
+- **[User Guide](docs/guides/USER_GUIDE.md)** - Complete user manual
 
 ### **🏗️ Architecture**
 - **[Project Structure](docs/architecture/PROJECT_STRUCTURE.md)** - Complete architecture and folder organization
@@ -34,7 +34,7 @@
 - **[Deployment Guide](docs/deployment/RENDER_DEPLOYMENT_GUIDE.md)** - Deployment instructions
 - **[Security Audit](docs/security/SECURITY_AUDIT.md)** - Security analysis and reports
 - **[Testing Strategy](docs/testing/TESTING_STRATEGY.md)** - Testing approaches and guides
-- **[LangGraph Integration](docs/LANGGRAPH_INTEGRATION_GUIDE.md)** - Workflow automation guide
+- **[LangGraph Integration](docs/guides/LANGGRAPH_INTEGRATION_GUIDE.md)** - Workflow automation guide
 
 ### **📊 Reports**
 - **[Production Readiness](docs/reports/PRODUCTION_READINESS_REPORT.md)** - Production verification report
@@ -44,25 +44,25 @@
 
 ### **🌐 Use Live Platform (Recommended)**
 1. Visit [HR Portal](https://bhiv-hr-portal-u670.onrender.com/) or [Client Portal](https://bhiv-hr-client-portal-3iod.onrender.com/)
-2. Login with demo credentials: `<DEMO_USERNAME>` / `<DEMO_PASSWORD>`
+2. Login with demo credentials: `TECH001` / `demo123`
 3. Test API at [Gateway Docs](https://bhiv-hr-gateway-ltg0.onrender.com/docs)
 
 ### **💻 Local Development**
 ```bash
-git clone https://github.com/shashankmishraa/BHIV-HR-Platform.git
+git clone https://github.com/Shashank-0208/BHIV-HR-PLATFORM.git
 cd BHIV-HR-Platform
 cp .env.example .env
 docker-compose -f docker-compose.production.yml up -d
 ```
 
-**📖 Detailed Setup**: [Quick Start Guide](docs/QUICK_START_GUIDE.md)
+**📖 Detailed Setup**: [Quick Start Guide](docs/guides/QUICK_START_GUIDE.md)
 
 ## 🏗️ System Architecture
 
 **Microservices Architecture**: 6 services + PostgreSQL database  
 **Technology Stack**: FastAPI 4.2.0, Streamlit 1.41.1, Python 3.12.7, PostgreSQL 17  
 **Total Endpoints**: 89 (74 Gateway + 6 Agent + 9 LangGraph)  
-**Database Schema**: v4.2.0 with 13 core tables  
+**Database Schema**: v4.3.0 with 13 core tables + RL integration  
 **Deployment**: Docker-based microservices on Render platform  
 **Organization**: Professional structure with files in proper subfolders
 
@@ -72,9 +72,11 @@ docker-compose -f docker-compose.production.yml up -d
 
 ### **🤖 AI-Powered Matching**
 - **Phase 3 Semantic Engine** with sentence transformers
+- **Reinforcement Learning Integration** with feedback-based optimization
 - **Adaptive Scoring** with company-specific optimization
 - **Real-time Processing** (<0.02s response time)
 - **Batch Processing** (50 candidates/chunk)
+- **ML-Enhanced Predictions** with scikit-learn models
 
 ### **🔄 LangGraph Workflows**
 - **AI Workflow Automation** for candidate processing
@@ -85,6 +87,7 @@ docker-compose -f docker-compose.production.yml up -d
 
 ### **🔒 Enterprise Security**
 - **Triple Authentication** (API Key + Client JWT + Candidate JWT)
+- **Unified Auth Management** with dedicated auth_manager.py per service
 - **2FA TOTP** with QR code generation
 - **Dynamic Rate Limiting** (60-500 requests/minute)
 - **Security Headers** (CSP, XSS protection, HSTS)
@@ -94,7 +97,7 @@ docker-compose -f docker-compose.production.yml up -d
 - **Client Portal** - Enterprise job posting interface
 - **Candidate Portal** - Job seeker application system
 
-**📖 Complete Features**: [Current Features](docs/CURRENT_FEATURES.md)
+**📖 Complete Features**: [Current Features](docs/guides/CURRENT_FEATURES.md)
 
 
 
@@ -109,13 +112,21 @@ docker-compose -f docker-compose.production.yml up -d
 
 ```
 BHIV HR PLATFORM/
-├── services/          # 6 microservices (gateway, agent, portals, langgraph, db)
+├── services/          # 6 microservices (each with Dockerfile for Render deployment)
+│   ├── gateway/       # API Gateway (app/main.py, routes/, logs/)
+│   ├── agent/         # AI Agent (app.py, semantic_engine/phase3_engine.py)
+│   ├── langgraph/     # LangGraph (app/ with rl_integration/, communication.py)
+│   ├── portal/        # HR Portal (app.py, auth_manager.py, components/)
+│   ├── client_portal/ # Client Portal (app.py, auth_manager.py)
+│   ├── candidate_portal/ # Candidate Portal (app.py, auth_manager.py)
+│   └── db/            # Database (consolidated_schema.sql, database/migrations/)
 ├── docs/             # Complete documentation suite (organized in subfolders)
 ├── tests/            # Comprehensive test suite (organized by service)
 ├── tools/            # Data processing & security utilities (organized in subfolders)
 ├── config/           # Environment configurations (secure templates)
 ├── deployment/       # Docker & deployment configurations
 ├── validation/       # Validation scripts (organized in subfolders)
+├── utils/            # General utilities
 ├── assets/           # Static assets (29 resume files)
 ├── data/             # Production data
 ├── logs/             # System logs
@@ -131,9 +142,9 @@ BHIV HR PLATFORM/
 
 ### **Database Schema**
 
-**PostgreSQL 17** with Schema v4.2.0  
-**Tables**: 13 core tables (8 application + 5 security/performance)  
-**Features**: 75+ indexes, audit triggers, generated columns, referential integrity
+**PostgreSQL 17** with Schema v4.3.0  
+**Tables**: 13 core tables + 6 RL tables (8 application + 5 security/performance + 6 RL/ML)  
+**Features**: 75+ indexes, audit triggers, generated columns, referential integrity, RL feedback system
 
 **📖 Complete Schema**: [Database Documentation](docs/database/)
 
@@ -152,7 +163,7 @@ BHIV HR PLATFORM/
 **Services**: All 6 services available on localhost  
 **Database**: PostgreSQL with full schema
 
-**📖 Setup Guide**: [Quick Start Guide](docs/QUICK_START_GUIDE.md)
+**📖 Setup Guide**: [Quick Start Guide](docs/guides/QUICK_START_GUIDE.md)
 
 ## 🧪 Testing & Validation
 
@@ -174,7 +185,7 @@ BHIV HR PLATFORM/
 
 ## 🔧 Tools & Utilities
 
-**Data Processing**: Resume extraction (27 files), job creation (19 jobs), database sync  
+**Data Processing**: Resume extraction (29 files), job creation (19 jobs), database sync  
 **Security Tools**: API key management, security audits, configuration validation  
 **Deployment**: Local deployment scripts, Docker automation, health monitoring  
 **Organization**: Tools categorized by purpose in dedicated directories
@@ -188,10 +199,10 @@ BHIV HR PLATFORM/
 **System Status**: ✅ **FULLY OPERATIONAL**  
 **Services**: 6/6 live with 99.9% uptime  
 **Endpoints**: 89 total (100% tested and functional)  
-**Database**: PostgreSQL 17 with 13 core tables  
+**Database**: PostgreSQL 17 with 13 core tables + 6 RL tables  
 **Cost**: $0/month (optimized free tier deployment)
 
-**Recent Updates**: Fixed automation endpoints (/tools/send-notification), removed hardcoded URLs, secured credentials with placeholders, environment variables standardized, WhatsApp/Email automation confirmed working, project files organized into proper subfolders
+**Recent Updates**: Complete RL integration with ML-powered matching, unified authentication system with auth_manager.py files, enhanced LangGraph workflows, fixed automation endpoints (/tools/send-notification), secured credentials with placeholders, project files organized into proper subfolders
 
 **📖 Detailed Status**: [Deployment Status](docs/architecture/DEPLOYMENT_STATUS.md)
 
@@ -207,11 +218,11 @@ BHIV HR PLATFORM/
 2. Run Docker Compose for local development
 3. Execute test suite for validation
 
-**📖 Complete Setup**: [Quick Start Guide](docs/QUICK_START_GUIDE.md)
+**📖 Complete Setup**: [Quick Start Guide](docs/guides/QUICK_START_GUIDE.md)
 
 ## 📞 Resources
 
-**GitHub**: [BHIV-HR-Platform Repository](https://github.com/shashankmishraa/BHIV-HR-Platform)  
+**GitHub**: [BHIV-HR-Platform Repository](https://github.com/Shashank-0208/BHIV-HR-PLATFORM)  
 **Platform**: Render Cloud (Oregon, US West)  
 **Documentation**: Complete guides in `docs/` directory
 

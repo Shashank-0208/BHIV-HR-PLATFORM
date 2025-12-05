@@ -25,12 +25,14 @@
 
 ## 🤖 AI-Powered Matching Engine
 
-### **Phase 3 Semantic Engine**
+### **Phase 3 Semantic Engine + RL Integration**
 - **Sentence Transformers**: Advanced semantic understanding
+- **Reinforcement Learning**: ML-powered feedback optimization
 - **Adaptive Scoring**: Company-specific optimization algorithms
 - **Real-time Processing**: <0.02s response time per candidate
 - **Batch Processing**: 50 candidates per chunk optimization
 - **Multi-dimensional Analysis**: Skills, experience, values alignment
+- **Continuous Learning**: Feedback-based model improvement
 
 ### **AI Endpoints**
 ```bash
@@ -38,9 +40,37 @@ GET  /v1/match/{job_id}/top           # Top candidates for job
 POST /v1/match/batch                 # Batch matching multiple jobs
 GET  /analyze/{candidate_id}         # Candidate analysis
 POST /match                          # Custom matching criteria
+POST /rl/predict                     # RL-enhanced matching prediction
+POST /rl/feedback                    # Submit feedback for RL learning
+GET  /rl/analytics                   # RL system analytics
 GET  /health                         # AI service health
 GET  /metrics                        # Performance metrics
 ```
+
+---
+
+## 🧠 Reinforcement Learning Integration
+
+### **ML-Enhanced Matching**
+- **Feedback Learning**: Continuous improvement from hiring outcomes
+- **Prediction Models**: scikit-learn powered decision making
+- **Reward Signals**: Automated learning from successful matches
+- **Performance Analytics**: Real-time ML system monitoring
+
+### **RL Endpoints**
+```bash
+POST /rl/predict                    # ML-enhanced candidate matching
+POST /rl/feedback                   # Submit feedback for learning
+GET  /rl/analytics                  # System performance metrics
+GET  /rl/performance                # Real-time monitoring data
+POST /rl/start-monitoring           # Activate RL monitoring
+```
+
+### **Learning Features**
+- **Decision Engine**: Advanced ML decision making
+- **Feedback Collection**: Structured learning data
+- **Model Optimization**: Continuous algorithm improvement
+- **Performance Tracking**: ML system health monitoring
 
 ---
 
@@ -131,12 +161,13 @@ GET  /v1/security/csp-report        # CSP violation reports
 
 ## 🗄️ Database Architecture
 
-### **PostgreSQL 17 Schema v4.2.0**
-- **13 Core Tables**: Complete HR data model
+### **PostgreSQL 17 Schema v4.3.0**
+- **13 Core Tables + 6 RL Tables**: Complete HR data model with ML integration
 - **75+ Indexes**: Optimized query performance
 - **Audit Triggers**: Complete change tracking
 - **Generated Columns**: Automated calculations
 - **Referential Integrity**: Data consistency enforcement
+- **RL Integration**: Feedback-based learning system
 
 ### **Core Tables**
 ```sql
