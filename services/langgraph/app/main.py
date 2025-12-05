@@ -402,7 +402,7 @@ async def resume_workflow(workflow_id: str, api_key: str = Depends(get_api_key))
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.websocket("/ws/{workflow_id}")
-async def websocket_endpoint(websocket: WebSocket, workflow_id: str):
+async def websocket_endpoint(websocket: WebSocket, workflow_id: str, api_key: str = Depends(get_api_key)):
     """Real-time Workflow Updates (WebSocket)"""
     await manager.connect(websocket, workflow_id)
     try:
@@ -644,7 +644,7 @@ async def send_bulk_notifications(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/webhook/whatsapp", tags=["Communication Tools"])
-async def whatsapp_webhook(request: dict):
+async def whatsapp_webhook(request: dict, api_key: str = Depends(get_api_key)):
     """Handle WhatsApp Interactive Button Responses"""
     try:
         from .communication import comm_manager
