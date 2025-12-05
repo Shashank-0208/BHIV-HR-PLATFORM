@@ -399,7 +399,7 @@ elif menu == "📊 Step 6: Submit Values Assessment":
                 }
                 response = http_client.post(f"{LANGGRAPH_SERVICE_URL}/tools/send-notification", 
                                           json=payload, 
-                                          timeout=15.0)
+                                          headers=UNIFIED_HEADERS, timeout=15.0)
                 if response.status_code == 200:
                     st.info("📧 Automated feedback notification sent to candidate")
             except Exception as e:
@@ -964,7 +964,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                                                                    "candidate_phone": payload["candidate_phone"],
                                                                    "job_title": payload["job_title"],
                                                                    "sequence_type": "shortlisted"
-                                                               }, timeout=15.0)
+                                                               }, headers=UNIFIED_HEADERS, timeout=15.0)
                                     if response.status_code == 200:
                                         st.success(f"✅ Shortlist notification sent to {candidate.get('name', 'Candidate')}")
                                     else:
@@ -997,7 +997,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                                                                    "candidate_phone": payload["candidate_phone"],
                                                                    "job_title": payload["job_title"],
                                                                    "sequence_type": "interview_scheduled"
-                                                               }, timeout=15.0)
+                                                               }, headers=UNIFIED_HEADERS, timeout=15.0)
                                     if response.status_code == 200:
                                         st.success(f"📅 Interview notification sent to {candidate.get('name', 'Candidate')}")
                                     else:
@@ -1033,7 +1033,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                                 "job_title": f"Job ID {job_id}",
                                 "matching_score": "High"
                             }
-                            response = http_client.post(f"{langgraph_url}/automation/bulk-notifications", json=bulk_payload, timeout=30.0)
+                            response = http_client.post(f"{langgraph_url}/automation/bulk-notifications", json=bulk_payload, headers=UNIFIED_HEADERS, timeout=30.0)
                             if response.status_code == 200:
                                 result = response.json()
                                 success_count = result.get('bulk_result', {}).get('success_count', 0)
@@ -1559,7 +1559,7 @@ elif menu == "📅 Step 5: Schedule Interviews":
                                                            "job_title": payload["job_title"],
                                                            "sequence_type": "interview_scheduled"
                                                        },
-                                                       timeout=15.0)
+                                                       headers=UNIFIED_HEADERS, timeout=15.0)
                             
                             if response.status_code == 200:
                                 result = response.json()
@@ -1683,7 +1683,7 @@ elif menu == "📁 Batch Operations":
                 }
                 
                 response = http_client.post(f"{langgraph_url}/automation/bulk-notifications", 
-                                          json=bulk_payload, timeout=30.0)
+                                          json=bulk_payload, headers=UNIFIED_HEADERS, timeout=30.0)
                 if response.status_code == 200:
                     result = response.json()
                     success_count = result.get('bulk_result', {}).get('success_count', 0)
@@ -1744,7 +1744,7 @@ elif menu == "📧 Communication Testing":
                 # Use http_client for proper connection handling
                 response = http_client.post(f"{langgraph_url}/tools/send-notification",
                                           json=notification_data,
-                                          timeout=30.0)
+                                          headers=UNIFIED_HEADERS, timeout=30.0)
                 if response.status_code == 200:
                     result = response.json()
                     st.success("✅ Multi-channel test completed!")
@@ -1770,7 +1770,7 @@ elif menu == "📧 Communication Testing":
                                                "candidate_phone": "+1234567890",
                                                "job_title": "Software Engineer",
                                                "sequence_type": "shortlisted"
-                                           }, timeout=15.0)
+                                           }, headers=UNIFIED_HEADERS, timeout=15.0)
                 if response.status_code == 200:
                     result = response.json()
                     st.success("✅ Shortlist notification sent!")
@@ -1791,7 +1791,7 @@ elif menu == "📧 Communication Testing":
                                                "candidate_phone": "+1234567890",
                                                "job_title": "Data Analyst",
                                                "sequence_type": "interview_scheduled"
-                                           }, timeout=15.0)
+                                           }, headers=UNIFIED_HEADERS, timeout=15.0)
                 if response.status_code == 200:
                     result = response.json()
                     st.success("✅ Interview notification sent!")
@@ -1812,7 +1812,7 @@ elif menu == "📧 Communication Testing":
                                                "candidate_phone": "+1234567890",
                                                "job_title": "Product Manager",
                                                "sequence_type": "feedback_request"
-                                           }, timeout=15.0)
+                                           }, headers=UNIFIED_HEADERS, timeout=15.0)
                 if response.status_code == 200:
                     result = response.json()
                     st.success("✅ Feedback request sent!")
