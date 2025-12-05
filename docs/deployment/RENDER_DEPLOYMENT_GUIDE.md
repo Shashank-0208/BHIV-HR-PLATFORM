@@ -99,6 +99,11 @@ Environment Variables:
   - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
   - AGENT_SERVICE_URL: https://bhiv-hr-agent-nhgg.onrender.com
   - LANGGRAPH_SERVICE_URL: https://bhiv-hr-langgraph.onrender.com
+Service Structure:
+  - app/main.py: FastAPI application entry point
+  - routes/: API route definitions (auth.py, ai_integration.py, rl_routes.py)
+  - logs/: Service-specific logs
+  - Dockerfile: Container configuration for Render deployment
 ```
 
 ### 3. AI Agent Service
@@ -114,6 +119,10 @@ Environment Variables:
   - API_KEY_SECRET: <YOUR_API_KEY>
   - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
   - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
+Service Structure:
+  - app.py: FastAPI application with AI matching endpoints
+  - semantic_engine/: Phase 3 semantic matching engine
+  - Dockerfile: Container configuration for Render deployment
 ```
 
 ### 4. LangGraph Workflow Service
@@ -161,6 +170,11 @@ Environment Variables:
   - API_KEY_SECRET: <YOUR_API_KEY>
   - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
   - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
+Service Structure:
+  - app.py: Main Streamlit application with HR dashboard
+  - auth_manager.py: Authentication management for portal
+  - components/: Reusable UI components (2FA setup)
+  - Dockerfile: Container configuration for Render deployment
 ```
 
 ### 6. Client Portal Service
@@ -178,6 +192,10 @@ Environment Variables:
   - API_KEY_SECRET: <YOUR_API_KEY>
   - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
   - DATABASE_URL: [Internal PostgreSQL URL]
+Service Structure:
+  - app.py: Streamlit application for client job management
+  - auth_manager.py: Authentication management for client portal
+  - Dockerfile: Container configuration for Render deployment
 ```
 
 ### 7. Candidate Portal Service
@@ -194,6 +212,10 @@ Environment Variables:
   - JWT_SECRET_KEY: <YOUR_JWT_SECRET_KEY>
   - CANDIDATE_JWT_SECRET_KEY: <YOUR_CANDIDATE_JWT_SECRET_KEY>
   - DATABASE_URL: [Internal PostgreSQL URL]
+Service Structure:
+  - app.py: Streamlit application for candidate job applications
+  - auth_manager.py: Authentication management for candidate portal
+  - Dockerfile: Container configuration for Render deployment
 ```
 
 ## 🚀 Deployment Process (Completed)

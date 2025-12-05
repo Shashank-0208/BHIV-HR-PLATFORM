@@ -21,7 +21,7 @@
 | **Database** | PostgreSQL 17 | 5432 | ✅ Live | Internal Render URL |
 
 ### **System Metrics**
-- **Total Endpoints**: 89 (74 Gateway + 6 Agent + 9 LangGraph) - Verified from browser documentation
+- **Total Endpoints**: 89 (74 Gateway + 6 Agent + 9 LangGraph) - Verified from live services
 - **Database Tables**: 13 core tables (Schema v4.2.0)
 - **Schema Version**: v4.2.0 with Phase 3 learning engine + LangGraph workflows
 - **Authentication**: Unified Bearer token + JWT + Candidate JWT system
@@ -444,14 +444,16 @@ Core (2):
 ├── GET  /                    - Service information
 └── GET  /health              - Health check
 
-Workflow Management (4):
+Workflow Management (5):
 ├── POST /workflows/application/start - Start application workflow
 ├── GET  /workflows/{id}/status - Get workflow status
+├── POST /workflows/{id}/resume - Resume paused workflow
 ├── GET  /workflows           - List all workflows
-└── POST /tools/send-notification - Send multi-channel notification
+└── GET  /workflows/stats     - Workflow statistics
 
-Integration (1):
-└── GET  /test-integration    - Test Gateway integration
+Communication Tools (2):
+├── POST /tools/send-notification - Multi-channel notification system
+└── POST /automation/bulk-notifications - Bulk notification sending
 ```
 
 ### **Workflow Automation Features**
@@ -621,17 +623,18 @@ async def detailed_health_check():
 ### **Live Services (6/6 Operational)**
 - ✅ **Gateway**: bhiv-hr-gateway-ltg0.onrender.com (74 endpoints)
 - ✅ **Agent**: bhiv-hr-agent-nhgg.onrender.com (6 endpoints)
-- ✅ **LangGraph**: bhiv-hr-langgraph.onrender.com (7 endpoints)
+- ✅ **LangGraph**: bhiv-hr-langgraph.onrender.com (9 endpoints)
 - ✅ **HR Portal**: bhiv-hr-portal-u670.onrender.com
 - ✅ **Client Portal**: bhiv-hr-client-portal-3iod.onrender.com
 - ✅ **Candidate Portal**: bhiv-hr-candidate-portal-abe6.onrender.com
 - ✅ **Database**: PostgreSQL 17 on Render (13 core tables)
 
 ### **System Health**
-- **Total Endpoints**: 89 interactive endpoints
-- **Database Schema**: v4.2.0 with Phase 3 features + LangGraph workflows
-- **Real Data**: 10+ candidates, 6+ jobs, 29 resume files
-- **AI Algorithm**: Phase 3 semantic matching (operational)
+- **Total Endpoints**: 89 interactive endpoints (74 Gateway + 6 Agent + 9 LangGraph)
+- **Database Schema**: v4.3.0 with RL integration + Phase 3 features + LangGraph workflows
+- **Real Data**: 31+ candidates, 4+ jobs, 29 resume files
+- **AI Algorithm**: Phase 3 semantic matching + RL integration (operational)
+- **Authentication**: Triple portal auth system with dedicated auth_manager.py files
 - **Monthly Cost**: $0 (Free tier deployment)
 - **Global Access**: HTTPS with SSL certificates
 - **Auto-Deploy**: GitHub integration enabled

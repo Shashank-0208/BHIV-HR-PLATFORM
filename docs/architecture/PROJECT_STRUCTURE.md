@@ -51,20 +51,15 @@ services/
 services/gateway/
 ├── 📁 app/              # Application modules
 │   ├── __init__.py
-│   ├── main.py          # FastAPI application
-│   ├── auth.py          # Authentication logic
-│   ├── models.py        # Data models
-│   └── database.py      # Database connection
+│   └── main.py          # FastAPI application
 ├── 📁 routes/           # API route definitions
-│   ├── candidates.py    # Candidate endpoints
-│   ├── jobs.py          # Job endpoints
-│   ├── applications.py  # Application endpoints
-│   ├── interviews.py    # Interview endpoints
-│   ├── feedback.py      # Assessment endpoints
+│   ├── __init__.py
+│   ├── ai_integration.py # AI service integration
 │   ├── auth.py          # Authentication endpoints
-│   ├── monitoring.py    # Monitoring endpoints
-│   └── langgraph.py     # LangGraph integration
+│   └── rl_routes.py     # Reinforcement Learning routes
 ├── 📁 logs/             # Service logs
+│   ├── bhiv_hr_platform.log
+│   └── gateway.log
 ├── 📄 config.py         # Configuration management
 ├── 📄 dependencies.py   # Dependency injection
 ├── 📄 monitoring.py     # Performance monitoring
@@ -78,9 +73,8 @@ services/gateway/
 services/agent/
 ├── 📁 semantic_engine/  # AI matching engine
 │   ├── __init__.py
-│   ├── matcher.py       # Semantic matching logic
-│   ├── scorer.py        # Scoring algorithms
-│   └── models.py        # AI models
+│   └── phase3_engine.py # Phase 3 semantic matching
+├── 📄 __init__.py
 ├── 📄 app.py            # FastAPI application
 ├── 📄 config.py         # Configuration
 ├── 📄 Dockerfile        # Docker configuration
@@ -92,13 +86,24 @@ services/agent/
 ```
 services/langgraph/
 ├── 📁 app/              # Application modules
+│   ├── 📁 rl_integration/ # Reinforcement Learning integration
 │   ├── __init__.py
 │   ├── main.py          # FastAPI application
-│   ├── workflows.py     # Workflow definitions
+│   ├── agents.py        # LangGraph agents
 │   ├── communication.py # Multi-channel notifications
-│   ├── tools.py         # Workflow tools
-│   └── models.py        # Data models
+│   ├── database_tracker.py # Database workflow tracking
+│   ├── graphs.py        # Workflow graph definitions
+│   ├── monitoring.py    # Service monitoring
+│   ├── state.py         # Workflow state management
+│   └── tools.py         # Workflow tools
 ├── 📁 tests/            # Service-specific tests
+│   ├── __init__.py
+│   ├── start_local.py
+│   ├── test_integration.py
+│   ├── test_local.py
+│   └── test_workflows.py
+├── 📄 __init__.py
+├── 📄 CLEANUP_WORKFLOW_TRACKERS.md
 ├── 📄 config.py         # Configuration with placeholders
 ├── 📄 dependencies.py   # Dependency management
 ├── 📄 Dockerfile        # Docker configuration
@@ -111,9 +116,12 @@ services/langgraph/
 ```
 services/portal/         # HR Portal (8501)
 ├── 📁 components/       # Reusable UI components
+│   ├── __init__.py
+│   └── TwoFactorSetup.py # 2FA component
 ├── 📄 app.py            # Main Streamlit application
-├── 📄 config.py         # Configuration with env vars
+├── 📄 auth_manager.py   # Authentication management
 ├── 📄 batch_upload.py   # Batch processing
+├── 📄 config.py         # Configuration with env vars
 ├── 📄 email_automation.py # Email integration
 ├── 📄 file_security.py  # File handling security
 ├── 📄 Dockerfile        # Docker configuration
@@ -122,6 +130,7 @@ services/portal/         # HR Portal (8501)
 
 services/client_portal/  # Client Portal (8502)
 ├── 📄 app.py            # Streamlit application
+├── 📄 auth_manager.py   # Authentication management
 ├── 📄 config.py         # Configuration management
 ├── 📄 Dockerfile        # Docker configuration
 ├── 📄 requirements.txt  # Dependencies
@@ -129,6 +138,7 @@ services/client_portal/  # Client Portal (8502)
 
 services/candidate_portal/ # Candidate Portal (8503)
 ├── 📄 app.py            # Streamlit application
+├── 📄 auth_manager.py   # Authentication management
 ├── 📄 config.py         # Configuration management
 ├── 📄 Dockerfile        # Docker configuration
 ├── 📄 requirements.txt  # Dependencies
@@ -138,6 +148,8 @@ services/candidate_portal/ # Candidate Portal (8503)
 ### **Database Service**
 ```
 services/db/
+├── 📁 database/         # Database migrations and scripts
+│   └── 📁 migrations/   # Database migration files
 ├── 📄 consolidated_schema.sql    # Complete database schema
 ├── 📄 deploy_schema_production.sql # Production deployment
 ├── 📄 fix_clients_table.sql     # Schema fixes
