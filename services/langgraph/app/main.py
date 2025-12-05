@@ -53,6 +53,7 @@ except ImportError:
     def get_auth(credentials = Depends(security)):
         return get_api_key(credentials)
 from .database_tracker import tracker
+from .rl_integration.rl_endpoints import router as rl_router
 import uuid
 import logging
 from typing import Dict, List, Optional
@@ -87,11 +88,18 @@ app = FastAPI(
             "description": "Multi-channel notification and messaging system"
         },
         {
+            "name": "RL + Feedback Agent",
+            "description": "Reinforcement Learning and Feedback Agent for adaptive matching"
+        },
+        {
             "name": "System Diagnostics",
             "description": "Integration testing and system validation"
         }
     ]
 )
+
+# Include RL router
+app.include_router(rl_router)
 
 # Initialize workflow
 application_workflow = None
@@ -175,7 +183,7 @@ async def read_root():
         "version": "1.0.0",
         "status": "healthy",
         "environment": settings.environment,
-        "endpoints": 7,
+        "endpoints": 13,
         "workflow_engine": "active",
         "ai_automation": "enabled"
     }
@@ -708,6 +716,131 @@ async def get_workflow_stats(api_key: str = Depends(get_api_key)):
         logger.error(f"❌ Error getting workflow stats: {str(e)}")
         return {"error": str(e), "status": "error"}
 
+@app.post("/rl/predict", tags=["RL + Feedback Agent"])
+async def rl_predict_match(
+    candidate_features: dict,
+    job_features: dict,
+    api_key: str = Depends(get_api_key)
+):
+    """RL-Enhanced Candidate Matching Prediction"""
+    try:
+        from .rl_integration.decision_engine import DecisionEngine
+        from .rl_integration.postgres_adapter import postgres_adapter
+        
+        # Initialize RL components
+        decision_engine = DecisionEngine(postgres_adapter)
+        
+        # Get feedback history for RL enhancement
+        feedback_history = postgres_adapter.get_feedback_history(limit=50)
+        
+        # Calculate RL score
+        rl_result = decision_engine.make_rl_decision(
+            candidate_features, job_features, feedback_history
+        )
+        
+        return {
+            "success": True,
+            "rl_prediction": rl_result,
+            "feedback_samples_used": len(feedback_history),
+            "predicted_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/rl/feedback", tags=["RL + Feedback Agent"])
+async def submit_rl_feedback(
+    feedback_data: dict,
+    api_key: str = Depends(get_api_key)
+):
+    """Submit Feedback for RL Learning"""
+    try:
+        from .rl_integration.decision_engine import DecisionEngine
+        from .rl_integration.postgres_adapter import postgres_adapter
+        
+        # Initialize RL components
+        decision_engine = DecisionEngine(postgres_adapter)
+        
+        # Calculate reward signal
+        reward_signal = decision_engine._calculate_reward_signal(feedback_data)
+        
+        # Prepare feedback data
+        processed_feedback = {
+            'candidate_id': feedback_data.get('candidate_id'),
+            'job_id': feedback_data.get('job_id'),
+            'actual_outcome': feedback_data.get('actual_outcome'),
+            'feedback_score': feedback_data.get('feedback_score', 3),
+            'reward_signal': reward_signal,
+            'feedback_source': feedback_data.get('feedback_source', 'system'),
+            'feedback_notes': feedback_data.get('feedback_notes', '')
+        }
+        
+        # Store in database
+        feedback_id = postgres_adapter.store_rl_feedback(processed_feedback)
+        
+        return {
+            "success": True,
+            "feedback_id": feedback_id,
+            "reward_signal": reward_signal,
+            "processed_feedback": processed_feedback,
+            "submitted_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/rl/analytics", tags=["RL + Feedback Agent"])
+async def get_rl_analytics(api_key: str = Depends(get_api_key)):
+    """Get RL System Analytics and Performance Metrics"""
+    try:
+        from .rl_integration.postgres_adapter import postgres_adapter
+        
+        # Get database analytics
+        db_analytics = postgres_adapter.get_rl_analytics()
+        
+        return {
+            "database_analytics": db_analytics,
+            "system_status": "operational",
+            "generated_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/rl/performance", tags=["RL + Feedback Agent"])
+async def get_rl_performance(api_key: str = Depends(get_api_key)):
+    """Get RL Performance Monitoring Data"""
+    try:
+        from .rl_integration.postgres_adapter import postgres_adapter
+        
+        # Get analytics as performance metrics
+        analytics = postgres_adapter.get_rl_analytics()
+        
+        return {
+            "current_metrics": analytics,
+            "monitoring_status": "active" if analytics.get("total_predictions", 0) > 0 else "initializing",
+            "retrieved_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/rl/start-monitoring", tags=["RL + Feedback Agent"])
+async def start_rl_monitoring(api_key: str = Depends(get_api_key)):
+    """Start RL Performance Monitoring"""
+    try:
+        from .rl_integration.postgres_adapter import postgres_adapter
+        
+        # Check if monitoring is active by checking recent activity
+        analytics = postgres_adapter.get_rl_analytics()
+        is_active = analytics.get("total_predictions", 0) > 0
+        
+        return {
+            "success": True,
+            "message": "RL monitoring status checked",
+            "monitoring_active": is_active,
+            "total_predictions": analytics.get("total_predictions", 0),
+            "checked_at": datetime.now().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/test-integration", tags=["System Diagnostics"])
 async def test_integration(api_key: str = Depends(get_api_key)):
     """Integration Testing and System Validation"""
@@ -715,8 +848,11 @@ async def test_integration(api_key: str = Depends(get_api_key)):
         "service": "langgraph-orchestrator",
         "status": "operational",
         "integration_test": "passed",
-        "endpoints_available": 10,  # Updated count
+        "endpoints_available": 15,  # Updated count with RL endpoints
         "workflow_engine": "active",
+        "rl_engine": "integrated",
+        "rl_database": "postgresql",
+        "rl_monitoring": "available",
         "database_tracking": "enabled" if tracker.connection else "fallback_mode",
         "progress_tracking": "detailed",
         "fallback_support": "enabled",

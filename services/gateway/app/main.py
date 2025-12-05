@@ -100,6 +100,15 @@ except ImportError as e:
     print(f"WARNING: LangGraph integration not available: {e}")
     pass  # LangGraph routes optional
 
+# Include RL routes
+try:
+    from routes.rl_routes import router as rl_router
+    app.include_router(rl_router, prefix="/api/v1", tags=["RL + Feedback Agent"])
+    print("RL routes loaded successfully")
+except ImportError as e:
+    print(f"WARNING: RL routes not available: {e}")
+    pass  # RL routes optional
+
 # Add monitoring endpoints
 @app.get("/metrics", tags=["Monitoring"])
 async def get_prometheus_metrics():

@@ -1,43 +1,13 @@
--- BHIV HR Platform - Production Schema Deployment v4.3.0
--- Fix missing columns and tables for production deployment + RL Tables
+#!/usr/bin/env python3
+"""Deploy RL tables to Render production database"""
 
--- Add missing columns to clients table
-ALTER TABLE clients 
-ADD COLUMN IF NOT EXISTS failed_login_attempts INTEGER DEFAULT 0,
-ADD COLUMN IF NOT EXISTS locked_until TIMESTAMP;
+import psycopg2
+import sys
 
--- Update existing records
-UPDATE clients 
-SET failed_login_attempts = 0 
-WHERE failed_login_attempts IS NULL;
+# Render database connection
+DATABASE_URL = "postgresql://bhiv_user:JwvtCqKDYsVgnTiAEtSNAKaDHkksATRA@dpg-d4kjncvpm1nc738abapg-a.oregon-postgres.render.com/bhiv_hr_i7zb"
 
--- Create job_applications table if not exists
-CREATE TABLE IF NOT EXISTS job_applications (
-    id SERIAL PRIMARY KEY,
-    candidate_id INTEGER NOT NULL REFERENCES candidates(id) ON DELETE CASCADE,
-    job_id INTEGER NOT NULL REFERENCES jobs(id) ON DELETE CASCADE,
-    cover_letter TEXT,
-    status VARCHAR(50) DEFAULT 'applied' CHECK (status IN ('applied', 'reviewed', 'shortlisted', 'rejected', 'withdrawn')),
-    applied_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    UNIQUE(candidate_id, job_id)
-);
-
--- Add indexes for job_applications
-CREATE INDEX IF NOT EXISTS idx_job_applications_candidate ON job_applications(candidate_id);
-CREATE INDEX IF NOT EXISTS idx_job_applications_job ON job_applications(job_id);
-CREATE INDEX IF NOT EXISTS idx_job_applications_status ON job_applications(status);
-CREATE INDEX IF NOT EXISTS idx_job_applications_date ON job_applications(applied_date);
-
--- Add update trigger for job_applications
-CREATE TRIGGER update_job_applications_updated_at 
-BEFORE UPDATE ON job_applications 
-FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
-
--- ============================================================================
--- RL + FEEDBACK AGENT TABLES (Ishan's Integration)
--- ============================================================================
-
+RL_TABLES_SQL = """
 -- RL Predictions & Scoring
 CREATE TABLE IF NOT EXISTS rl_predictions (
     id SERIAL PRIMARY KEY,
@@ -68,7 +38,7 @@ CREATE TABLE IF NOT EXISTS rl_model_performance (
     id SERIAL PRIMARY KEY,
     model_version VARCHAR(20) NOT NULL,
     accuracy DECIMAL(5,4) NOT NULL CHECK (accuracy >= 0 AND accuracy <= 1),
-    precision_score DECIMAL(5,4) NOT NULL CHECK (precision_score >= 0 AND precision_score <= 1),
+    precision_score DECIMAL(5,4) NOT NULL CHECK (precision_score >= 0 and precision_score <= 1),
     recall_score DECIMAL(5,4) NOT NULL CHECK (recall_score >= 0 AND recall_score <= 1),
     f1_score DECIMAL(5,4) NOT NULL CHECK (f1_score >= 0 AND f1_score <= 1),
     average_reward DECIMAL(5,2) NOT NULL,
@@ -104,23 +74,39 @@ INSERT INTO rl_model_performance (
 ) VALUES (
     'v1.0.0', 0.0, 0.0, 0.0, 0.0, 0.0, 0, CURRENT_TIMESTAMP
 ) ON CONFLICT DO NOTHING;
+"""
 
--- Update schema version
-INSERT INTO schema_version (version, description) VALUES 
-('4.3.0', 'Production schema with RL + Feedback Agent tables (Ishan integration)'),
-('4.2.0', 'Production schema with job_applications table and client auth fixes')
-ON CONFLICT (version) DO UPDATE SET applied_at = CURRENT_TIMESTAMP;
+def deploy_rl_tables():
+    try:
+        print("Connecting to Render database...")
+        conn = psycopg2.connect(DATABASE_URL)
+        cursor = conn.cursor()
+        
+        print("Deploying RL tables...")
+        cursor.execute(RL_TABLES_SQL)
+        conn.commit()
+        
+        print("Verifying RL tables...")
+        cursor.execute("""
+            SELECT table_name FROM information_schema.tables 
+            WHERE table_schema = 'public' AND table_name LIKE 'rl_%'
+            ORDER BY table_name
+        """)
+        rl_tables = cursor.fetchall()
+        
+        print(f"RL Tables deployed: {len(rl_tables)}")
+        for table in rl_tables:
+            print(f"   - {table[0]}")
+        
+        cursor.close()
+        conn.close()
+        print("RL deployment completed successfully!")
+        return True
+        
+    except Exception as e:
+        print(f"Deployment failed: {e}")
+        return False
 
--- Verify deployment
-SELECT 'Schema v4.3.0 deployed successfully with RL + Feedback Agent integration' as status,
-       COUNT(*) as total_tables
-FROM information_schema.tables 
-WHERE table_schema = 'public';
-
--- Show critical tables status
-SELECT table_name, 
-       CASE WHEN table_name IN ('clients', 'job_applications', 'rl_predictions', 'rl_feedback') THEN 'CRITICAL' ELSE 'OK' END as priority
-FROM information_schema.tables 
-WHERE table_schema = 'public' 
-AND table_name IN ('clients', 'candidates', 'jobs', 'job_applications', 'feedback', 'rl_predictions', 'rl_feedback', 'rl_model_performance', 'rl_training_data')
-ORDER BY table_name;
+if __name__ == "__main__":
+    success = deploy_rl_tables()
+    sys.exit(0 if success else 1)
