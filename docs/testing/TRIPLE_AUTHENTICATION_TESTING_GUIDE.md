@@ -27,7 +27,7 @@
 - **Failed Attempts**: Auto-lockout after 5 failed attempts
 
 ### **Service Integration**
-- **Gateway Service**: 74 endpoints with triple auth support
+- **Gateway Service**: 80 endpoints with triple auth support
 - **AI Agent Service**: 6 endpoints with API key and JWT validation
 - **LangGraph Service**: 25 workflow endpoints with secure automation
 - **Portal Services**: 3 portals with integrated authentication systems
@@ -42,7 +42,7 @@
 
 | Service | URL | Endpoints | Auth Methods |
 |---------|-----|-----------|--------------|
-| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | 74 | All 3 methods |
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | 80 | All 3 methods |
 | **AI Agent** | [bhiv-hr-agent-nhgg.onrender.com](https://bhiv-hr-agent-nhgg.onrender.com/docs) | 6 | API Key + JWT |
 | **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | 25 | API Key + JWT |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com/) | Live | Internal API Key |
@@ -74,7 +74,7 @@ CANDIDATE_PASSWORD="demo_password"
 - **Scope**: Full access to all endpoints
 - **Rate Limit**: 500 requests/minute
 
-### **Gateway Service Testing (74 Endpoints)**
+### **Gateway Service Testing (80 Endpoints)**
 
 #### **1. Health Check (Public Access)**
 ```bash
@@ -1095,7 +1095,7 @@ echo "Security testing completed!"
 - [ ] Network connectivity verified
 
 ### **✅ API Key Authentication**
-- [ ] Gateway service endpoints (74 total)
+- [ ] Gateway service endpoints (80 total)
 - [ ] AI Agent service endpoints (6 total)
 - [ ] LangGraph service endpoints (25 total)
 - [ ] Invalid API key rejection

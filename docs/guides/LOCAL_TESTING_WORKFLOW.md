@@ -14,7 +14,7 @@
 - **Platform**: BHIV HR Platform v4.3.0
 - **Services**: 6 microservices (Gateway, Agent, LangGraph, 3 Portals)
 - **Database**: PostgreSQL 17 with Schema v4.3.0 (19 tables)
-- **Endpoints**: 111 total (74 Gateway + 6 Agent + 25 LangGraph + 6 Portal)
+- **Endpoints**: 111 total (80 Gateway + 6 Agent + 25 LangGraph)
 - **Features**: AI matching, RL integration, workflow automation, triple authentication
 
 ### **Testing Scope**
@@ -65,7 +65,7 @@ docker-compose -f docker-compose.production.yml ps
 
 ### **Step 3: Service Health Verification**
 ```bash
-# API Gateway (74 endpoints)
+# API Gateway (80 endpoints)
 curl http://localhost:8000/health
 curl http://localhost:8000/docs
 

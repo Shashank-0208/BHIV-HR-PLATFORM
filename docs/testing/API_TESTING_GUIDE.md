@@ -11,7 +11,7 @@
 ## 📊 API Testing Overview
 
 ### **Testing Scope**
-- **Total Endpoints**: 111 (74 Gateway + 6 Agent + 25 LangGraph + 6 Portal)
+- **Total Endpoints**: 111 (80 Gateway + 6 Agent + 25 LangGraph)
 - **Services**: 6 microservices with comprehensive API coverage
 - **Authentication**: Triple authentication system (API Key + JWT + 2FA)
 - **Testing Types**: Functional, security, performance, integration
@@ -22,7 +22,7 @@
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   API Gateway   │────│   AI Agent      │────│   LangGraph     │
-│   74 endpoints  │    │   6 endpoints   │    │  25 endpoints   │
+│   80 endpoints  │    │   6 endpoints   │    │  25 endpoints   │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          │                       │                       │
          │              ┌─────────────────┐              │
@@ -56,7 +56,7 @@ AUTHORIZATION_HEADER="Authorization: Bearer $API_KEY"
 
 ---
 
-## 🌐 API Gateway Service (74 Endpoints)
+## 🌐 API Gateway Service (80 Endpoints)
 
 ### **1. Core System Endpoints (6)**
 

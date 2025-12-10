@@ -13,15 +13,15 @@
 ### **Enterprise Service Status Overview**
 | Service | URL | Status | Endpoints | Type | Uptime | Response Time |
 |---------|-----|--------|-----------|------|--------|---------------|
-| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ Live | 74 | FastAPI | 99.95% | <85ms |
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ Live | 80 | FastAPI | 99.95% | <85ms |
 | **AI Agent** | [bhiv-hr-agent-nhgg.onrender.com](https://bhiv-hr-agent-nhgg.onrender.com/docs) | ✅ Live | 6 | FastAPI | 99.95% | <15ms |
-| **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ Live | 9 | FastAPI | 99.95% | <120ms |
+| **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ Live | 25 | FastAPI | 99.95% | <120ms |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com/) | ✅ Live | 8 | Streamlit | 99.95% | <1.8s |
 | **Client Portal** | [bhiv-hr-client-portal-3iod.onrender.com](https://bhiv-hr-client-portal-3iod.onrender.com/) | ✅ Live | 7 | Streamlit | 99.95% | <1.9s |
 | **Candidate Portal** | [bhiv-hr-candidate-portal-abe6.onrender.com](https://bhiv-hr-candidate-portal-abe6.onrender.com/) | ✅ Live | 7 | Streamlit | 99.95% | <2.1s |
 
 **Overall Status**: ✅ **6/6 SERVICES OPERATIONAL**  
-**Total Endpoints**: **111** (74 Gateway + 6 Agent + 9 LangGraph + 22 Portal)  
+**Total Endpoints**: **111** (80 Gateway + 6 Agent + 25 LangGraph)  
 **Cost**: **$0/month** (Optimized free tier deployment)  
 **Performance**: **99.95% Uptime** | **<85ms Average Response**
 
@@ -61,7 +61,7 @@
 Service: bhiv-hr-gateway-ltg0
 URL: https://bhiv-hr-gateway-ltg0.onrender.com
 Technology: FastAPI 4.2.0
-Endpoints: 74
+Endpoints: 80
 Features:
   - Triple authentication system
   - Dynamic rate limiting (60-500 req/min)
@@ -95,7 +95,7 @@ Accuracy: 92.3% matching precision
 Service: bhiv-hr-langgraph
 URL: https://bhiv-hr-langgraph.onrender.com
 Technology: FastAPI 4.2.0 + LangGraph + RL Integration
-Endpoints: 9
+Endpoints: 25
 Features:
   - Multi-channel notifications (Email, WhatsApp, SMS, Telegram)
   - AI-powered workflow automation

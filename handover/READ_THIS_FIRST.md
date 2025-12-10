@@ -603,7 +603,7 @@ Portal → Gateway → Agent/LangGraph → Database
 ## Important Warnings
 
 ### DO NOT Modify Without Approval
-- `services/gateway/app/main.py` - Core API gateway (74 endpoints)
+- `services/gateway/app/main.py` - Core API gateway (80 endpoints)
 - `services/agent/semantic_engine/phase3_engine.py` - AI matching model
 - `services/db/consolidated_schema.sql` - Database schema (19 tables)
 - `docker-compose.production.yml` - Production configuration

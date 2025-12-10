@@ -24,7 +24,7 @@ pip install -r tests/requirements.txt
 ## 📊 What Gets Tested
 
 ### 🏗️ All 6 Services (89 Endpoints)
-- **API Gateway**: 74 endpoints
+- **API Gateway**: 80 endpoints
 - **AI Agent**: 6 endpoints  
 - **LangGraph**: 9 endpoints
 - **HR Portal**: Web interface accessibility

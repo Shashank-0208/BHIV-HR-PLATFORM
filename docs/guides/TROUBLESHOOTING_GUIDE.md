@@ -40,7 +40,7 @@ curl https://bhiv-hr-candidate-portal-abe6.onrender.com/_stcore/health
 
 ---
 
-## 🌐 Gateway Service Troubleshooting (74 Endpoints)
+## 🌐 Gateway Service Troubleshooting (80 Endpoints)
 
 ### **Service Unavailability Issues**
 
@@ -56,7 +56,7 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/metrics
   "status": "healthy",
   "service": "BHIV HR Gateway",
   "version": "4.3.0",
-  "endpoints": 74,
+  "endpoints": 80,
   "database": "connected",
   "uptime": "99.9%"
 }
@@ -688,7 +688,7 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/v1/database/schema
 ## 📋 Diagnostic Checklists
 
 ### **✅ Service Health Checklist**
-- [ ] Gateway service responding (74 endpoints)
+- [ ] Gateway service responding (80 endpoints)
 - [ ] AI Agent service operational (6 endpoints)
 - [ ] LangGraph service active (25 endpoints)
 - [ ] HR Portal accessible

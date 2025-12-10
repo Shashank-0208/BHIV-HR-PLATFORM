@@ -24,7 +24,7 @@
 
 | **Service** | **URL** | **Port** | **Auth Type** | **Status** |
 |-------------|---------|----------|---------------|------------|
-| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com) | 443 | Triple Auth | ✅ 74 endpoints |
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com) | 443 | Triple Auth | ✅ 80 endpoints |
 | **AI Agent** | [bhiv-hr-agent-nhgg.onrender.com](https://bhiv-hr-agent-nhgg.onrender.com) | 443 | API Key + JWT | ✅ 6 endpoints |
 | **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | 443 | Bearer Token | ✅ 25 endpoints |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com) | 443 | Portal JWT | ✅ Live |

@@ -25,7 +25,7 @@ All services are live and operational - no installation needed!
 
 #### **Production Service URLs (111 Total Endpoints)**
 ```bash
-# API Gateway (74 endpoints - FastAPI 4.2.0)
+# API Gateway (80 endpoints - FastAPI 4.2.0)
 https://bhiv-hr-gateway-ltg0.onrender.com/docs
 
 # AI Agent Service (6 endpoints - Phase 3 AI Engine + RL Integration)  
@@ -124,7 +124,7 @@ open http://localhost:8503           # Candidate Portal
 ### **🔧 Local Service Configuration**
 ```bash
 # API Services
-Gateway API:      http://localhost:8000    # 74 endpoints
+Gateway API:      http://localhost:8000    # 80 endpoints
 AI Agent API:     http://localhost:9000    # 6 endpoints
 LangGraph API:    http://localhost:9001    # 9 endpoints
 
@@ -136,7 +136,7 @@ Candidate Portal: http://localhost:8503    # 7 endpoints
 # Database
 PostgreSQL:       localhost:5432          # Schema v4.3.0
 
-# Total Endpoints: 111 (74+6+9+8+7+7)
+# Total Endpoints: 111 (80+6+25)
 ```
 
 ---
@@ -190,7 +190,7 @@ https://bhiv-hr-candidate-portal-abe6.onrender.com/  # Production
 
 ### **4. API Testing (1 minute)**
 ```bash
-# Test Gateway API (74 endpoints)
+# Test Gateway API (80 endpoints)
 curl -H "Authorization: Bearer <YOUR_API_KEY>" \
      http://localhost:8000/v1/jobs  # Local
      # OR
@@ -384,7 +384,7 @@ LANGGRAPH_SERVICE_URL=http://langgraph:9001
 
 ### **Service Configuration**
 ```bash
-# Gateway Service (Port 8000) - 74 Endpoints
+# Gateway Service (Port 8000) - 80 Endpoints
 - FastAPI 4.2.0 (High-performance async)
 - Triple authentication system
 - RL integration with feedback loops
@@ -537,9 +537,9 @@ docker-compose -f deployment/docker/docker-compose.production.yml logs candidate
 docker stats
 
 # Check All Service Health (111 Endpoints)
-curl http://localhost:8000/health/detailed  # Gateway (74 endpoints)
+curl http://localhost:8000/health/detailed  # Gateway (80 endpoints)
 curl http://localhost:9000/health           # AI Agent (6 endpoints)
-curl http://localhost:9001/health           # LangGraph (9 endpoints)
+curl http://localhost:9001/health           # LangGraph (25 endpoints)
 curl http://localhost:8501/health           # HR Portal (8 endpoints)
 curl http://localhost:8502/health           # Client Portal (7 endpoints)
 curl http://localhost:8503/health           # Candidate Portal (7 endpoints)
@@ -605,7 +605,7 @@ matches = requests.get(f"{BASE_URL}/v1/match/1/top", headers=headers).json()
 - [ ] Can create new job posting
 - [ ] Can register new candidate
 - [ ] Database shows 13 core tables
-- [ ] All 111 endpoints respond correctly (74 Gateway + 6 Agent + 9 LangGraph + 22 Portal)
+- [ ] All 111 endpoints respond correctly (80 Gateway + 6 Agent + 25 LangGraph)
 - [ ] Export functionality works
 
 ### **🚀 Ready for Production When:**

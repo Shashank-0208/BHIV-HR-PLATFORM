@@ -13,7 +13,7 @@
 - **Deployment**: Render Cloud (Oregon, US West)
 - **Services**: 6 microservices fully operational
 - **Database**: PostgreSQL 17 with Schema v4.3.0
-- **Total Endpoints**: 111 (74 Gateway + 6 Agent + 25 LangGraph + 6 Portal)
+- **Total Endpoints**: 111 (80 Gateway + 6 Agent + 25 LangGraph)
 - **Performance**: <100ms API response, <0.02s AI matching
 - **Security**: Triple authentication with 2FA support
 
@@ -31,7 +31,7 @@
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   API Gateway   │────│   PostgreSQL    │────│   AI Agent      │
-│   74 endpoints  │    │   19 tables     │    │   6 endpoints   │
+│   80 endpoints  │    │   19 tables     │    │   6 endpoints   │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
          │                       │                       │
          │              ┌─────────────────┐              │

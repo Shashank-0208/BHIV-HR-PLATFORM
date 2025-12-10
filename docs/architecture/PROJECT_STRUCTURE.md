@@ -37,9 +37,9 @@ BHIV HR PLATFORM/
 ### **Microservices Overview (111 Total Endpoints)**
 ```
 services/
-├── 🚪 gateway/           # API Gateway (74 endpoints) - Core API
+├── 🚪 gateway/           # API Gateway (80 endpoints) - Core API
 ├── 🤖 agent/             # AI Agent (6 endpoints) - ML/RL Engine
-├── 🔄 langgraph/         # Automation (9 endpoints) - Workflow Engine
+├── 🔄 langgraph/         # Automation (25 endpoints) - Workflow Engine
 ├── 🎯 portal/            # HR Portal (8 endpoints) - Streamlit UI
 ├── 🏢 client_portal/     # Client Portal (7 endpoints) - Enterprise UI
 ├── 👤 candidate_portal/  # Candidate Portal (7 endpoints) - Applicant UI
@@ -49,9 +49,9 @@ services/
 ### **Production Service Status**
 | Service | URL | Endpoints | Technology | Status |
 |---------|-----|-----------|------------|--------|
-| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | 74 | FastAPI 4.2.0 | ✅ Live |
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | 80 | FastAPI 4.2.0 | ✅ Live |
 | **AI Agent** | [bhiv-hr-agent-nhgg.onrender.com](https://bhiv-hr-agent-nhgg.onrender.com/docs) | 6 | FastAPI + ML | ✅ Live |
-| **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | 9 | FastAPI + RL | ✅ Live |
+| **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | 25 | FastAPI + RL | ✅ Live |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com/) | 8 | Streamlit 1.41.1 | ✅ Live |
 | **Client Portal** | [bhiv-hr-client-portal-3iod.onrender.com](https://bhiv-hr-client-portal-3iod.onrender.com/) | 7 | Streamlit 1.41.1 | ✅ Live |
 | **Candidate Portal** | [bhiv-hr-candidate-portal-abe6.onrender.com](https://bhiv-hr-candidate-portal-abe6.onrender.com/) | 7 | Streamlit 1.41.1 | ✅ Live |

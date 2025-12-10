@@ -1,6 +1,6 @@
 # BHIV HR Platform - Complete Endpoint Inventory (89 Total)
 
-## Gateway Service (74 endpoints)
+## Gateway Service (80 endpoints)
 
 ### Core API Endpoints (5)
 1. `GET /openapi.json` - OpenAPI Schema

@@ -35,7 +35,7 @@ BHIV HR PLATFORM/
 ### **Services Directory (Microservices Architecture)**
 ```
 services/                    # 6 microservices + database
-├── gateway/                 # API Gateway (74 endpoints)
+├── gateway/                 # API Gateway (80 endpoints)
 │   ├── app/
 │   │   ├── main.py         # FastAPI application
 │   │   ├── routes/         # API route modules

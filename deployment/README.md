@@ -58,7 +58,7 @@ docker-compose -f docker-compose.production.yml down
 ### Services
 | Service | URL | Status |
 |---------|-----|--------|
-| Gateway | bhiv-hr-gateway-ltg0.onrender.com | 🟢 Live (74 endpoints) |
+| Gateway | bhiv-hr-gateway-ltg0.onrender.com | 🟢 Live (80 endpoints) |
 | Agent | bhiv-hr-agent-nhgg.onrender.com | 🟢 Live (6 endpoints) |
 | LangGraph | bhiv-hr-langgraph.onrender.com | 🟢 Live (9 endpoints) |
 | HR Portal | bhiv-hr-portal-u670.onrender.com | 🟢 Live |

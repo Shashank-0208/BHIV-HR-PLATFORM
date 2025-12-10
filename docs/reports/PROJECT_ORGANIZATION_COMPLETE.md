@@ -8,7 +8,7 @@
 ```
 BHIV HR PLATFORM/
 ├── services/                    # 🔧 6 Microservices
-│   ├── gateway/                # API Gateway (74 endpoints)
+│   ├── gateway/                # API Gateway (80 endpoints)
 │   ├── agent/                  # AI Agent (6 endpoints)
 │   ├── langgraph/              # LangGraph (9 endpoints)
 │   ├── portal/                 # HR Portal

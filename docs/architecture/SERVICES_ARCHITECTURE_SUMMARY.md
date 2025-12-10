@@ -21,7 +21,7 @@
 | **Database** | PostgreSQL 17 | 5432 | ✅ Live | Internal Render URL | Schema v4.3.0 |
 
 ### **System Metrics**
-- **Total Endpoints**: 111 (74 Gateway + 6 Agent + 25 LangGraph + 6 RL Integration)
+- **Total Endpoints**: 111 (80 Gateway + 6 Agent + 25 LangGraph)
 - **Database Tables**: 19 tables (13 core + 6 RL integration)
 - **Schema Version**: v4.3.0 with Phase 3 semantic engine + RL integration + LangGraph workflows
 - **Authentication**: Triple authentication system (API Key + Client JWT + Candidate JWT)
@@ -30,7 +30,7 @@
 
 ---
 
-## 🌐 Gateway Service (74 Endpoints)
+## 🌐 Gateway Service (80 Endpoints)
 
 ### **Service Configuration**
 ```python
@@ -54,7 +54,7 @@ engine = create_engine(
 )
 ```
 
-### **API Endpoints (74 Total) - Production Verified**
+### **API Endpoints (80 Total) - Production Verified**
 ```
 Core API (3):
 ├── GET  /                    - Service information
@@ -595,7 +595,7 @@ async def detailed_health_check():
 ## 🚀 Production Deployment Status
 
 ### **Live Services (6/6 Operational)**
-- ✅ **API Gateway**: [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com) (74 endpoints)
+- ✅ **API Gateway**: [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com) (80 endpoints)
 - ✅ **AI Engine**: [bhiv-hr-agent-nhgg.onrender.com](https://bhiv-hr-agent-nhgg.onrender.com) (6 endpoints)
 - ✅ **LangGraph Automation**: [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) (25 endpoints)
 - ✅ **HR Portal**: [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com) (Live UI)
@@ -604,7 +604,7 @@ async def detailed_health_check():
 - ✅ **Database**: PostgreSQL 17 on Render (19 tables, Schema v4.3.0)
 
 ### **System Health Summary**
-- **Total Endpoints**: 111 interactive endpoints (74 Gateway + 6 Agent + 25 LangGraph + 6 RL Integration)
+- **Total Endpoints**: 111 interactive endpoints (80 Gateway + 6 Agent + 25 LangGraph)
 - **Database Schema**: v4.3.0 with complete RL integration + Phase 3 features + LangGraph workflows
 - **Real Production Data**: 10+ candidates, 19+ jobs, 29 resume files processed
 - **AI Algorithm**: Phase 3 semantic matching + RL integration (fully operational)

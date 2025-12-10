@@ -11,7 +11,7 @@
 ## 📋 Testing Overview
 
 ### **Testing Architecture**
-- **Total Endpoints**: 111 (74 Gateway + 6 Agent + 25 LangGraph + 6 Portal)
+- **Total Endpoints**: 111 (80 Gateway + 6 Agent + 25 LangGraph)
 - **Test Categories**: 8 comprehensive testing categories
 - **Automation Level**: 100% automated test execution
 - **CI/CD Integration**: Complete pipeline with GitHub Actions
@@ -71,7 +71,7 @@ tests/
 ### **Testing Categories**
 
 #### **1. API Endpoint Testing (25+ Files)**
-- **Core API Tests**: Basic functionality validation across 74 Gateway endpoints
+- **Core API Tests**: Basic functionality validation across 80 Gateway endpoints
 - **Security Endpoint Tests**: Authentication, authorization, and security features
 - **2FA Tests**: Two-factor authentication with TOTP validation
 - **Password Management**: Password policies, hashing, and security
@@ -80,7 +80,7 @@ tests/
 - **Input Validation**: XSS, SQL injection, and data sanitization
 
 #### **2. Service-Specific Testing**
-- **Gateway Tests (15 files)**: 74 endpoint validation with service integration
+- **Gateway Tests (15 files)**: 80 endpoint validation with service integration
 - **AI Agent Tests (8 files)**: 6 endpoint testing with Phase 3 semantic engine
 - **LangGraph Tests (18 files)**: 25 workflow endpoint automation testing
 - **Portal Tests (6 files)**: UI integration and authentication flows
@@ -103,7 +103,7 @@ tests/
 
 ## 🔧 Core Testing Implementation
 
-### **1. Gateway Service Testing (74 Endpoints)**
+### **1. Gateway Service Testing (80 Endpoints)**
 
 #### **Core API Endpoint Testing**
 ```python
@@ -125,7 +125,7 @@ class TestGatewayCore:
         data = response.json()
         assert data["message"] == "BHIV HR Platform API Gateway"
         assert data["version"] == "4.3.0"
-        assert data["total_endpoints"] == 74
+        assert data["total_endpoints"] == 80
         assert data["status"] == "operational"
         assert "uptime" in data
 
@@ -1143,7 +1143,7 @@ jobs:
 - [ ] Network connectivity verified
 - [ ] Database connectivity tested
 
-### **✅ Gateway Service Testing (74 Endpoints)**
+### **✅ Gateway Service Testing (80 Endpoints)**
 - [ ] Core API endpoints (20+ tests)
 - [ ] Authentication endpoints (15+ tests)
 - [ ] Security endpoints (10+ tests)

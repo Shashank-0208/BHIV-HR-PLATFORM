@@ -195,12 +195,12 @@ notifications          # Multi-channel notification log
 ## 🛠️ Complete API Reference (111 Endpoints)
 
 ### **Endpoint Distribution**
-- **Gateway Service**: 74 endpoints (Core API)
+- **Gateway Service**: 80 endpoints (Core API)
 - **AI Agent Service**: 6 endpoints (Matching Engine)
 - **LangGraph Service**: 9 endpoints (Workflow Automation)
 - **Portal Services**: 22 endpoints (UI Interfaces)
 
-### **API Gateway (74 Endpoints)**
+### **API Gateway (80 Endpoints)**
 
 ### **Candidate Management**
 ```bash
@@ -321,7 +321,7 @@ GET /v1/system/status              # Overall system status
 ```
 BHIV HR PLATFORM/
 ├── services/                    # 6 microservices (111 total endpoints)
-│   ├── gateway/                 # API Gateway (74 endpoints)
+│   ├── gateway/                 # API Gateway (80 endpoints)
 │   │   ├── app/                 # FastAPI application
 │   │   ├── routes/              # API route definitions
 │   │   ├── auth/                # Authentication middleware
@@ -390,7 +390,7 @@ BHIV HR PLATFORM/
 ## 🧪 Testing & Validation
 
 ### **Comprehensive Test Coverage**
-- **111 Endpoints**: 100% tested and functional (74 Gateway + 6 Agent + 9 LangGraph + 22 Portal)
+- **111 Endpoints**: 100% tested and functional (80 Gateway + 6 Agent + 25 LangGraph)
 - **Security Tests**: Triple authentication, input validation, security headers
 - **Integration Tests**: Cross-service communication and data flow
 - **Performance Tests**: Load testing, stress testing, and scalability

@@ -155,7 +155,7 @@ CREATE TABLE rl_prediction_logs (
 
 ### **🌐 API Enhancements (111 Total Endpoints)**
 
-#### **Gateway Service (74 Endpoints)**
+#### **Gateway Service (80 Endpoints)**
 ```yaml
 New Endpoints:
   - POST /v1/rl/feedback - Submit hiring outcome feedback
@@ -522,7 +522,7 @@ Initial production schema
 ### **API Endpoint Evolution**
 
 ```yaml
-v4.3.0: 111 endpoints (74 Gateway + 6 Agent + 25 LangGraph + 6 Portal)
+v4.3.0: 111 endpoints (80 Gateway + 6 Agent + 25 LangGraph)
 v4.2.0: 107 endpoints (94 Gateway + 6 Agent + 7 LangGraph)
 v4.1.0: 95 endpoints (89 Gateway + 6 Agent)
 v4.0.0: 85 endpoints (Gateway + Agent)

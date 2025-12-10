@@ -13,7 +13,7 @@
 
 | Service | URL | Port | Status | Endpoints |
 |---------|-----|------|--------|-----------|
-| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com) | 8000 | ✅ Live | 74 |
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com) | 8000 | ✅ Live | 80 |
 | **AI Engine** | [bhiv-hr-agent-nhgg.onrender.com](https://bhiv-hr-agent-nhgg.onrender.com) | 9000 | ✅ Live | 6 |
 | **LangGraph Automation** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | 9001 | ✅ Live | 25 |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com) | 8501 | ✅ Live | UI |
@@ -31,7 +31,7 @@
 
 ---
 
-## 🌐 Gateway Service (74 Endpoints)
+## 🌐 Gateway Service (80 Endpoints)
 
 ### **📍 Location**: `/services/gateway/`
 ### **🎯 Purpose**: Central API hub with triple authentication and unified routing
@@ -51,7 +51,7 @@
 - **2FA TOTP Support**: QR code generation and verification
 - **Enterprise Security**: Input validation, penetration testing endpoints
 
-#### **API Endpoint Categories (74 Total)**
+#### **API Endpoint Categories (80 Total)**
 ```
 Core API (3 endpoints):
 ├── GET  /                    - Service information

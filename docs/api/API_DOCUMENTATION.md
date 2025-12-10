@@ -2,7 +2,7 @@
 
 **Updated**: December 9, 2025 (Post-Handover)  
 **API Version**: v3.0.0 Production Ready  
-**Total Endpoints**: 111 (74 Gateway + 6 Agent + 25 LangGraph + 6 RL Integration)  
+**Total Endpoints**: 111 (80 Gateway + 6 Agent + 25 LangGraph)  
 **Status**: ✅ 6/6 Services Operational | 111 Endpoints Live | 99.9% Uptime | $0/month Cost
 
 ---
@@ -15,7 +15,7 @@
 
 | Service | URL | Status |
 |---------|-----|--------|
-| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com/docs](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ 74 endpoints |
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com/docs](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ 80 endpoints |
 | **AI Engine** | [bhiv-hr-agent-nhgg.onrender.com/docs](https://bhiv-hr-agent-nhgg.onrender.com/docs) | ✅ 6 endpoints |
 | **LangGraph Automation** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ 25 endpoints |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com/) | ✅ Live |
@@ -93,7 +93,7 @@ Authorization: Bearer <candidate_jwt_token>
 
 ---
 
-## 🚀 Gateway Service API (74 Endpoints)
+## 🚀 Gateway Service API (80 Endpoints)
 
 **Base URL**: https://bhiv-hr-gateway-ltg0.onrender.com  
 **Authentication**: API Key (Bearer Token) + Unified Auth Management  
@@ -124,7 +124,7 @@ curl -X GET https://bhiv-hr-gateway-ltg0.onrender.com/
   "message": "BHIV HR Platform API Gateway",
   "version": "3.0.0",
   "status": "healthy",
-  "endpoints": 74,
+  "endpoints": 80,
   "documentation": "/docs",
   "monitoring": "/metrics",
   "live_demo": "https://bhiv-hr-portal-u670.onrender.com"
@@ -853,13 +853,13 @@ curl https://bhiv-hr-portal-u670.onrender.com/health
 ## 📊 Complete Endpoint Summary (111 Total)
 
 ### **Service Distribution**
-- **Gateway Service**: 74 endpoints (Core API, Auth, Security, Workflows)
+- **Gateway Service**: 80 endpoints (Core API, Auth, Security, Workflows)
 - **AI Agent Service**: 6 endpoints (ML/RL Engine, Semantic Matching)
 - **LangGraph Service**: 25 endpoints (Workflow Automation, Notifications, RL Integration)
 - **Portal Services**: 6 endpoints (HR, Client, Candidate UI interfaces)
 - **Total**: 111 endpoints across 6 microservices
 
-### **Gateway Service Categories (74 Endpoints)**
+### **Gateway Service Categories (80 Endpoints)
 - **Core API**: 3 endpoints (Root, Health, Test DB)
 - **Monitoring**: 3 endpoints (Metrics, Health Detail, Dashboard)
 - **Analytics**: 3 endpoints (Stats, Schema, Export)
