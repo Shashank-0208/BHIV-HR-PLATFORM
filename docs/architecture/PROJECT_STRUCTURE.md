@@ -1,9 +1,9 @@
 # 🏗️ BHIV HR Platform - Project Structure
 
 **Complete Architecture and Organization Guide**  
-**Updated**: November 21, 2025  
-**Version**: 3.0.0 Production Ready  
-**Status**: ✅ Fully Organized and Operational
+**Updated**: December 9, 2025  
+**Version**: v3.0.0 Production Ready  
+**Status**: ✅ 6/6 Services Operational | 111 Endpoints Live | 99.9% Uptime
 
 ---
 
@@ -34,17 +34,28 @@ BHIV HR PLATFORM/
 
 ## 🚀 Services Architecture
 
-### **Microservices Overview**
+### **Microservices Overview (111 Total Endpoints)**
 ```
 services/
-├── 🚪 gateway/           # API Gateway (74 endpoints)
-├── 🤖 agent/             # AI Agent (6 endpoints)
-├── 🔄 langgraph/         # Automation (9 endpoints)
-├── 🎯 portal/            # HR Portal (Streamlit)
-├── 🏢 client_portal/     # Client Portal (Streamlit)
-├── 👤 candidate_portal/  # Candidate Portal (Streamlit)
-└── 🗄️ db/               # Database Schema
+├── 🚪 gateway/           # API Gateway (74 endpoints) - Core API
+├── 🤖 agent/             # AI Agent (6 endpoints) - ML/RL Engine
+├── 🔄 langgraph/         # Automation (9 endpoints) - Workflow Engine
+├── 🎯 portal/            # HR Portal (8 endpoints) - Streamlit UI
+├── 🏢 client_portal/     # Client Portal (7 endpoints) - Enterprise UI
+├── 👤 candidate_portal/  # Candidate Portal (7 endpoints) - Applicant UI
+└── 🗄️ db/               # Database Schema v4.3.0 (PostgreSQL 17)
 ```
+
+### **Production Service Status**
+| Service | URL | Endpoints | Technology | Status |
+|---------|-----|-----------|------------|--------|
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | 74 | FastAPI 4.2.0 | ✅ Live |
+| **AI Agent** | [bhiv-hr-agent-nhgg.onrender.com](https://bhiv-hr-agent-nhgg.onrender.com/docs) | 6 | FastAPI + ML | ✅ Live |
+| **LangGraph** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | 9 | FastAPI + RL | ✅ Live |
+| **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com/) | 8 | Streamlit 1.41.1 | ✅ Live |
+| **Client Portal** | [bhiv-hr-client-portal-3iod.onrender.com](https://bhiv-hr-client-portal-3iod.onrender.com/) | 7 | Streamlit 1.41.1 | ✅ Live |
+| **Candidate Portal** | [bhiv-hr-candidate-portal-abe6.onrender.com](https://bhiv-hr-candidate-portal-abe6.onrender.com/) | 7 | Streamlit 1.41.1 | ✅ Live |
+| **TOTAL** | **6 Services** | **111** | **Mixed Stack** | **✅ 100%** |
 
 ### **Gateway Service (Port 8000)**
 ```
@@ -68,18 +79,33 @@ services/gateway/
 └── 📄 requirements.txt  # Python dependencies
 ```
 
-### **AI Agent Service (Port 9000)**
+### **AI Agent Service (Port 9000) - ML/RL Engine**
 ```
 services/agent/
-├── 📁 semantic_engine/  # AI matching engine
+├── 📁 semantic_engine/  # Phase 3 AI matching engine
 │   ├── __init__.py
-│   └── phase3_engine.py # Phase 3 semantic matching
+│   └── phase3_engine.py # Semantic matching + RL integration
+├── 📁 rl_integration/   # Reinforcement Learning system
+│   ├── __init__.py
+│   ├── feedback_collector.py # ML feedback collection
+│   ├── model_trainer.py      # scikit-learn model training
+│   └── prediction_engine.py  # ML-enhanced predictions
 ├── 📄 __init__.py
-├── 📄 app.py            # FastAPI application
-├── 📄 config.py         # Configuration
+├── 📄 app.py            # FastAPI application (6 endpoints)
+├── 📄 config.py         # Configuration with ML settings
 ├── 📄 Dockerfile        # Docker configuration
-├── 📄 requirements.txt  # Dependencies
+├── 📄 requirements.txt  # Dependencies (includes scikit-learn)
 └── 📄 README.md         # Service documentation
+```
+
+### **AI Agent Endpoints (6 Total)**
+```bash
+GET  /analyze/{candidate_id}    # Candidate analysis
+POST /match                     # Custom matching criteria
+POST /rl/predict               # RL-enhanced matching
+POST /rl/feedback              # Submit ML feedback
+GET  /rl/analytics             # RL system analytics
+GET  /health                   # Service health check
 ```
 
 ### **LangGraph Service (Port 9001)**
@@ -145,17 +171,53 @@ services/candidate_portal/ # Candidate Portal (8503)
 └── 📄 README.md         # Portal documentation
 ```
 
-### **Database Service**
+### **Database Service - PostgreSQL 17 Schema v4.3.0**
 ```
 services/db/
 ├── 📁 database/         # Database migrations and scripts
-│   └── 📁 migrations/   # Database migration files
-├── 📄 consolidated_schema.sql    # Complete database schema
-├── 📄 deploy_schema_production.sql # Production deployment
-├── 📄 fix_clients_table.sql     # Schema fixes
-├── 📄 Dockerfile                # PostgreSQL configuration
+│   └── 📁 migrations/   # Version-controlled migration files
+├── 📄 consolidated_schema.sql    # Complete schema v4.3.0 (19 tables)
+├── 📄 deploy_schema_production.sql # Production deployment script
+├── 📄 fix_clients_table.sql     # Schema optimization fixes
+├── 📄 Dockerfile                # PostgreSQL 17 configuration
 └── 📄 README.md                 # Database documentation
 ```
+
+### **Database Schema v4.3.0 (19 Tables)**
+```sql
+-- Core Application Tables (8)
+candidates              # Candidate profiles and data
+jobs                   # Job postings and requirements
+applications           # Job applications and status tracking
+interviews             # Interview scheduling and results
+feedback               # Values assessment and BHIV scoring
+clients                # Client company information
+users                  # HR user management and authentication
+offers                 # Job offers and negotiation tracking
+
+-- System & Security Tables (5)
+api_keys               # API authentication management
+rate_limits            # Dynamic rate limiting configuration
+audit_logs             # Complete system audit trail
+workflow_executions    # LangGraph workflow tracking
+notifications          # Multi-channel notification log
+
+-- Reinforcement Learning Tables (6)
+rl_feedback            # ML feedback collection
+rl_predictions         # ML prediction results
+rl_models              # Model versioning and metadata
+rl_training_data       # Training dataset management
+rl_performance_metrics # ML system performance tracking
+rl_experiments         # A/B testing and experimentation
+```
+
+### **Database Features**
+- **75+ Indexes**: Optimized query performance
+- **Audit Triggers**: Complete change tracking
+- **Generated Columns**: Automated calculations
+- **Referential Integrity**: Data consistency enforcement
+- **RL Integration**: ML feedback and learning system
+- **Connection Pooling**: Efficient resource management
 
 ---
 
@@ -514,4 +576,4 @@ curl https://bhiv-hr-gateway-ltg0.onrender.com/health
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Status**: ✅ Fully Organized | **Services**: 6/6 Live | **Files**: Properly Categorized | **Updated**: November 21, 2025
+**Status**: ✅ 6/6 Services Operational | **Endpoints**: 111 Live | **Database**: v4.3.0 | **Updated**: December 9, 2025

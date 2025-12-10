@@ -263,17 +263,21 @@ class CommunicationManager:
         
         sequence = sequences.get(sequence_type, sequences["application_received"])
         
-        # Send email
-        if payload.get('candidate_email'):
+        # Send email - use provided email or skip
+        candidate_email = payload.get('candidate_email')
+        if candidate_email and candidate_email != "test@example.com":
             email_result = await self.send_email(
-                payload['candidate_email'],
+                candidate_email,
                 sequence["email"]["subject"],
                 sequence["email"]["body"]
             )
             results.append(email_result)
+        else:
+            logger.info("Skipping email - no valid email provided")
         
         # Send WhatsApp with interactive options for certain sequences
-        if payload.get('candidate_phone'):
+        candidate_phone = payload.get('candidate_phone')
+        if candidate_phone and candidate_phone != "+1234567890":
             if sequence_type == "interview_scheduled":
                 whatsapp_result = await self.send_whatsapp_with_buttons(
                     payload['candidate_phone'],

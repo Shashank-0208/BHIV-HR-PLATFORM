@@ -7,11 +7,13 @@ echo "================================"
 # Service endpoints
 GATEWAY_URL="http://localhost:8000"
 AGENT_URL="http://localhost:9000"
+LANGGRAPH_URL="http://localhost:9001"
 PORTAL_URL="http://localhost:8501"
 CLIENT_PORTAL_URL="http://localhost:8502"
+CANDIDATE_PORTAL_URL="http://localhost:8503"
 
 # API Key
-API_KEY="myverysecureapikey123"
+API_KEY="prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 
 # Health check function
 check_service() {
@@ -59,6 +61,16 @@ portal_status=$?
 check_service "Client Portal" "$CLIENT_PORTAL_URL"
 client_portal_status=$?
 
+check_service "LangGraph API" "$LANGGRAPH_URL/health"
+langgraph_status=$?
+
+check_service "Candidate Portal" "$CANDIDATE_PORTAL_URL"
+candidate_portal_status=$?
+
+# Initialize missing variables if not set
+langgraph_status=${langgraph_status:-1}
+candidate_portal_status=${candidate_portal_status:-1}
+
 # Test API endpoints
 echo -n "Testing API Authentication... "
 if command -v curl >/dev/null 2>&1; then
@@ -79,15 +91,17 @@ fi
 echo ""
 echo "📊 Health Check Summary:"
 echo "========================"
-echo "Database:      $([ $db_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
-echo "Gateway:       $([ $gateway_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
-echo "Agent:         $([ $agent_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
-echo "HR Portal:     $([ $portal_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
-echo "Client Portal: $([ $client_portal_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
-echo "API Auth:      $([ $api_status -eq 0 ] && echo "✅ Working" || echo "❌ Failed")"
+echo "Database:        $([ $db_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
+echo "Gateway:         $([ $gateway_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
+echo "Agent:           $([ $agent_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
+echo "LangGraph:       $([ $langgraph_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
+echo "HR Portal:       $([ $portal_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
+echo "Client Portal:   $([ $client_portal_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
+echo "Candidate Portal:$([ $candidate_portal_status -eq 0 ] && echo "✅ Healthy" || echo "❌ Unhealthy")"
+echo "API Auth:        $([ $api_status -eq 0 ] && echo "✅ Working" || echo "❌ Failed")"
 
 # Overall status
-total_failures=$((db_status + gateway_status + agent_status + portal_status + client_portal_status + api_status))
+total_failures=$((db_status + gateway_status + agent_status + langgraph_status + portal_status + client_portal_status + candidate_portal_status + api_status))
 
 if [ $total_failures -eq 0 ]; then
     echo ""

@@ -6,7 +6,7 @@ import re
 from pathlib import Path
 
 class ComprehensiveResumeExtractor:
-    def __init__(self, resume_folder="resume", output_csv="data/candidates.csv"):
+    def __init__(self, resume_folder="assets/resumes", output_csv="data/candidates.csv"):
         self.resume_folder = resume_folder
         self.output_csv = output_csv
         
@@ -81,16 +81,37 @@ class ComprehensiveResumeExtractor:
         experience = self._analyze_experience(text)
         education = self._analyze_education(text)
         
+        # Convert experience to years
+        exp_years = 0
+        if 'year' in experience.lower():
+            try:
+                exp_years = int(experience.split()[0])
+            except:
+                exp_years = 0
+        elif experience == 'Fresher':
+            exp_years = 0
+        else:
+            exp_years = 1
+        
+        # Map designation to seniority_level
+        seniority_level = 'Junior'
+        if exp_years <= 2:
+            seniority_level = 'Junior'
+        elif exp_years <= 5:
+            seniority_level = 'Mid'
+        else:
+            seniority_level = 'Senior'
+        
         return {
             'name': name,
             'email': email,
             'phone': phone,
             'location': location,
-            'designation': designation,
-            'skills': skills,
-            'experience': experience,
-            'education': education,
-            'resume_name': filename
+            'seniority_level': seniority_level,  # FIXED: was 'designation'
+            'technical_skills': skills,  # FIXED: was 'skills'
+            'experience_years': exp_years,  # FIXED: was 'experience'
+            'education_level': education,  # FIXED: was 'education'
+            'resume_path': f"assets/resumes/{filename}"  # FIXED: was 'resume_name'
         }
     
     def _analyze_name(self, text, filename):
@@ -376,10 +397,10 @@ class ComprehensiveResumeExtractor:
             print(f"  Email: {candidate_data['email'] or 'Not found'}")
             print(f"  Phone: {candidate_data['phone'] or 'Not found'}")
             print(f"  Location: {candidate_data['location'] or 'Not found'}")
-            print(f"  Designation: {candidate_data['designation'] or 'Not found'}")
-            print(f"  Experience: {candidate_data['experience']}")
-            print(f"  Education: {candidate_data['education']}")
-            print(f"  Skills: {candidate_data['skills'][:60]}{'...' if len(candidate_data['skills']) > 60 else ''}")
+            print(f"  Seniority: {candidate_data['seniority_level']}")
+            print(f"  Experience: {candidate_data['experience_years']} years")
+            print(f"  Education: {candidate_data['education_level']}")
+            print(f"  Skills: {candidate_data['technical_skills'][:60]}{'...' if len(candidate_data['technical_skills']) > 60 else ''}")
         
         if candidates:
             # Save results
@@ -398,7 +419,7 @@ class ComprehensiveResumeExtractor:
             print(f"Emails: {df['email'].astype(bool).sum()} ({df['email'].astype(bool).sum()/len(df)*100:.0f}%)")
             print(f"Phones: {df['phone'].astype(bool).sum()} ({df['phone'].astype(bool).sum()/len(df)*100:.0f}%)")
             print(f"Locations: {df['location'].astype(bool).sum()} ({df['location'].astype(bool).sum()/len(df)*100:.0f}%)")
-            print(f"Designations: {df['designation'].astype(bool).sum()} ({df['designation'].astype(bool).sum()/len(df)*100:.0f}%)")
+            print(f"Seniority Levels: {df['seniority_level'].astype(bool).sum()} ({df['seniority_level'].astype(bool).sum()/len(df)*100:.0f}%)")
             
             return df
         

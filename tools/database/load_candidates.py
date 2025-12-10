@@ -23,6 +23,7 @@ def load_candidates_from_csv():
         # Read CSV data
         df = pd.read_csv('data/candidates.csv')
         print(f"Found {len(df)} candidates in CSV")
+        print(f"Found {len(df)} candidates in CSV")
         
         # Connect to database
         conn = psycopg2.connect(**DB_CONFIG)
@@ -32,11 +33,11 @@ def load_candidates_from_csv():
         inserted = 0
         for _, row in df.iterrows():
             try:
-                # Map experience to years
+                # Map experience to years - FIXED FIELD NAME
                 exp_years = 0
-                if 'year' in str(row['experience']).lower():
-                    exp_years = int(str(row['experience']).split()[0])
-                elif row['experience'] == 'Fresher':
+                if 'experience_years' in row and pd.notna(row['experience_years']):
+                    exp_years = int(row['experience_years'])
+                else:
                     exp_years = 0
                 
                 # Insert candidate
@@ -53,10 +54,10 @@ def load_candidates_from_csv():
                     row['phone'] if pd.notna(row['phone']) else '',
                     row['location'] if pd.notna(row['location']) else 'Mumbai',
                     exp_years,
-                    row['skills'] if pd.notna(row['skills']) else '',
-                    'Junior' if exp_years <= 2 else 'Mid' if exp_years <= 5 else 'Senior',
-                    row['education'] if pd.notna(row['education']) else 'Bachelors',
-                    f"assets/resumes/{row['resume_name']}" if pd.notna(row['resume_name']) else '',
+                    row['technical_skills'] if pd.notna(row['technical_skills']) else '',  # FIXED
+                    row['seniority_level'] if pd.notna(row['seniority_level']) else 'Junior',  # FIXED
+                    row['education_level'] if pd.notna(row['education_level']) else 'Bachelors',  # FIXED
+                    row['resume_path'] if pd.notna(row['resume_path']) else '',  # FIXED
                     'applied',
                     datetime.now(),
                     datetime.now()
@@ -110,8 +111,8 @@ if __name__ == "__main__":
     
     if inserted > 0:
         verify_data()
-        print(f"\n✅ Success! {inserted} candidates loaded.")
+        print(f"\nSuccess! {inserted} candidates loaded.")
         print("Now test the Agent service:")
         print('curl -H "Authorization: Bearer <YOUR_API_KEY>" -X POST -H "Content-Type: application/json" -d \'{"job_id": 1}\' http://localhost:9000/match')
     else:
-        print("❌ Failed to load candidates")
+        print("Failed to load candidates")
