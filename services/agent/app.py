@@ -131,24 +131,37 @@ def custom_openapi():
 
 app.openapi = custom_openapi
 
-# Initialize Phase 3 production engine if available
+# Initialize Phase 3 production engine if available (singleton pattern)
 phase3_engine = None
 advanced_matcher = None
 batch_matcher = None
 learning_engine = None
 
-if PHASE3_AVAILABLE and Phase3SemanticEngine:
-    try:
-        phase3_engine = Phase3SemanticEngine()
-        advanced_matcher = AdvancedSemanticMatcher()
-        batch_matcher = BatchMatcher()
-        learning_engine = LearningEngine()
-        print("SUCCESS: Phase 3 Production Engine initialized")
-    except Exception as e:
-        logger.error(f"Failed to initialize Phase 3 engine: {e}")
-        PHASE3_AVAILABLE = False
+def get_phase3_components():
+    """Singleton pattern for Phase 3 components to prevent multiple initializations"""
+    global phase3_engine, advanced_matcher, batch_matcher, learning_engine
+    
+    if phase3_engine is None and PHASE3_AVAILABLE and Phase3SemanticEngine:
+        try:
+            logger.info("Initializing Phase 3 components (singleton)...")
+            phase3_engine = Phase3SemanticEngine()
+            advanced_matcher = AdvancedSemanticMatcher()
+            batch_matcher = BatchMatcher()
+            learning_engine = LearningEngine()
+            logger.info("SUCCESS: Phase 3 Production Engine initialized")
+        except Exception as e:
+            logger.error(f"Failed to initialize Phase 3 engine: {e}")
+            return None, None, None, None
+    
+    return phase3_engine, advanced_matcher, batch_matcher, learning_engine
+
+# Initialize components once at startup
+if PHASE3_AVAILABLE:
+    logger.info("Starting Phase 3 engine initialization...")
+    get_phase3_components()
+    logger.info("Phase 3 engine initialization complete")
 else:
-    print("INFO: Running in fallback mode without Phase 3 engine")
+    logger.info("Running in fallback mode without Phase 3 engine")
 
 class MatchRequest(BaseModel):
     job_id: int

@@ -1,9 +1,15 @@
 # 📚 BHIV HR Platform - Complete API Documentation
 
-**Updated**: December 9, 2025 (Post-Handover)  
-**API Version**: v3.0.0 Production Ready  
+**Updated**: December 11, 2025 (Code Quality Improvements)  
+**API Version**: v3.0.1 Production Ready  
 **Total Endpoints**: 111 (80 Gateway + 6 Agent + 25 LangGraph)  
 **Status**: ✅ 6/6 Services Operational | 111 Endpoints Live | 99.9% Uptime | $0/month Cost
+
+### **Recent API Fixes (December 11, 2025)**
+- ✅ **Fixed**: `/test-candidates` endpoint path correction (was returning 404)
+- ✅ **Fixed**: Pydantic model compatibility warnings resolved
+- ✅ **Fixed**: LangGraph RL endpoint operation ID conflicts
+- ✅ **Enhanced**: API documentation generation without warnings
 
 ---
 

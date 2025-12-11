@@ -40,7 +40,7 @@ event_timeline = EventTimeline(postgres_adapter)
 router = APIRouter(prefix="/rl", tags=["RL + Feedback Agent"])
 
 @router.post("/predict", response_model=RLResponse)
-async def rl_predict_match(request: RLPredictionRequest):
+async def rl_predict_match_endpoint(request: RLPredictionRequest):
     """RL-Enhanced Candidate Matching Prediction"""
     try:
         # Get feedback history for RL enhancement
@@ -95,7 +95,7 @@ async def rl_predict_match(request: RLPredictionRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/feedback", response_model=RLResponse)
-async def submit_rl_feedback(request: RLFeedbackRequest):
+async def submit_rl_feedback_endpoint(request: RLFeedbackRequest):
     """Submit Feedback for RL Learning"""
     try:
         # Calculate reward signal
@@ -136,7 +136,7 @@ async def submit_rl_feedback(request: RLFeedbackRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/analytics", response_model=RLResponse)
-async def get_rl_analytics():
+async def get_rl_analytics_endpoint():
     """Get RL System Analytics and Performance Metrics"""
     try:
         # Get database analytics

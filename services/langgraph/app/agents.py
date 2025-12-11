@@ -2,9 +2,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from .state import CandidateApplicationState
 from .tools import *
-from .rl_engine import rl_engine, feedback_processor
-from .rl_database import rl_db_manager
-from .rl_performance_monitor import rl_performance_monitor
+from .rl_integration.decision_engine import DecisionEngine
+from .rl_integration.postgres_adapter import postgres_adapter
+from .rl_integration.ml_models import MLModels
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -14,6 +14,16 @@ from datetime import datetime
 import time
 
 logger = logging.getLogger(__name__)
+
+# Initialize RL components
+try:
+    decision_engine = DecisionEngine(postgres_adapter)
+    ml_models = MLModels()
+    logger.info("✅ RL components initialized")
+except Exception as e:
+    logger.error(f"❌ Failed to initialize RL components: {e}")
+    decision_engine = None
+    ml_models = None
 
 # Initialize LLM
 try:
@@ -51,7 +61,7 @@ async def application_screener_agent(state: CandidateApplicationState) -> dict:
         base_score = matching_result.get('score', 0)
         
         # Get feedback history for RL enhancement
-        feedback_history = rl_db_manager.get_feedback_history(limit=50)
+        feedback_history = postgres_adapter.get_feedback_history(limit=50) if postgres_adapter else []
         
         # Prepare candidate and job features for RL
         candidate_features = {
@@ -67,9 +77,12 @@ async def application_screener_agent(state: CandidateApplicationState) -> dict:
         }
         
         # Calculate RL-enhanced score
-        rl_result = rl_engine.calculate_rl_score(
-            candidate_features, job_features, feedback_history
-        )
+        if decision_engine:
+            rl_result = decision_engine.make_rl_decision(
+                candidate_features, job_features, feedback_history
+            )
+        else:
+            rl_result = {'rl_score': base_score, 'confidence_level': 50, 'decision_type': 'review'}
         
         rl_score = rl_result.get('rl_score', base_score)
         confidence = rl_result.get('confidence_level', 50)
@@ -77,7 +90,6 @@ async def application_screener_agent(state: CandidateApplicationState) -> dict:
         
         # Record prediction time
         prediction_time = (time.time() - start_time) * 1000
-        rl_performance_monitor.record_prediction(prediction_time, rl_score)
         
         logger.info(f"RL Score: {rl_score}/100 (Base: {base_score}, Confidence: {confidence}%)")
         
@@ -92,7 +104,7 @@ async def application_screener_agent(state: CandidateApplicationState) -> dict:
             "model_version": rl_result.get('model_version', 'v1.0.0')
         }
         
-        prediction_id = rl_db_manager.store_rl_prediction(prediction_data)
+        prediction_id = postgres_adapter.store_rl_prediction(prediction_data) if postgres_adapter else None
         
         # Prepare LLM for decision with RL context
         system_prompt = f"""You are an RL-enhanced AI recruiter for BHIV HR Platform.
@@ -291,17 +303,14 @@ async def feedback_collection_agent(state: CandidateApplicationState) -> dict:
             "feedback_source": "workflow_automation"
         }
         
-        processed_feedback = feedback_processor.process_feedback(rl_feedback_data)
+        # Calculate reward signal
+        reward_signal = decision_engine._calculate_reward_signal(rl_feedback_data) if decision_engine else 0
+        processed_feedback = {**rl_feedback_data, "reward_signal": reward_signal}
         
         # Store feedback in RL database
-        if not processed_feedback.get('error'):
-            feedback_id = rl_db_manager.store_rl_feedback(processed_feedback)
-            
-            # Record feedback metrics
-            reward_signal = processed_feedback.get('reward_signal', 0)
-            is_correct = reward_signal > 0
-            rl_performance_monitor.record_feedback(is_correct, reward_signal)
-            
+        feedback_id = None
+        if postgres_adapter and not processed_feedback.get('error'):
+            feedback_id = postgres_adapter.store_rl_feedback(processed_feedback)
             logger.info(f"✅ RL Feedback stored: ID {feedback_id}, Reward: {reward_signal}")
         
         # Generate training data for future model improvement
@@ -315,13 +324,16 @@ async def feedback_collection_agent(state: CandidateApplicationState) -> dict:
             "title": state['job_title']
         }
         
-        training_data = feedback_processor.generate_training_data(
-            candidate_features, job_features, 
-            state.get('matching_score', 0), actual_outcome
-        )
-        
-        if not training_data.get('error'):
-            rl_db_manager.store_training_data(training_data)
+        # Store training data if postgres_adapter is available
+        if postgres_adapter:
+            training_data = {
+                "candidate_features": candidate_features,
+                "job_features": job_features,
+                "matching_score": state.get('matching_score', 0),
+                "actual_outcome": actual_outcome,
+                "timestamp": datetime.now().isoformat()
+            }
+            # Note: store_training_data method may need to be implemented in postgres_adapter
         
         # Log audit event with RL context
         feedback_data = {

@@ -1,12 +1,20 @@
 from fastapi import FastAPI, HTTPException, BackgroundTasks, WebSocket, WebSocketDisconnect, Depends
 from pydantic import BaseModel
+import logging
+
+# Configure basic logging first
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 # Optional imports - LangGraph workflow engine
 try:
     from .graphs import create_application_workflow
     from .state import CandidateApplicationState
     from langchain_core.messages import HumanMessage
     LANGGRAPH_AVAILABLE = True
-except ImportError:
+    logger.info("✅ LangGraph imports successful")
+except ImportError as e:
+    logger.warning(f"⚠️ LangGraph import failed: {e}")
     create_application_workflow = None
     CandidateApplicationState = dict
     HumanMessage = None
@@ -55,13 +63,14 @@ except ImportError:
 from .database_tracker import tracker
 from .rl_integration.rl_endpoints import router as rl_router
 import uuid
-import logging
 from typing import Dict, List, Optional
 from datetime import datetime
 
-# Configure logging
-logging.basicConfig(level=getattr(settings, 'log_level', 'INFO'))
-logger = logging.getLogger(__name__)
+# Reconfigure logging with settings if available
+try:
+    logging.basicConfig(level=getattr(settings, 'log_level', 'INFO'))
+except:
+    pass  # Keep basic logging configuration
 
 # Service initialization
 logger.info("🚀 LangGraph service initializing...")

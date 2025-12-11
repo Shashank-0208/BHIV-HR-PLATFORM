@@ -18,13 +18,22 @@ logger = logging.getLogger(__name__)
 
 class Phase3SemanticEngine:
     """Production Phase 3 Semantic Engine with advanced AI capabilities"""
+    _instance = None
+    _initialized = False
+    
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Phase3SemanticEngine, cls).__new__(cls)
+        return cls._instance
     
     def __init__(self):
-        self.model = None
-        self.company_preferences = defaultdict(dict)
-        self.cache = {}
-        self.executor = ThreadPoolExecutor(max_workers=4)
-        self._initialize()
+        if not Phase3SemanticEngine._initialized:
+            self.model = None
+            self.company_preferences = defaultdict(dict)
+            self.cache = {}
+            self.executor = ThreadPoolExecutor(max_workers=4)
+            self._initialize()
+            Phase3SemanticEngine._initialized = True
     
     def _initialize(self):
         """Initialize semantic model and learning components"""

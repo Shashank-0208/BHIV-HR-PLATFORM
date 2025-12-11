@@ -208,7 +208,7 @@ class JobCreate(BaseModel):
     employment_type: Optional[str] = "Full-time"
     
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "title": "Senior Software Engineer",
                 "department": "Engineering",
@@ -428,7 +428,7 @@ def health_check(response: Response):
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
-@app.get("/v1/test-candidates", tags=["Core API Endpoints"])
+@app.get("/test-candidates", tags=["Core API Endpoints"])
 async def test_candidates_db(api_key: str = Depends(get_api_key)):
     """Database Connectivity Test"""
     try:
