@@ -7,6 +7,10 @@ import os
 from config import API_BASE, API_KEY, headers, http_client, LANGGRAPH_SERVICE_URL
 from auth_manager import init_auth, get_auth_headers
 
+# Security configuration to disable chart context menus
+st.set_option('client.showErrorDetails', False)
+st.set_option('client.toolbarMode', 'minimal')
+
 # Import portal configuration
 try:
     from config import setup_logging, ENVIRONMENT
@@ -24,6 +28,35 @@ UNIFIED_HEADERS = get_auth_headers()
 # LangGraph service URL imported from config
 
 st.set_page_config(page_title="BHIV HR Platform v2.0", page_icon="🎯", layout="wide")
+
+# Security CSS to hide chart context menus and prevent source code exposure
+st.markdown("""
+<style>
+/* Hide chart context menu buttons */
+.stPlotlyChart .modebar {
+    display: none !important;
+}
+/* Hide Streamlit chart toolbar */
+.stVegaLiteChart .vega-embed .vega-actions {
+    display: none !important;
+}
+/* Hide any chart source view options */
+[data-testid="stPlotlyChart"] .modebar {
+    display: none !important;
+}
+/* Hide chart menu buttons */
+.js-plotly-plot .plotly .modebar {
+    display: none !important;
+}
+/* Additional security for chart menus */
+.chart-container .modebar,
+.plotly .modebar,
+.vega-actions {
+    display: none !important;
+    visibility: hidden !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Header
 st.title("🎯 BHIV HR Portal")
@@ -420,11 +453,11 @@ elif menu == "📊 Step 6: Submit Values Assessment":
             with col4:
                 st.metric("Recommendation", overall_recommendation)
             
-            # Values breakdown
+            # Values breakdown - secure display
             st.subheader("📊 Values Breakdown")
             values_df = pd.DataFrame([values]).T
             values_df.columns = ['Score']
-            st.bar_chart(values_df)
+            st.bar_chart(values_df, use_container_width=True)
             
             st.balloons()
         elif submitted:
@@ -506,9 +539,9 @@ elif menu == "📈 Dashboard Overview":
             'Conversion Rate': [100, 100 if total_candidates > 0 else 0, 0, 0, 0]
         })
         
-        # Create funnel visualization
+        # Create secure funnel visualization without source exposure
         fig_data = pipeline_data.set_index('Stage')['Count']
-        st.bar_chart(fig_data)
+        st.bar_chart(fig_data, use_container_width=True)
         
         # Enhanced pipeline table with insights
         pipeline_data['Success Rate'] = pipeline_data['Conversion Rate'].astype(str) + '%'
@@ -523,8 +556,8 @@ elif menu == "📈 Dashboard Overview":
             'Candidates Assessed': [total_feedback, total_feedback, total_feedback, total_feedback, total_feedback]
         })
         
-        # Create values chart
-        st.bar_chart(values_data.set_index('Value')['Average Score'])
+        # Create secure values chart without source exposure
+        st.bar_chart(values_data.set_index('Value')['Average Score'], use_container_width=True)
         st.dataframe(values_data, width='stretch')
     
     # Enhanced Skills Analysis with Real Data
@@ -537,7 +570,7 @@ elif menu == "📈 Dashboard Overview":
             'Language': ['Python', 'JavaScript', 'Java', 'C++', 'Go'],
             'Candidates': [25, 18, 20, 8, 31]  # Based on 31 candidates
         })
-        st.bar_chart(prog_skills.set_index('Language')['Candidates'])
+        st.bar_chart(prog_skills.set_index('Language')['Candidates'], use_container_width=True)
     
     with col2:
         st.write("**Frameworks & Tools**")
@@ -545,7 +578,7 @@ elif menu == "📈 Dashboard Overview":
             'Framework': ['React', 'Django', 'Node.js', 'Spring Boot', 'Flask'],
             'Candidates': [12, 6, 8, 5, 3]  # Based on actual skills
         })
-        st.bar_chart(framework_skills.set_index('Framework')['Candidates'])
+        st.bar_chart(framework_skills.set_index('Framework')['Candidates'], use_container_width=True)
     
     with col3:
         st.write("**Database & Cloud**")
@@ -553,7 +586,7 @@ elif menu == "📈 Dashboard Overview":
             'Technology': ['SQL', 'MySQL', 'MongoDB', 'AWS', 'Git'],
             'Candidates': [28, 25, 15, 3, 20]  # Based on actual skills
         })
-        st.bar_chart(cloud_skills.set_index('Technology')['Candidates'])
+        st.bar_chart(cloud_skills.set_index('Technology')['Candidates'], use_container_width=True)
     
     # Enhanced Activity Timeline
     st.subheader("📈 Recent Activity & Trends")
@@ -593,7 +626,7 @@ elif menu == "📈 Dashboard Overview":
             'Level': ['Entry-level', 'Software Developer', 'Data Analyst', 'Cloud Engineer', 'Full Stack'],
             'Count': [15, 8, 3, 2, 3]  # Based on actual designations
         })
-        st.bar_chart(seniority_data.set_index('Level')['Count'])
+        st.bar_chart(seniority_data.set_index('Level')['Count'], use_container_width=True)
     
     with col2:
         st.write("**Education Level Distribution**")
@@ -601,7 +634,7 @@ elif menu == "📈 Dashboard Overview":
             'Education': ['Masters', 'Bachelors', 'PhD', 'Diploma'],
             'Count': [31, 0, 0, 0]  # All candidates have Masters
         })
-        st.bar_chart(education_data.set_index('Education')['Count'])
+        st.bar_chart(education_data.set_index('Education')['Count'], use_container_width=True)
     
     # Geographic Distribution
     st.subheader("🌍 Geographic Distribution (31 Candidates)")
@@ -609,7 +642,7 @@ elif menu == "📈 Dashboard Overview":
         'Location': ['Mumbai', 'Pune', 'Delhi', 'Nashik', 'Other Cities'],
         'Candidates': [18, 3, 2, 2, 6]  # Based on actual locations
     })
-    st.bar_chart(location_data.set_index('Location')['Candidates'])
+    st.bar_chart(location_data.set_index('Location')['Candidates'], use_container_width=True)
     
     # Real-time Insights
     st.subheader("🔍 AI-Powered Insights")

@@ -6,6 +6,14 @@ import os
 from config import API_BASE_URL, http_session, API_KEY_SECRET, LANGGRAPH_SERVICE_URL, setup_logging
 from auth_manager import init_auth, get_auth_headers
 
+# Security configuration to disable chart context menus and source exposure
+st.set_option('client.showErrorDetails', False)
+st.set_option('client.toolbarMode', 'minimal')
+
+# Session persistence configuration
+if 'session_initialized' not in st.session_state:
+    st.session_state.session_initialized = True
+
 # Setup logging
 setup_logging()
 
@@ -37,6 +45,35 @@ def main():
         layout="wide"
     )
     
+    # Security CSS to hide chart context menus and prevent source code exposure
+    st.markdown("""
+    <style>
+    /* Hide chart context menu buttons */
+    .stPlotlyChart .modebar {
+        display: none !important;
+    }
+    /* Hide Streamlit chart toolbar */
+    .stVegaLiteChart .vega-embed .vega-actions {
+        display: none !important;
+    }
+    /* Hide any chart source view options */
+    [data-testid="stPlotlyChart"] .modebar {
+        display: none !important;
+    }
+    /* Hide chart menu buttons */
+    .js-plotly-plot .plotly .modebar {
+        display: none !important;
+    }
+    /* Additional security for chart menus */
+    .chart-container .modebar,
+    .plotly .modebar,
+    .vega-actions {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     st.title("🏢 BHIV Client Portal")
     st.markdown("**Dedicated Client Interface for Job Posting & Candidate Review**")
     
@@ -48,7 +85,7 @@ def main():
     # Sidebar navigation with real-time updates
     st.sidebar.title("🏢 Client Menu")
     
-    # Show real-time job count
+    # Show real-time job count with auto-refresh
     try:
         jobs_response = requests.get(f"{API_BASE_URL}/v1/jobs", headers=UNIFIED_HEADERS)
         if jobs_response.status_code == 200:
@@ -57,14 +94,20 @@ def main():
             client_hash = get_client_hash(st.session_state.get('client_id', 'DEMO_CLIENT'))
             client_jobs = [j for j in jobs if str(j.get('client_id', 0)) == str(client_hash)]
             st.sidebar.success(f"📊 Your Jobs: {len(client_jobs)}")
+            # Store job count in session for persistence
+            st.session_state['client_job_count'] = len(client_jobs)
         else:
-            st.sidebar.info("📊 Jobs: Loading...")
+            # Use cached count if available
+            cached_count = st.session_state.get('client_job_count', 0)
+            st.sidebar.info(f"📊 Your Jobs: {cached_count} (Cached)")
     except requests.RequestException as e:
         logger.error(f"Failed to fetch jobs: {e}")
-        st.sidebar.warning("📊 Jobs: Connection Error")
+        cached_count = st.session_state.get('client_job_count', 0)
+        st.sidebar.warning(f"📊 Your Jobs: {cached_count} (Offline)")
     except Exception as e:
         logger.error(f"Unexpected error fetching jobs: {e}")
-        st.sidebar.info("📊 Jobs: Offline")
+        cached_count = st.session_state.get('client_job_count', 0)
+        st.sidebar.info(f"📊 Your Jobs: {cached_count} (Cached)")
     
     page = st.sidebar.selectbox(
         "Select Function",
@@ -92,10 +135,15 @@ def main():
     elif page == "📊 Reports & Analytics":
         show_reports()
     
-    # Client info sidebar
+    # Client info sidebar - always show when authenticated
     st.sidebar.markdown("---")
-    st.sidebar.success(f"🏢 {st.session_state.get('client_name', 'Unknown')}")
-    st.sidebar.info(f"Client ID: {st.session_state.get('client_id', 'N/A')}")
+    if st.session_state.get('client_authenticated', False):
+        client_name = st.session_state.get('client_name', 'Client')
+        client_id = st.session_state.get('client_id', 'N/A')
+        st.sidebar.success(f"🏢 {client_name}")
+        st.sidebar.info(f"ID: {client_id}")
+    else:
+        st.sidebar.info("🏢 Not Logged In")
     
     if st.sidebar.button("🚪 Secure Logout"):
         # Revoke JWT token

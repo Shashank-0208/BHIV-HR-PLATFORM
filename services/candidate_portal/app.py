@@ -6,6 +6,10 @@ import pandas as pd
 from config import Config
 from auth_manager import init_auth, get_auth_headers
 
+# Security configuration to disable chart context menus and source exposure
+st.set_option('client.showErrorDetails', False)
+st.set_option('client.toolbarMode', 'minimal')
+
 # Page configuration
 st.set_page_config(
     page_title="BHIV Candidate Portal",
@@ -13,6 +17,35 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+# Security CSS to hide chart context menus and prevent source code exposure
+st.markdown("""
+<style>
+/* Hide chart context menu buttons */
+.stPlotlyChart .modebar {
+    display: none !important;
+}
+/* Hide Streamlit chart toolbar */
+.stVegaLiteChart .vega-embed .vega-actions {
+    display: none !important;
+}
+/* Hide any chart source view options */
+[data-testid="stPlotlyChart"] .modebar {
+    display: none !important;
+}
+/* Hide chart menu buttons */
+.js-plotly-plot .plotly .modebar {
+    display: none !important;
+}
+/* Additional security for chart menus */
+.chart-container .modebar,
+.plotly .modebar,
+.vega-actions {
+    display: none !important;
+    visibility: hidden !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
 # Initialize config and authentication
 config = Config()
