@@ -116,18 +116,22 @@ def login_page():
             
             if submitted:
                 if email and password:
-                    # Call candidate login API
-                    login_data = {"email": email, "password": password}
-                    result = make_api_request("/v1/candidate/login", "POST", login_data)
-                    
-                    if "error" not in result and result.get("success"):
-                        st.session_state.candidate_logged_in = True
-                        st.session_state.candidate_data = result.get("candidate", {})
-                        st.session_state.candidate_token = result.get("token")
-                        st.success("Login successful!")
-                        st.rerun()
-                    else:
-                        st.error(f"Login failed: {result.get('error', 'Invalid credentials')}")
+                    try:
+                        # Call candidate login API
+                        login_data = {"email": email, "password": password}
+                        result = make_api_request("/v1/candidate/login", "POST", login_data)
+                        
+                        if "error" not in result and result.get("success", False):
+                            st.session_state.candidate_logged_in = True
+                            st.session_state.candidate_data = result.get("candidate", {})
+                            st.session_state.candidate_token = result.get("token", "")
+                            st.success("Login successful!")
+                            st.rerun()
+                        else:
+                            error_msg = result.get('error', 'Invalid credentials') if isinstance(result, dict) else 'Login failed'
+                            st.error(f"Login failed: {error_msg}")
+                    except Exception as e:
+                        st.error(f"Login error: {str(e)}")
                 else:
                     st.error("Please fill in all fields")
     
@@ -398,8 +402,8 @@ def job_search_page():
                     if "error" not in result and result.get("success"):
                         # Trigger application notification
                         try:
-                            langgraph_url = config.LANGGRAPH_SERVICE_URL
-                            requests.post(f"{langgraph_url}/test/send-automated-sequence",
+                            langgraph_service_url = config.LANGGRAPH_SERVICE_URL
+                            requests.post(f"{langgraph_service_url}/test/send-automated-sequence",
                                         json={
                                             "candidate_name": st.session_state.candidate_data.get('name', 'Candidate'),
                                             "candidate_email": st.session_state.candidate_data.get('email', 'test@example.com'),
@@ -535,8 +539,8 @@ def profile_management_page():
             if "error" not in result and result.get("success"):
                 # Trigger profile update notification to HR
                 try:
-                    langgraph_url = config.LANGGRAPH_SERVICE_URL
-                    requests.post(f"{langgraph_url}/automation/trigger-workflow",
+                    langgraph_service_url = config.LANGGRAPH_SERVICE_URL
+                    requests.post(f"{langgraph_service_url}/automation/trigger-workflow",
                                 json={
                                     "event_type": "candidate_profile_updated",
                                     "payload": {
@@ -557,6 +561,14 @@ def profile_management_page():
 
 def main():
     """Main application logic"""
+    # Initialize session state properly
+    if 'candidate_logged_in' not in st.session_state:
+        st.session_state.candidate_logged_in = False
+    if 'candidate_data' not in st.session_state:
+        st.session_state.candidate_data = {}
+    if 'candidate_token' not in st.session_state:
+        st.session_state.candidate_token = None
+    
     # Check if candidate is logged in
     if not st.session_state.get("candidate_logged_in", False):
         login_page()

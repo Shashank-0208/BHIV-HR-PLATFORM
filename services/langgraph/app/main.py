@@ -212,7 +212,7 @@ async def health_check():
 async def start_application_workflow(
     request: ApplicationRequest,
     background_tasks: BackgroundTasks,
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Start AI Workflow for Candidate Processing
     
@@ -297,7 +297,7 @@ async def start_application_workflow(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/workflows/{workflow_id}/status", tags=["Workflow Monitoring"])
-async def get_workflow_status(workflow_id: str, api_key: str = Depends(get_api_key)):
+async def get_workflow_status(workflow_id: str, api_key_secret: str = Depends(get_api_key)):
     """Get Detailed Workflow Status"""
     try:
         # Get status from database tracker (primary source)
@@ -381,7 +381,7 @@ def _calculate_eta(workflow_data: dict) -> str:
         return "unknown"
 
 @app.post("/workflows/{workflow_id}/resume", tags=["Workflow Management"])
-async def resume_workflow(workflow_id: str, api_key: str = Depends(get_api_key)):
+async def resume_workflow(workflow_id: str, api_key_secret: str = Depends(get_api_key)):
     """Resume Paused Workflow"""
     try:
         if not application_workflow:
@@ -411,7 +411,7 @@ async def resume_workflow(workflow_id: str, api_key: str = Depends(get_api_key))
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.websocket("/ws/{workflow_id}")
-async def websocket_endpoint(websocket: WebSocket, workflow_id: str, api_key: str = Depends(get_api_key)):
+async def websocket_endpoint(websocket: WebSocket, workflow_id: str, api_key_secret: str = Depends(get_api_key)):
     """Real-time Workflow Updates (WebSocket)"""
     await manager.connect(websocket, workflow_id)
     try:
@@ -423,7 +423,7 @@ async def websocket_endpoint(websocket: WebSocket, workflow_id: str, api_key: st
         manager.disconnect(websocket, workflow_id)
 
 @app.get("/workflows", tags=["Workflow Monitoring"])
-async def list_workflows(status: str = None, limit: int = 50, api_key: str = Depends(get_api_key)):
+async def list_workflows(status: str = None, limit: int = 50, api_key_secret: str = Depends(get_api_key)):
     """List All Workflows with Filtering
     
     **Note:** This endpoint only supports GET method (not POST)
@@ -465,7 +465,7 @@ async def list_workflows(status: str = None, limit: int = 50, api_key: str = Dep
         }
 
 @app.post("/tools/send-notification", tags=["Communication Tools"])
-async def send_notification(notification_data: dict, api_key: str = Depends(get_api_key)):
+async def send_notification(notification_data: dict, api_key_secret: str = Depends(get_api_key)):
     """Multi-Channel Notification System with Interactive Features"""
     try:
         from .communication import comm_manager
@@ -522,7 +522,7 @@ async def test_send_email(
     recipient_email: str,
     subject: str = "BHIV HR Test Email",
     message: str = "This is a test email from BHIV HR Platform",
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Test Email Sending"""
     try:
@@ -536,7 +536,7 @@ async def test_send_email(
 async def test_send_whatsapp(
     phone: str,
     message: str = "Test message from BHIV HR Platform",
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Test WhatsApp Sending"""
     try:
@@ -550,7 +550,7 @@ async def test_send_whatsapp(
 async def test_send_telegram(
     chat_id: str,
     message: str = "Test message from BHIV HR Platform",
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Test Telegram Sending"""
     try:
@@ -564,7 +564,7 @@ async def test_send_telegram(
 async def test_send_whatsapp_buttons(
     phone: str,
     message: str = "📅 Interview Scheduled for Software Engineer. Please confirm!",
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Test WhatsApp Interactive Buttons"""
     try:
@@ -582,7 +582,7 @@ async def test_send_automated_sequence(
     candidate_phone: str = "9284967526",
     job_title: str = "Software Engineer",
     sequence_type: str = "interview_scheduled",
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Test Automated Email & WhatsApp Sequence with Interactive Features"""
     try:
@@ -615,7 +615,7 @@ async def test_send_automated_sequence(
 async def trigger_workflow_automation(
     event_type: str,
     payload: dict,
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Trigger Portal Integration Workflows"""
     try:
@@ -636,7 +636,7 @@ async def send_bulk_notifications(
     candidates: List[dict],
     sequence_type: str,
     job_data: dict,
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Send Bulk Notifications to Multiple Candidates"""
     try:
@@ -653,7 +653,7 @@ async def send_bulk_notifications(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/webhook/whatsapp", tags=["Communication Tools"])
-async def whatsapp_webhook(request: dict, api_key: str = Depends(get_api_key)):
+async def whatsapp_webhook(request: dict, api_key_secret: str = Depends(get_api_key)):
     """Handle WhatsApp Interactive Button Responses"""
     try:
         from .communication import comm_manager
@@ -692,7 +692,7 @@ async def whatsapp_webhook(request: dict, api_key: str = Depends(get_api_key)):
         return {"success": False, "error": str(e)}
 
 @app.get("/workflows/stats", tags=["Workflow Monitoring"])
-async def get_workflow_stats(api_key: str = Depends(get_api_key)):
+async def get_workflow_stats(api_key_secret: str = Depends(get_api_key)):
     """Workflow Statistics and Analytics
     
     **Note:** This is the correct endpoint for statistics (not `/statistics`)
@@ -729,7 +729,7 @@ async def get_workflow_stats(api_key: str = Depends(get_api_key)):
 async def rl_predict_match(
     candidate_features: dict,
     job_features: dict,
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """RL-Enhanced Candidate Matching Prediction"""
     try:
@@ -759,7 +759,7 @@ async def rl_predict_match(
 @app.post("/rl/feedback", tags=["RL + Feedback Agent"])
 async def submit_rl_feedback(
     feedback_data: dict,
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Submit Feedback for RL Learning"""
     try:
@@ -797,7 +797,7 @@ async def submit_rl_feedback(
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/rl/analytics", tags=["RL + Feedback Agent"])
-async def get_rl_analytics(api_key: str = Depends(get_api_key)):
+async def get_rl_analytics(api_key_secret: str = Depends(get_api_key)):
     """Get RL System Analytics and Performance Metrics"""
     try:
         from .rl_integration.postgres_adapter import postgres_adapter
@@ -814,7 +814,7 @@ async def get_rl_analytics(api_key: str = Depends(get_api_key)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/rl/performance", tags=["RL + Feedback Agent"])
-async def get_rl_performance(api_key: str = Depends(get_api_key)):
+async def get_rl_performance(api_key_secret: str = Depends(get_api_key)):
     """Get RL Performance Monitoring Data"""
     try:
         from .rl_integration.postgres_adapter import postgres_adapter
@@ -831,7 +831,7 @@ async def get_rl_performance(api_key: str = Depends(get_api_key)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/rl/start-monitoring", tags=["RL + Feedback Agent"])
-async def start_rl_monitoring(api_key: str = Depends(get_api_key)):
+async def start_rl_monitoring(api_key_secret: str = Depends(get_api_key)):
     """Start RL Performance Monitoring"""
     try:
         from .rl_integration.postgres_adapter import postgres_adapter
@@ -851,7 +851,7 @@ async def start_rl_monitoring(api_key: str = Depends(get_api_key)):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/test-integration", tags=["System Diagnostics"])
-async def test_integration(api_key: str = Depends(get_api_key)):
+async def test_integration(api_key_secret: str = Depends(get_api_key)):
     """Integration Testing and System Validation"""
     return {
         "service": "langgraph-orchestrator",

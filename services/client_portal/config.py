@@ -68,10 +68,10 @@ DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://bhiv_user:password@db:543
 
 # API Configuration
 API_BASE_URL = GATEWAY_SERVICE_URL
-API_KEY = API_KEY_SECRET
+API_KEY_SECRET = API_KEY_SECRET
 
 headers = {
-    "Authorization": f"Bearer {API_KEY}",
+    "Authorization": f"Bearer {API_KEY_SECRET}",
     "Content-Type": "application/json"
 }
 
@@ -134,5 +134,5 @@ CLIENT_PORTAL_CONFIG = {
     ],
     "status": __status__,
     "updated": __updated__,
-    "gateway_url": API_BASE_URL
+    "gateway_service_url": API_BASE_URL
 }

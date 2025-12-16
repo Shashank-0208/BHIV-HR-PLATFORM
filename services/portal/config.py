@@ -63,7 +63,7 @@ if not CANDIDATE_JWT_SECRET_KEY:
 
 # API Configuration
 API_BASE = GATEWAY_SERVICE_URL
-API_KEY = API_KEY_SECRET
+API_KEY_SECRET = API_KEY_SECRET
 
 # HTTP Client Configuration with proper timeouts
 timeout_config = httpx.Timeout(
@@ -79,7 +79,7 @@ limits = httpx.Limits(
     keepalive_expiry=30.0
 )
 
-headers = {"Authorization": f"Bearer {API_KEY}"}
+headers = {"Authorization": f"Bearer {API_KEY_SECRET}"}
 
 # Global HTTP client with connection pooling
 http_client = httpx.Client(
@@ -120,5 +120,5 @@ PORTAL_CONFIG = {
     "status": __status__,
     "updated": __updated__,
     "database_status": "Connected",
-    "gateway_url": API_BASE
+    "gateway_service_url": API_BASE
 }

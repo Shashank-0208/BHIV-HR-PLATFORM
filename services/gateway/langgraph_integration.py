@@ -26,7 +26,7 @@ class WorkflowStatus(BaseModel):
     workflow_id: str
 
 # LangGraph service configuration  
-LANGGRAPH_SERVICE_URL = os.getenv("LANGGRAPH_SERVICE_URL", "http://localhost:9001")
+LANGGRAPH_SERVICE_URL = os.getenv("LANGGRAPH_SERVICE_URL")
 
 def get_langgraph_service_url():
     """Get LangGraph service URL"""
@@ -36,9 +36,9 @@ async def call_langgraph_service(endpoint: str, method: str = "GET", data: Dict[
     """Helper function to call LangGraph service with API key authentication"""
     try:
         # Get API key from environment
-        api_key = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
+        api_key_secret = os.getenv("API_KEY_SECRET", "<YOUR_API_KEY>")
         headers = {
-            "Authorization": f"Bearer {api_key}",
+            "Authorization": f"Bearer {api_key_secret}",
             "Content-Type": "application/json"
         }
         

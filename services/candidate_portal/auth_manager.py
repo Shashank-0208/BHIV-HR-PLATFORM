@@ -11,12 +11,14 @@ logger = logging.getLogger(__name__)
 
 class AuthManager:
     def __init__(self):
-        self.api_key = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
-        self.gateway_url = os.getenv("GATEWAY_SERVICE_URL", "http://localhost:8000")
+        self.api_key_secret = os.getenv("API_KEY_SECRET")
+        if not self.api_key_secret:
+            raise ValueError("API_KEY_SECRET environment variable is required")
+        self.gateway_service_url = os.getenv("GATEWAY_SERVICE_URL")
         
     def get_headers(self):
         return {
-            "Authorization": f"Bearer {self.api_key}",
+            "Authorization": f"Bearer {self.api_key_secret}",
             "Content-Type": "application/json"
         }
     

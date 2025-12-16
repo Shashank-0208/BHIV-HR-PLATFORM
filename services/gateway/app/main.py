@@ -349,9 +349,9 @@ def get_db_engine():
         max_overflow=5
     )
 
-def validate_api_key(api_key: str) -> bool:
+def validate_api_key(api_key_secret: str) -> bool:
     expected_key = os.getenv("API_KEY_SECRET")
-    return api_key == expected_key
+    return api_key_secret == expected_key
 
 def get_api_key(credentials: HTTPAuthorizationCredentials = Security(security)):
     if not credentials or not validate_api_key(credentials.credentials):
@@ -365,20 +365,20 @@ def get_auth(credentials: HTTPAuthorizationCredentials = Security(security)):
     
     # Try API key first
     if validate_api_key(credentials.credentials):
-        return {"type": "api_key", "credentials": credentials.credentials}
+        return {"type": "api_key_secret", "credentials": credentials.credentials}
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET_KEY")
-        payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
+        jwt_secret_key = os.getenv("JWT_SECRET_KEY")
+        payload = jwt.decode(credentials.credentials, jwt_secret_key, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
         pass
     
     # Try candidate JWT token
     try:
-        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET_KEY")
-        payload = jwt.decode(credentials.credentials, candidate_jwt_secret, algorithms=["HS256"])
+        candidate_jwt_secret_key = os.getenv("CANDIDATE_JWT_SECRET_KEY")
+        payload = jwt.decode(credentials.credentials, candidate_jwt_secret_key, algorithms=["HS256"])
         return {"type": "candidate_token", "candidate_id": payload.get("candidate_id")}
     except:
         pass
@@ -429,7 +429,7 @@ def health_check(response: Response):
     }
 
 @app.get("/test-candidates", tags=["Core API Endpoints"])
-async def test_candidates_db(api_key: str = Depends(get_api_key)):
+async def test_candidates_db(api_key_secret: str = Depends(get_api_key)):
     """Database Connectivity Test"""
     try:
         engine = get_db_engine()
@@ -452,7 +452,7 @@ async def test_candidates_db(api_key: str = Depends(get_api_key)):
 
 # Job Management (2 endpoints)
 @app.post("/v1/jobs", tags=["Job Management"])
-async def create_job(job: JobCreate, api_key: str = Depends(get_api_key)):
+async def create_job(job: JobCreate, api_key_secret: str = Depends(get_api_key)):
     """Create New Job Posting
     
     **Required Fields:**
@@ -522,7 +522,7 @@ async def list_jobs(auth = Depends(get_auth)):
 
 # Candidate Management (5 endpoints)
 @app.get("/v1/candidates", tags=["Candidate Management"])
-async def get_all_candidates(limit: int = 50, offset: int = 0, api_key: str = Depends(get_api_key)):
+async def get_all_candidates(limit: int = 50, offset: int = 0, api_key_secret: str = Depends(get_api_key)):
     """Get All Candidates with Pagination"""
     try:
         engine = get_db_engine()
@@ -561,7 +561,7 @@ async def get_all_candidates(limit: int = 50, offset: int = 0, api_key: str = De
 
 # Analytics & Statistics - Move stats endpoint before parameterized routes
 @app.get("/v1/candidates/stats", tags=["Analytics & Statistics"])
-async def get_candidate_stats(api_key: str = Depends(get_api_key)):
+async def get_candidate_stats(api_key_secret: str = Depends(get_api_key)):
     """Dynamic Candidate Statistics for HR Dashboard Analytics
     
     **Authentication:** Bearer token required
@@ -661,7 +661,7 @@ async def search_candidates(
     skills: Optional[str] = None, 
     location: Optional[str] = None, 
     experience_min: Optional[int] = None, 
-    api_key: str = Depends(get_api_key)
+    api_key_secret: str = Depends(get_api_key)
 ):
     """Search & Filter Candidates"""
     if skills:
@@ -731,7 +731,7 @@ async def search_candidates(
         }
 
 @app.get("/v1/candidates/job/{job_id}", tags=["Candidate Management"])
-async def get_candidates_by_job(job_id: int, api_key: str = Depends(get_api_key)):
+async def get_candidates_by_job(job_id: int, api_key_secret: str = Depends(get_api_key)):
     """Get All Candidates (Dynamic Matching)"""
     if job_id < 1:
         raise HTTPException(status_code=400, detail="Invalid job ID")
@@ -754,7 +754,7 @@ async def get_candidates_by_job(job_id: int, api_key: str = Depends(get_api_key)
         return {"candidates": [], "job_id": job_id, "count": 0, "error": str(e)}
 
 @app.get("/v1/candidates/{candidate_id}", tags=["Candidate Management"])
-async def get_candidate_by_id(candidate_id: int, api_key: str = Depends(get_api_key)):
+async def get_candidate_by_id(candidate_id: int, api_key_secret: str = Depends(get_api_key)):
     """Get Specific Candidate by ID"""
     try:
         engine = get_db_engine()
@@ -791,7 +791,7 @@ async def get_candidate_by_id(candidate_id: int, api_key: str = Depends(get_api_
 
 
 @app.post("/v1/candidates/bulk", tags=["Candidate Management"])
-async def bulk_upload_candidates(candidates: CandidateBulk, api_key: str = Depends(get_api_key)):
+async def bulk_upload_candidates(candidates: CandidateBulk, api_key_secret: str = Depends(get_api_key)):
     """Bulk Upload Candidates"""
     try:
         engine = get_db_engine()
@@ -854,19 +854,19 @@ async def bulk_upload_candidates(candidates: CandidateBulk, api_key: str = Depen
 
 # AI Matching Engine (2 endpoints)
 @app.get("/v1/match/{job_id}/top", tags=["AI Matching Engine"])
-async def get_top_matches(job_id: int, limit: int = 10, api_key: str = Depends(get_api_key)):
+async def get_top_matches(job_id: int, limit: int = 10, api_key_secret: str = Depends(get_api_key)):
     """AI-powered semantic candidate matching via Agent Service"""
     if job_id < 1 or limit < 1 or limit > 50:
         raise HTTPException(status_code=400, detail="Invalid parameters")
     
     try:
         import httpx
-        agent_url = os.getenv("AGENT_SERVICE_URL")
+        agent_service_url = os.getenv("AGENT_SERVICE_URL")
         
         # Call agent service for AI matching
         async with httpx.AsyncClient(timeout=60.0) as client:
             response = await client.post(
-                f"{agent_url}/match",
+                f"{agent_service_url}/match",
                 json={"job_id": job_id, "candidate_ids": []},
                 headers={
                     "Content-Type": "application/json",
@@ -1042,7 +1042,7 @@ async def batch_fallback_matching(job_ids: List[int]):
         raise HTTPException(status_code=500, detail=f"Batch fallback failed: {str(e)}")
 
 @app.post("/v1/match/batch", tags=["AI Matching Engine"])
-async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_key)):
+async def batch_match_jobs(job_ids: List[int], api_key_secret: str = Depends(get_api_key)):
     """Batch AI matching via Agent Service"""
     if not job_ids or len(job_ids) == 0:
         raise HTTPException(status_code=400, detail="At least one job ID is required")
@@ -1052,12 +1052,12 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
     
     try:
         import httpx
-        agent_url = os.getenv("AGENT_SERVICE_URL")
+        agent_service_url = os.getenv("AGENT_SERVICE_URL")
         
         # Call agent service for batch AI matching
         async with httpx.AsyncClient(timeout=120.0) as client:
             response = await client.post(
-                f"{agent_url}/batch-match",
+                f"{agent_service_url}/batch-match",
                 json={"job_ids": job_ids},
                 headers={
                     "Content-Type": "application/json",
@@ -1114,7 +1114,7 @@ async def batch_match_jobs(job_ids: List[int], api_key: str = Depends(get_api_ke
 
 # Assessment & Workflow (5 endpoints)
 @app.post("/v1/feedback", tags=["Assessment & Workflow"])
-async def submit_feedback(feedback: FeedbackSubmission, api_key: str = Depends(get_api_key)):
+async def submit_feedback(feedback: FeedbackSubmission, api_key_secret: str = Depends(get_api_key)):
     """Values Assessment"""
     try:
         engine = get_db_engine()
@@ -1163,7 +1163,7 @@ async def submit_feedback(feedback: FeedbackSubmission, api_key: str = Depends(g
         }
 
 @app.get("/v1/feedback", tags=["Assessment & Workflow"])
-async def get_all_feedback(api_key: str = Depends(get_api_key)):
+async def get_all_feedback(api_key_secret: str = Depends(get_api_key)):
     """Get All Feedback Records"""
     try:
         engine = get_db_engine()
@@ -1203,7 +1203,7 @@ async def get_all_feedback(api_key: str = Depends(get_api_key)):
 
 
 @app.get("/v1/interviews", tags=["Assessment & Workflow"])
-async def get_interviews(api_key: str = Depends(get_api_key)):
+async def get_interviews(api_key_secret: str = Depends(get_api_key)):
     """Get All Interviews"""
     try:
         engine = get_db_engine()
@@ -1233,7 +1233,7 @@ async def get_interviews(api_key: str = Depends(get_api_key)):
         return {"interviews": [], "count": 0, "error": str(e)}
 
 @app.post("/v1/interviews", tags=["Assessment & Workflow"])
-async def schedule_interview(interview: InterviewSchedule, api_key: str = Depends(get_api_key)):
+async def schedule_interview(interview: InterviewSchedule, api_key_secret: str = Depends(get_api_key)):
     """Schedule Interview"""
     try:
         engine = get_db_engine()
@@ -1265,7 +1265,7 @@ async def schedule_interview(interview: InterviewSchedule, api_key: str = Depend
         raise HTTPException(status_code=500, detail=f"Interview scheduling failed: {str(e)}")
 
 @app.post("/v1/offers", tags=["Assessment & Workflow"])
-async def create_job_offer(offer: JobOffer, api_key: str = Depends(get_api_key)):
+async def create_job_offer(offer: JobOffer, api_key_secret: str = Depends(get_api_key)):
     """Job Offers Management"""
     try:
         engine = get_db_engine()
@@ -1304,7 +1304,7 @@ async def create_job_offer(offer: JobOffer, api_key: str = Depends(get_api_key))
         }
 
 @app.get("/v1/offers", tags=["Assessment & Workflow"])
-async def get_all_offers(api_key: str = Depends(get_api_key)):
+async def get_all_offers(api_key_secret: str = Depends(get_api_key)):
     """Get All Job Offers"""
     try:
         engine = get_db_engine()
@@ -1338,7 +1338,7 @@ async def get_all_offers(api_key: str = Depends(get_api_key)):
 # Analytics & Statistics (2 remaining endpoints)
 
 @app.get("/v1/database/schema", tags=["Analytics & Statistics"])
-async def get_database_schema(api_key: str = Depends(get_api_key)):
+async def get_database_schema(api_key_secret: str = Depends(get_api_key)):
     """Get Database Schema Information"""
     try:
         engine = get_db_engine()
@@ -1390,7 +1390,7 @@ async def get_database_schema(api_key: str = Depends(get_api_key)):
         }
 
 @app.get("/v1/reports/job/{job_id}/export.csv", tags=["Analytics & Statistics"])
-async def export_job_report(job_id: int, api_key: str = Depends(get_api_key)):
+async def export_job_report(job_id: int, api_key_secret: str = Depends(get_api_key)):
     """Export Job Report"""
     return {
         "message": "Job report export",
@@ -1494,13 +1494,13 @@ async def client_login(login_data: ClientLogin):
                 return {"success": False, "error": "Account requires password setup"}
             
             # Generate JWT token using JWT_SECRET_KEY
-            jwt_secret = os.getenv("JWT_SECRET_KEY")
+            jwt_secret_key = os.getenv("JWT_SECRET_KEY")
             token_payload = {
                 "client_id": client[0],
                 "company_name": client[1],
                 "exp": int(datetime.now(timezone.utc).timestamp()) + 86400  # 24 hours
             }
-            access_token = jwt.encode(token_payload, jwt_secret, algorithm="HS256")
+            access_token = jwt.encode(token_payload, jwt_secret_key, algorithm="HS256")
             
             # Reset failed attempts and update last login
             with engine.begin() as conn:
@@ -1529,7 +1529,7 @@ async def client_login(login_data: ClientLogin):
 
 # Security Testing (7 endpoints)
 @app.get("/v1/security/rate-limit-status", tags=["Security Testing"])
-async def check_rate_limit_status(api_key: str = Depends(get_api_key)):
+async def check_rate_limit_status(api_key_secret: str = Depends(get_api_key)):
     """Check Rate Limit Status"""
     return {
         "rate_limit_enabled": True,
@@ -1541,7 +1541,7 @@ async def check_rate_limit_status(api_key: str = Depends(get_api_key)):
     }
 
 @app.get("/v1/security/blocked-ips", tags=["Security Testing"])
-async def view_blocked_ips(api_key: str = Depends(get_api_key)):
+async def view_blocked_ips(api_key_secret: str = Depends(get_api_key)):
     """View Blocked IPs"""
     return {
         "blocked_ips": [
@@ -1553,7 +1553,7 @@ async def view_blocked_ips(api_key: str = Depends(get_api_key)):
     }
 
 @app.post("/v1/security/test-input-validation", tags=["Security Testing"])
-async def test_input_validation(input_data: InputValidation, api_key: str = Depends(get_api_key)):
+async def test_input_validation(input_data: InputValidation, api_key_secret: str = Depends(get_api_key)):
     """Test Input Validation"""
     data = input_data.input_data
     threats = []
@@ -1571,7 +1571,7 @@ async def test_input_validation(input_data: InputValidation, api_key: str = Depe
     }
 
 @app.post("/v1/security/validate-email", tags=["Security Testing"])
-async def validate_email(email_data: EmailValidation, api_key: str = Depends(get_api_key)):
+async def validate_email(email_data: EmailValidation, api_key_secret: str = Depends(get_api_key)):
     """Email Validation"""
     email = email_data.email
     
@@ -1586,7 +1586,7 @@ async def validate_email(email_data: EmailValidation, api_key: str = Depends(get
     }
 
 @app.post("/v1/security/test-email-validation", tags=["Security Testing"])
-async def test_email_validation(email_data: EmailValidation, api_key: str = Depends(get_api_key)):
+async def test_email_validation(email_data: EmailValidation, api_key_secret: str = Depends(get_api_key)):
     """Test Email Validation"""
     email = email_data.email
     
@@ -1601,7 +1601,7 @@ async def test_email_validation(email_data: EmailValidation, api_key: str = Depe
     }
 
 @app.post("/v1/security/validate-phone", tags=["Security Testing"])
-async def validate_phone(phone_data: PhoneValidation, api_key: str = Depends(get_api_key)):
+async def validate_phone(phone_data: PhoneValidation, api_key_secret: str = Depends(get_api_key)):
     """Phone Validation"""
     phone = phone_data.phone
     
@@ -1616,7 +1616,7 @@ async def validate_phone(phone_data: PhoneValidation, api_key: str = Depends(get
     }
 
 @app.post("/v1/security/test-phone-validation", tags=["Security Testing"])
-async def test_phone_validation(phone_data: PhoneValidation, api_key: str = Depends(get_api_key)):
+async def test_phone_validation(phone_data: PhoneValidation, api_key_secret: str = Depends(get_api_key)):
     """Test Phone Validation"""
     phone = phone_data.phone
     
@@ -1631,7 +1631,7 @@ async def test_phone_validation(phone_data: PhoneValidation, api_key: str = Depe
     }
 
 @app.get("/v1/security/test-headers", tags=["Security Testing"])
-async def test_security_headers(response: Response, api_key: str = Depends(get_api_key)):
+async def test_security_headers(response: Response, api_key_secret: str = Depends(get_api_key)):
     """Security Headers Test"""
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
@@ -1652,7 +1652,7 @@ async def test_security_headers(response: Response, api_key: str = Depends(get_a
     }
 
 @app.get("/v1/security/security-headers-test", tags=["Security Testing"])
-async def test_security_headers_legacy(response: Response, api_key: str = Depends(get_api_key)):
+async def test_security_headers_legacy(response: Response, api_key_secret: str = Depends(get_api_key)):
     """Test Security Headers"""
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"
@@ -1673,7 +1673,7 @@ async def test_security_headers_legacy(response: Response, api_key: str = Depend
     }
 
 @app.post("/v1/security/penetration-test", tags=["Security Testing"])
-async def penetration_test(test_data: SecurityTest, api_key: str = Depends(get_api_key)):
+async def penetration_test(test_data: SecurityTest, api_key_secret: str = Depends(get_api_key)):
     """Penetration Test"""
     return {
         "message": "Penetration test completed",
@@ -1684,7 +1684,7 @@ async def penetration_test(test_data: SecurityTest, api_key: str = Depends(get_a
     }
 
 @app.get("/v1/security/test-auth", tags=["Security Testing"])
-async def test_authentication(api_key: str = Depends(get_api_key)):
+async def test_authentication(api_key_secret: str = Depends(get_api_key)):
     """Test Authentication"""
     return {
         "message": "Authentication test successful",
@@ -1694,7 +1694,7 @@ async def test_authentication(api_key: str = Depends(get_api_key)):
     }
 
 @app.get("/v1/security/penetration-test-endpoints", tags=["Security Testing"])
-async def penetration_test_endpoints(api_key: str = Depends(get_api_key)):
+async def penetration_test_endpoints(api_key_secret: str = Depends(get_api_key)):
     """Penetration Testing Endpoints"""
     return {
         "test_endpoints": [
@@ -1709,7 +1709,7 @@ async def penetration_test_endpoints(api_key: str = Depends(get_api_key)):
 
 # CSP Management (4 endpoints)
 @app.post("/v1/security/csp-report", tags=["CSP Management"])
-async def csp_violation_reporting(csp_report: CSPReport, api_key: str = Depends(get_api_key)):
+async def csp_violation_reporting(csp_report: CSPReport, api_key_secret: str = Depends(get_api_key)):
     """CSP Violation Reporting"""
     return {
         "message": "CSP violation reported successfully",
@@ -1723,7 +1723,7 @@ async def csp_violation_reporting(csp_report: CSPReport, api_key: str = Depends(
     }
 
 @app.get("/v1/security/csp-violations", tags=["CSP Management"])
-async def view_csp_violations(api_key: str = Depends(get_api_key)):
+async def view_csp_violations(api_key_secret: str = Depends(get_api_key)):
     """View CSP Violations"""
     return {
         "violations": [
@@ -1742,7 +1742,7 @@ async def view_csp_violations(api_key: str = Depends(get_api_key)):
 
 
 @app.get("/v1/security/csp-policies", tags=["CSP Management"])
-async def current_csp_policies(api_key: str = Depends(get_api_key)):
+async def current_csp_policies(api_key_secret: str = Depends(get_api_key)):
     """Current CSP Policies"""
     return {
         "current_policy": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https:; connect-src 'self' https:; media-src 'self'; object-src 'none'; child-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content",
@@ -1752,7 +1752,7 @@ async def current_csp_policies(api_key: str = Depends(get_api_key)):
     }
 
 @app.post("/v1/security/test-csp-policy", tags=["CSP Management"])
-async def test_csp_policy(csp_data: CSPPolicy, api_key: str = Depends(get_api_key)):
+async def test_csp_policy(csp_data: CSPPolicy, api_key_secret: str = Depends(get_api_key)):
     """Test CSP Policy"""
     return {
         "message": "CSP policy test completed",
@@ -1764,7 +1764,7 @@ async def test_csp_policy(csp_data: CSPPolicy, api_key: str = Depends(get_api_ke
 
 # Two-Factor Authentication (8 endpoints)
 @app.post("/v1/auth/2fa/setup", tags=["Two-Factor Authentication"])
-async def setup_2fa(setup_data: TwoFASetup, api_key: str = Depends(get_api_key)):
+async def setup_2fa(setup_data: TwoFASetup, api_key_secret: str = Depends(get_api_key)):
     """Setup 2FA"""
     secret = pyotp.random_base32()
     totp_uri = pyotp.totp.TOTP(secret).provisioning_uri(
@@ -1791,7 +1791,7 @@ async def setup_2fa(setup_data: TwoFASetup, api_key: str = Depends(get_api_key))
     }
 
 @app.post("/v1/auth/2fa/verify", tags=["Two-Factor Authentication"])
-async def verify_2fa(login_data: TwoFALogin, api_key: str = Depends(get_api_key)):
+async def verify_2fa(login_data: TwoFALogin, api_key_secret: str = Depends(get_api_key)):
     """Verify 2FA"""
     stored_secret = "JBSWY3DPEHPK3PXP"
     totp = pyotp.TOTP(stored_secret)
@@ -1807,7 +1807,7 @@ async def verify_2fa(login_data: TwoFALogin, api_key: str = Depends(get_api_key)
         raise HTTPException(status_code=401, detail="Invalid 2FA code")
 
 @app.post("/v1/auth/2fa/login", tags=["Two-Factor Authentication"])
-async def login_2fa(login_data: TwoFALogin, api_key: str = Depends(get_api_key)):
+async def login_2fa(login_data: TwoFALogin, api_key_secret: str = Depends(get_api_key)):
     """2FA Login"""
     stored_secret = "JBSWY3DPEHPK3PXP"
     totp = pyotp.TOTP(stored_secret)
@@ -1825,7 +1825,7 @@ async def login_2fa(login_data: TwoFALogin, api_key: str = Depends(get_api_key))
         raise HTTPException(status_code=401, detail="Invalid 2FA code")
 
 @app.get("/v1/auth/2fa/status/{user_id}", tags=["Two-Factor Authentication"])
-async def get_2fa_status_auth(user_id: str, api_key: str = Depends(get_api_key)):
+async def get_2fa_status_auth(user_id: str, api_key_secret: str = Depends(get_api_key)):
     """2FA Status"""
     return {
         "user_id": user_id,
@@ -1836,7 +1836,7 @@ async def get_2fa_status_auth(user_id: str, api_key: str = Depends(get_api_key))
     }
 
 @app.post("/v1/auth/2fa/disable", tags=["Two-Factor Authentication"])
-async def disable_2fa_auth(setup_data: TwoFASetup, api_key: str = Depends(get_api_key)):
+async def disable_2fa_auth(setup_data: TwoFASetup, api_key_secret: str = Depends(get_api_key)):
     """Disable 2FA"""
     return {
         "message": "2FA disabled successfully",
@@ -1846,7 +1846,7 @@ async def disable_2fa_auth(setup_data: TwoFASetup, api_key: str = Depends(get_ap
     }
 
 @app.post("/v1/auth/2fa/backup-codes", tags=["Two-Factor Authentication"])
-async def generate_backup_codes_auth(setup_data: TwoFASetup, api_key: str = Depends(get_api_key)):
+async def generate_backup_codes_auth(setup_data: TwoFASetup, api_key_secret: str = Depends(get_api_key)):
     """Generate Backup Codes"""
     backup_codes = [f"BACKUP-{secrets.token_hex(4).upper()}" for _ in range(10)]
     
@@ -1859,7 +1859,7 @@ async def generate_backup_codes_auth(setup_data: TwoFASetup, api_key: str = Depe
     }
 
 @app.post("/v1/auth/2fa/test-token", tags=["Two-Factor Authentication"])
-async def test_2fa_token_auth(login_data: TwoFALogin, api_key: str = Depends(get_api_key)):
+async def test_2fa_token_auth(login_data: TwoFALogin, api_key_secret: str = Depends(get_api_key)):
     """Test Token"""
     stored_secret = "JBSWY3DPEHPK3PXP"
     totp = pyotp.TOTP(stored_secret)
@@ -1874,7 +1874,7 @@ async def test_2fa_token_auth(login_data: TwoFALogin, api_key: str = Depends(get
     }
 
 @app.get("/v1/auth/2fa/qr/{user_id}", tags=["Two-Factor Authentication"])
-async def get_qr_code(user_id: str, api_key: str = Depends(get_api_key)):
+async def get_qr_code(user_id: str, api_key_secret: str = Depends(get_api_key)):
     """QR Code"""
     secret = "JBSWY3DPEHPK3PXP"
     totp_uri = pyotp.totp.TOTP(secret).provisioning_uri(
@@ -1902,7 +1902,7 @@ async def get_qr_code(user_id: str, api_key: str = Depends(get_api_key)):
 
 # Password Management (6 endpoints)
 @app.post("/v1/auth/password/validate", tags=["Password Management"])
-async def validate_password(password_data: PasswordValidation, api_key: str = Depends(get_api_key)):
+async def validate_password(password_data: PasswordValidation, api_key_secret: str = Depends(get_api_key)):
     """Validate Password"""
     password = password_data.password
     
@@ -1953,7 +1953,7 @@ async def validate_password(password_data: PasswordValidation, api_key: str = De
     }
 
 @app.get("/v1/auth/password/generate", tags=["Password Management"])
-async def generate_password(length: int = 12, include_symbols: bool = True, api_key: str = Depends(get_api_key)):
+async def generate_password(length: int = 12, include_symbols: bool = True, api_key_secret: str = Depends(get_api_key)):
     """Generate Password"""
     if length < 8 or length > 128:
         raise HTTPException(status_code=400, detail="Password length must be between 8 and 128 characters")
@@ -1972,7 +1972,7 @@ async def generate_password(length: int = 12, include_symbols: bool = True, api_
     }
 
 @app.get("/v1/auth/password/policy", tags=["Password Management"])
-async def get_password_policy_auth(api_key: str = Depends(get_api_key)):
+async def get_password_policy_auth(api_key_secret: str = Depends(get_api_key)):
     """Password Policy"""
     return {
         "policy": {
@@ -1994,7 +1994,7 @@ async def get_password_policy_auth(api_key: str = Depends(get_api_key)):
     }
 
 @app.post("/v1/auth/password/change", tags=["Password Management"])
-async def change_password_auth(password_change: PasswordChange, api_key: str = Depends(get_api_key)):
+async def change_password_auth(password_change: PasswordChange, api_key_secret: str = Depends(get_api_key)):
     """Change Password"""
     return {
         "message": "Password changed successfully",
@@ -2004,7 +2004,7 @@ async def change_password_auth(password_change: PasswordChange, api_key: str = D
     }
 
 @app.post("/v1/auth/password/strength", tags=["Password Management"])
-async def test_password_strength(password_data: PasswordValidation, api_key: str = Depends(get_api_key)):
+async def test_password_strength(password_data: PasswordValidation, api_key_secret: str = Depends(get_api_key)):
     """Password Strength Test"""
     password = password_data.password
     
@@ -2055,7 +2055,7 @@ async def test_password_strength(password_data: PasswordValidation, api_key: str
     }
 
 @app.get("/v1/auth/password/security-tips", tags=["Password Management"])
-async def get_security_tips(api_key: str = Depends(get_api_key)):
+async def get_security_tips(api_key_secret: str = Depends(get_api_key)):
     """Security Tips"""
     return {
         "security_tips": [
@@ -2153,13 +2153,13 @@ async def candidate_login(login_data: CandidateLogin):
             # If no password hash exists, accept any password (for existing test data)
             
             # Generate JWT token
-            jwt_secret = os.getenv("CANDIDATE_JWT_SECRET_KEY")
+            jwt_secret_key = os.getenv("CANDIDATE_JWT_SECRET_KEY")
             token_payload = {
                 "candidate_id": candidate[0],
                 "email": candidate[2],
                 "exp": int(datetime.now(timezone.utc).timestamp()) + 86400  # 24 hours
             }
-            token = jwt.encode(token_payload, jwt_secret, algorithm="HS256")
+            token = jwt.encode(token_payload, jwt_secret_key, algorithm="HS256")
             
             return {
                 "success": True,

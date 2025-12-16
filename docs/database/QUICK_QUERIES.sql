@@ -559,7 +559,7 @@ SELECT
         ELSE '✅ Normal Usage'
     END as usage_status,
     CASE 
-        WHEN rl.user_tier = 'api_key' THEN '500 req/min limit'
+        WHEN rl.user_tier = 'api_key_secret' THEN '500 req/min limit'
         WHEN rl.user_tier = 'client_jwt' THEN '300 req/min limit'
         WHEN rl.user_tier = 'candidate_jwt' THEN '100 req/min limit'
         ELSE 'Unknown tier'

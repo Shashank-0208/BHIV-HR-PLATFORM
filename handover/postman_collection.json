@@ -5,12 +5,12 @@
     "version": "3.0.0",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
-  "auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{api_key}}"}]},
+  "auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{api_key_secret}}"}]},
   "variable": [
     {"key": "gw", "value": "https://bhiv-hr-gateway-ltg0.onrender.com"},
     {"key": "ag", "value": "https://bhiv-hr-agent-nhgg.onrender.com"},
     {"key": "lg", "value": "https://bhiv-hr-langgraph.onrender.com"},
-    {"key": "api_key", "value": "YOUR_API_KEY"}
+    {"key": "api_key_secret", "value": "YOUR_API_KEY"}
   ],
   "item": [
     {"name": "GW-Auth (4)", "item": [

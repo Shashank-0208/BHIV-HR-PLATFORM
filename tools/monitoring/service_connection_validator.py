@@ -311,10 +311,10 @@ class ServiceConnectionValidator:
             
             # Test Agent database connection
             if self.results["services"].get("agent", {}).get("status") == "healthy":
-                agent_url = self.results["services"]["agent"]["url"]
+                agent_service_url = self.results["services"]["agent"]["url"]
                 
                 db_test = await self._test_endpoint(
-                    agent_url,
+                    agent_service_url,
                     "/test-db",
                     expected_status=[200, 401]
                 )

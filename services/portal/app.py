@@ -4,7 +4,7 @@ import pandas as pd
 from datetime import datetime
 import numpy as np
 import os
-from config import API_BASE, API_KEY, headers, http_client, LANGGRAPH_SERVICE_URL
+from config import API_BASE, API_KEY_SECRET, headers, http_client, LANGGRAPH_SERVICE_URL
 from auth_manager import init_auth, get_auth_headers
 
 # Security configuration to disable chart context menus
@@ -24,6 +24,13 @@ auth_manager = init_auth()
 
 # Unified Bearer authentication
 UNIFIED_HEADERS = get_auth_headers()
+
+# Initialize session state to prevent KeyError exceptions
+if 'session_initialized' not in st.session_state:
+    st.session_state.session_initialized = True
+    st.session_state.authenticated = True  # HR portal doesn't require login
+    st.session_state.refresh_all_data_sidebar = False
+    st.session_state.refresh_data_sidebar = False
 
 # LangGraph service URL imported from config
 
@@ -734,8 +741,8 @@ elif menu == "📈 Dashboard Overview":
         if st.button("📥 Export Job-Specific Report", width='stretch'):
             try:
                 # Get AI match data and assessments for specific job
-                agent_url = os.getenv("AGENT_SERVICE_URL")
-                ai_response = httpx.post(f"{agent_url}/match", json={"job_id": job_id_export}, timeout=15.0)
+                agent_service_url = os.getenv("AGENT_SERVICE_URL")
+                ai_response = httpx.post(f"{agent_service_url}/match", json={"job_id": job_id_export}, timeout=15.0)
                 interviews_response = httpx.get(f"{API_BASE}/v1/interviews", headers=headers, timeout=10.0)
                 
                 candidates = []
@@ -881,8 +888,8 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
         with st.spinner("🔄 Advanced AI is analyzing candidates using semantic matching..."):
             try:
                 # Call AI Agent directly for enhanced matching
-                agent_url = os.getenv("AGENT_SERVICE_URL")
-                response = httpx.post(f"{agent_url}/match", 
+                agent_service_url = os.getenv("AGENT_SERVICE_URL")
+                response = httpx.post(f"{agent_service_url}/match", 
                                     json={"job_id": job_id}, 
                                     timeout=15.0)
                 if response.status_code == 200:
@@ -981,7 +988,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                             if st.button(f"📧 Send Shortlist Email", key=f"shortlist_{i}"):
                                 # Trigger automated shortlist notification
                                 try:
-                                    langgraph_url = LANGGRAPH_SERVICE_URL
+                                    langgraph_service_url = LANGGRAPH_SERVICE_URL
                                     payload = {
                                         "candidate_name": candidate.get('name', 'Candidate'),
                                         "candidate_email": candidate.get('email', 'test@example.com'),
@@ -990,7 +997,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                                         "matching_score": str(candidate.get('score', 0)),
                                         "application_status": "shortlisted"
                                     }
-                                    response = http_client.post(f"{langgraph_url}/test/send-automated-sequence", 
+                                    response = http_client.post(f"{langgraph_service_url}/test/send-automated-sequence", 
                                                                json={
                                                                    "candidate_name": payload["candidate_name"],
                                                                    "candidate_email": payload["candidate_email"],
@@ -1013,7 +1020,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                             if st.button(f"📅 Schedule Interview", key=f"interview_{i}"):
                                 # Trigger automated interview scheduling notification
                                 try:
-                                    langgraph_url = LANGGRAPH_SERVICE_URL
+                                    langgraph_service_url = LANGGRAPH_SERVICE_URL
                                     payload = {
                                         "candidate_name": candidate.get('name', 'Candidate'),
                                         "candidate_email": candidate.get('email', 'test@example.com'),
@@ -1023,7 +1030,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                                         "interview_time": "2:00 PM",
                                         "interviewer": "HR Team"
                                     }
-                                    response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                                    response = http_client.post(f"{langgraph_service_url}/test/send-automated-sequence",
                                                                json={
                                                                    "candidate_name": payload["candidate_name"],
                                                                    "candidate_email": payload["candidate_email"],
@@ -1052,7 +1059,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                     if st.button("📧 Email All Top Candidates", width='stretch'):
                         # Trigger bulk automated notifications for all shortlisted candidates
                         try:
-                            langgraph_url = LANGGRAPH_SERVICE_URL
+                            langgraph_service_url = LANGGRAPH_SERVICE_URL
                             bulk_payload = {
                                 "candidates": [
                                     {
@@ -1066,7 +1073,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                                 "job_title": f"Job ID {job_id}",
                                 "matching_score": "High"
                             }
-                            response = http_client.post(f"{langgraph_url}/automation/bulk-notifications", json=bulk_payload, headers=UNIFIED_HEADERS, timeout=30.0)
+                            response = http_client.post(f"{langgraph_service_url}/automation/bulk-notifications", json=bulk_payload, headers=UNIFIED_HEADERS, timeout=30.0)
                             if response.status_code == 200:
                                 result = response.json()
                                 success_count = result.get('bulk_result', {}).get('success_count', 0)
@@ -1429,8 +1436,8 @@ elif menu == "🏆 Step 7: Export Assessment Reports":
         if st.button("📥 Export Shortlist with Assessments", width='stretch'):
             try:
                 # Get AI shortlist data
-                agent_url = os.getenv("AGENT_SERVICE_URL")
-                ai_response = httpx.post(f"{agent_url}/match", json={"job_id": job_id_shortlist}, timeout=15.0)
+                agent_service_url = os.getenv("AGENT_SERVICE_URL")
+                ai_response = httpx.post(f"{agent_service_url}/match", json={"job_id": job_id_shortlist}, timeout=15.0)
                 interviews_response = httpx.get(f"{API_BASE}/v1/interviews", headers=headers, timeout=10.0)
                 
                 candidates = []
@@ -1572,7 +1579,7 @@ elif menu == "📅 Step 5: Schedule Interviews":
                         
                         # Trigger automated interview notification via LangGraph
                         try:
-                            langgraph_url = LANGGRAPH_SERVICE_URL
+                            langgraph_service_url = LANGGRAPH_SERVICE_URL
                             payload = {
                                 "candidate_name": candidate_name,
                                 "candidate_email": f"{candidate_name.lower().replace(' ', '.')}@example.com",
@@ -1584,7 +1591,7 @@ elif menu == "📅 Step 5: Schedule Interviews":
                             }
                             
                             # Use automated sequence for better templates
-                            response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                            response = http_client.post(f"{langgraph_service_url}/test/send-automated-sequence",
                                                        json={
                                                            "candidate_name": candidate_name,
                                                            "candidate_email": payload["candidate_email"],
@@ -1707,7 +1714,7 @@ elif menu == "📁 Batch Operations":
         
         if st.button("📧 Send Bulk Notifications", width='stretch'):
             try:
-                langgraph_url = LANGGRAPH_SERVICE_URL
+                langgraph_service_url = LANGGRAPH_SERVICE_URL
                 bulk_payload = {
                     "candidates": sample_candidates,
                     "sequence_type": notification_type,
@@ -1715,7 +1722,7 @@ elif menu == "📁 Batch Operations":
                     "matching_score": "High"
                 }
                 
-                response = http_client.post(f"{langgraph_url}/automation/bulk-notifications", 
+                response = http_client.post(f"{langgraph_service_url}/automation/bulk-notifications", 
                                           json=bulk_payload, headers=UNIFIED_HEADERS, timeout=30.0)
                 if response.status_code == 200:
                     result = response.json()
@@ -1738,8 +1745,8 @@ elif menu == "📧 Communication Testing":
     st.subheader("📊 Communication Service Status")
     try:
         # Try local Docker URL first
-        langgraph_url = LANGGRAPH_SERVICE_URL
-        response = http_client.get(f"{langgraph_url}/health", timeout=5.0)
+        langgraph_service_url = LANGGRAPH_SERVICE_URL
+        response = http_client.get(f"{langgraph_service_url}/health", timeout=5.0)
         if response.status_code == 200:
             st.success("✅ LangGraph Communication Service: Online")
         else:
@@ -1763,7 +1770,7 @@ elif menu == "📧 Communication Testing":
         
         if st.form_submit_button("📢 Send Multi-Channel Test"):
             try:
-                langgraph_url = LANGGRAPH_SERVICE_URL
+                langgraph_service_url = LANGGRAPH_SERVICE_URL
                 notification_data = {
                     "candidate_name": candidate_name,
                     "candidate_email": candidate_email,
@@ -1775,7 +1782,7 @@ elif menu == "📧 Communication Testing":
                 }
                 
                 # Use http_client for proper connection handling
-                response = http_client.post(f"{langgraph_url}/tools/send-notification",
+                response = http_client.post(f"{langgraph_service_url}/tools/send-notification",
                                           json=notification_data,
                                           headers=UNIFIED_HEADERS, timeout=30.0)
                 if response.status_code == 200:
@@ -1795,8 +1802,8 @@ elif menu == "📧 Communication Testing":
     with col1:
         if st.button("📧 Test Shortlist Notification", width='stretch'):
             try:
-                langgraph_url = LANGGRAPH_SERVICE_URL
-                response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                langgraph_service_url = LANGGRAPH_SERVICE_URL
+                response = http_client.post(f"{langgraph_service_url}/test/send-automated-sequence",
                                            json={
                                                "candidate_name": "John Doe",
                                                "candidate_email": "john.doe@example.com",
@@ -1816,8 +1823,8 @@ elif menu == "📧 Communication Testing":
     with col2:
         if st.button("📅 Test Interview Notification", width='stretch'):
             try:
-                langgraph_url = LANGGRAPH_SERVICE_URL
-                response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                langgraph_service_url = LANGGRAPH_SERVICE_URL
+                response = http_client.post(f"{langgraph_service_url}/test/send-automated-sequence",
                                            json={
                                                "candidate_name": "Jane Smith",
                                                "candidate_email": "jane.smith@example.com",
@@ -1837,8 +1844,8 @@ elif menu == "📧 Communication Testing":
     with col3:
         if st.button("📝 Test Feedback Request", width='stretch'):
             try:
-                langgraph_url = LANGGRAPH_SERVICE_URL
-                response = http_client.post(f"{langgraph_url}/test/send-automated-sequence",
+                langgraph_service_url = LANGGRAPH_SERVICE_URL
+                response = http_client.post(f"{langgraph_service_url}/test/send-automated-sequence",
                                            json={
                                                "candidate_name": "Mike Johnson",
                                                "candidate_email": "mike.johnson@example.com",
@@ -1938,8 +1945,8 @@ with footer_col1:
 with footer_col2:
     st.markdown("**🤖 AI Status**")
     try:
-        agent_url = os.getenv("AGENT_SERVICE_URL")
-        ai_response = httpx.get(f"{agent_url}/health", timeout=3.0)
+        agent_service_url = os.getenv("AGENT_SERVICE_URL")
+        ai_response = httpx.get(f"{agent_service_url}/health", timeout=3.0)
         if ai_response.status_code == 200:
             st.caption("✅ Talah AI: Online")
         else:
@@ -1950,8 +1957,8 @@ with footer_col2:
 with footer_col3:
     st.markdown("**📧 Automation Status**")
     try:
-        langgraph_url = LANGGRAPH_SERVICE_URL
-        automation_response = http_client.get(f"{langgraph_url}/health", timeout=30.0)
+        langgraph_service_url = LANGGRAPH_SERVICE_URL
+        automation_response = http_client.get(f"{langgraph_service_url}/health", timeout=30.0)
         if automation_response.status_code == 200:
             st.caption("✅ Automation: Online")
         else:

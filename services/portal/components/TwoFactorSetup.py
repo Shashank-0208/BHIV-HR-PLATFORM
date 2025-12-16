@@ -16,18 +16,18 @@ def show_2fa_setup():
     if st.button("🔑 Setup 2FA"):
         try:
             # Call Gateway auth endpoint
-            api_base = os.getenv("GATEWAY_URL")
+            api_base = os.getenv("GATEWAY_SERVICE_URL")
             if not api_base:
-                st.error("❌ GATEWAY_URL environment variable not configured")
+                st.error("❌ GATEWAY_SERVICE_URL environment variable not configured")
                 return
             
-            api_key = os.getenv("API_KEY_SECRET")
-            if not api_key:
+            api_key_secret = os.getenv("API_KEY_SECRET")
+            if not api_key_secret:
                 st.error("❌ API_KEY_SECRET environment variable not configured")
                 return
             
             headers = {
-                "Authorization": f"Bearer {api_key}",
+                "Authorization": f"Bearer {api_key_secret}",
                 "Content-Type": "application/json"
             }
             
@@ -102,9 +102,9 @@ def show_2fa_login():
         
         if submitted and username and password:
             try:
-                api_base = os.getenv("GATEWAY_URL")
+                api_base = os.getenv("GATEWAY_SERVICE_URL")
                 if not api_base:
-                    st.error("❌ GATEWAY_URL environment variable not configured")
+                    st.error("❌ GATEWAY_SERVICE_URL environment variable not configured")
                     return
                 
                 response = requests.post(

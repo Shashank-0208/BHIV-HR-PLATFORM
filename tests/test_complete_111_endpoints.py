@@ -4,7 +4,7 @@ import requests, json, time, os
 from datetime import datetime
 
 BASE_URLS = {
-    "gw": os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com"),
+    "gw": os.getenv("GATEWAY_SERVICE_URL", "https://bhiv-hr-gateway-ltg0.onrender.com"),
     "ag": os.getenv("AGENT_URL", "https://bhiv-hr-agent-nhgg.onrender.com"),
     "lg": os.getenv("LANGGRAPH_URL", "https://bhiv-hr-langgraph.onrender.com")
 }

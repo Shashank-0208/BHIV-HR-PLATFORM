@@ -57,7 +57,7 @@ The collection includes these pre-configured variables:
 | `gw` | https://bhiv-hr-gateway-ltg0.onrender.com | Gateway URL |
 | `ag` | https://bhiv-hr-agent-nhgg.onrender.com | Agent URL |
 | `lg` | https://bhiv-hr-langgraph.onrender.com | LangGraph URL |
-| `api_key` | YOUR_API_KEY | Replace with actual API key |
+| `api_key_secret` | YOUR_API_KEY | Replace with actual API key |
 
 **To use local environment**: Edit variables and change URLs to:
 - `gw`: http://localhost:8000
@@ -68,7 +68,7 @@ The collection includes these pre-configured variables:
 
 ### 1. API Key (Primary)
 ```
-Authorization: Bearer {{api_key}}
+Authorization: Bearer {{api_key_secret}}
 ```
 Used for most endpoints.
 
@@ -80,7 +80,7 @@ Get token from `/v1/client/login` endpoint.
 
 ### 3. Candidate JWT
 ```
-Authorization: Bearer {{candidate_jwt}}
+Authorization: Bearer {{candidate_jwt_secret_key}}
 ```
 Get token from `/v1/candidate/login` endpoint.
 

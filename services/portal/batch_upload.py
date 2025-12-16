@@ -217,14 +217,14 @@ def trigger_resume_processing():
     import httpx
     import os
     
-    API_BASE = os.getenv("GATEWAY_URL")
+    API_BASE = os.getenv("GATEWAY_SERVICE_URL")
     if not API_BASE:
-        raise ValueError("GATEWAY_URL environment variable is required")
+        raise ValueError("GATEWAY_SERVICE_URL environment variable is required")
     
-    API_KEY = os.getenv("API_KEY_SECRET")
-    if not API_KEY:
+    API_KEY_SECRET = os.getenv("API_KEY_SECRET")
+    if not API_KEY_SECRET:
         raise ValueError("API_KEY_SECRET environment variable is required")
-    headers = {"Authorization": f"Bearer {API_KEY}"}
+    headers = {"Authorization": f"Bearer {API_KEY_SECRET}"}
     
     with st.spinner("Processing resumes and uploading to database..."):
         try:

@@ -59,10 +59,10 @@ from fastapi.openapi.utils import get_openapi
 # Security setup
 security = HTTPBearer()
 
-def validate_api_key(api_key: str) -> bool:
+def validate_api_key(api_key_secret: str) -> bool:
     """Validate API key against environment variable"""
     expected_key = os.getenv("API_KEY_SECRET")
-    return api_key == expected_key
+    return api_key_secret == expected_key
 
 def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(security)):
     """Authentication dependency mirroring Gateway"""
@@ -71,20 +71,20 @@ def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(securit
     
     # Try API key first
     if validate_api_key(credentials.credentials):
-        return {"type": "api_key", "credentials": credentials.credentials}
+        return {"type": "api_key_secret", "credentials": credentials.credentials}
     
     # Try client JWT token
     try:
-        jwt_secret = os.getenv("JWT_SECRET_KEY")
-        payload = jwt.decode(credentials.credentials, jwt_secret, algorithms=["HS256"])
+        jwt_secret_key = os.getenv("JWT_SECRET_KEY")
+        payload = jwt.decode(credentials.credentials, jwt_secret_key, algorithms=["HS256"])
         return {"type": "client_token", "client_id": payload.get("client_id")}
     except:
         pass
     
     # Try candidate JWT token
     try:
-        candidate_jwt_secret = os.getenv("CANDIDATE_JWT_SECRET_KEY")
-        payload = jwt.decode(credentials.credentials, candidate_jwt_secret, algorithms=["HS256"])
+        candidate_jwt_secret_key = os.getenv("CANDIDATE_JWT_SECRET_KEY")
+        payload = jwt.decode(credentials.credentials, candidate_jwt_secret_key, algorithms=["HS256"])
         return {"type": "candidate_token", "candidate_id": payload.get("candidate_id")}
     except:
         pass

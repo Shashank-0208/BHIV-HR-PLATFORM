@@ -47,7 +47,7 @@ python test_local.py
 
 ### Required for Basic Testing
 ```
-GATEWAY_URL=http://localhost:8000
+GATEWAY_SERVICE_URL=http://localhost:8000
 API_KEY_SECRET=<YOUR_API_KEY>
 DATABASE_URL=postgresql://bhiv_user:bhiv_local_password_2025@localhost:5432/bhiv_hr
 ENVIRONMENT=production
@@ -95,7 +95,7 @@ curl http://localhost:9001/workflows/{workflow_id}/status
 The LangGraph service integrates with the BHIV Gateway through:
 - Gateway calls LangGraph workflows via `/api/v1/workflows/*` endpoints
 - LangGraph calls back to Gateway for data and updates
-- Environment variable `GATEWAY_URL` configures the connection
+- Environment variable `GATEWAY_SERVICE_URL` configures the connection
 
 ## Troubleshooting
 
@@ -114,7 +114,7 @@ The LangGraph service integrates with the BHIV Gateway through:
 - Check database credentials
 
 ### Gateway Integration Issues
-- Verify GATEWAY_URL in .env points to running gateway
+- Verify GATEWAY_SERVICE_URL in .env points to running gateway
 - Check API_KEY_SECRET matches gateway configuration
 - Ensure gateway service is running on port 8000
 

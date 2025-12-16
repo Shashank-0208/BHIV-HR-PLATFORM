@@ -437,7 +437,7 @@ router = APIRouter(prefix="/api/v1/rl", tags=["RL Engine"])
 async def rl_predict(
     candidate_id: int, 
     job_id: int,
-    api_key: str = Depends(verify_api_key),
+    api_key_secret: str = Depends(verify_api_key),
     token: dict = Depends(verify_jwt_token)
 ):
     """Proxy RL prediction to LangGraph service"""

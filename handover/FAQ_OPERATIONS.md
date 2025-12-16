@@ -2284,11 +2284,11 @@ curl -X POST http://localhost:8000/v1/match/batch \
 #### **Method 1: Via API (Recommended)**
 ```bash
 # Set API key
-export API_KEY="<YOUR_API_KEY>"
+export API_KEY_SECRET="<YOUR_API_KEY>"
 
 # Test single job matching
 curl -X POST http://localhost:8000/v1/match/1/top \
-  -H "Authorization: Bearer $API_KEY" \
+  -H "Authorization: Bearer $API_KEY_SECRET" \
   -H "Content-Type: application/json"
 
 # Expected response:
@@ -2309,7 +2309,7 @@ curl -X POST http://localhost:8000/v1/match/1/top \
 
 # Test batch matching
 curl -X POST http://localhost:8000/v1/match/batch \
-  -H "Authorization: Bearer $API_KEY" \
+  -H "Authorization: Bearer $API_KEY_SECRET" \
   -H "Content-Type: application/json" \
   -d '{"job_ids": [1, 2, 3], "limit": 10}'
 ```
@@ -2386,7 +2386,7 @@ python count_all_endpoints.py
 ```bash
 # Test response time
 time curl -X POST http://localhost:8000/v1/match/1/top \
-  -H "Authorization: Bearer $API_KEY"
+  -H "Authorization: Bearer $API_KEY_SECRET"
 
 # Expected: <1 second for single job
 # Expected: <5 seconds for batch of 10 jobs
@@ -2394,7 +2394,7 @@ time curl -X POST http://localhost:8000/v1/match/1/top \
 # Load testing (if needed)
 for i in {1..10}; do
   curl -X POST http://localhost:8000/v1/match/1/top \
-    -H "Authorization: Bearer $API_KEY" &
+    -H "Authorization: Bearer $API_KEY_SECRET" &
 done
 wait
 ```
@@ -2692,14 +2692,14 @@ python tools/utilities/fix_portal_auth.py
 #### **Issue C: JWT Token Validation**
 ```bash
 # Check JWT secrets match across services
-type .env | findstr JWT_SECRET  # Windows
-grep JWT_SECRET .env            # Linux/Mac
+type .env | findstr JWT_SECRET_KEY  # Windows
+grep JWT_SECRET_KEY .env            # Linux/Mac
 
 # Verify all services use same secret
 docker-compose -f docker-compose.production.yml exec gateway \
-  env | grep JWT_SECRET
+  env | grep JWT_SECRET_KEY
 docker-compose -f docker-compose.production.yml exec client_portal \
-  env | grep JWT_SECRET
+  env | grep JWT_SECRET_KEY
 
 # If mismatch, update .env and restart
 docker-compose -f docker-compose.production.yml restart
@@ -2763,9 +2763,9 @@ grep API_KEY_SECRET .env            # Linux/Mac
 # Query database for API keys
 docker-compose -f docker-compose.production.yml exec db \
   psql -U bhiv_user -d bhiv_hr -c "
-  SELECT client_id, api_key, created_at 
+  SELECT client_id, api_key_secret, created_at 
   FROM clients 
-  WHERE api_key IS NOT NULL"
+  WHERE api_key_secret IS NOT NULL"
 ```
 
 #### **Method 4: Generate New API Key**
@@ -2774,9 +2774,9 @@ docker-compose -f docker-compose.production.yml exec db \
 docker-compose -f docker-compose.production.yml exec db \
   psql -U bhiv_user -d bhiv_hr -c "
   UPDATE clients 
-  SET api_key = gen_random_uuid() 
+  SET api_key_secret = gen_random_uuid() 
   WHERE client_id='TECH001' 
-  RETURNING api_key"
+  RETURNING api_key_secret"
 
 # Or via API (if endpoint exists)
 curl -X POST http://localhost:8000/v1/auth/generate-key \
@@ -2827,7 +2827,7 @@ Key Format:
 docker-compose -f docker-compose.production.yml exec db \
   psql -U bhiv_user -d bhiv_hr -c "
   UPDATE clients 
-  SET api_key = NULL 
+  SET api_key_secret = NULL 
   WHERE client_id='TECH001'"
 
 # Or mark as inactive
@@ -2933,7 +2933,7 @@ docker-compose -f docker-compose.production.yml exec db \
   SELECT client_id, is_active, last_login 
   FROM clients 
   WHERE is_active = FALSE 
-  AND api_key IS NOT NULL"
+  AND api_key_secret IS NOT NULL"
 
 # Check audit logs for suspicious activity
 docker-compose -f docker-compose.production.yml exec db \
@@ -3033,7 +3033,7 @@ curl http://localhost:8000/v1/security/rate-limit-status
 # Implement exponential backoff
 for i in {1..5}; do
   response=$(curl -s -o /dev/null -w "%{http_code}" \
-    -H "Authorization: Bearer $API_KEY" \
+    -H "Authorization: Bearer $API_KEY_SECRET" \
     http://localhost:8000/v1/candidates)
   
   if [ "$response" = "429" ]; then
@@ -3069,7 +3069,7 @@ curl http://localhost:8000/v1/candidates/3
 
 # Use batch endpoint:
 curl -X POST http://localhost:8000/v1/candidates/batch \
-  -H "Authorization: Bearer $API_KEY" \
+  -H "Authorization: Bearer $API_KEY_SECRET" \
   -H "Content-Type: application/json" \
   -d '{"ids": [1, 2, 3]}'
 ```

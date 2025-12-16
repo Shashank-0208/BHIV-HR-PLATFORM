@@ -12,8 +12,8 @@ from datetime import datetime
 from typing import Dict, Any
 
 # Configuration
-GATEWAY_URL = "http://localhost:8000"
-LANGGRAPH_URL = "http://localhost:9001"
+GATEWAY_SERVICE_URL = "http://localhost:8000"
+LANGGRAPH_SERVICE_URLLANGGRAPH_SERVICE_URL = "http://localhost:9001"
 API_KEY = "test-api-key-12345"
 
 class IntegrationTester:
@@ -46,7 +46,7 @@ class IntegrationTester:
         
         # Test Gateway
         try:
-            async with self.session.get(f"{GATEWAY_URL}/health") as resp:
+            async with self.session.get(f"{GATEWAY_SERVICE_URL}/health") as resp:
                 if resp.status == 200:
                     data = await resp.json()
                     self.log_test("Gateway Health", True, f"Status: {data.get('status')}")
@@ -57,7 +57,7 @@ class IntegrationTester:
         
         # Test LangGraph
         try:
-            async with self.session.get(f"{LANGGRAPH_URL}/health") as resp:
+            async with self.session.get(f"{LANGGRAPH_SERVICE_URL}/health") as resp:
                 if resp.status == 200:
                     data = await resp.json()
                     self.log_test("LangGraph Health", True, f"Status: {data.get('status')}")
@@ -74,7 +74,7 @@ class IntegrationTester:
         
         # Test candidates endpoint
         try:
-            async with self.session.get(f"{GATEWAY_URL}/v1/candidates", headers=headers) as resp:
+            async with self.session.get(f"{GATEWAY_SERVICE_URL}/v1/candidates", headers=headers) as resp:
                 if resp.status == 200:
                     data = await resp.json()
                     count = len(data) if isinstance(data, list) else data.get('count', 0)
@@ -86,7 +86,7 @@ class IntegrationTester:
         
         # Test jobs endpoint
         try:
-            async with self.session.get(f"{GATEWAY_URL}/v1/jobs", headers=headers) as resp:
+            async with self.session.get(f"{GATEWAY_SERVICE_URL}/v1/jobs", headers=headers) as resp:
                 if resp.status == 200:
                     data = await resp.json()
                     count = len(data) if isinstance(data, list) else data.get('count', 0)
@@ -102,7 +102,7 @@ class IntegrationTester:
         
         # Test workflow status
         try:
-            async with self.session.get(f"{LANGGRAPH_URL}/workflow/status") as resp:
+            async with self.session.get(f"{LANGGRAPH_SERVICE_URL}/workflow/status") as resp:
                 if resp.status == 200:
                     data = await resp.json()
                     self.log_test("LangGraph Status", True, f"Active workflows: {data.get('active_workflows', 0)}")
@@ -113,7 +113,7 @@ class IntegrationTester:
         
         # Test workflow list
         try:
-            async with self.session.get(f"{LANGGRAPH_URL}/workflow/list") as resp:
+            async with self.session.get(f"{LANGGRAPH_SERVICE_URL}/workflow/list") as resp:
                 if resp.status == 200:
                     data = await resp.json()
                     count = len(data.get('workflows', []))
@@ -140,7 +140,7 @@ class IntegrationTester:
         try:
             # Start workflow
             async with self.session.post(
-                f"{LANGGRAPH_URL}/workflow/start",
+                f"{LANGGRAPH_SERVICE_URL}/workflow/start",
                 json=test_application
             ) as resp:
                 if resp.status == 200:
@@ -164,7 +164,7 @@ class IntegrationTester:
         
         while attempt < max_attempts:
             try:
-                async with self.session.get(f"{LANGGRAPH_URL}/workflow/{workflow_id}") as resp:
+                async with self.session.get(f"{LANGGRAPH_SERVICE_URL}/workflow/{workflow_id}") as resp:
                     if resp.status == 200:
                         data = await resp.json()
                         status = data.get('status')
@@ -236,7 +236,7 @@ class IntegrationTester:
         
         try:
             async with self.session.post(
-                f"{GATEWAY_URL}/v1/workflow/trigger",
+                f"{GATEWAY_SERVICE_URL}/v1/workflow/trigger",
                 json=test_data,
                 headers=headers
             ) as resp:
@@ -256,7 +256,7 @@ class IntegrationTester:
         # Test invalid workflow data
         try:
             async with self.session.post(
-                f"{LANGGRAPH_URL}/workflow/start",
+                f"{LANGGRAPH_SERVICE_URL}/workflow/start",
                 json={"invalid": "data"}
             ) as resp:
                 if resp.status in [400, 422]:  # Expected error codes
@@ -268,7 +268,7 @@ class IntegrationTester:
         
         # Test non-existent workflow
         try:
-            async with self.session.get(f"{LANGGRAPH_URL}/workflow/nonexistent-id") as resp:
+            async with self.session.get(f"{LANGGRAPH_SERVICE_URL}/workflow/nonexistent-id") as resp:
                 if resp.status == 404:
                     self.log_test("404 Handling", True, "Properly returned 404 for non-existent workflow")
                 else:

@@ -11,11 +11,11 @@ from datetime import datetime
 def send_automated_email(notification_type, candidate_data, additional_data=None):
     """Send automated email notifications via LangGraph"""
     
-    langgraph_url = os.getenv("LANGGRAPH_SERVICE_URL", "https://bhiv-hr-langgraph.onrender.com")
-    api_key = os.getenv("API_KEY_SECRET")
+    langgraph_service_url = os.getenv("LANGGRAPH_SERVICE_URL", "https://bhiv-hr-langgraph.onrender.com")
+    api_key_secret = os.getenv("API_KEY_SECRET")
     
     headers = {
-        "Authorization": f"Bearer {api_key}",
+        "Authorization": f"Bearer {api_key_secret}",
         "Content-Type": "application/json"
     }
     
@@ -107,7 +107,7 @@ BHIV HR Team"""
     
     try:
         response = httpx.post(
-            f"{langgraph_url}/tools/send-notification",
+            f"{langgraph_service_url}/tools/send-notification",
             json=notification_data,
             headers=headers,
             timeout=10.0

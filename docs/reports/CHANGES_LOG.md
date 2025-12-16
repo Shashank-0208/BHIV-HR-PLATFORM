@@ -172,10 +172,10 @@ INSERT INTO schema_version (version, description) VALUES
 ### **Portal Configuration Changes**
 ```python
 # Before (Docker URLs - causing connection issues)
-API_BASE = os.getenv("GATEWAY_URL", "http://gateway:8000")
+API_BASE = os.getenv("GATEWAY_SERVICE_URL", "http://gateway:8000")
 
 # After (Production URLs - working correctly)
-API_BASE = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
+API_BASE = os.getenv("GATEWAY_SERVICE_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
 ```
 
 ### **Performance Improvements**

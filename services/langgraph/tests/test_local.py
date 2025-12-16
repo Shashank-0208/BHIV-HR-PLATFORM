@@ -7,14 +7,14 @@ import httpx
 import json
 from datetime import datetime
 
-LANGGRAPH_URL = "http://localhost:9001"
+LANGGRAPH_SERVICE_URL = "http://localhost:9001"
 
 async def test_health():
     """Test health endpoint"""
     print("Testing health endpoint...")
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"{LANGGRAPH_URL}/health")
+            response = await client.get(f"{LANGGRAPH_SERVICE_URL}/health")
             if response.status_code == 200:
                 data = response.json()
                 print(f"SUCCESS: Health check passed: {data['status']}")
@@ -44,7 +44,7 @@ async def test_workflow():
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{LANGGRAPH_URL}/workflows/application/start",
+                f"{LANGGRAPH_SERVICE_URL}/workflows/application/start",
                 json=payload,
                 timeout=30.0
             )
@@ -67,7 +67,7 @@ async def test_workflow_status(workflow_id: str):
     
     try:
         async with httpx.AsyncClient() as client:
-            response = await client.get(f"{LANGGRAPH_URL}/workflows/{workflow_id}/status")
+            response = await client.get(f"{LANGGRAPH_SERVICE_URL}/workflows/{workflow_id}/status")
             
             if response.status_code == 200:
                 data = response.json()
@@ -110,8 +110,8 @@ async def main():
     
     print()
     print("SUCCESS: All tests completed!")
-    print(f"Service running at: {LANGGRAPH_URL}")
-    print(f"API docs: {LANGGRAPH_URL}/docs")
+    print(f"Service running at: {LANGGRAPH_SERVICE_URL}")
+    print(f"API docs: {LANGGRAPH_SERVICE_URL}/docs")
 
 if __name__ == "__main__":
     asyncio.run(main())

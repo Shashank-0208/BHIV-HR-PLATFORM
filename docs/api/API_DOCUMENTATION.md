@@ -989,8 +989,8 @@ import requests
 
 # API Configuration
 BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com"
-API_KEY = "<YOUR_API_KEY>"
-HEADERS = {"Authorization": f"Bearer {API_KEY}"}
+API_KEY_SECRET = "<YOUR_API_KEY>"
+HEADERS = {"Authorization": f"Bearer {API_KEY_SECRET}"}
 
 # Get all jobs
 response = requests.get(f"{BASE_URL}/v1/jobs", headers=HEADERS)
@@ -1004,10 +1004,10 @@ matches = match_response.json()
 ### **JavaScript Integration Example**
 ```javascript
 const BASE_URL = "https://bhiv-hr-gateway-ltg0.onrender.com";
-const API_KEY = "<YOUR_API_KEY>";
+const API_KEY_SECRET = "<YOUR_API_KEY>";
 
 const headers = {
-  "Authorization": `Bearer ${API_KEY}`,
+  "Authorization": `Bearer ${API_KEY_SECRET}`,
   "Content-Type": "application/json"
 };
 

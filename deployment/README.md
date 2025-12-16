@@ -74,11 +74,11 @@ DATABASE_URL=postgresql://user:pass@host:port/db
 
 # Security
 API_KEY_SECRET=your_secure_api_key
-JWT_SECRET=your_jwt_secret
+JWT_SECRET_KEY=your_jwt_secret
 
 # Services
-GATEWAY_URL=http://gateway:8000
-AGENT_URL=http://agent:9000
+GATEWAY_SERVICE_URL=http://gateway:8000
+AGENT_SERVICE_URL=http://agent:9000
 ```
 
 ### Configuration Files

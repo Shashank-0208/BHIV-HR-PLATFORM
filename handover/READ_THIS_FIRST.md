@@ -130,7 +130,7 @@ handover/
 # Steps:
 1. Open Postman
 2. Import: handover/postman_collection.json
-3. Set environment variable: api_key = YOUR_API_KEY
+3. Set environment variable: api_key_secret = YOUR_API_KEY
 4. Test any of 111 endpoints
 5. See POSTMAN_README.md for detailed guide
 ```

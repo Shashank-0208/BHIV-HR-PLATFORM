@@ -5,15 +5,15 @@ echo "🏥 BHIV HR Platform Health Check"
 echo "================================"
 
 # Service endpoints
-GATEWAY_URL="http://localhost:8000"
-AGENT_URL="http://localhost:9000"
-LANGGRAPH_URL="http://localhost:9001"
-PORTAL_URL="http://localhost:8501"
-CLIENT_PORTAL_URL="http://localhost:8502"
-CANDIDATE_PORTAL_URL="http://localhost:8503"
+GATEWAY_SERVICE_URL="http://localhost:8000"
+AGENT_SERVICE_URL="http://localhost:9000"
+LANGGRAPH_SERVICE_URL="http://localhost:9001"
+PORTAL_SERVICE_URL="http://localhost:8501"
+CLIENT_PORTAL_SERVICE_URL="http://localhost:8502"
+CANDIDATE_PORTAL_SERVICE_URL="http://localhost:8503"
 
 # API Key
-API_KEY="prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
+API_KEY_SECRET="prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o"
 
 # Health check function
 check_service() {
@@ -49,22 +49,22 @@ else
 fi
 
 # Check services
-check_service "Gateway API" "$GATEWAY_URL/health"
+check_service "Gateway API" "$GATEWAY_SERVICE_URL/health"
 gateway_status=$?
 
-check_service "Agent API" "$AGENT_URL/health"
+check_service "Agent API" "$AGENT_SERVICE_URL/health"
 agent_status=$?
 
-check_service "HR Portal" "$PORTAL_URL"
+check_service "HR Portal" "$PORTAL_SERVICE_URL"
 portal_status=$?
 
-check_service "Client Portal" "$CLIENT_PORTAL_URL"
+check_service "Client Portal" "$CLIENT_PORTAL_SERVICE_URL"
 client_portal_status=$?
 
-check_service "LangGraph API" "$LANGGRAPH_URL/health"
+check_service "LangGraph API" "$LANGGRAPH_SERVICE_URL/health"
 langgraph_status=$?
 
-check_service "Candidate Portal" "$CANDIDATE_PORTAL_URL"
+check_service "Candidate Portal" "$CANDIDATE_PORTAL_SERVICE_URL"
 candidate_portal_status=$?
 
 # Initialize missing variables if not set
@@ -74,7 +74,7 @@ candidate_portal_status=${candidate_portal_status:-1}
 # Test API endpoints
 echo -n "Testing API Authentication... "
 if command -v curl >/dev/null 2>&1; then
-    api_response=$(curl -s -H "Authorization: Bearer $API_KEY" "$GATEWAY_URL/v1/jobs" --max-time 10)
+    api_response=$(curl -s -H "Authorization: Bearer $API_KEY_SECRET" "$GATEWAY_SERVICE_URL/v1/jobs" --max-time 10)
     if echo "$api_response" | grep -q "jobs"; then
         echo "✅ OK"
         api_status=0

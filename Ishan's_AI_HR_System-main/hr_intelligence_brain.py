@@ -11,9 +11,9 @@ from typing import Dict, List, Any, Optional
 class HRIntelligenceBrain:
     """Plug-and-play HR Intelligence Brain for any HR platform"""
     
-    def __init__(self, base_url: str = "http://localhost:8000", api_key: str = None):
+    def __init__(self, base_url: str = "http://localhost:8000", api_key_secret: str = None):
         self.base_url = base_url.rstrip('/')
-        self.api_key = api_key
+        self.api_key_secret = api_key_secret
         self.headers = {"Content-Type": "application/json"}
         if api_key:
             self.headers["Authorization"] = f"Bearer {api_key}"

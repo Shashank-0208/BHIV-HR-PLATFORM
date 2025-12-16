@@ -84,7 +84,7 @@ async def login_with_2fa(login_data: LoginRequest):
                 raise HTTPException(status_code=401, detail="Invalid 2FA code")
         
         # Generate JWT token
-        jwt_secret = os.getenv("JWT_SECRET")
+        jwt_secret_key = os.getenv("JWT_SECRET_KEY")
         payload = {
             "user_id": login_data.username,
             "exp": datetime.utcnow() + timedelta(hours=24),
@@ -92,7 +92,7 @@ async def login_with_2fa(login_data: LoginRequest):
             "type": "user_token"
         }
         
-        token = jwt.encode(payload, jwt_secret, algorithm="HS256")
+        token = jwt.encode(payload, jwt_secret_key, algorithm="HS256")
         
         return {
             "success": True,

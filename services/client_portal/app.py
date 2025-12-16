@@ -24,7 +24,6 @@ auth_manager = init_auth()
 UNIFIED_HEADERS = get_auth_headers()
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 if not API_BASE_URL:
@@ -77,8 +76,17 @@ def main():
     st.title("🏢 BHIV Client Portal")
     st.markdown("**Dedicated Client Interface for Job Posting & Candidate Review**")
     
-    # Client authentication
+    # Initialize all session state variables first
     if 'client_authenticated' not in st.session_state:
+        st.session_state['client_authenticated'] = False
+    if 'client_id' not in st.session_state:
+        st.session_state['client_id'] = None
+    if 'client_name' not in st.session_state:
+        st.session_state['client_name'] = None
+    if 'client_token' not in st.session_state:
+        st.session_state['client_token'] = None
+    
+    if not st.session_state.get('client_authenticated', False):
         show_client_login()
         return
     
@@ -172,18 +180,23 @@ def show_client_login():
             if st.form_submit_button("🔑 Secure Login", width='stretch'):
                 if client_id and password:
                     with st.spinner("Authenticating..."):
-                        success, result = authenticate_client(client_id, password)
-                        
-                        if success:
-                            st.session_state['client_authenticated'] = True
-                            st.session_state['client_token'] = result.get('access_token', result.get('token', ''))
-                            st.session_state['client_id'] = result['client_id']
-                            st.session_state['client_name'] = result['company_name']
-                            st.success("✅ Login successful!")
-                            st.balloons()
-                            st.rerun()
-                        else:
-                            st.error(f"❌ {result.get('error', 'Authentication failed')}")
+                        try:
+                            success, result = authenticate_client(client_id, password)
+                            
+                            if success and result.get('success', False):
+                                # Initialize session state properly
+                                st.session_state['client_authenticated'] = True
+                                st.session_state['client_token'] = result.get('access_token', '')
+                                st.session_state['client_id'] = result.get('client_id', client_id)
+                                st.session_state['client_name'] = result.get('company_name', 'Client')
+                                st.success("✅ Login successful!")
+                                st.balloons()
+                                st.rerun()
+                            else:
+                                error_msg = result.get('error', 'Authentication failed') if isinstance(result, dict) else 'Authentication failed'
+                                st.error(f"❌ {error_msg}")
+                        except Exception as e:
+                            st.error(f"❌ Login error: {str(e)}")
                 else:
                     st.warning("⚠️ Please enter both Client ID and Password")
     
@@ -217,14 +230,27 @@ def authenticate_client(client_id, password):
         response = requests.post(
             f"{API_BASE_URL}/v1/client/login",
             json={"client_id": client_id, "password": password},
-            headers={"Content-Type": "application/json"}
+            headers={"Content-Type": "application/json"},
+            timeout=10.0
         )
+        
         if response.status_code == 200:
-            return True, response.json()
+            result = response.json()
+            # Check if the API response indicates success
+            if result.get('success', False):
+                return True, result
+            else:
+                return False, result
         else:
-            return False, {"error": "Authentication failed"}
+            try:
+                error_data = response.json()
+                return False, {"error": error_data.get('error', f"HTTP {response.status_code}")}
+            except:
+                return False, {"error": f"Authentication failed (HTTP {response.status_code})"}
+    except requests.RequestException as e:
+        return False, {"error": f"Connection error: {str(e)}"}
     except Exception as e:
-        return False, {"error": str(e)}
+        return False, {"error": f"Unexpected error: {str(e)}"}
 
 def register_new_client(client_id, company_name, email, password, confirm_password):
     """Register new client via Gateway API"""
@@ -341,8 +367,10 @@ def show_job_posting():
                         requests.post(f"{LANGGRAPH_SERVICE_URL}/tools/send-notification", 
                                     json=notification_payload, headers=UNIFIED_HEADERS, timeout=10.0)
                         st.info("📧 HR team notified of new job posting")
-                    except:
-                        pass  # Silent fail for automation
+                    except requests.RequestException as e:
+                        logger.error(f"Notification failed: {e}")
+                    except Exception as e:
+                        logger.error(f"Notification error: {e}")
                     
                     if 'client_jobs' not in st.session_state:
                         st.session_state['client_jobs'] = []
@@ -394,7 +422,7 @@ def show_candidate_review():
                             match_response = requests.get(
                                 f"{API_BASE_URL}/v1/match/{job_id}/top", 
                                 headers=UNIFIED_HEADERS,
-                                timeout=30
+                                timeout=120
                             )
                             agent_response = match_response
                             st.info(f"AI matching response: {agent_response.status_code}")
@@ -459,8 +487,10 @@ def show_candidate_review():
                                                                             "job_title": job_details.get('title', 'Position'),
                                                                             "sequence_type": "shortlisted"
                                                                         }, headers=UNIFIED_HEADERS, timeout=10.0)
-                                                        except:
-                                                            pass
+                                                        except requests.RequestException as e:
+                                                            logger.error(f"Notification failed: {e}")
+                                                        except Exception as e:
+                                                            logger.error(f"Unexpected error: {e}")
                                                         st.success("✅ Candidate approved for interview")
                                                 with btn_col2:
                                                     if st.button(f"❌ Reject", key=f"reject_{job_id}_{i}"):
@@ -526,7 +556,7 @@ def show_match_results():
                                 response = requests.get(
                                     f"{API_BASE_URL}/v1/match/{job_id}/top", 
                                     headers=UNIFIED_HEADERS,
-                                    timeout=30
+                                    timeout=120
                                 )
                                 if response.status_code == 200:
                                     data = response.json()

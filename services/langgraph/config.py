@@ -7,36 +7,35 @@ logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
     # API Configuration - Environment Variables
-    gateway_service_url: str = "http://gateway:8000"
-    gateway_url: str = "http://gateway:8000"  # Alias for tools.py
-    api_key_secret: str = "<API_KEY_SECRET>"
+    gateway_service_url: str = "http://gateway:8000"  # Maps to GATEWAY_SERVICE_URL
+    api_key_secret: str = ""
     
     # Service URLs
     langgraph_service_url: str = "http://langgraph:9001"
     
     # Database
-    database_url: str = "<DATABASE_URL>"
+    database_url: str = ""
     
     # JWT Secrets
-    jwt_secret_key: str = "<JWT_SECRET_KEY>"
-    candidate_jwt_secret_key: str = "<CANDIDATE_JWT_SECRET_KEY>"
+    jwt_secret_key: str = ""
+    candidate_jwt_secret_key: str = ""
     
     # Gemini AI
-    gemini_api_key: str = "<GEMINI_API_KEY>"
+    gemini_api_key: str = ""
     gemini_model: str = "gemini-pro"
     
     # Twilio
-    twilio_account_sid: str = "<TWILIO_ACCOUNT_SID>"
-    twilio_auth_token: str = "<TWILIO_AUTH_TOKEN>"
+    twilio_account_sid: str = ""
+    twilio_auth_token: str = ""
     twilio_whatsapp_number: str = "+14155238886"
     
     # Gmail
-    gmail_email: str = "<GMAIL_EMAIL>"
-    gmail_app_password: str = "<GMAIL_APP_PASSWORD>"
+    gmail_email: str = ""
+    gmail_app_password: str = ""
     
     # Telegram
-    telegram_bot_token: str = "<TELEGRAM_BOT_TOKEN>"
-    telegram_bot_username: str = "<TELEGRAM_BOT_USERNAME>"
+    telegram_bot_token: str = ""
+    telegram_bot_username: str = ""
     
     # Environment
     environment: str = "production"

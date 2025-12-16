@@ -1499,7 +1499,7 @@ export DATABASE_URL=postgresql://user:pass@localhost:5432/hr_platform
 export REDIS_URL=redis://localhost:6379/0
 export WHATSAPP_API_TOKEN=***
 export AI_BRAIN_MODEL_PATH=/models/ranking_model_v2.pkl
-export JWT_SECRET=***
+export JWT_SECRET_KEY=***
 
 # Or load from .env file:
 set -a
@@ -1514,7 +1514,7 @@ echo $ENVIRONMENT
 ```bash
 # Ensure all required secrets exist:
 [ -z "$DATABASE_URL" ] && echo "ERROR: DATABASE_URL not set" && exit 1
-[ -z "$JWT_SECRET" ] && echo "ERROR: JWT_SECRET not set" && exit 1
+[ -z "$JWT_SECRET_KEY" ] && echo "ERROR: JWT_SECRET_KEY not set" && exit 1
 
 # Or use script:
 bash scripts/verify_secrets.sh

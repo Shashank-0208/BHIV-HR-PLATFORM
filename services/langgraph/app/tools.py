@@ -13,7 +13,7 @@ except ImportError:
     # Fallback for Docker environment
     import os
     class Settings:
-        gateway_url = os.getenv("GATEWAY_SERVICE_URL", "http://gateway:8000")
+        gateway_service_url = os.getenv("GATEWAY_SERVICE_URL", "http://gateway:8000")
         api_key_secret = os.getenv("API_KEY_SECRET", "")
     settings = Settings()
 from .communication import comm_manager
@@ -27,7 +27,7 @@ async def get_candidate_profile(candidate_id: int) -> dict:
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{settings.gateway_url}/v1/candidates/{candidate_id}",
+                f"{settings.gateway_service_url}/v1/candidates/{candidate_id}",
                 headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
             )
@@ -44,7 +44,7 @@ async def get_job_details(job_id: int) -> dict:
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{settings.gateway_url}/v1/jobs/{job_id}",
+                f"{settings.gateway_service_url}/v1/jobs/{job_id}",
                 headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
             )
@@ -61,7 +61,7 @@ async def update_application_status(application_id: int, status: str, notes: str
     try:
         async with httpx.AsyncClient() as client:
             response = await client.put(
-                f"{settings.gateway_url}/v1/applications/{application_id}",
+                f"{settings.gateway_service_url}/v1/applications/{application_id}",
                 json={"status": status, "notes": notes},
                 headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
@@ -85,7 +85,7 @@ async def get_ai_matching_score(candidate_id: int, job_id: int) -> dict:
         
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{settings.gateway_url}/v1/match",
+                f"{settings.gateway_service_url}/v1/match",
                 json={"candidate_id": candidate_id, "job_id": job_id},
                 headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=60.0
@@ -137,7 +137,7 @@ async def log_audit_event(event_type: str, details: dict) -> dict:
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{settings.gateway_url}/v1/audit-logs",
+                f"{settings.gateway_service_url}/v1/audit-logs",
                 json={"event_type": event_type, "details": details},
                 headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT
@@ -155,7 +155,7 @@ async def update_hr_dashboard(application_id: int, update_data: dict) -> dict:
     try:
         async with httpx.AsyncClient() as client:
             response = await client.post(
-                f"{settings.gateway_url}/v1/dashboard/refresh",
+                f"{settings.gateway_service_url}/v1/dashboard/refresh",
                 json={"application_id": application_id, "data": update_data},
                 headers={"Authorization": f"Bearer {settings.api_key_secret}"},
                 timeout=HTTPX_TIMEOUT

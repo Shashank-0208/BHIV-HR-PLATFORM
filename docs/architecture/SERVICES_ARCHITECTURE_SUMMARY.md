@@ -139,7 +139,7 @@ class AuthManager:
     def authenticate(self, credentials: HTTPAuthorizationCredentials):
         # Try API key first (primary authentication)
         if self.validate_api_key(credentials.credentials):
-            return {"type": "api_key", "credentials": credentials.credentials}
+            return {"type": "api_key_secret", "credentials": credentials.credentials}
         
         # Try client JWT token
         try:
@@ -373,9 +373,9 @@ st.set_page_config(
 # Unified Authentication with auth_manager.py
 class HRAuthManager:
     def __init__(self):
-        self.api_key = os.getenv("API_KEY_SECRET", "secured_api_key")
+        self.api_key_secret = os.getenv("API_KEY_SECRET", "secured_api_key")
         self.headers = {
-            "Authorization": f"Bearer {self.api_key}",
+            "Authorization": f"Bearer {self.api_key_secret}",
             "Content-Type": "application/json"
         }
 ```
@@ -407,7 +407,7 @@ st.set_page_config(
 # Enterprise Authentication with auth_manager.py
 class ClientAuthManager:
     def __init__(self):
-        self.api_base = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
+        self.api_base = os.getenv("GATEWAY_SERVICE_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
         self.jwt_secret = os.getenv("JWT_SECRET", "secured_jwt_secret")
 ```
 
@@ -437,7 +437,7 @@ st.set_page_config(
 # Candidate Authentication with auth_manager.py
 class CandidateAuthManager:
     def __init__(self):
-        self.api_base = os.getenv("GATEWAY_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
+        self.api_base = os.getenv("GATEWAY_SERVICE_URL", "https://bhiv-hr-gateway-ltg0.onrender.com")
         self.jwt_secret = os.getenv("CANDIDATE_JWT_SECRET", "secured_candidate_jwt")
 ```
 

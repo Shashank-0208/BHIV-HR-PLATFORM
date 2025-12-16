@@ -18,12 +18,10 @@ API_KEY_SECRET = os.getenv("API_KEY_SECRET")
 if not API_KEY_SECRET:
     raise ValueError("API_KEY_SECRET environment variable is required")
 
-# JWT Configuration - Support both JWT_SECRET_KEY and JWT_SECRET
+# JWT Configuration
 JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
-JWT_SECRET = os.getenv("JWT_SECRET")
-CLIENT_JWT_SECRET = JWT_SECRET_KEY or JWT_SECRET
-if not CLIENT_JWT_SECRET:
-    raise ValueError("Either JWT_SECRET_KEY or JWT_SECRET environment variable is required")
+if not JWT_SECRET_KEY:
+    raise ValueError("JWT_SECRET_KEY environment variable is required")
 
 # Candidate JWT Configuration
 CANDIDATE_JWT_SECRET_KEY = os.getenv("CANDIDATE_JWT_SECRET_KEY")
@@ -78,8 +76,8 @@ def validate_config():
         if not os.getenv(var):
             missing_vars.append(var)
     
-    if not (JWT_SECRET_KEY or JWT_SECRET):
-        missing_vars.append("JWT_SECRET_KEY or JWT_SECRET")
+    if not JWT_SECRET_KEY:
+        missing_vars.append("JWT_SECRET_KEY")
     
     if missing_vars:
         raise ValueError(f"Missing required environment variables: {', '.join(missing_vars)}")
@@ -94,7 +92,7 @@ __all__ = [
     "OBSERVABILITY_ENABLED",
     "DATABASE_URL",
     "API_KEY_SECRET",
-    "CLIENT_JWT_SECRET",
+    "JWT_SECRET_KEY",
     "CANDIDATE_JWT_SECRET_KEY", 
     "AGENT_SERVICE_URL",
     "LANGGRAPH_SERVICE_URL",
