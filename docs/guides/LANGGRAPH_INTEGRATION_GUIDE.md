@@ -1,8 +1,8 @@
 # 🔄 BHIV HR Platform - LangGraph Integration Guide
 
 **AI-Powered Workflow Automation & Orchestration**  
-**Version**: v4.3.0 with Advanced Workflow Engine  
-**Updated**: December 9, 2025  
+**Version**: v4.3.1 with Advanced Workflow Engine  
+**Updated**: December 16, 2025  
 **Status**: ✅ Production Ready  
 **Endpoints**: 25 workflow automation endpoints
 

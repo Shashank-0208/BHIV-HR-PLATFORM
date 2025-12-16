@@ -1,9 +1,9 @@
 # 🚀 BHIV HR Platform - Current Features
 
 **Enterprise AI-Powered Recruiting Platform with Intelligent Workflow Automation**  
-**Updated**: December 9, 2025  
-**Version**: v3.0.0 Production Ready  
-**Status**: ✅ 6/6 Services Operational | 111 Endpoints Live | 99.9% Uptime
+**Updated**: December 16, 2025  
+**Version**: v4.3.1 Production Ready  
+**Status**: ✅ 6/6 Services Operational | 111 Endpoints Live | 99.9% Uptime | Database Issues Resolved
 
 ---
 
@@ -416,8 +416,8 @@ tests/
 
 ### **Real Data Available**
 - **29 Resume Files**: Processed PDF/DOCX in assets/resumes/
-- **10+ Candidates**: Complete profiles with skills
-- **6+ Active Jobs**: Multi-client job postings
+- **34 Candidates**: Complete profiles with skills (updated December 16, 2025)
+- **27 Active Jobs**: Multi-client job postings (updated December 16, 2025)
 - **3+ Client Companies**: TECH001, STARTUP01, ENTERPRISE01
 - **Assessment Data**: 5-point BHIV values framework
 - **Interview Records**: Complete scheduling system
