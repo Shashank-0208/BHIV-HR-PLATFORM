@@ -741,9 +741,8 @@ elif menu == "📈 Dashboard Overview":
         if st.button("📥 Export Job-Specific Report", width='stretch'):
             try:
                 # Get AI match data and assessments for specific job
-                agent_service_url = os.getenv("AGENT_SERVICE_URL")
-                ai_response = httpx.post(f"{agent_service_url}/match", json={"job_id": job_id_export}, headers=headers, timeout=30.0)
-                interviews_response = httpx.get(f"{API_BASE}/v1/interviews", headers=headers, timeout=10.0)
+                ai_response = http_client.get(f"{API_BASE}/v1/match/{job_id_export}/top", timeout=30.0)
+                interviews_response = httpx.get(f"{API_BASE}/v1/interviews", headers=headers, timeout=30.0)
                 
                 candidates = []
                 interviews = []
@@ -887,12 +886,9 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
     if st.session_state.get_shortlist or st.session_state.refresh_data:
         with st.spinner("🔄 Advanced AI is analyzing candidates using semantic matching..."):
             try:
-                # Call AI Agent directly for enhanced matching
-                agent_service_url = os.getenv("AGENT_SERVICE_URL")
-                response = httpx.post(f"{agent_service_url}/match", 
-                                    json={"job_id": job_id}, 
-                                    headers=UNIFIED_HEADERS,
-                                    timeout=15.0)
+                # Call AI matching through Gateway for proper authentication
+                response = http_client.get(f"{API_BASE}/v1/match/{job_id}/top", 
+                                          timeout=30.0)
                 if response.status_code == 200:
                     data = response.json()
                     candidates_data = data.get("top_candidates", [])
@@ -1437,8 +1433,7 @@ elif menu == "🏆 Step 7: Export Assessment Reports":
         if st.button("📥 Export Shortlist with Assessments", width='stretch'):
             try:
                 # Get AI shortlist data
-                agent_service_url = os.getenv("AGENT_SERVICE_URL")
-                ai_response = httpx.post(f"{agent_service_url}/match", json={"job_id": job_id_shortlist}, headers=headers, timeout=15.0)
+                ai_response = http_client.get(f"{API_BASE}/v1/match/{job_id_shortlist}/top", timeout=30.0)
                 interviews_response = httpx.get(f"{API_BASE}/v1/interviews", headers=headers, timeout=10.0)
                 
                 candidates = []

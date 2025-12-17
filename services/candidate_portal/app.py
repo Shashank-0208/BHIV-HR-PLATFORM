@@ -410,7 +410,7 @@ def job_search_page():
                                             "candidate_phone": st.session_state.candidate_data.get('phone', '+1234567890'),
                                             "job_title": job.get('title', 'Position'),
                                             "sequence_type": "application_received"
-                                        }, timeout=10.0)
+                                        }, headers={"Authorization": f"Bearer {config.API_KEY_SECRET}"}, timeout=10.0)
                         except:
                             pass
                         st.success("Application submitted successfully!")
@@ -549,7 +549,7 @@ def profile_management_page():
                                         "skills_updated": skills,
                                         "experience_years": experience
                                     }
-                                }, timeout=10.0)
+                                }, headers={"Authorization": f"Bearer {config.API_KEY_SECRET}"}, timeout=10.0)
                 except:
                     pass
                 st.success("Profile updated successfully!")
