@@ -110,6 +110,10 @@ ENV/
 env.bak/
 venv.bak/
 
+# Implementation guides and personal documents
+MASTER_IMPLEMENTATION_GUIDE_REDESIGNED.md
+Shashank Mishra Automation and Integration HR.md
+
 # Spyder project settings
 .spyderproject
 .spyproject

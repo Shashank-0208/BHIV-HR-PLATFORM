@@ -742,7 +742,7 @@ elif menu == "📈 Dashboard Overview":
             try:
                 # Get AI match data and assessments for specific job
                 agent_service_url = os.getenv("AGENT_SERVICE_URL")
-                ai_response = httpx.post(f"{agent_service_url}/match", json={"job_id": job_id_export}, timeout=15.0)
+                ai_response = httpx.post(f"{agent_service_url}/match", json={"job_id": job_id_export}, headers=headers, timeout=30.0)
                 interviews_response = httpx.get(f"{API_BASE}/v1/interviews", headers=headers, timeout=10.0)
                 
                 candidates = []
@@ -891,6 +891,7 @@ elif menu == "🎯 Step 4: AI Shortlist & Matching":
                 agent_service_url = os.getenv("AGENT_SERVICE_URL")
                 response = httpx.post(f"{agent_service_url}/match", 
                                     json={"job_id": job_id}, 
+                                    headers=UNIFIED_HEADERS,
                                     timeout=15.0)
                 if response.status_code == 200:
                     data = response.json()
@@ -1437,7 +1438,7 @@ elif menu == "🏆 Step 7: Export Assessment Reports":
             try:
                 # Get AI shortlist data
                 agent_service_url = os.getenv("AGENT_SERVICE_URL")
-                ai_response = httpx.post(f"{agent_service_url}/match", json={"job_id": job_id_shortlist}, timeout=15.0)
+                ai_response = httpx.post(f"{agent_service_url}/match", json={"job_id": job_id_shortlist}, headers=headers, timeout=15.0)
                 interviews_response = httpx.get(f"{API_BASE}/v1/interviews", headers=headers, timeout=10.0)
                 
                 candidates = []
