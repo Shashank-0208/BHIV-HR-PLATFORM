@@ -93,8 +93,8 @@ def auth_dependency(credentials: HTTPAuthorizationCredentials = Security(securit
 
 app = FastAPI(
     title="BHIV AI Matching Engine",
-    description="Advanced AI-Powered Semantic Candidate Matching Service",
-    version="3.0.0"
+    description="Advanced AI-Powered Semantic Candidate Matching Service with RL Integration",
+    version="4.3.1"
 )
 
 # Custom OpenAPI schema with organized tags and security
@@ -229,8 +229,10 @@ def return_db_connection(conn):
 def read_root():
     return {
         "service": "BHIV AI Agent",
-        "version": "3.0.0",
+        "version": "4.3.1",
         "endpoints": 6,
+        "database_schema": "v4.3.1",
+        "rl_integration": "enabled",
         "available_endpoints": {
             "root": "GET / - Service information",
             "health": "GET /health - Service health check", 
@@ -246,7 +248,9 @@ def health_check():
     return {
         "status": "healthy",
         "service": "BHIV AI Agent",
-        "version": "3.0.0",
+        "version": "4.3.1",
+        "database_schema": "v4.3.1",
+        "rl_integration": "enabled",
         "timestamp": datetime.now().isoformat()
     }
 

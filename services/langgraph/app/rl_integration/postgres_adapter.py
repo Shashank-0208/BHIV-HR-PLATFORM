@@ -139,9 +139,11 @@ class PostgreSQLAdapter:
                 feedback_history = []
                 for row in cursor.fetchall():
                     feedback_dict = dict(row)
-                    # Parse JSON fields
+                    # Parse JSON fields safely
                     if feedback_dict.get('candidate_features'):
-                        feedback_dict['candidate_features'] = json.loads(feedback_dict['candidate_features'])
+                        if isinstance(feedback_dict['candidate_features'], str):
+                            feedback_dict['candidate_features'] = json.loads(feedback_dict['candidate_features'])
+                        # If it's already a dict, keep it as is
                     feedback_history.append(feedback_dict)
                 
                 return feedback_history
@@ -274,7 +276,9 @@ class PostgreSQLAdapter:
                 for row in cursor.fetchall():
                     history_dict = dict(row)
                     if history_dict.get('features'):
-                        history_dict['features'] = json.loads(history_dict['features'])
+                        if isinstance(history_dict['features'], str):
+                            history_dict['features'] = json.loads(history_dict['features'])
+                        # If it's already a dict, keep it as is
                     history.append(history_dict)
                 
                 return history

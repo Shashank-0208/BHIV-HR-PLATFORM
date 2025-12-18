@@ -15,8 +15,8 @@ class HRIntelligenceBrain:
         self.base_url = base_url.rstrip('/')
         self.api_key_secret = api_key_secret
         self.headers = {"Content-Type": "application/json"}
-        if api_key:
-            self.headers["Authorization"] = f"Bearer {api_key}"
+        if api_key_secret:
+            self.headers["Authorization"] = f"Bearer {api_key_secret}"
     
     # Core Intelligence Functions
     def analyze_candidate(self, candidate_data: Dict) -> Dict:

@@ -64,7 +64,7 @@ security = HTTPBearer()
 
 app = FastAPI(
     title="BHIV HR Platform API Gateway",
-    version="4.2.0",
+    version="4.3.1",
     description="Enterprise HR Platform with Advanced Security Features"
 )
 
@@ -103,7 +103,7 @@ except ImportError as e:
 # Include RL routes
 try:
     from routes.rl_routes import router as rl_router
-    app.include_router(rl_router, prefix="/api/v1", tags=["RL + Feedback Agent"])
+    app.include_router(rl_router, prefix="/v1", tags=["RL + Feedback Agent"])
     print("RL routes loaded successfully")
 except ImportError as e:
     print(f"WARNING: RL routes not available: {e}")
@@ -401,7 +401,7 @@ def read_root():
     """API Root Information"""
     return {
         "message": "BHIV HR Platform API Gateway",
-        "version": "4.2.0",
+        "version": "4.3.1",
         "status": "healthy",
         "endpoints": len(app.routes),
         "documentation": "/docs",
@@ -424,7 +424,7 @@ def health_check(response: Response):
     return {
         "status": "healthy",
         "service": "BHIV HR Gateway",
-        "version": "4.2.0",
+        "version": "4.3.1",
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
@@ -1337,6 +1337,21 @@ async def get_all_offers(api_key_secret: str = Depends(get_api_key)):
 
 # Analytics & Statistics (2 remaining endpoints)
 
+@app.get("/v1/analytics/schema", tags=["Analytics & Statistics"])
+async def get_analytics_schema(api_key_secret: str = Depends(get_api_key)):
+    """Get Analytics Schema"""
+    return await get_database_schema(api_key_secret)
+
+@app.get("/v1/analytics/export", tags=["Analytics & Statistics"])
+async def export_analytics(api_key_secret: str = Depends(get_api_key)):
+    """Export Analytics Data"""
+    return {
+        "message": "Analytics export",
+        "format": "CSV",
+        "download_url": "/downloads/analytics_export.csv",
+        "generated_at": datetime.now(timezone.utc).isoformat()
+    }
+
 @app.get("/v1/database/schema", tags=["Analytics & Statistics"])
 async def get_database_schema(api_key_secret: str = Depends(get_api_key)):
     """Get Database Schema Information"""
@@ -1388,6 +1403,16 @@ async def get_database_schema(api_key_secret: str = Depends(get_api_key)):
             "error": str(e),
             "checked_at": datetime.now(timezone.utc).isoformat()
         }
+
+@app.get("/v1/analytics/export", tags=["Analytics & Statistics"])
+async def export_analytics_alt(api_key_secret: str = Depends(get_api_key)):
+    """Export Analytics Data (Alternative)"""
+    return {
+        "message": "Analytics export",
+        "format": "CSV", 
+        "download_url": "/downloads/analytics_export.csv",
+        "generated_at": datetime.now(timezone.utc).isoformat()
+    }
 
 @app.get("/v1/reports/job/{job_id}/export.csv", tags=["Analytics & Statistics"])
 async def export_job_report(job_id: int, api_key_secret: str = Depends(get_api_key)):
@@ -2053,6 +2078,36 @@ async def test_password_strength(password_data: PasswordValidation, api_key_secr
         "is_valid": score >= 60,
         "feedback": feedback
     }
+
+@app.post("/v1/password/validate", tags=["Password Management"])
+async def validate_password_alt(password_data: PasswordValidation):
+    """Validate Password (Alternative Route)"""
+    return await validate_password(password_data, "dummy_key")
+
+@app.get("/v1/password/generate", tags=["Password Management"])
+async def generate_password_alt(length: int = 12, include_symbols: bool = True):
+    """Generate Password (Alternative Route)"""
+    return await generate_password(length, include_symbols, "dummy_key")
+
+@app.get("/v1/password/policy", tags=["Password Management"])
+async def get_password_policy_alt():
+    """Password Policy (Alternative Route)"""
+    return await get_password_policy_auth("dummy_key")
+
+@app.post("/v1/password/change", tags=["Password Management"])
+async def change_password_alt(password_change: PasswordChange, api_key_secret: str = Depends(get_api_key)):
+    """Change Password (Alternative Route)"""
+    return await change_password_auth(password_change, api_key_secret)
+
+@app.post("/v1/password/strength", tags=["Password Management"])
+async def test_password_strength_alt(password_data: PasswordValidation):
+    """Password Strength Test (Alternative Route)"""
+    return await test_password_strength(password_data, "dummy_key")
+
+@app.get("/v1/password/tips", tags=["Password Management"])
+async def get_security_tips_alt():
+    """Security Tips (Alternative Route)"""
+    return await get_security_tips("dummy_key")
 
 @app.get("/v1/auth/password/security-tips", tags=["Password Management"])
 async def get_security_tips(api_key_secret: str = Depends(get_api_key)):

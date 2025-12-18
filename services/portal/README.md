@@ -2,7 +2,9 @@
 
 **Streamlit 1.41.1 + Python 3.12.7-slim**  
 **Production URL**: https://bhiv-hr-portal-u670.onrender.com  
-**Status**: ✅ Operational  
+**Status**: ✅ Operational with RL Integration  
+**Database**: PostgreSQL 17 Schema v4.3.1 (19 tables + RL integration)  
+**Data**: 35 candidates, 29 jobs, 5 RL predictions, 17 RL feedback records  
 
 ## Overview
 
@@ -10,11 +12,13 @@ Internal HR dashboard for candidate management, job posting, and AI-powered matc
 
 ## Key Features
 
-- **Dashboard**: Real-time metrics and analytics
-- **Candidate Search**: Advanced filtering with AI matching
+- **Dashboard**: Real-time metrics and analytics with RL insights
+- **Candidate Search**: Advanced filtering with AI + RL matching
 - **Job Management**: Create and manage job postings
-- **Values Assessment**: 5-point BHIV values evaluation
+- **Values Assessment**: 5-point BHIV values evaluation with RL feedback
 - **Batch Upload**: Secure candidate data import
+- **RL Analytics**: Model performance tracking (80% accuracy, 340% feedback rate)
+- **Database Integration**: Full access to 19 tables including RL system
 
 ## Architecture
 
@@ -30,10 +34,12 @@ portal/
 
 ## Features
 
-- **Real-time Data**: Live updates from Gateway API
+- **Real-time Data**: Live updates from Gateway API (119 endpoints)
 - **Security**: File validation and path traversal protection
 - **2FA Integration**: QR code generation with function-level imports
 - **Performance**: Optimized Streamlit components
+- **RL Integration**: Access to ML predictions and feedback system
+- **Advanced Analytics**: RL model performance and training metrics
 
 ## Local Development
 

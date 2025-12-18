@@ -4,11 +4,11 @@ import requests, json, time, os
 from datetime import datetime
 
 BASE_URLS = {
-    "gw": os.getenv("GATEWAY_SERVICE_URL", "https://bhiv-hr-gateway-ltg0.onrender.com"),
-    "ag": os.getenv("AGENT_URL", "https://bhiv-hr-agent-nhgg.onrender.com"),
-    "lg": os.getenv("LANGGRAPH_URL", "https://bhiv-hr-langgraph.onrender.com")
+    "gw": os.getenv("GATEWAY_SERVICE_URL", "http://localhost:8000"),
+    "ag": os.getenv("AGENT_URL", "http://localhost:9000"),
+    "lg": os.getenv("LANGGRAPH_URL", "http://localhost:9001")
 }
-API_KEY = os.getenv("API_KEY_SECRET", "YOUR_API_KEY")
+API_KEY = os.getenv("API_KEY_SECRET", "prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o")
 results = []
 
 def test(name, method, url, headers=None, data=None, exp=200):

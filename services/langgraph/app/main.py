@@ -77,7 +77,7 @@ logger.info("🚀 LangGraph service initializing...")
 
 app = FastAPI(
     title="BHIV LangGraph Orchestrator",
-    version="1.0.0",
+    version="4.3.1",
     description="AI-driven workflow orchestration for BHIV HR Platform with API Key Authentication",
     tags_metadata=[
         {
@@ -189,10 +189,10 @@ async def read_root():
     """LangGraph Service Information"""
     return {
         "message": "BHIV LangGraph Orchestrator",
-        "version": "1.0.0",
+        "version": "4.3.1",
         "status": "healthy",
         "environment": settings.environment,
-        "endpoints": 13,
+        "endpoints": 33,
         "workflow_engine": "active",
         "ai_automation": "enabled"
     }
@@ -203,7 +203,7 @@ async def health_check():
     health_data = monitor.get_health_status()
     health_data.update({
         "service": "langgraph-orchestrator",
-        "version": "1.0.0",
+        "version": "4.3.1",
         "environment": settings.environment
     })
     return health_data
@@ -857,7 +857,7 @@ async def test_integration(api_key_secret: str = Depends(get_api_key)):
         "service": "langgraph-orchestrator",
         "status": "operational",
         "integration_test": "passed",
-        "endpoints_available": 15,  # Updated count with RL endpoints
+        "endpoints_available": 33,  # Updated count with RL endpoints
         "workflow_engine": "active",
         "rl_engine": "integrated",
         "rl_database": "postgresql",

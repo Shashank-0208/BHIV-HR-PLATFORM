@@ -1,8 +1,8 @@
 """
 BHIV HR Platform - HR Portal Configuration
-Version: 3.1.0 with Phase 3 Features
-Updated: October 23, 2025
-Status: Production Ready - Fixed Database Connection
+Version: 4.3.1 with RL Integration
+Updated: December 18, 2025
+Status: Production Ready - RL Integration Complete
 
 Configuration for HR Portal Streamlit application:
 - API Gateway connection settings (FIXED)
@@ -27,9 +27,9 @@ if os.getenv("ENVIRONMENT", "development") == "development":
                     os.environ.setdefault(key, value)
 
 # Version Information
-__version__ = "3.1.0"
-__updated__ = "2025-10-23"
-__status__ = "Production Ready - Database Fixed"
+__version__ = "4.3.1"
+__updated__ = "2025-12-18"
+__status__ = "Production Ready - RL Integration Complete"
 
 # Environment Configuration
 ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
@@ -108,17 +108,20 @@ def setup_logging():
 PORTAL_CONFIG = {
     "title": "BHIV HR Platform - Dashboard",
     "version": __version__,
-    "api_endpoints": 55,
+    "api_endpoints": 119,
     "features": [
         "Candidate Management",
         "Job Posting", 
-        "AI Matching",
+        "AI + RL Matching",
         "Values Assessment",
         "Interview Scheduling",
-        "Offer Management"
+        "Offer Management",
+        "RL Analytics",
+        "Model Performance Tracking"
     ],
     "status": __status__,
     "updated": __updated__,
-    "database_status": "Connected",
+    "database_status": "Connected - Schema v4.3.1 with RL Integration",
+    "rl_status": "Operational - 5 predictions, 17 feedback records, 80% model accuracy",
     "gateway_service_url": API_BASE
 }

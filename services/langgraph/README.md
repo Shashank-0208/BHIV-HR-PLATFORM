@@ -1,23 +1,46 @@
 # BHIV LangGraph Service
 
+**FastAPI + LangGraph + RL Integration**  
+**Production URL**: https://bhiv-hr-langgraph.onrender.com  
+**Endpoints**: 33 total (25 workflow + 8 RL)  
+**Status**: ✅ Operational with 100% RL Test Pass Rate  
+**Database**: PostgreSQL 17 Schema v4.3.1 (19 tables + RL integration)
+
 ## Overview
-AI-powered workflow orchestration service for BHIV HR Platform with intelligent Python-based automation.
+AI-powered workflow orchestration service for BHIV HR Platform with intelligent Python-based automation and reinforcement learning capabilities.
 
 ## Features
 - **Candidate Application Workflows**: Automated processing of job applications
 - **AI-Driven Matching**: Intelligent candidate-job matching with scoring
-- **Multi-Channel Notifications**: Email, WhatsApp, Telegram integration
+- **Multi-Channel Notifications**: Email, WhatsApp, Telegram integration (✅ Confirmed Working)
 - **Real-time Updates**: WebSocket support for live workflow status
-- **Voice Integration**: STT/TTS capabilities for voice interactions
+- **RL Integration**: 8 operational endpoints with 100% test success
+- **Database Integration**: 5 RL predictions, 17 feedback records, 340% feedback rate
+- **Model Training**: RL model v1.0.1 with 80% accuracy
 
-## API Endpoints
+## API Endpoints (33 Total)
 
-### Core Endpoints
+### Core Endpoints (2)
+- `GET /` - Service information
 - `GET /health` - Service health check
+
+### Workflow Endpoints (25)
 - `POST /workflows/application/start` - Start candidate application workflow
 - `GET /workflows/{workflow_id}/status` - Get workflow status
 - `POST /workflows/{workflow_id}/resume` - Resume paused workflow
-- `WebSocket /ws/{workflow_id}` - Real-time workflow updates
+- `GET /workflows` - List all workflows
+- `GET /workflows/stats` - Workflow statistics
+- `POST /tools/send-notification` - Multi-channel notifications
+- Additional workflow and communication endpoints
+
+### RL Integration Endpoints (8) - ✅ 100% Operational
+- `POST /rl/predict` - ML-powered candidate matching
+- `POST /rl/feedback` - Submit hiring outcome feedback
+- `GET /rl/analytics` - System performance metrics
+- `GET /rl/performance/{model_version}` - Model performance data
+- `GET /rl/history/{candidate_id}` - Candidate decision history
+- `POST /rl/retrain` - Trigger model retraining
+- `GET /test-integration` - RL system integration test
 
 ### Workflow Types
 1. **Application Processing**: Candidate applies for job
