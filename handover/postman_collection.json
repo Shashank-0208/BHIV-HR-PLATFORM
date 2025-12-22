@@ -8,8 +8,8 @@
   "auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{api_key_secret}}"}]},
   "variable": [
     {"key": "gw", "value": "http://localhost:8000"},
-    {"key": "ag", "value": "http://localhost:8001"},
-    {"key": "lg", "value": "http://localhost:8002"},
+    {"key": "ag", "value": "http://localhost:9000"},
+    {"key": "lg", "value": "http://localhost:9001"},
     {"key": "api_key_secret", "value": "test-api-key"}
   ],
   "item": [

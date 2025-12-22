@@ -69,12 +69,12 @@ Complete Postman collection with all **119 endpoints** organized by service.
    Current Value: http://localhost:8000
    
    Variable Name: ag  
-   Initial Value: http://localhost:8001
-   Current Value: http://localhost:8001
+   Initial Value: http://localhost:9000
+   Current Value: http://localhost:9000
    
    Variable Name: lg
-   Initial Value: http://localhost:8002
-   Current Value: http://localhost:8002
+   Initial Value: http://localhost:9001
+   Current Value: http://localhost:9001
    
    Variable Name: API_KEY_SECRET
    Initial Value: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
@@ -108,8 +108,8 @@ Complete Postman collection with all **119 endpoints** organized by service.
    ```bash
    # Local Development Environment
    gw=http://localhost:8000
-   ag=http://localhost:8001
-   lg=http://localhost:8002
+   ag=http://localhost:9000
+   lg=http://localhost:9001
    api_key_secret=test-api-key
    ```
 
@@ -149,14 +149,14 @@ docker-compose -f docker-compose.production.yml up -d --build
 **Verify services are running:**
 ```bash
 curl http://localhost:8000/health  # Gateway
-curl http://localhost:8001/health  # Agent  
-curl http://localhost:8002/health  # LangGraph
+curl http://localhost:9000/health  # Agent  
+curl http://localhost:9001/health  # LangGraph
 ```
 
 **Local Service URLs:**
 - **Gateway**: http://localhost:8000
-- **Agent**: http://localhost:8001  
-- **LangGraph**: http://localhost:8002
+- **Agent**: http://localhost:9000  
+- **LangGraph**: http://localhost:9001
 - **HR Portal**: http://localhost:8501
 - **Client Portal**: http://localhost:8502
 - **Candidate Portal**: http://localhost:8503
@@ -200,8 +200,8 @@ For **local testing**, use these variables:
 | Variable | Value | Description |
 |----------|-------|-------------|
 | `gw` | http://localhost:8000 | Local Gateway URL |
-| `ag` | http://localhost:8001 | Local Agent URL |
-| `lg` | http://localhost:8002 | Local LangGraph URL |
+| `ag` | http://localhost:9000 | Local Agent URL |
+| `lg` | http://localhost:9001 | Local LangGraph URL |
 | `API_KEY_SECRET` | prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o | Production API key |
 | `api_key_secret` | prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o | Production API key (lowercase) |
 
@@ -220,8 +220,8 @@ Use the provided `handover/bhiv-local-env.json` file:
   "name": "BHIV HR Production",
   "values": [
     {"key": "gw", "value": "http://localhost:8000", "enabled": true},
-    {"key": "ag", "value": "http://localhost:8001", "enabled": true},
-    {"key": "lg", "value": "http://localhost:8002", "enabled": true},
+    {"key": "ag", "value": "http://localhost:9000", "enabled": true},
+    {"key": "lg", "value": "http://localhost:9001", "enabled": true},
     {"key": "API_KEY_SECRET", "value": "prod_api_key_...", "enabled": true, "type": "secret"},
     // ... 36 more variables
   ]
@@ -235,8 +235,8 @@ Your project's `.env` file contains all production values:
 API_KEY_SECRET=prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
 JWT_SECRET_KEY=prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA
 GATEWAY_SERVICE_URL=http://localhost:8000
-AGENT_SERVICE_URL=http://localhost:8001
-LANGGRAPH_SERVICE_URL=http://localhost:8002
+AGENT_SERVICE_URL=http://localhost:9000
+LANGGRAPH_SERVICE_URL=http://localhost:9001
 # ... 35 more variables
 ```
 
@@ -357,15 +357,15 @@ docker-compose -f docker-compose.production.yml up -d --build
 
 # Test health endpoints
 curl http://localhost:8000/health  # Gateway
-curl http://localhost:8001/health  # Agent
-curl http://localhost:8002/health  # LangGraph
+curl http://localhost:9000/health  # Agent
+curl http://localhost:9001/health  # LangGraph
 ```
 
 ### Issue 2: "Connection Refused"
 **Solution**: Verify correct ports
 - Gateway should be on port **8000** (not 9000)
-- Agent should be on port **8001** (not 9001)  
-- LangGraph should be on port **8002** (not 9002)
+- Agent should be on port **9000** (not 8001)  
+- LangGraph should be on port **9001** (not 8002)
 - Check `docker-compose.production.yml` for port mappings
 
 ### Issue 2: "401 Unauthorized"
@@ -388,8 +388,8 @@ docker-compose -f docker-compose.production.yml down
 
 # 2. Check what's using the ports
 netstat -ano | findstr :8000
-netstat -ano | findstr :8001
-netstat -ano | findstr :8002
+netstat -ano | findstr :9000
+netstat -ano | findstr :9001
 
 # 3. CLEANUP (Safe - keeps database)
 docker builder prune --all --force
