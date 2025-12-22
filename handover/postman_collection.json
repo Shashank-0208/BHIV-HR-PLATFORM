@@ -1,16 +1,16 @@
 {
   "info": {
-    "name": "BHIV HR Platform API - All 111 Endpoints",
-    "description": "Complete collection: Gateway (80) + Agent (6) + LangGraph (25)",
+    "name": "BHIV HR Platform API - All 119 Endpoints",
+    "description": "Complete collection: Gateway (88) + Agent (6) + LangGraph (25)",
     "version": "3.0.0",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {"type": "bearer", "bearer": [{"key": "token", "value": "{{api_key_secret}}"}]},
   "variable": [
-    {"key": "gw", "value": "https://bhiv-hr-gateway-ltg0.onrender.com"},
-    {"key": "ag", "value": "https://bhiv-hr-agent-nhgg.onrender.com"},
-    {"key": "lg", "value": "https://bhiv-hr-langgraph.onrender.com"},
-    {"key": "api_key_secret", "value": "YOUR_API_KEY"}
+    {"key": "gw", "value": "http://localhost:8000"},
+    {"key": "ag", "value": "http://localhost:8001"},
+    {"key": "lg", "value": "http://localhost:8002"},
+    {"key": "api_key_secret", "value": "test-api-key"}
   ],
   "item": [
     {"name": "GW-Auth (4)", "item": [
@@ -33,10 +33,10 @@
       {"name": "WH-Interview", "request": {"method": "POST", "url": "{{gw}}/api/v1/webhooks/interview-scheduled", "body": {"mode": "raw", "raw": "{\"candidate_id\":123,\"job_id\":45}"}}}
     ]},
     {"name": "GW-RL (4)", "item": [
-      {"name": "Predict", "request": {"method": "POST", "url": "{{gw}}/api/v1/rl/predict", "body": {"mode": "raw", "raw": "{\"candidate_id\":123,\"job_id\":45}"}}},
-      {"name": "Feedback", "request": {"method": "POST", "url": "{{gw}}/api/v1/rl/feedback", "body": {"mode": "raw", "raw": "{\"candidate_id\":123,\"actual_outcome\":\"hired\"}"}}},
-      {"name": "Analytics", "request": {"method": "GET", "url": "{{gw}}/api/v1/rl/analytics"}},
-      {"name": "Performance", "request": {"method": "GET", "url": "{{gw}}/api/v1/rl/performance"}}
+      {"name": "Predict", "request": {"method": "POST", "url": "{{gw}}/v1/rl/predict", "body": {"mode": "raw", "raw": "{\"candidate_id\":123,\"job_id\":45}"}}},
+      {"name": "Feedback", "request": {"method": "POST", "url": "{{gw}}/v1/rl/feedback", "body": {"mode": "raw", "raw": "{\"candidate_id\":123,\"actual_outcome\":\"hired\"}"}}},
+      {"name": "Analytics", "request": {"method": "GET", "url": "{{gw}}/v1/rl/analytics"}},
+      {"name": "Performance", "request": {"method": "GET", "url": "{{gw}}/v1/rl/performance"}}
     ]},
     {"name": "GW-Monitor (3)", "item": [
       {"name": "Metrics", "request": {"method": "GET", "url": "{{gw}}/metrics", "auth": {"type": "noauth"}}},
@@ -62,9 +62,11 @@
       {"name": "By ID", "request": {"method": "GET", "url": "{{gw}}/v1/candidates/123"}},
       {"name": "Bulk", "request": {"method": "POST", "url": "{{gw}}/v1/candidates/bulk", "body": {"mode": "raw", "raw": "{\"candidates\":[]}"}}}
     ]},
-    {"name": "GW-Analytics (2)", "item": [
-      {"name": "Schema", "request": {"method": "GET", "url": "{{gw}}/v1/database/schema"}},
-      {"name": "Export", "request": {"method": "GET", "url": "{{gw}}/v1/reports/job/123/export.csv"}}
+    {"name": "GW-Analytics (4)", "item": [
+      {"name": "Analytics Schema", "request": {"method": "GET", "url": "{{gw}}/v1/analytics/schema"}},
+      {"name": "Analytics Export", "request": {"method": "GET", "url": "{{gw}}/v1/analytics/export"}},
+      {"name": "DB Schema", "request": {"method": "GET", "url": "{{gw}}/v1/database/schema"}},
+      {"name": "Job Export", "request": {"method": "GET", "url": "{{gw}}/v1/reports/job/123/export.csv"}}
     ]},
     {"name": "GW-Matching (2)", "item": [
       {"name": "Top", "request": {"method": "GET", "url": "{{gw}}/v1/match/123/top"}},
@@ -112,13 +114,19 @@
       {"name": "Test Token", "request": {"method": "POST", "url": "{{gw}}/v1/auth/2fa/test-token", "body": {"mode": "raw", "raw": "{\"token\":\"123456\"}"}}},
       {"name": "QR Code", "request": {"method": "GET", "url": "{{gw}}/v1/auth/2fa/qr/user_123"}}
     ]},
-    {"name": "GW-Password (6)", "item": [
+    {"name": "GW-Password (12)", "item": [
       {"name": "Validate", "request": {"method": "POST", "url": "{{gw}}/v1/auth/password/validate", "body": {"mode": "raw", "raw": "{\"password\":\"Pass123!\"}"}}},
       {"name": "Generate", "request": {"method": "GET", "url": "{{gw}}/v1/auth/password/generate"}},
       {"name": "Policy", "request": {"method": "GET", "url": "{{gw}}/v1/auth/password/policy"}},
       {"name": "Change", "request": {"method": "POST", "url": "{{gw}}/v1/auth/password/change", "body": {"mode": "raw", "raw": "{\"old_password\":\"old\",\"new_password\":\"new\"}"}}},
       {"name": "Strength", "request": {"method": "POST", "url": "{{gw}}/v1/auth/password/strength", "body": {"mode": "raw", "raw": "{\"password\":\"Pass123!\"}"}}},
-      {"name": "Tips", "request": {"method": "GET", "url": "{{gw}}/v1/auth/password/security-tips"}}
+      {"name": "Tips", "request": {"method": "GET", "url": "{{gw}}/v1/auth/password/security-tips"}},
+      {"name": "Validate Alt", "request": {"method": "POST", "url": "{{gw}}/v1/password/validate", "body": {"mode": "raw", "raw": "{\"password\":\"Pass123!\"}"}}},
+      {"name": "Generate Alt", "request": {"method": "GET", "url": "{{gw}}/v1/password/generate"}},
+      {"name": "Policy Alt", "request": {"method": "GET", "url": "{{gw}}/v1/password/policy"}},
+      {"name": "Change Alt", "request": {"method": "POST", "url": "{{gw}}/v1/password/change", "body": {"mode": "raw", "raw": "{\"old_password\":\"old\",\"new_password\":\"new\"}"}}},
+      {"name": "Strength Alt", "request": {"method": "POST", "url": "{{gw}}/v1/password/strength", "body": {"mode": "raw", "raw": "{\"password\":\"Pass123!\"}"}}},
+      {"name": "Tips Alt", "request": {"method": "GET", "url": "{{gw}}/v1/password/tips"}}
     ]},
     {"name": "GW-Candidate Portal (5)", "item": [
       {"name": "Register", "request": {"method": "POST", "url": "{{gw}}/v1/candidate/register", "auth": {"type": "noauth"}, "body": {"mode": "raw", "raw": "{\"name\":\"John\",\"email\":\"john@test.com\",\"password\":\"pass123\"}"}}},

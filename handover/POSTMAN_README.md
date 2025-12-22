@@ -1,18 +1,18 @@
 # BHIV HR Platform - Postman Collection
 
 ## Overview
-Complete Postman collection with all **111 endpoints** organized by service.
+Complete Postman collection with all **119 endpoints** organized by service.
 
 **File**: `postman_collection.json`
 
 ## Endpoints Breakdown
-- **Gateway API**: 80 endpoints
-- **AI Agent API**: 6 endpoints  
-- **LangGraph API**: 25 endpoints
+- **Gateway API**: 88 endpoints (verified)
+- **AI Agent API**: 6 endpoints (verified)
+- **LangGraph API**: 25 endpoints (documented)
 
 ## Collection Structure
 
-### Gateway API (80 endpoints)
+### Gateway API (88 endpoints)
 1. **GW-Auth** (4): Setup 2FA, Verify 2FA, Login, 2FA Status
 2. **GW-AI** (2): Test Communication, Gemini Analyze
 3. **GW-Workflows** (7): Trigger, Status, List, Health, 3 Webhooks
@@ -21,14 +21,14 @@ Complete Postman collection with all **111 endpoints** organized by service.
 6. **GW-Core** (5): OpenAPI, Docs, Root, Health, Test DB
 7. **GW-Jobs** (2): Create, List
 8. **GW-Candidates** (6): List, Stats, Search, By Job, By ID, Bulk
-9. **GW-Analytics** (2): Schema, Export
+9. **GW-Analytics** (4): Analytics Schema, Analytics Export, DB Schema, Job Export
 10. **GW-Matching** (2): Top Matches, Batch
 11. **GW-Assessment** (6): Submit/Get Feedback, List/Schedule Interviews, Create/List Offers
 12. **GW-Client** (2): Register, Login
 13. **GW-Security** (12): Rate Limit, Blocked IPs, Input Validation, Email/Phone Validation, Headers, Pentest
 14. **GW-CSP** (4): Report, Violations, Policies, Test Policy
 15. **GW-2FA** (8): Setup, Verify, Login, Status, Disable, Backup Codes, Test Token, QR Code
-16. **GW-Password** (6): Validate, Generate, Policy, Change, Strength, Tips
+16. **GW-Password** (12): Validate, Generate, Policy, Change, Strength, Tips (both /v1/auth/password/ and /v1/password/ versions)
 17. **GW-Candidate Portal** (5): Register, Login, Update Profile, Apply, Applications
 
 ### AI Agent API (6 endpoints)
@@ -42,27 +42,205 @@ Complete Postman collection with all **111 endpoints** organized by service.
 4. **LangGraph-RL** (8): Predict, Feedback, Analytics, Performance, History, Retrain, Perf All, Monitor
 5. **LangGraph-Test** (1): Integration
 
+## Step-by-Step Testing Guide
+
+### Step 1: Setup Postman
+1. **Download Postman**: Get from https://www.postman.com/downloads/
+2. **Install and Open** Postman application
+3. **Create Account** (optional but recommended)
+
+### Step 2: Import Collection
+1. **Open Postman**
+2. **Click File menu** (top left) → **Import...** (Ctrl+O)
+   - OR click the **Import** button in the main interface
+3. **Select "Upload Files"** tab
+4. **Choose file** → Navigate to `handover/postman_collection.json`
+5. **Click Import** → Collection appears in left sidebar
+6. **Verify**: You should see "BHIV HR Platform API - All 119 Endpoints" in Collections
+
+### Step 3A: Environment Setup - Manual Variables (Recommended)
+1. **Click Environments** (left sidebar, gear icon)
+2. **Click "+" to create new environment**
+3. **Name it**: "BHIV HR Production"
+4. **Add these variables for local testing**:
+   ```
+   Variable Name: gw
+   Initial Value: http://localhost:8000
+   Current Value: http://localhost:8000
+   
+   Variable Name: ag  
+   Initial Value: http://localhost:8001
+   Current Value: http://localhost:8001
+   
+   Variable Name: lg
+   Initial Value: http://localhost:8002
+   Current Value: http://localhost:8002
+   
+   Variable Name: API_KEY_SECRET
+   Initial Value: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+   Current Value: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+   
+   Variable Name: api_key_secret
+   Initial Value: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+   Current Value: prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+   ```
+   **Note**: Add all 40 variables from `bhiv-local-env.json` or use JSON import instead.
+5. **Save Environment**
+6. **Select Environment** from dropdown (top right corner)
+
+### Step 3B: Environment Setup - Using JSON File Import (Alternative)
+1. **Use the provided JSON environment file** (`bhiv-local-env.json`):
+   - **File location**: `handover/bhiv-local-env.json`
+   - **Contains**: All 40 environment variables from .env file
+   - **Pre-configured**: Production values with localhost URLs
+
+2. **Import JSON file to Postman**:
+   - **Click Environments** (left sidebar, gear icon)
+   - **Click "Import"** button
+   - **Select file**: `handover/bhiv-local-env.json`
+   - **Postman imports environment** "BHIV HR Production" with all variables
+   - **Select the environment** from dropdown (top right)
+
+   **✅ Recommended**: This is the fastest method with all variables included!
+
+### Step 3C: Environment Setup - Copy from .env (Alternative)
+1. **Create .env file** for reference:
+   ```bash
+   # Local Development Environment
+   gw=http://localhost:8000
+   ag=http://localhost:8001
+   lg=http://localhost:8002
+   api_key_secret=test-api-key
+   ```
+
+2. **Manually copy values to Postman**:
+   - **Create new environment** (Step 3A method)
+   - **Copy values** from .env file to Postman variables
+   - **Faster than typing** but requires manual copying
+
+### Step 3D: Local Development Setup
+**Docker Commands for Local Testing:**
+
+**1. STOP (keeps database)**
+```bash
+docker-compose -f docker-compose.production.yml down
+```
+
+**2. CLEANUP (Safe - keeps database)**
+```bash
+# Remove build cache
+docker builder prune --all --force
+
+# Remove stopped containers
+docker container prune -f
+
+# Remove unused images
+docker image prune -a -f
+
+# Check disk usage
+docker system df
+```
+
+**3. REBUILD & START**
+```bash
+docker-compose -f docker-compose.production.yml up -d --build
+```
+
+**Verify services are running:**
+```bash
+curl http://localhost:8000/health  # Gateway
+curl http://localhost:8001/health  # Agent  
+curl http://localhost:8002/health  # LangGraph
+```
+
+**Local Service URLs:**
+- **Gateway**: http://localhost:8000
+- **Agent**: http://localhost:8001  
+- **LangGraph**: http://localhost:8002
+- **HR Portal**: http://localhost:8501
+- **Client Portal**: http://localhost:8502
+- **Candidate Portal**: http://localhost:8503
+
+### Step 4: First Test - Health Check
+1. **Expand Collection** → **GW-Core (5)** folder
+2. **Click "Health"** request
+3. **Verify URL shows**: `{{gw}}/health` (variables auto-populate)
+4. **Click Send** button (blue button)
+5. **Check Response**:
+   - Status: `200 OK`
+   - Body: `{"status": "healthy"}`
+
+### Step 5: Test with Authentication
+1. **Go to GW-Auth (4)** folder
+2. **Click "Login"** request
+3. **Check Body tab** → Should show demo credentials
+4. **Click Send**
+5. **Copy JWT token** from response
+6. **Save token**: Add new environment variable `jwt_token`
+
+### Step 6: Run Multiple Tests
+1. **Right-click** on collection name
+2. **Select "Run collection"**
+3. **Choose requests** to test (or select all)
+4. **Click "Run BHIV HR Platform API"**
+5. **Monitor results** in runner window
+
 ## Import Instructions
 1. Open Postman
 2. Click **Import** button
 3. Select `postman_collection.json`
 4. Collection will appear in sidebar with 23 folders
-5. All 111 endpoints will be organized and ready to use
+5. All 119 endpoints will be organized and ready to use
 
 ## Environment Variables
-The collection includes these pre-configured variables:
+
+### Local Development Environment
+For **local testing**, use these variables:
 
 | Variable | Value | Description |
 |----------|-------|-------------|
-| `gw` | https://bhiv-hr-gateway-ltg0.onrender.com | Gateway URL |
-| `ag` | https://bhiv-hr-agent-nhgg.onrender.com | Agent URL |
-| `lg` | https://bhiv-hr-langgraph.onrender.com | LangGraph URL |
-| `api_key_secret` | YOUR_API_KEY | Replace with actual API key |
+| `gw` | http://localhost:8000 | Local Gateway URL |
+| `ag` | http://localhost:8001 | Local Agent URL |
+| `lg` | http://localhost:8002 | Local LangGraph URL |
+| `API_KEY_SECRET` | prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o | Production API key |
+| `api_key_secret` | prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o | Production API key (lowercase) |
 
-**To use local environment**: Edit variables and change URLs to:
-- `gw`: http://localhost:8000
-- `ag`: http://localhost:9000
-- `lg`: http://localhost:9001
+**✅ Complete Setup**: Import `handover/bhiv-local-env.json` for all 40 variables
+
+### JSON Environment File Template
+Use the provided `handover/bhiv-local-env.json` file:
+- **40 environment variables** from your .env file
+- **Production API keys** and secrets
+- **Localhost URLs** for local testing
+- **Ready for import** into Postman
+
+**File**: `handover/bhiv-local-env.json`
+```json
+{
+  "name": "BHIV HR Production",
+  "values": [
+    {"key": "gw", "value": "http://localhost:8000", "enabled": true},
+    {"key": "ag", "value": "http://localhost:8001", "enabled": true},
+    {"key": "lg", "value": "http://localhost:8002", "enabled": true},
+    {"key": "API_KEY_SECRET", "value": "prod_api_key_...", "enabled": true, "type": "secret"},
+    // ... 36 more variables
+  ]
+}
+```
+
+### .env File Template (For Reference)
+Your project's `.env` file contains all production values:
+```bash
+# Local Development with Production Values
+API_KEY_SECRET=prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o
+JWT_SECRET_KEY=prod_jwt_Ova9A8L-OU4uIcAero0v3ZLQRckNr3xBDuO0OXF6uwA
+GATEWAY_SERVICE_URL=http://localhost:8000
+AGENT_SERVICE_URL=http://localhost:8001
+LANGGRAPH_SERVICE_URL=http://localhost:8002
+# ... 35 more variables
+```
+
+**✅ Use JSON Import**: All variables are pre-configured in `bhiv-local-env.json`
 
 ## Authentication Methods
 
@@ -105,9 +283,9 @@ Get token from `/v1/candidate/login` endpoint.
 
 ## Endpoint Categories
 
-### Gateway (80)
-**Authentication & Security** (30): Auth (4), 2FA (8), Password (6), Security (12)
-**Core Operations** (23): Monitor (3), Core (5), Jobs (2), Candidates (6), Analytics (2), Matching (2), Assessment (6)
+### Gateway (88)
+**Authentication & Security** (32): Auth (4), 2FA (8), Password (12), Security (12)
+**Core Operations** (25): Monitor (3), Core (5), Jobs (2), Candidates (6), Analytics (4), Matching (2), Assessment (6)
 **Portals** (9): Client (2), Candidate Portal (5), CSP (4)
 **Integrations** (18): AI (2), Workflows (7), RL (4)
 
@@ -157,6 +335,71 @@ Get token from `/v1/candidate/login` endpoint.
 3. POST /tools/send-notification - Send notifications
 ```
 
+## Troubleshooting Common Issues
+
+### Issue 1: "Could not get response" (Local Testing)
+**Solution**: Check if local services are running
+```bash
+# Check if Docker containers are running
+docker ps
+
+# If services not running, use proper startup sequence:
+# 1. STOP (keeps database)
+docker-compose -f docker-compose.production.yml down
+
+# 2. CLEANUP (Safe - keeps database)
+docker builder prune --all --force
+docker container prune -f
+docker image prune -a -f
+
+# 3. REBUILD & START
+docker-compose -f docker-compose.production.yml up -d --build
+
+# Test health endpoints
+curl http://localhost:8000/health  # Gateway
+curl http://localhost:8001/health  # Agent
+curl http://localhost:8002/health  # LangGraph
+```
+
+### Issue 2: "Connection Refused"
+**Solution**: Verify correct ports
+- Gateway should be on port **8000** (not 9000)
+- Agent should be on port **8001** (not 9001)  
+- LangGraph should be on port **8002** (not 9002)
+- Check `docker-compose.production.yml` for port mappings
+
+### Issue 2: "401 Unauthorized"
+**Solution**: Check API key for local environment
+1. Use a simple API key like `test-api-key` for local development
+2. Update `api_key_secret` variable in your environment
+3. Ensure Authorization header is set to `Bearer {{api_key_secret}}`
+
+### Issue 3: "404 Not Found"
+**Solution**: Check endpoint URL and local service status
+- Verify environment variables point to correct localhost URLs
+- Ensure all services are running: `docker ps`
+- Check endpoint paths match the text files exactly
+
+### Issue 4: "Port Already in Use"
+**Solution**: Proper cleanup and restart
+```bash
+# 1. STOP all containers (keeps database)
+docker-compose -f docker-compose.production.yml down
+
+# 2. Check what's using the ports
+netstat -ano | findstr :8000
+netstat -ano | findstr :8001
+netstat -ano | findstr :8002
+
+# 3. CLEANUP (Safe - keeps database)
+docker builder prune --all --force
+docker container prune -f
+docker image prune -a -f
+
+# 4. REBUILD & START
+docker-compose -f docker-compose.production.yml up -d --build
+```
+
 ## Testing Endpoints
 
 ### Security Testing
@@ -197,18 +440,18 @@ Gateway: 17 folders
 Agent: 2 folders
 LangGraph: 5 folders
 
-# Count endpoints (should be 111)
-Gateway: 80 endpoints
+# Count endpoints (should be 119)
+Gateway: 88 endpoints
 Agent: 6 endpoints
 LangGraph: 25 endpoints
 ```
 
 ## Support
-- **API Documentation**: https://bhiv-hr-gateway-ltg0.onrender.com/docs
+- **Local API Documentation**: http://localhost:8000/docs (Gateway)
 - **GitHub**: https://github.com/Shashank-0208/BHIV-HR-PLATFORM
 - **Issues**: Create GitHub issue with `[API]` tag
 
 ## Version History
-- **v3.0.0** (2024-12-09): Complete 111 endpoints, RL integration, 23 organized folders
+- **v4.3.1** (2024-12-22): Complete 119 endpoints, RL integration, comprehensive testing verified
 - **v2.0.0** (2024-11-15): LangGraph workflows added
 - **v1.0.0** (2024-10-01): Initial release

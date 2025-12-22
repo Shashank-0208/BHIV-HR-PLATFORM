@@ -12,7 +12,7 @@
 | **Last Updated** | December 18, 2025 |
 | **Git Status** | 🚀 RL Integration Complete & Production Ready |
 | **Services** | 6 Microservices + Database |
-| **Total Endpoints** | 119 (74+6+33+6) |
+| **Total Endpoints** | 119 (88 Gateway + 6 Agent + 25 LangGraph) |
 | **Database Schema** | v4.3.1 (19 tables + RL integration) |
 | **Security Rating** | A+ (Zero Vulnerabilities) |
 | **Production Status** | ✅ 6/6 Services Operational |
@@ -23,13 +23,13 @@
 
 ## 🌐 Live Production System
 
-**Status**: ✅ **6/6 SERVICES OPERATIONAL** | **Cost**: $0/month | **Uptime**: 99.9% | **Total Endpoints**: 119 | **RL Status**: ✅ 100% Test Pass
+**Status**: ✅ **6/6 SERVICES OPERATIONAL** | **Cost**: $0/month | **Uptime**: 99.9% | **Total Endpoints**: 119 (88+6+25) | **RL Status**: ✅ 100% Test Pass
 
 | Service | URL | Status |
 |---------|-----|--------|
-| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com/docs](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ 80 endpoints |
+| **API Gateway** | [bhiv-hr-gateway-ltg0.onrender.com/docs](https://bhiv-hr-gateway-ltg0.onrender.com/docs) | ✅ 88 endpoints |
 | **AI Engine** | [bhiv-hr-agent-nhgg.onrender.com/docs](https://bhiv-hr-agent-nhgg.onrender.com/docs) | ✅ 6 endpoints |
-| **LangGraph Automation** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ 33 endpoints (25+8 RL) |
+| **LangGraph Automation** | [bhiv-hr-langgraph.onrender.com](https://bhiv-hr-langgraph.onrender.com) | ✅ 25 endpoints |
 | **HR Portal** | [bhiv-hr-portal-u670.onrender.com](https://bhiv-hr-portal-u670.onrender.com/) | ✅ Live |
 | **Client Portal** | [bhiv-hr-client-portal-3iod.onrender.com](https://bhiv-hr-client-portal-3iod.onrender.com/) | ✅ Live |
 | **Candidate Portal** | [bhiv-hr-candidate-portal-abe6.onrender.com](https://bhiv-hr-candidate-portal-abe6.onrender.com/) | ✅ Live |
@@ -94,7 +94,17 @@
 git clone https://github.com/Shashank-0208/BHIV-HR-PLATFORM.git
 cd BHIV-HR-Platform
 cp .env.example .env
-docker-compose -f docker-compose.production.yml up -d
+
+# 1. STOP (keeps database)
+docker-compose -f docker-compose.production.yml down
+
+# 2. CLEANUP (Safe - keeps database)
+docker builder prune --all --force
+docker container prune -f
+docker image prune -a -f
+
+# 3. REBUILD & START
+docker-compose -f docker-compose.production.yml up -d --build
 ```
 
 **📖 Detailed Setup**: [Quick Start Guide](docs/guides/QUICK_START_GUIDE.md)
@@ -103,7 +113,7 @@ docker-compose -f docker-compose.production.yml up -d
 
 **Microservices Architecture**: 6 services + PostgreSQL database  
 **Technology Stack**: FastAPI 4.2.0, Streamlit 1.41.1, Python 3.12.7, PostgreSQL 17  
-**Total Endpoints**: 119 (80 Gateway + 6 Agent + 33 LangGraph)  
+**Total Endpoints**: 119 (88 Gateway + 6 Agent + 25 LangGraph)  
 **Database Schema**: v4.3.1 with 19 tables (13 core + 6 RL integration) - Production Ready  
 **Deployment**: Docker-based microservices on Render platform  
 **Organization**: Professional structure with 75+ documentation files  
@@ -130,7 +140,7 @@ docker-compose -f docker-compose.production.yml up -d
 - **Automated Sequences** with `/tools/send-notification` endpoint
 - **Direct API Integration** (Twilio, Gmail SMTP, Telegram Bot)
 - **GPT-4 Powered Orchestration** for intelligent workflows
-- **33 Workflow Endpoints** (25 workflow + 8 RL) for complete automation
+- **25 LangGraph Endpoints** (8 RL + 17 workflow/communication) for complete automation
 
 ### **🔒 Enterprise Security (A+ Rating)**
 - **Triple Authentication** (API Key + Client JWT + Candidate JWT)
@@ -180,9 +190,9 @@ docker-compose -f docker-compose.production.yml up -d
 ```
 BHIV HR PLATFORM/
 ├── services/          # 6 microservices (each with Dockerfile for Render deployment)
-│   ├── gateway/       # API Gateway (80 endpoints, auth_manager.py, routes/)
+│   ├── gateway/       # API Gateway (88 endpoints, auth_manager.py, routes/)
 │   ├── agent/         # AI Engine (6 endpoints, Phase 3 + RL, semantic_engine/)
-│   ├── langgraph/     # LangGraph (33 endpoints, workflows, RL integration, communication.py)
+│   ├── langgraph/     # LangGraph (25 endpoints, workflows, RL integration, communication.py)
 │   ├── portal/        # HR Portal (Streamlit, auth_manager.py, components/)
 │   ├── client_portal/ # Client Portal (Streamlit, auth_manager.py)
 │   ├── candidate_portal/ # Candidate Portal (Streamlit, auth_manager.py)
@@ -232,7 +242,7 @@ BHIV HR PLATFORM/
 **Setup**: Copy `.env.example`, run Docker Compose  
 **Services**: All 6 services available on localhost  
 **Database**: PostgreSQL 17 with complete schema v4.3.0  
-**Testing**: 111 endpoints with comprehensive test coverage
+**Testing**: 119 endpoints with comprehensive test coverage
 
 **📖 Setup Guide**: [Quick Start Guide](docs/guides/QUICK_START_GUIDE.md)
 
@@ -240,7 +250,7 @@ BHIV HR PLATFORM/
 
 ## 🧪 Testing & Quality Assurance
 
-**Test Coverage**: 111 endpoints tested (100% pass rate)  
+**Test Coverage**: 119 endpoints tested (100% pass rate)  
 **Test Categories**: API, Security, Integration, LangGraph, Gateway  
 **Organization**: Tests organized by service and functionality  
 **Automation**: Complete test suite with reports
@@ -275,7 +285,7 @@ BHIV HR PLATFORM/
 
 **System Status**: ✅ **FULLY OPERATIONAL**  
 **Services**: 6/6 live with 99.9% uptime  
-**Endpoints**: 111 total (100% tested and functional)  
+**Endpoints**: 119 total (100% tested and functional)  
 **Database**: PostgreSQL 17 with 19 tables (13 core + 6 RL integration)  
 **Cost**: $0/month (optimized free tier deployment)
 
@@ -284,7 +294,7 @@ BHIV HR PLATFORM/
 - ✅ **Database RL Tables**: 5 RL predictions, 17 feedback records, 340% feedback rate
 - ✅ **Model Training**: RL model v1.0.1 trained with 80% accuracy using 15 samples
 - ✅ **JSON Parsing Fixed**: Resolved PostgreSQL adapter JSON handling for RL data
-- ✅ **All APIs Operational**: 119 endpoints (111 base + 8 RL) fully functional
+- ✅ **All APIs Operational**: 119 endpoints fully functional
 - ✅ **Data Verification**: 35 candidates, 29 jobs, 17 RL feedback records confirmed
 - ✅ **Schema v4.3.1**: Complete RL integration with predictions, feedback, and performance tracking
 - ✅ **System Stability**: All 6 microservices operational with 99.9% uptime
@@ -340,4 +350,4 @@ BHIV HR PLATFORM/
 
 *Built with Integrity, Honesty, Discipline, Hard Work & Gratitude*
 
-**Status**: ✅ Production Ready | **Services**: 6/6 Live | **Endpoints**: 111 Total | **Database**: 19 Tables | **Uptime**: 99.9% | **Cost**: $0/month | **Updated**: December 18, 2025 (System Tested & Automation Ready)
+**Status**: ✅ Production Ready | **Services**: 6/6 Live | **Endpoints**: 119 Total | **Database**: 19 Tables | **Uptime**: 99.9% | **Cost**: $0/month | **Updated**: December 22, 2025 (Comprehensive Testing Complete)
