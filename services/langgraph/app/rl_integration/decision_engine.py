@@ -105,9 +105,9 @@ class DecisionEngine:
             base_reward = outcome_rewards.get(outcome, 0.0)
             
             # Adjust by feedback score (1-5 scale)
-            score_adjustment = (feedback_score - 3) / 2  # -1 to +1
+            score_adjustment = (float(feedback_score) - 3) / 2  # -1 to +1
             
-            return base_reward + (score_adjustment * 0.3)
+            return float(base_reward) + (score_adjustment * 0.3)
             
         except Exception as e:
             logger.error(f"Reward calculation failed: {e}")

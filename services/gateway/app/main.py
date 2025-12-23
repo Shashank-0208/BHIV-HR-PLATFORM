@@ -428,6 +428,28 @@ def health_check(response: Response):
         "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
+@app.get("/test-db", tags=["Core API Endpoints"])
+async def test_db_connection(api_key_secret: str = Depends(get_api_key)):
+    """Test Database Connection"""
+    try:
+        engine = get_db_engine()
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))
+            result = connection.execute(text("SELECT COUNT(*) FROM candidates"))
+            candidate_count = result.fetchone()[0]
+            
+            return {
+                "database_status": "connected",
+                "total_candidates": candidate_count,
+                "test_timestamp": datetime.now(timezone.utc).isoformat()
+            }
+    except Exception as e:
+        return {
+            "database_status": "failed",
+            "error": str(e),
+            "test_timestamp": datetime.now(timezone.utc).isoformat()
+        }
+
 @app.get("/test-candidates", tags=["Core API Endpoints"])
 async def test_candidates_db(api_key_secret: str = Depends(get_api_key)):
     """Database Connectivity Test"""

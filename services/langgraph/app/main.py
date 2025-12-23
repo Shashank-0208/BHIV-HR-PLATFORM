@@ -770,7 +770,7 @@ async def submit_rl_feedback(
         decision_engine = DecisionEngine(postgres_adapter)
         
         # Calculate reward signal
-        reward_signal = decision_engine._calculate_reward_signal(feedback_data)
+        reward_signal = float(decision_engine._calculate_reward_signal(feedback_data))
         
         # Prepare feedback data
         processed_feedback = {
