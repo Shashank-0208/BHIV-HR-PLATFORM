@@ -54,14 +54,14 @@ def process_feedback(feedback_data):
 | File | Purpose | Owner |
 |------|---------|-------|
 | `handover/START_HERE.md` | This file | All |
-| `handover/FAQ_OPERATIONS.md` | Troubleshooting | All |
+| `handover/FAQ.md` | Troubleshooting | All |
 | `services/agent/hr_intelligence_brain.py` | AI Brain | Ishan |
 | `test_complete_localhost.py` | System validation | All |
 | `docker-compose.yml` | Service orchestration | All |
 
 ## 🆘 Emergency Contacts
 
-- **System Issues**: Check `handover/FAQ_OPERATIONS.md`
+- **System Issues**: Check `handover/FAQ.md`
 - **AI Brain**: Contact Ishan
 - **Database**: Check `docs/database/`
 - **Deployment**: Check `docs/guides/DEPLOYMENT_GUIDE.md`
@@ -72,6 +72,6 @@ def process_feedback(feedback_data):
 - [ ] Tests pass: `python test_complete_localhost.py`
 - [ ] RL works: `python test_rl_integration.py`
 - [ ] AI Brain connected (Ishan's task)
-- [ ] Read FAQ: `handover/FAQ_OPERATIONS.md`
+- [ ] Read FAQ: `handover/FAQ.md`
 
-**Next Steps**: Read `handover/FAQ_OPERATIONS.md` for detailed operations guide.
+**Next Steps**: Read `handover/FAQ.md` for detailed operations guide.

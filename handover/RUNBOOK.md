@@ -1865,7 +1865,7 @@ Database:
 **Related Documents**:
 - [Quick Start Guide](../docs/guides/QUICK_START_GUIDE.md)
 - [Troubleshooting Guide](../docs/guides/TROUBLESHOOTING_GUIDE.md)
-- [FAQ Operations](FAQ_OPERATIONS.md)
+- [FAQ Operations](FAQ.md)
 - [Deployment Guide](../docs/deployment/RENDER_DEPLOYMENT_GUIDE.md)
 - [Security Audit](../docs/security/SECURITY_AUDIT.md)
 

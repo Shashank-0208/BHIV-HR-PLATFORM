@@ -1,9 +1,14 @@
-# BHIV HR Platform - Postman Collection
+# BHIV HR Platform - Postman Testing Suite
 
 ## Overview
-Complete Postman collection with all **119 endpoints** organized by service.
+Complete Postman collection with all **119 endpoints** organized by service with enhanced testing capabilities.
 
-**File**: `postman_collection.json`
+**Files**:
+- `postman/postman_collection.json` - Complete endpoint collection
+- `postman/bhiv-local-env.json` - Environment variables
+- `postman/complete-enhanced-tests.js` - Advanced test scripts (22 tests)
+- `postman/enhanced-tests.js` - Basic test scripts (10 tests)
+- `postman/README.md` - Setup guide
 
 ## Endpoints Breakdown
 - **Gateway API**: 88 endpoints (verified)
@@ -54,9 +59,9 @@ Complete Postman collection with all **119 endpoints** organized by service.
 2. **Click File menu** (top left) → **Import...** (Ctrl+O)
    - OR click the **Import** button in the main interface
 3. **Select "Upload Files"** tab
-4. **Choose file** → Navigate to `handover/postman_collection.json`
+4. **Choose file** → Navigate to `handover/postman/postman_collection.json`
 5. **Click Import** → Collection appears in left sidebar
-6. **Verify**: You should see "BHIV HR Platform API - All 119 Endpoints" in Collections
+6. **Verify**: You should see "BHIV HR Platform - Complete API Collection (119 Endpoints)" in Collections
 
 ### Step 3A: Environment Setup - Manual Variables (Recommended)
 1. **Click Environments** (left sidebar, gear icon)
@@ -88,17 +93,18 @@ Complete Postman collection with all **119 endpoints** organized by service.
 5. **Save Environment**
 6. **Select Environment** from dropdown (top right corner)
 
-### Step 3B: Environment Setup - Using JSON File Import (Alternative)
-1. **Use the provided JSON environment file** (`bhiv-local-env.json`):
-   - **File location**: `handover/bhiv-local-env.json`
-   - **Contains**: All 40 environment variables from .env file
+### Step 3B: Environment Setup - Using JSON File Import (Recommended)
+1. **Use the provided JSON environment file** (`postman/bhiv-local-env.json`):
+   - **File location**: `handover/postman/bhiv-local-env.json`
+   - **Contains**: All 47 environment variables from .env file
    - **Pre-configured**: Production values with localhost URLs
+   - **TOTP Code**: Current valid code (582299)
 
 2. **Import JSON file to Postman**:
    - **Click Environments** (left sidebar, gear icon)
    - **Click "Import"** button
-   - **Select file**: `handover/bhiv-local-env.json`
-   - **Postman imports environment** "BHIV HR Production" with all variables
+   - **Select file**: `handover/postman/bhiv-local-env.json`
+   - **Postman imports environment** "BHIV HR Local Development" with all variables
    - **Select the environment** from dropdown (top right)
 
    **✅ Recommended**: This is the fastest method with all variables included!
@@ -178,19 +184,36 @@ curl http://localhost:9001/health  # LangGraph
 5. **Copy JWT token** from response
 6. **Save token**: Add new environment variable `jwt_token`
 
-### Step 6: Run Multiple Tests
-1. **Right-click** on collection name
-2. **Select "Run collection"**
-3. **Choose requests** to test (or select all)
-4. **Click "Run BHIV HR Platform API"**
-5. **Monitor results** in runner window
+### Step 7: Enhanced Testing (Optional)
+1. **Add Test Scripts** to collection:
+   - **Copy content** from `postman/complete-enhanced-tests.js`
+   - **Go to Collection** → **Scripts** → **Post-response**
+   - **Paste the script** (22 comprehensive tests)
+   - **Save collection**
+
+2. **Run Collection with Tests**:
+   - **Right-click collection** → **Run collection**
+   - **Configure settings**:
+     - Iterations: 1
+     - Delay: 20000ms (for AI endpoints)
+     - Keep variable values: ✅
+     - Persist responses: ✅
+   - **Run and review** test results
+
+3. **Test Features**:
+   - Security validation
+   - Performance monitoring
+   - Data integrity checks
+   - Business logic validation
+   - Error handling verification
 
 ## Import Instructions
 1. Open Postman
 2. Click **Import** button
-3. Select `postman_collection.json`
-4. Collection will appear in sidebar with 23 folders
-5. All 119 endpoints will be organized and ready to use
+3. Select `postman/postman_collection.json`
+4. Import `postman/bhiv-local-env.json` as environment
+5. Collection will appear in sidebar with organized folders
+6. All 119 endpoints will be ready to use with authentication
 
 ## Environment Variables
 
@@ -199,31 +222,36 @@ For **local testing**, use these variables:
 
 | Variable | Value | Description |
 |----------|-------|-------------|
-| `gw` | http://localhost:8000 | Local Gateway URL |
-| `ag` | http://localhost:9000 | Local Agent URL |
-| `lg` | http://localhost:9001 | Local LangGraph URL |
+| `GATEWAY_SERVICE_URL` | http://localhost:8000 | Local Gateway URL |
+| `AGENT_SERVICE_URL` | http://localhost:9000 | Local Agent URL |
+| `LANGGRAPH_SERVICE_URL` | http://localhost:9001 | Local LangGraph URL |
 | `API_KEY_SECRET` | prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o | Production API key |
-| `api_key_secret` | prod_api_key_XUqM2msdCa4CYIaRywRNXRVc477nlI3AQ-lr6cgTB2o | Production API key (lowercase) |
+| `test_totp_code` | 582299 | Current valid TOTP code |
+| `client_id` | TECH001 | Demo client ID |
+| `client_password` | demo123 | Demo client password |
 
-**✅ Complete Setup**: Import `handover/bhiv-local-env.json` for all 40 variables
+**✅ Complete Setup**: Import `handover/postman/bhiv-local-env.json` for all 47 variables
 
 ### JSON Environment File Template
-Use the provided `handover/bhiv-local-env.json` file:
-- **40 environment variables** from your .env file
+Use the provided `handover/postman/bhiv-local-env.json` file:
+- **47 environment variables** from your .env file
 - **Production API keys** and secrets
 - **Localhost URLs** for local testing
+- **Current TOTP code** (582299)
 - **Ready for import** into Postman
 
-**File**: `handover/bhiv-local-env.json`
+**File**: `handover/postman/bhiv-local-env.json`
 ```json
 {
-  "name": "BHIV HR Production",
+  "id": "bhiv-hr-local-env",
+  "name": "BHIV HR Local Development",
   "values": [
-    {"key": "gw", "value": "http://localhost:8000", "enabled": true},
-    {"key": "ag", "value": "http://localhost:9000", "enabled": true},
-    {"key": "lg", "value": "http://localhost:9001", "enabled": true},
+    {"key": "GATEWAY_SERVICE_URL", "value": "http://localhost:8000", "enabled": true},
+    {"key": "AGENT_SERVICE_URL", "value": "http://localhost:9000", "enabled": true},
+    {"key": "LANGGRAPH_SERVICE_URL", "value": "http://localhost:9001", "enabled": true},
     {"key": "API_KEY_SECRET", "value": "prod_api_key_...", "enabled": true, "type": "secret"},
-    // ... 36 more variables
+    {"key": "test_totp_code", "value": "582299", "enabled": true},
+    // ... 42 more variables
   ]
 }
 ```
@@ -240,13 +268,13 @@ LANGGRAPH_SERVICE_URL=http://localhost:9001
 # ... 35 more variables
 ```
 
-**✅ Use JSON Import**: All variables are pre-configured in `bhiv-local-env.json`
+**✅ Use JSON Import**: All variables are pre-configured in `postman/bhiv-local-env.json`
 
 ## Authentication Methods
 
 ### 1. API Key (Primary)
 ```
-Authorization: Bearer {{api_key_secret}}
+Authorization: Bearer {{API_KEY_SECRET}}
 ```
 Used for most endpoints.
 
@@ -258,9 +286,49 @@ Get token from `/v1/client/login` endpoint.
 
 ### 3. Candidate JWT
 ```
-Authorization: Bearer {{candidate_jwt_secret_key}}
+Authorization: Bearer {{candidate_jwt}}
 ```
 Get token from `/v1/candidate/login` endpoint.
+
+### 4. 2FA TOTP
+```
+{"totp_code": "{{test_totp_code}}"}
+```
+Current valid code: 582299
+
+## Enhanced Testing Features
+
+### Test Scripts Available
+1. **complete-enhanced-tests.js** (22 tests):
+   - Core validations (status, response time, JSON)
+   - Method-specific validations (GET/POST/PUT/DELETE)
+   - Authentication endpoint validation
+   - HR platform specific validations
+   - AI/ML service validations
+   - Security issue detection
+   - Performance monitoring
+   - Data integrity checks
+   - Business logic validation
+   - Error handling verification
+
+2. **enhanced-tests.js** (10 tests):
+   - Basic security checks
+   - Performance monitoring
+   - Data validation
+   - Error handling
+
+### How to Use Test Scripts
+1. **Copy script content** from desired .js file
+2. **Go to Collection** → **Scripts** → **Post-response**
+3. **Paste the script**
+4. **Save collection**
+5. **Run collection** to see test results
+
+### Test Results
+- **Console logs** show warnings and errors
+- **Test tab** shows pass/fail status
+- **Performance metrics** logged automatically
+- **Security issues** flagged in console
 
 ## Quick Start
 
@@ -452,6 +520,8 @@ LangGraph: 25 endpoints
 - **Issues**: Create GitHub issue with `[API]` tag
 
 ## Version History
-- **v4.3.1** (2024-12-22): Complete 119 endpoints, RL integration, comprehensive testing verified
+- **v4.3.1** (2024-12-22): Enhanced testing suite, 119 endpoints, complete environment setup
+- **v4.0.0** (2024-12-18): RL integration complete, advanced test scripts
+- **v3.0.0** (2024-12-15): LangGraph workflows, multi-channel notifications
 - **v2.0.0** (2024-11-15): LangGraph workflows added
 - **v1.0.0** (2024-10-01): Initial release

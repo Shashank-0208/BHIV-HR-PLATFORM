@@ -197,13 +197,13 @@ Answer "What happens if X?" scenarios based on actual code behavior, covering ed
 2. Document "What is intentionally refused?" cases
 3. Identify "What is NOT implemented?" gaps
 4. Create edge case scenarios with actual responses
-5. Reference existing FAQ_OPERATIONS.md for operational questions
+5. Reference existing FAQ.md for operational questions
 
 ### **Files Touched**
 - **Create:** `handover/FAQ.md`
 - **Reference:**
   - All service code for error handling
-  - `handover/FAQ_OPERATIONS.md` (existing)
+  - `handover/FAQ.md` (existing)
   - `handover/issues/ISSUES_AND_LIMITATIONS.md`
 
 ### **Expected Output**
@@ -244,7 +244,7 @@ Create test scenarios for tenant validation, role violations, and missing-contex
 ### **Files Touched**
 - **Create:** `handover/QA_CHECKLIST.md`
 - **Reference:**
-  - `handover/QA_TEST_CHECKLIST.md` (existing)
+  - `handover/QA_CHECKLIST.md` (existing)
   - `tests/` directory structure
   - `handover/postman_collection.json`
 

@@ -78,9 +78,9 @@
 - **[System Architecture](handover/architecture/ARCHITECTURE.md)** - Complete system overview
 - **[API Contract](handover/api_contract/)** - Detailed API specifications (5 parts)
 - **[Integration Maps](handover/integration_maps/INTEGRATION_MAPS.md)** - Service integration flows
-- **[Operations FAQ](handover/FAQ_OPERATIONS.md)** - Troubleshooting procedures
+- **[Operations FAQ](handover/FAQ.md)** - Troubleshooting procedures
 - **[Runbook](handover/RUNBOOK.md)** - Operational procedures
-- **[QA Checklist](handover/QA_TEST_CHECKLIST.md)** - Testing procedures
+- **[QA Checklist](handover/QA_CHECKLIST.md)** - Testing procedures
 
 ## ⚡ Quick Start
 
